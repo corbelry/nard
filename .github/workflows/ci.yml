@@ -84,3 +84,28 @@ jobs:
       - uses: actions/checkout@v4
       - run: docker build -f apps/game_server/Dockerfile -t nard-game-server:ci .
       - run: docker build -t nard-api:ci apps/api
+
+  e2e:
+    name: End-to-end on docker compose
+    runs-on: ubuntu-latest
+    needs: [dart, api]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.2
+          channel: stable
+      - run: flutter pub get
+      - name: Start the stack
+        run: docker compose -f infra/docker-compose.yml up --build -d --wait
+      - name: Wait for the API
+        run: |
+          for i in $(seq 1 60); do
+            curl -fs localhost:18000/up && break
+            sleep 2
+          done
+      - name: Two guests play a ranked match; ratings and e-mail codes
+        working-directory: apps/game_server
+        run: dart run tool/e2e.dart
+      - if: failure()
+        run: docker compose -f infra/docker-compose.yml logs --tail=200

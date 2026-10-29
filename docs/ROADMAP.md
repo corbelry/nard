@@ -107,7 +107,6 @@ No design requests are open.
   Redis Streams for results): Phase 7 (ADR-032).
 - Apple / Google token verification: when the owner provides keys
   (endpoints exist, disabled by config, ADR-030).
-- e2e (`apps/game_server/tool/e2e.dart`) is not in CI yet.
 
 ## Open questions for the product owner
 
