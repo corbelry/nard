@@ -56,15 +56,12 @@ next — without waiting for approval (start only after they say "başla").
   (2 guests → tickets → ranked match on the server → API records match +
   FIBS rating → e-mail sign-in via Mailpit) passes. Fixed: compose api ran
   `artisan serve`, which drops DB_/REDIS_ env → now `php -S` from public/.
-- [~] 6. Client online mode: done — `lib/online/` (ApiClient, secure
-  credentials + device id, AccountNotifier, reconnecting GameSocket,
-  OnlineGameController → same GameView/GameScreen via `GameActions`,
-  `/game?online=1`). Next: screens (sign-in, search, VS, clocks,
-  reconnect, fair-dice verify, profile, account), once
-  `docs/design-notes/online.md` (subagent) exists. Remaining (sign-in 9.4/17.x, online play, search
-  2.4, VS 2.5, BOT 20.x, reconnect, clocks, fair-dice verify 10.3, profile
-  8.1, account 15.x). First get specs from the design files into
-  `docs/design-notes/online.md` with a subagent.
+- [x] 6. Client online: `lib/online/` core + screens (sign-in 9.4/17.x,
+  online setup, searching 2.4, VS 2.5/20.1, BOT seat, clocks, low time,
+  reconnect card, offline banner, fair dice 10.3, profile 8.1 as the Profil
+  tab, account 15.x, rating card on 2.6). Verified on the emulator against
+  the compose stack (guest → casual search → bot after 30 s → play → fair
+  dice screen). ADR-033 lists the design gaps we resolved.
 - [→] 5. Redis queues/snapshots/registry deferred to Phase 7 (ADR-032).
 
 Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: lesson

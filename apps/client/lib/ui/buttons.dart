@@ -5,7 +5,8 @@ import '../theme/nard_tokens.dart';
 import 'extra_tokens.dart';
 import 'pressable.dart';
 
-enum NardButtonVariant { primary, secondary, outline, ghost, danger }
+/// [accent] is the solid brass button of 10.3 (online.md §11).
+enum NardButtonVariant { primary, secondary, outline, ghost, danger, accent }
 
 /// Button heights: hero 64 (home "Oyna"), l 56, m 48, s 40.
 enum NardButtonSize {
@@ -33,6 +34,7 @@ class NardButton extends StatefulWidget {
     this.icon,
     this.expand = true,
     this.labelStyle,
+    this.labelColor,
   });
 
   final String label;
@@ -46,6 +48,9 @@ class NardButton extends StatefulWidget {
   final IconData? icon;
   final bool expand;
   final TextStyle? labelStyle;
+
+  /// Overrides the enabled label colour (e.g. the brass guest link).
+  final Color? labelColor;
 
   @override
   State<NardButton> createState() => _NardButtonState();
@@ -105,8 +110,17 @@ class _NardButtonState extends State<NardButton> {
                 ? c.dangerPressed
                 : c.danger;
         fg = enabled ? c.onDanger : c.onDanger.withValues(alpha: .45);
+      case NardButtonVariant.accent:
+        fill =
+            !enabled
+                ? c.accent.withValues(alpha: .3)
+                : _down
+                ? c.accentHi
+                : c.accent;
+        fg = enabled ? c.onAccent : c.onAccent.withValues(alpha: .5);
     }
 
+    if (enabled && widget.labelColor != null) fg = widget.labelColor!;
     final small = widget.size == NardButtonSize.s;
     final hero = widget.size == NardButtonSize.hero;
     final base =
@@ -253,6 +267,71 @@ class NardIconButton extends StatelessWidget {
                       ),
                     ],
                   ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Sign-in provider button (9.4): h 54, radius 16; [light] is the ivory
+/// Apple style, otherwise a hairline outline. Shows a spinner while [busy].
+class AuthButton extends StatelessWidget {
+  const AuthButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    required this.leading,
+    this.light = false,
+    this.busy = false,
+  });
+
+  final String label;
+  final VoidCallback? onPressed;
+  final Widget leading;
+  final bool light;
+  final bool busy;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.nard;
+    final fg = light ? c.appleText : c.text;
+    return Pressable(
+      onTap: busy ? null : onPressed,
+      semanticLabel: label,
+      child: AnimatedOpacity(
+        duration: NardMotion.fast,
+        opacity: onPressed == null && !busy ? .5 : 1,
+        child: Container(
+          height: 54,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: light ? c.appleFill : null,
+            borderRadius: BorderRadius.circular(NardRadius.l),
+            border:
+                light ? null : Border.all(color: c.text.withValues(alpha: .3)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 18,
+                height: 18,
+                child:
+                    busy
+                        ? CircularProgressIndicator(strokeWidth: 2, color: fg)
+                        : leading,
+              ),
+              const SizedBox(width: 10),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: NardType.labelM.copyWith(fontSize: 16, color: fg),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

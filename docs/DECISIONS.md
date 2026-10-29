@@ -265,3 +265,21 @@ load tests and observability, where they can be measured. The `Matchmaker`
 and `ResultSink` interfaces are the seams for that work. Results reach the
 API over signed HTTP with retries (idempotent by match id) instead of
 Redis Streams for now.
+
+## ADR-033 — Online screens: design gaps resolved (2026-10-30)
+Assumptions taken while building 9.4/17.x, 2.4/2.5/20.x, 10.3, 8.1, 15.x
+from `docs/design-notes/online.md` §12 (open in `QUESTIONS.md` #16–22):
+the bot-fallback copy no longer promises a background search; search
+estimate and online count are omitted (no data); tier sub-levels I–III are
+thirds of each 200-point band; the opponent-disconnected banner says the
+connection dropped (the clock keeps running, the present player may move);
+export copies the JSON to the clipboard (no e-mailed ZIP); account deletion
+is immediate (no 30-day grace) with a localized confirm word compared with
+İ/I/ı/i folded; sign-out lives in 15.1 and guests link an e-mail there;
+the Profil tab root is the profile (settings via its header icon); the
+Home hero stays offline and online play is two new tiles, "Adi" (casual) and
+"Reytinqli"; one time control (3 min + 12 s); Apple/Google buttons show on
+both platforms and report "not available yet"; sheets use `showNardSheet`;
+the fair-dice screen shows both client seeds; avatars use fixed gradients
+and only AZ/TR/RU/GB/US flags are drawn; neutral phrasing avoids suffix
+harmony. Sign-in opens on demand, not in first-launch onboarding.

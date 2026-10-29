@@ -112,8 +112,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get variantShortDesc => 'Klassik backgammon: vurmaq, bar, ikiqat kub.';
 
   @override
-  String get variantLongDesc =>
-      'Bütün daşlar başda. Vurmaq yoxdur, yalnız bloklamaq.';
+  String get variantLongDesc => 'Bütün daşlar başda. Vurmaq yoxdur, yalnız bloklamaq.';
 
   @override
   String get variantLearnTitle => 'Öyrənmək istəyirəm';
@@ -135,57 +134,49 @@ class AppLocalizationsAz extends AppLocalizations {
   String get lessonStep1Title => 'Bu sənin taxtandır';
 
   @override
-  String get lessonStep1Body =>
-      'Ağ daşlar sənindir. Daşlar 24-cü xanadan 1-ci xanaya doğru hərəkət edir, sonra taxtadan çıxarılır. Davam etmək üçün istənilən daşa toxun.';
+  String get lessonStep1Body => 'Ağ daşlar sənindir. Daşlar 24-cü xanadan 1-ci xanaya doğru hərəkət edir, sonra taxtadan çıxarılır. Davam etmək üçün istənilən daşa toxun.';
 
   @override
   String get lessonStep2Title => 'Daşı 6 xana irəli apar';
 
   @override
-  String get lessonStep2Body =>
-      'Zər 6 göstərir. 13-cü xanadakı daşa toxun, sonra işıqlanan 7-ci xanaya toxun və ya sürüşdür.';
+  String get lessonStep2Body => 'Zər 6 göstərir. 13-cü xanadakı daşa toxun, sonra işıqlanan 7-ci xanaya toxun və ya sürüşdür.';
 
   @override
   String get lessonStep3Title => 'İki zəri də oyna';
 
   @override
-  String get lessonStep3Body =>
-      'Zərlər 3 və 1 göstərir. 8-ci və 6-cı xanadan daşları 5-ci xanaya apar və xananı bağla.';
+  String get lessonStep3Body => 'Zərlər 3 və 1 göstərir. 8-ci və 6-cı xanadan daşları 5-ci xanaya apar və xananı bağla.';
 
   @override
   String get lessonStep4Title => 'Bağlı xana';
 
   @override
-  String get lessonStep4Body =>
-      'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz. Zər 5 göstərir: 13-cü xanadakı daşı 8-ci xanaya apar.';
+  String get lessonStep4Body => 'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz. Zər 5 göstərir: 13-cü xanadakı daşı 8-ci xanaya apar.';
 
   @override
   String get lessonStep5Title => 'Vurmaq';
 
   @override
-  String get lessonStep5Body =>
-      'Rəqibin tək daşına düşsən, onu bara göndərirsən. 6-cı xanadakı daşı 4-cü xanaya apar və vur.';
+  String get lessonStep5Body => 'Rəqibin tək daşına düşsən, onu bara göndərirsən. 6-cı xanadakı daşı 4-cü xanaya apar və vur.';
 
   @override
   String get lessonStep6Title => 'Bardan giriş';
 
   @override
-  String get lessonStep6Body =>
-      'Barda daşın varsa, əvvəl onu rəqibin evinə daxil etməlisən. Bardakı daşa toxun və 22-ci xanaya apar.';
+  String get lessonStep6Body => 'Barda daşın varsa, əvvəl onu rəqibin evinə daxil etməlisən. Bardakı daşa toxun və 22-ci xanaya apar.';
 
   @override
   String get lessonStep7Title => 'Daşları çıxar';
 
   @override
-  String get lessonStep7Body =>
-      'Bütün daşlar evdədir (1–6). Zər 6 göstərir: 6-cı xanadakı daşı taxtadan çıxar.';
+  String get lessonStep7Body => 'Bütün daşlar evdədir (1–6). Zər 6 göstərir: 6-cı xanadakı daşı taxtadan çıxar.';
 
   @override
   String get lessonDoneTitle => 'Əla, hazırsan';
 
   @override
-  String get lessonDoneBody =>
-      'Qaydaları bilirsən. İndi kompüterə qarşı oynayıb məşq et.';
+  String get lessonDoneBody => 'Qaydaları bilirsən. İndi kompüterə qarşı oynayıb məşq et.';
 
   @override
   String get lessonFinish => 'Oynamağa başla';
@@ -667,8 +658,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get ruleHeadTitle => 'Başdan yalnız bir daş götürmək olar';
 
   @override
-  String get ruleHeadBody =>
-      'Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.';
+  String get ruleHeadBody => 'Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.';
 
   @override
   String get ruleSixBlockTitle => 'Ardıcıl 6 xananı bağlamaq olmaz';
@@ -682,12 +672,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String get rulePointClosedTitle => 'Bu xana bağlıdır';
 
   @override
-  String get rulePointClosedShort =>
-      'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz.';
+  String get rulePointClosedShort => 'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz.';
 
   @override
-  String get rulePointClosedLong =>
-      'Uzun nərddə rəqibin daşı olan xanaya getmək olmaz.';
+  String get rulePointClosedLong => 'Uzun nərddə rəqibin daşı olan xanaya getmək olmaz.';
 
   @override
   String get ruleBarTitle => 'Əvvəl bardakı daşı daxil et';
@@ -699,36 +687,31 @@ class AppLocalizationsAz extends AppLocalizations {
   String get ruleBothDiceTitle => 'Hər iki zəri oynamaq lazımdır';
 
   @override
-  String get ruleBothDiceBody =>
-      'Bu gediş digər zəri oynamağa imkan vermir. Hər iki zəri işlədən gediş seç.';
+  String get ruleBothDiceBody => 'Bu gediş digər zəri oynamağa imkan vermir. Hər iki zəri işlədən gediş seç.';
 
   @override
   String get ruleLargerDieTitle => 'Böyük zəri oyna';
 
   @override
-  String get ruleLargerDieBody =>
-      'Yalnız bir zər oynana bilirsə, böyük zəri oynamaq lazımdır.';
+  String get ruleLargerDieBody => 'Yalnız bir zər oynana bilirsə, böyük zəri oynamaq lazımdır.';
 
   @override
   String get ruleBearOffTitle => 'Hələ daş çıxarmaq olmaz';
 
   @override
-  String get ruleBearOffBody =>
-      'Daş çıxarmaq üçün bütün daşlar evdə (1–6) olmalıdır.';
+  String get ruleBearOffBody => 'Daş çıxarmaq üçün bütün daşlar evdə (1–6) olmalıdır.';
 
   @override
   String get ruleBearOffHigherTitle => 'Əvvəl yuxarı xanadakı daşı oyna';
 
   @override
-  String get ruleBearOffHigherBody =>
-      'Böyük zərlə yalnız ən yuxarı xanadakı daşı çıxarmaq olar.';
+  String get ruleBearOffHigherBody => 'Böyük zərlə yalnız ən yuxarı xanadakı daşı çıxarmaq olar.';
 
   @override
   String get ruleNoDieTitle => 'Bu məsafəyə zər yoxdur';
 
   @override
-  String get ruleNoDieBody =>
-      'Daşı yalnız zərlərdəki xana sayı qədər aparmaq olar.';
+  String get ruleNoDieBody => 'Daşı yalnız zərlərdəki xana sayı qədər aparmaq olar.';
 
   @override
   String get ruleNoCheckerTitle => 'Bu xanada sənin daşın yoxdur';
@@ -746,8 +729,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get replayEmptyTitle => 'Hələ oyun yoxdur';
 
   @override
-  String get replayEmptyBody =>
-      'Bitirdiyin oyunlar burada görünəcək. Replay ilə hər gedişə yenidən baxa bilərsən.';
+  String get replayEmptyBody => 'Bitirdiyin oyunlar burada görünəcək. Replay ilə hər gedişə yenidən baxa bilərsən.';
 
   @override
   String replayTitle(int n) {
@@ -874,17 +856,538 @@ class AppLocalizationsAz extends AppLocalizations {
   String get errorTitle => 'Nəsə alınmadı';
 
   @override
-  String get errorBody =>
-      'Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.';
+  String get errorBody => 'Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.';
 
   @override
   String get playVsComputer => 'Kompüterə qarşı oyna';
 
   @override
-  String get rulesShortBody =>
-      'Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).';
+  String get rulesShortBody => 'Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).';
 
   @override
-  String get rulesLongBody =>
-      'Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).';
+  String get rulesLongBody => 'Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).';
+
+  @override
+  String get actionSave => 'Yadda saxla';
+
+  @override
+  String get copied => 'Kopyalandı';
+
+  @override
+  String get valueNone => '—';
+
+  @override
+  String get authWelcomeTitle => 'Xoş gəldin';
+
+  @override
+  String get authWelcomeBody => 'Hesab yaratsan reytinqin və matç tarixçən bütün cihazlarda saxlanacaq.';
+
+  @override
+  String get authApple => 'Apple ilə davam et';
+
+  @override
+  String get authGoogle => 'Google ilə davam et';
+
+  @override
+  String get authEmail => 'E-poçt ilə davam et';
+
+  @override
+  String get authGuest => 'Qonaq kimi oyna';
+
+  @override
+  String authLegal(String terms, String privacy) {
+    return 'Davam etməklə $terms və $privacy ilə razılaşırsan.';
+  }
+
+  @override
+  String get authTerms => 'İstifadə şərtləri';
+
+  @override
+  String get authPrivacy => 'Məxfilik siyasəti';
+
+  @override
+  String get authProviderUnavailable => 'Bu giriş üsulu hələ hazır deyil. E-poçt ilə və ya qonaq kimi davam et.';
+
+  @override
+  String get authOffline => 'Serverlə əlaqə yoxdur. İnterneti yoxla və yenidən cəhd et.';
+
+  @override
+  String get authTooManyTries => 'Çox cəhd etdin. Bir az sonra yenidən yoxla.';
+
+  @override
+  String get authSignIn => 'Daxil ol';
+
+  @override
+  String get emailTitle => 'E-poçtunu yaz';
+
+  @override
+  String get emailBody => 'Şifrə lazım deyil. 6 rəqəmli giriş kodu göndərəcəyik.';
+
+  @override
+  String get emailLabel => 'E-poçt';
+
+  @override
+  String get emailSend => 'Kodu göndər';
+
+  @override
+  String get emailInvalid => 'E-poçt ünvanı düzgün deyil';
+
+  @override
+  String get codeTitle => 'Kodu yaz';
+
+  @override
+  String codeBody(String email) {
+    return '$email ünvanına göndərdik. Spam qovluğunu da yoxla.';
+  }
+
+  @override
+  String get codeLabel => '6 rəqəmli kod';
+
+  @override
+  String codeResendIn(String time) {
+    return 'Kodu yenidən göndər · $time';
+  }
+
+  @override
+  String get codeResend => 'Kodu yenidən göndər';
+
+  @override
+  String get codeSent => 'Yeni kod göndərildi';
+
+  @override
+  String get codeInvalid => 'Kod yanlışdır. Yenidən yoxla.';
+
+  @override
+  String get codeExpired => 'Kodun vaxtı bitib. Yeni kod istə.';
+
+  @override
+  String get modeCasual => 'Adi';
+
+  @override
+  String get modeRanked => 'Reytinqli';
+
+  @override
+  String get searchTitle => 'Rəqib axtarılır…';
+
+  @override
+  String searchElapsed(String elapsed) {
+    return 'Keçən vaxt $elapsed';
+  }
+
+  @override
+  String searchTip(String tip) {
+    return 'Məsləhət: $tip';
+  }
+
+  @override
+  String get searchTipHeadRule => 'Uzun nərddə başdan yalnız bir daş götürülür.';
+
+  @override
+  String get searchTipPip => 'Pip sayı yarışda kimin öndə olduğunu göstərir.';
+
+  @override
+  String get searchBotSoon => '30 saniyədə canlı rəqib tapılmasa, bot ilə oynayacaqsan.';
+
+  @override
+  String timeControlShort(int minutes, int delay) {
+    return '$minutes+${delay}s';
+  }
+
+  @override
+  String ratingRange(int min, int max) {
+    return '$min–$max';
+  }
+
+  @override
+  String vsMeta(String rank, int rating, int percent) {
+    return '$rank · $rating · Qələbə $percent%';
+  }
+
+  @override
+  String vsMetaNoStats(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get vsLabel => 'vs';
+
+  @override
+  String pointsUpper(int n) {
+    return '$n XAL';
+  }
+
+  @override
+  String get rankedUpper => 'REYTİNQLİ';
+
+  @override
+  String get unrankedUpper => 'REYTİNQSİZ';
+
+  @override
+  String vsStartsIn(int seconds) {
+    return 'Oyun $seconds saniyəyə başlayır';
+  }
+
+  @override
+  String get botBadge => 'BOT';
+
+  @override
+  String get botNoRating => 'Reytinqə təsir etmir';
+
+  @override
+  String get botFallbackNotice => '30 saniyədə canlı rəqib tapılmadı, ona görə bot ilə oynayırsan. Nəticə reytinqə təsir etmir.';
+
+  @override
+  String get gameModeCasual => 'Adi · reytinqsiz';
+
+  @override
+  String playerBotMeta(String noRating, String pip) {
+    return '$noRating · $pip';
+  }
+
+  @override
+  String get bannerLowTime => 'Vaxt azalır';
+
+  @override
+  String bannerTimeLeft(String time) {
+    return '$time qaldı';
+  }
+
+  @override
+  String get bannerOpponentOffline => 'Rəqibin bağlantısı kəsildi';
+
+  @override
+  String get bannerDisconnected => 'Bağlantı kəsildi';
+
+  @override
+  String get playerOffline => 'Oflayn';
+
+  @override
+  String reconnectTitle(String name) {
+    return '$name yenidən qoşulur…';
+  }
+
+  @override
+  String reconnectBody(String time) {
+    return '$time qaldı · vaxt bitsə, qələbə sənindir';
+  }
+
+  @override
+  String get selfReconnectTitle => 'Bağlantı bərpa olunur…';
+
+  @override
+  String get menuFairDice => 'Ədalətli zər';
+
+  @override
+  String get menuFairDiceVerify => 'Yoxla';
+
+  @override
+  String get matchRatingLabel => 'REYTİNQ';
+
+  @override
+  String matchRatingFrom(int old) {
+    return '$old idi';
+  }
+
+  @override
+  String matchRatingToNext(String rank, int points) {
+    return '$rank üçün $points xal qaldı';
+  }
+
+  @override
+  String ratingDeltaUp(int n) {
+    return '+$n';
+  }
+
+  @override
+  String ratingDeltaDown(int n) {
+    return '−$n';
+  }
+
+  @override
+  String get fairTitle => 'Ədalətli zər';
+
+  @override
+  String get fairIntro => 'Hər zər atışı oyundan əvvəl kilidlənən server açarından, sənin açarından və atışın sırasından hesablanır. Oyundan sonra hər atışı özün yoxlaya bilərsən.';
+
+  @override
+  String get fairCommitment => 'Server açarının heşi (oyundan əvvəl)';
+
+  @override
+  String fairCommitmentValue(String hash) {
+    return 'sha256: $hash';
+  }
+
+  @override
+  String get fairServerSeed => 'Server açarı (oyundan sonra açılır)';
+
+  @override
+  String get fairYourSeed => 'Sənin açarın';
+
+  @override
+  String get fairOpponentSeed => 'Rəqibin açarı';
+
+  @override
+  String get fairRollNumber => 'Atış nömrəsi';
+
+  @override
+  String fairRollValue(int n, int a, int b) {
+    return '#$n · HMAC → $a, $b';
+  }
+
+  @override
+  String fairMatch(int a, int b) {
+    return 'Uyğundur · $a – $b';
+  }
+
+  @override
+  String fairMatchSub(int n) {
+    return 'Atış #$n hesablanmış nəticə ilə eynidir';
+  }
+
+  @override
+  String fairMismatch(int a, int b) {
+    return 'Uyğun deyil · $a – $b';
+  }
+
+  @override
+  String fairMismatchSub(int n) {
+    return 'Atış #$n hesablanmış nəticədən fərqlidir';
+  }
+
+  @override
+  String get fairCommitmentMismatch => 'Server açarı heşə uyğun gəlmir';
+
+  @override
+  String get fairPending => 'Oyundan sonra açılacaq';
+
+  @override
+  String get fairPendingNote => 'Server açarı oyun bitəndə açılacaq. Sonra hər atışı burada yoxlaya bilərsən.';
+
+  @override
+  String get fairNoRolls => 'Hələ atış yoxdur';
+
+  @override
+  String get fairCopy => 'Kodu kopyala';
+
+  @override
+  String get fairCheckAnother => 'Başqa atışı yoxla';
+
+  @override
+  String get fairPickTitle => 'Atışı seç';
+
+  @override
+  String fairRollRow(int n, int a, int b) {
+    return '#$n · $a – $b';
+  }
+
+  @override
+  String get fairOpeningTag => 'açılış';
+
+  @override
+  String get tierBronze => 'Bürünc';
+
+  @override
+  String get tierSilver => 'Gümüş';
+
+  @override
+  String get tierGold => 'Qızıl';
+
+  @override
+  String get tierPlatinum => 'Platin';
+
+  @override
+  String get tierDiamond => 'Almaz';
+
+  @override
+  String get tierMaster => 'Master';
+
+  @override
+  String get tierGrandmaster => 'Qrossmeyster';
+
+  @override
+  String rankWithSub(String tier, String sub) {
+    return '$tier $sub';
+  }
+
+  @override
+  String profileMeta(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get statRating => 'Reytinq';
+
+  @override
+  String get statWinRate => 'Qələbə faizi';
+
+  @override
+  String get statMatches => 'Matçlar';
+
+  @override
+  String get statWins => 'Qələbələr';
+
+  @override
+  String statPercent(int n) {
+    return '$n%';
+  }
+
+  @override
+  String get profileHistory => 'MATÇ TARİXÇƏSİ';
+
+  @override
+  String historyMeta(String variant, String format, String date) {
+    return '$variant · $format · $date';
+  }
+
+  @override
+  String get variantShortAbbr => 'Qısa';
+
+  @override
+  String get variantLongAbbr => 'Uzun';
+
+  @override
+  String get dateToday => 'bu gün';
+
+  @override
+  String get dateYesterday => 'dünən';
+
+  @override
+  String historyScore(int me, int opp) {
+    return '$me–$opp';
+  }
+
+  @override
+  String get profileEdit => 'Profili redaktə et';
+
+  @override
+  String get historyEmptyTitle => 'Hələ onlayn matç yoxdur';
+
+  @override
+  String get historyEmptyBody => 'Onlayn oynadığın matçlar burada görünəcək.';
+
+  @override
+  String get profileSignedOutTitle => 'Hesabına daxil ol';
+
+  @override
+  String get profileSignedOutBody => 'Reytinqin, statistikan və matç tarixçən burada olacaq.';
+
+  @override
+  String get nameInvalid => 'Ad 3–20 hərf, rəqəm və ya _ olmalıdır';
+
+  @override
+  String get offlineBanner => 'İnternet yoxdur · oflayn rejim';
+
+  @override
+  String get onlineOfflineTitle => 'Onlayn oyun əlçatan deyil';
+
+  @override
+  String get onlineOfflineBody => 'Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda yenidən cəhd et.';
+
+  @override
+  String get settingsAccountPrivacy => 'Hesab və məxfilik';
+
+  @override
+  String get accountGroupAccount => 'HESAB';
+
+  @override
+  String get accountEmail => 'E-poçt';
+
+  @override
+  String get accountNickname => 'Oyunçu adı';
+
+  @override
+  String get accountEmailAdd => 'Əlavə et';
+
+  @override
+  String get accountSignOut => 'Hesabdan çıx';
+
+  @override
+  String get accountGroupData => 'MƏLUMAT';
+
+  @override
+  String get accountExport => 'Məlumatlarımı ixrac et';
+
+  @override
+  String get accountDelete => 'Hesabı sil';
+
+  @override
+  String get exportTitle => 'Məlumatlarını ixrac et';
+
+  @override
+  String get exportBody => 'Profilin və matç tarixçən JSON faylı kimi hazırlanacaq. Hazır olanda onu kopyalaya bilərsən.';
+
+  @override
+  String get exportProfile => 'Profil və hesab';
+
+  @override
+  String get exportGames => 'Matç tarixçəsi';
+
+  @override
+  String exportGamesCount(int n) {
+    return '$n matç';
+  }
+
+  @override
+  String get exportFormat => 'Format';
+
+  @override
+  String get exportFormatValue => 'JSON';
+
+  @override
+  String get exportStart => 'İxracı başlat';
+
+  @override
+  String exportReady(String size) {
+    return 'Fayl hazırdır · $size KB';
+  }
+
+  @override
+  String get exportCopy => 'JSON-u kopyala';
+
+  @override
+  String get deleteTitle => 'Hesab silinsin?';
+
+  @override
+  String deleteItemRating(int rating) {
+    return 'Reytinq ($rating), dərəcə və bütün matç tarixçəsi';
+  }
+
+  @override
+  String get deleteItemHistory => 'Profil və bütün matç tarixçəsi';
+
+  @override
+  String get deleteIrreversible => 'Hesab dərhal silinir və bərpa olunmur.';
+
+  @override
+  String deleteConfirmLabel(String word) {
+    return 'Təsdiq üçün $word yaz';
+  }
+
+  @override
+  String get deleteConfirmWord => 'SİL';
+
+  @override
+  String get setupOnlineTitle => 'Onlayn oyun';
+
+  @override
+  String get setupTimeLabel => 'VAXT NƏZARƏTİ';
+
+  @override
+  String get timeRapid => 'Sürətli';
+
+  @override
+  String timeValue(int minutes, int delay) {
+    return '$minutes dəq + ${delay}s';
+  }
+
+  @override
+  String get setupRated => 'Reytinqli';
+
+  @override
+  String setupRatedSub(int rating) {
+    return 'Reytinqin: $rating';
+  }
+
+  @override
+  String get setupFindOpponent => 'Rəqib axtar';
 }

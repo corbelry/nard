@@ -68,6 +68,12 @@ class AccountNotifier extends AsyncNotifier<Account?> {
   Future<void> signInAsGuest(String locale) async =>
       _signedIn(await _api.guest(await _store.deviceId(), locale));
 
+  /// Native Apple/Google sign-in. The token exchange is disabled on the
+  /// API until the provider keys exist (ADR-030), so this surfaces the
+  /// API's `provider_disabled` error.
+  Future<void> signInWithProvider(String provider) async =>
+      _signedIn(await _api.provider(provider, ''));
+
   Future<void> requestCode(String email, String locale) =>
       _api.emailStart(email, locale);
 

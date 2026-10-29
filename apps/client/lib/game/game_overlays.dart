@@ -164,7 +164,11 @@ class MatchResultView extends StatelessWidget {
     required this.onHome,
     required this.replayLabel,
     required this.onReplay,
+    this.extra,
   });
+
+  /// Shown under the score (2.6 rating card of ranked matches).
+  final Widget? extra;
 
   final String title;
   final bool won;
@@ -231,6 +235,7 @@ class MatchResultView extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: NardType.bodyS.copyWith(color: c.textDim),
               ),
+              if (extra != null) ...[const SizedBox(height: 20), extra!],
               const Spacer(flex: 2),
               Row(
                 children: [

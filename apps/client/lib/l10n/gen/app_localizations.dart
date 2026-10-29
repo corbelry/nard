@@ -64,8 +64,7 @@ import 'app_localizations_tr.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -73,8 +72,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -86,20 +84,19 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('az'),
     Locale('en'),
     Locale('ru'),
-    Locale('tr'),
+    Locale('tr')
   ];
 
   /// Brand name; placeholder, not translated.
@@ -1619,10 +1616,909 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).'**
   String get rulesLongBody;
+
+  /// No description provided for @actionSave.
+  ///
+  /// In az, this message translates to:
+  /// **'Yadda saxla'**
+  String get actionSave;
+
+  /// No description provided for @copied.
+  ///
+  /// In az, this message translates to:
+  /// **'Kopyalandı'**
+  String get copied;
+
+  /// No description provided for @valueNone.
+  ///
+  /// In az, this message translates to:
+  /// **'—'**
+  String get valueNone;
+
+  /// No description provided for @authWelcomeTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Xoş gəldin'**
+  String get authWelcomeTitle;
+
+  /// No description provided for @authWelcomeBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesab yaratsan reytinqin və matç tarixçən bütün cihazlarda saxlanacaq.'**
+  String get authWelcomeBody;
+
+  /// No description provided for @authApple.
+  ///
+  /// In az, this message translates to:
+  /// **'Apple ilə davam et'**
+  String get authApple;
+
+  /// No description provided for @authGoogle.
+  ///
+  /// In az, this message translates to:
+  /// **'Google ilə davam et'**
+  String get authGoogle;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçt ilə davam et'**
+  String get authEmail;
+
+  /// No description provided for @authGuest.
+  ///
+  /// In az, this message translates to:
+  /// **'Qonaq kimi oyna'**
+  String get authGuest;
+
+  /// No description provided for @authLegal.
+  ///
+  /// In az, this message translates to:
+  /// **'Davam etməklə {terms} və {privacy} ilə razılaşırsan.'**
+  String authLegal(String terms, String privacy);
+
+  /// No description provided for @authTerms.
+  ///
+  /// In az, this message translates to:
+  /// **'İstifadə şərtləri'**
+  String get authTerms;
+
+  /// No description provided for @authPrivacy.
+  ///
+  /// In az, this message translates to:
+  /// **'Məxfilik siyasəti'**
+  String get authPrivacy;
+
+  /// No description provided for @authProviderUnavailable.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu giriş üsulu hələ hazır deyil. E-poçt ilə və ya qonaq kimi davam et.'**
+  String get authProviderUnavailable;
+
+  /// No description provided for @authOffline.
+  ///
+  /// In az, this message translates to:
+  /// **'Serverlə əlaqə yoxdur. İnterneti yoxla və yenidən cəhd et.'**
+  String get authOffline;
+
+  /// No description provided for @authTooManyTries.
+  ///
+  /// In az, this message translates to:
+  /// **'Çox cəhd etdin. Bir az sonra yenidən yoxla.'**
+  String get authTooManyTries;
+
+  /// No description provided for @authSignIn.
+  ///
+  /// In az, this message translates to:
+  /// **'Daxil ol'**
+  String get authSignIn;
+
+  /// No description provided for @emailTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçtunu yaz'**
+  String get emailTitle;
+
+  /// No description provided for @emailBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Şifrə lazım deyil. 6 rəqəmli giriş kodu göndərəcəyik.'**
+  String get emailBody;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçt'**
+  String get emailLabel;
+
+  /// No description provided for @emailSend.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodu göndər'**
+  String get emailSend;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçt ünvanı düzgün deyil'**
+  String get emailInvalid;
+
+  /// No description provided for @codeTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodu yaz'**
+  String get codeTitle;
+
+  /// No description provided for @codeBody.
+  ///
+  /// In az, this message translates to:
+  /// **'{email} ünvanına göndərdik. Spam qovluğunu da yoxla.'**
+  String codeBody(String email);
+
+  /// No description provided for @codeLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'6 rəqəmli kod'**
+  String get codeLabel;
+
+  /// No description provided for @codeResendIn.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodu yenidən göndər · {time}'**
+  String codeResendIn(String time);
+
+  /// No description provided for @codeResend.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodu yenidən göndər'**
+  String get codeResend;
+
+  /// No description provided for @codeSent.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni kod göndərildi'**
+  String get codeSent;
+
+  /// No description provided for @codeInvalid.
+  ///
+  /// In az, this message translates to:
+  /// **'Kod yanlışdır. Yenidən yoxla.'**
+  String get codeInvalid;
+
+  /// No description provided for @codeExpired.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodun vaxtı bitib. Yeni kod istə.'**
+  String get codeExpired;
+
+  /// No description provided for @modeCasual.
+  ///
+  /// In az, this message translates to:
+  /// **'Adi'**
+  String get modeCasual;
+
+  /// No description provided for @modeRanked.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinqli'**
+  String get modeRanked;
+
+  /// No description provided for @searchTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqib axtarılır…'**
+  String get searchTitle;
+
+  /// No description provided for @searchElapsed.
+  ///
+  /// In az, this message translates to:
+  /// **'Keçən vaxt {elapsed}'**
+  String searchElapsed(String elapsed);
+
+  /// No description provided for @searchTip.
+  ///
+  /// In az, this message translates to:
+  /// **'Məsləhət: {tip}'**
+  String searchTip(String tip);
+
+  /// No description provided for @searchTipHeadRule.
+  ///
+  /// In az, this message translates to:
+  /// **'Uzun nərddə başdan yalnız bir daş götürülür.'**
+  String get searchTipHeadRule;
+
+  /// No description provided for @searchTipPip.
+  ///
+  /// In az, this message translates to:
+  /// **'Pip sayı yarışda kimin öndə olduğunu göstərir.'**
+  String get searchTipPip;
+
+  /// No description provided for @searchBotSoon.
+  ///
+  /// In az, this message translates to:
+  /// **'30 saniyədə canlı rəqib tapılmasa, bot ilə oynayacaqsan.'**
+  String get searchBotSoon;
+
+  /// No description provided for @timeControlShort.
+  ///
+  /// In az, this message translates to:
+  /// **'{minutes}+{delay}s'**
+  String timeControlShort(int minutes, int delay);
+
+  /// No description provided for @ratingRange.
+  ///
+  /// In az, this message translates to:
+  /// **'{min}–{max}'**
+  String ratingRange(int min, int max);
+
+  /// No description provided for @vsMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{rank} · {rating} · Qələbə {percent}%'**
+  String vsMeta(String rank, int rating, int percent);
+
+  /// No description provided for @vsMetaNoStats.
+  ///
+  /// In az, this message translates to:
+  /// **'{rank} · {rating}'**
+  String vsMetaNoStats(String rank, int rating);
+
+  /// No description provided for @vsLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'vs'**
+  String get vsLabel;
+
+  /// No description provided for @pointsUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} XAL'**
+  String pointsUpper(int n);
+
+  /// No description provided for @rankedUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'REYTİNQLİ'**
+  String get rankedUpper;
+
+  /// No description provided for @unrankedUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'REYTİNQSİZ'**
+  String get unrankedUpper;
+
+  /// No description provided for @vsStartsIn.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyun {seconds} saniyəyə başlayır'**
+  String vsStartsIn(int seconds);
+
+  /// No description provided for @botBadge.
+  ///
+  /// In az, this message translates to:
+  /// **'BOT'**
+  String get botBadge;
+
+  /// No description provided for @botNoRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinqə təsir etmir'**
+  String get botNoRating;
+
+  /// No description provided for @botFallbackNotice.
+  ///
+  /// In az, this message translates to:
+  /// **'30 saniyədə canlı rəqib tapılmadı, ona görə bot ilə oynayırsan. Nəticə reytinqə təsir etmir.'**
+  String get botFallbackNotice;
+
+  /// No description provided for @gameModeCasual.
+  ///
+  /// In az, this message translates to:
+  /// **'Adi · reytinqsiz'**
+  String get gameModeCasual;
+
+  /// No description provided for @playerBotMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{noRating} · {pip}'**
+  String playerBotMeta(String noRating, String pip);
+
+  /// No description provided for @bannerLowTime.
+  ///
+  /// In az, this message translates to:
+  /// **'Vaxt azalır'**
+  String get bannerLowTime;
+
+  /// No description provided for @bannerTimeLeft.
+  ///
+  /// In az, this message translates to:
+  /// **'{time} qaldı'**
+  String bannerTimeLeft(String time);
+
+  /// No description provided for @bannerOpponentOffline.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqibin bağlantısı kəsildi'**
+  String get bannerOpponentOffline;
+
+  /// No description provided for @bannerDisconnected.
+  ///
+  /// In az, this message translates to:
+  /// **'Bağlantı kəsildi'**
+  String get bannerDisconnected;
+
+  /// No description provided for @playerOffline.
+  ///
+  /// In az, this message translates to:
+  /// **'Oflayn'**
+  String get playerOffline;
+
+  /// No description provided for @reconnectTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} yenidən qoşulur…'**
+  String reconnectTitle(String name);
+
+  /// No description provided for @reconnectBody.
+  ///
+  /// In az, this message translates to:
+  /// **'{time} qaldı · vaxt bitsə, qələbə sənindir'**
+  String reconnectBody(String time);
+
+  /// No description provided for @selfReconnectTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Bağlantı bərpa olunur…'**
+  String get selfReconnectTitle;
+
+  /// No description provided for @menuFairDice.
+  ///
+  /// In az, this message translates to:
+  /// **'Ədalətli zər'**
+  String get menuFairDice;
+
+  /// No description provided for @menuFairDiceVerify.
+  ///
+  /// In az, this message translates to:
+  /// **'Yoxla'**
+  String get menuFairDiceVerify;
+
+  /// No description provided for @matchRatingLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'REYTİNQ'**
+  String get matchRatingLabel;
+
+  /// No description provided for @matchRatingFrom.
+  ///
+  /// In az, this message translates to:
+  /// **'{old} idi'**
+  String matchRatingFrom(int old);
+
+  /// No description provided for @matchRatingToNext.
+  ///
+  /// In az, this message translates to:
+  /// **'{rank} üçün {points} xal qaldı'**
+  String matchRatingToNext(String rank, int points);
+
+  /// No description provided for @ratingDeltaUp.
+  ///
+  /// In az, this message translates to:
+  /// **'+{n}'**
+  String ratingDeltaUp(int n);
+
+  /// No description provided for @ratingDeltaDown.
+  ///
+  /// In az, this message translates to:
+  /// **'−{n}'**
+  String ratingDeltaDown(int n);
+
+  /// No description provided for @fairTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Ədalətli zər'**
+  String get fairTitle;
+
+  /// No description provided for @fairIntro.
+  ///
+  /// In az, this message translates to:
+  /// **'Hər zər atışı oyundan əvvəl kilidlənən server açarından, sənin açarından və atışın sırasından hesablanır. Oyundan sonra hər atışı özün yoxlaya bilərsən.'**
+  String get fairIntro;
+
+  /// No description provided for @fairCommitment.
+  ///
+  /// In az, this message translates to:
+  /// **'Server açarının heşi (oyundan əvvəl)'**
+  String get fairCommitment;
+
+  /// No description provided for @fairCommitmentValue.
+  ///
+  /// In az, this message translates to:
+  /// **'sha256: {hash}'**
+  String fairCommitmentValue(String hash);
+
+  /// No description provided for @fairServerSeed.
+  ///
+  /// In az, this message translates to:
+  /// **'Server açarı (oyundan sonra açılır)'**
+  String get fairServerSeed;
+
+  /// No description provided for @fairYourSeed.
+  ///
+  /// In az, this message translates to:
+  /// **'Sənin açarın'**
+  String get fairYourSeed;
+
+  /// No description provided for @fairOpponentSeed.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqibin açarı'**
+  String get fairOpponentSeed;
+
+  /// No description provided for @fairRollNumber.
+  ///
+  /// In az, this message translates to:
+  /// **'Atış nömrəsi'**
+  String get fairRollNumber;
+
+  /// No description provided for @fairRollValue.
+  ///
+  /// In az, this message translates to:
+  /// **'#{n} · HMAC → {a}, {b}'**
+  String fairRollValue(int n, int a, int b);
+
+  /// No description provided for @fairMatch.
+  ///
+  /// In az, this message translates to:
+  /// **'Uyğundur · {a} – {b}'**
+  String fairMatch(int a, int b);
+
+  /// No description provided for @fairMatchSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Atış #{n} hesablanmış nəticə ilə eynidir'**
+  String fairMatchSub(int n);
+
+  /// No description provided for @fairMismatch.
+  ///
+  /// In az, this message translates to:
+  /// **'Uyğun deyil · {a} – {b}'**
+  String fairMismatch(int a, int b);
+
+  /// No description provided for @fairMismatchSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Atış #{n} hesablanmış nəticədən fərqlidir'**
+  String fairMismatchSub(int n);
+
+  /// No description provided for @fairCommitmentMismatch.
+  ///
+  /// In az, this message translates to:
+  /// **'Server açarı heşə uyğun gəlmir'**
+  String get fairCommitmentMismatch;
+
+  /// No description provided for @fairPending.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyundan sonra açılacaq'**
+  String get fairPending;
+
+  /// No description provided for @fairPendingNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Server açarı oyun bitəndə açılacaq. Sonra hər atışı burada yoxlaya bilərsən.'**
+  String get fairPendingNote;
+
+  /// No description provided for @fairNoRolls.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ atış yoxdur'**
+  String get fairNoRolls;
+
+  /// No description provided for @fairCopy.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodu kopyala'**
+  String get fairCopy;
+
+  /// No description provided for @fairCheckAnother.
+  ///
+  /// In az, this message translates to:
+  /// **'Başqa atışı yoxla'**
+  String get fairCheckAnother;
+
+  /// No description provided for @fairPickTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Atışı seç'**
+  String get fairPickTitle;
+
+  /// No description provided for @fairRollRow.
+  ///
+  /// In az, this message translates to:
+  /// **'#{n} · {a} – {b}'**
+  String fairRollRow(int n, int a, int b);
+
+  /// No description provided for @fairOpeningTag.
+  ///
+  /// In az, this message translates to:
+  /// **'açılış'**
+  String get fairOpeningTag;
+
+  /// No description provided for @tierBronze.
+  ///
+  /// In az, this message translates to:
+  /// **'Bürünc'**
+  String get tierBronze;
+
+  /// No description provided for @tierSilver.
+  ///
+  /// In az, this message translates to:
+  /// **'Gümüş'**
+  String get tierSilver;
+
+  /// No description provided for @tierGold.
+  ///
+  /// In az, this message translates to:
+  /// **'Qızıl'**
+  String get tierGold;
+
+  /// No description provided for @tierPlatinum.
+  ///
+  /// In az, this message translates to:
+  /// **'Platin'**
+  String get tierPlatinum;
+
+  /// No description provided for @tierDiamond.
+  ///
+  /// In az, this message translates to:
+  /// **'Almaz'**
+  String get tierDiamond;
+
+  /// No description provided for @tierMaster.
+  ///
+  /// In az, this message translates to:
+  /// **'Master'**
+  String get tierMaster;
+
+  /// No description provided for @tierGrandmaster.
+  ///
+  /// In az, this message translates to:
+  /// **'Qrossmeyster'**
+  String get tierGrandmaster;
+
+  /// No description provided for @rankWithSub.
+  ///
+  /// In az, this message translates to:
+  /// **'{tier} {sub}'**
+  String rankWithSub(String tier, String sub);
+
+  /// No description provided for @profileMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{rank} · {rating}'**
+  String profileMeta(String rank, int rating);
+
+  /// No description provided for @statRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq'**
+  String get statRating;
+
+  /// No description provided for @statWinRate.
+  ///
+  /// In az, this message translates to:
+  /// **'Qələbə faizi'**
+  String get statWinRate;
+
+  /// No description provided for @statMatches.
+  ///
+  /// In az, this message translates to:
+  /// **'Matçlar'**
+  String get statMatches;
+
+  /// No description provided for @statWins.
+  ///
+  /// In az, this message translates to:
+  /// **'Qələbələr'**
+  String get statWins;
+
+  /// No description provided for @statPercent.
+  ///
+  /// In az, this message translates to:
+  /// **'{n}%'**
+  String statPercent(int n);
+
+  /// No description provided for @profileHistory.
+  ///
+  /// In az, this message translates to:
+  /// **'MATÇ TARİXÇƏSİ'**
+  String get profileHistory;
+
+  /// No description provided for @historyMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{variant} · {format} · {date}'**
+  String historyMeta(String variant, String format, String date);
+
+  /// No description provided for @variantShortAbbr.
+  ///
+  /// In az, this message translates to:
+  /// **'Qısa'**
+  String get variantShortAbbr;
+
+  /// No description provided for @variantLongAbbr.
+  ///
+  /// In az, this message translates to:
+  /// **'Uzun'**
+  String get variantLongAbbr;
+
+  /// No description provided for @dateToday.
+  ///
+  /// In az, this message translates to:
+  /// **'bu gün'**
+  String get dateToday;
+
+  /// No description provided for @dateYesterday.
+  ///
+  /// In az, this message translates to:
+  /// **'dünən'**
+  String get dateYesterday;
+
+  /// No description provided for @historyScore.
+  ///
+  /// In az, this message translates to:
+  /// **'{me}–{opp}'**
+  String historyScore(int me, int opp);
+
+  /// No description provided for @profileEdit.
+  ///
+  /// In az, this message translates to:
+  /// **'Profili redaktə et'**
+  String get profileEdit;
+
+  /// No description provided for @historyEmptyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ onlayn matç yoxdur'**
+  String get historyEmptyTitle;
+
+  /// No description provided for @historyEmptyBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Onlayn oynadığın matçlar burada görünəcək.'**
+  String get historyEmptyBody;
+
+  /// No description provided for @profileSignedOutTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabına daxil ol'**
+  String get profileSignedOutTitle;
+
+  /// No description provided for @profileSignedOutBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinqin, statistikan və matç tarixçən burada olacaq.'**
+  String get profileSignedOutBody;
+
+  /// No description provided for @nameInvalid.
+  ///
+  /// In az, this message translates to:
+  /// **'Ad 3–20 hərf, rəqəm və ya _ olmalıdır'**
+  String get nameInvalid;
+
+  /// No description provided for @offlineBanner.
+  ///
+  /// In az, this message translates to:
+  /// **'İnternet yoxdur · oflayn rejim'**
+  String get offlineBanner;
+
+  /// No description provided for @onlineOfflineTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Onlayn oyun əlçatan deyil'**
+  String get onlineOfflineTitle;
+
+  /// No description provided for @onlineOfflineBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda yenidən cəhd et.'**
+  String get onlineOfflineBody;
+
+  /// No description provided for @settingsAccountPrivacy.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesab və məxfilik'**
+  String get settingsAccountPrivacy;
+
+  /// No description provided for @accountGroupAccount.
+  ///
+  /// In az, this message translates to:
+  /// **'HESAB'**
+  String get accountGroupAccount;
+
+  /// No description provided for @accountEmail.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçt'**
+  String get accountEmail;
+
+  /// No description provided for @accountNickname.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyunçu adı'**
+  String get accountNickname;
+
+  /// No description provided for @accountEmailAdd.
+  ///
+  /// In az, this message translates to:
+  /// **'Əlavə et'**
+  String get accountEmailAdd;
+
+  /// No description provided for @accountSignOut.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabdan çıx'**
+  String get accountSignOut;
+
+  /// No description provided for @accountGroupData.
+  ///
+  /// In az, this message translates to:
+  /// **'MƏLUMAT'**
+  String get accountGroupData;
+
+  /// No description provided for @accountExport.
+  ///
+  /// In az, this message translates to:
+  /// **'Məlumatlarımı ixrac et'**
+  String get accountExport;
+
+  /// No description provided for @accountDelete.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabı sil'**
+  String get accountDelete;
+
+  /// No description provided for @exportTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Məlumatlarını ixrac et'**
+  String get exportTitle;
+
+  /// No description provided for @exportBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Profilin və matç tarixçən JSON faylı kimi hazırlanacaq. Hazır olanda onu kopyalaya bilərsən.'**
+  String get exportBody;
+
+  /// No description provided for @exportProfile.
+  ///
+  /// In az, this message translates to:
+  /// **'Profil və hesab'**
+  String get exportProfile;
+
+  /// No description provided for @exportGames.
+  ///
+  /// In az, this message translates to:
+  /// **'Matç tarixçəsi'**
+  String get exportGames;
+
+  /// No description provided for @exportGamesCount.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} matç'**
+  String exportGamesCount(int n);
+
+  /// No description provided for @exportFormat.
+  ///
+  /// In az, this message translates to:
+  /// **'Format'**
+  String get exportFormat;
+
+  /// No description provided for @exportFormatValue.
+  ///
+  /// In az, this message translates to:
+  /// **'JSON'**
+  String get exportFormatValue;
+
+  /// No description provided for @exportStart.
+  ///
+  /// In az, this message translates to:
+  /// **'İxracı başlat'**
+  String get exportStart;
+
+  /// No description provided for @exportReady.
+  ///
+  /// In az, this message translates to:
+  /// **'Fayl hazırdır · {size} KB'**
+  String exportReady(String size);
+
+  /// No description provided for @exportCopy.
+  ///
+  /// In az, this message translates to:
+  /// **'JSON-u kopyala'**
+  String get exportCopy;
+
+  /// No description provided for @deleteTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesab silinsin?'**
+  String get deleteTitle;
+
+  /// No description provided for @deleteItemRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq ({rating}), dərəcə və bütün matç tarixçəsi'**
+  String deleteItemRating(int rating);
+
+  /// No description provided for @deleteItemHistory.
+  ///
+  /// In az, this message translates to:
+  /// **'Profil və bütün matç tarixçəsi'**
+  String get deleteItemHistory;
+
+  /// No description provided for @deleteIrreversible.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesab dərhal silinir və bərpa olunmur.'**
+  String get deleteIrreversible;
+
+  /// No description provided for @deleteConfirmLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'Təsdiq üçün {word} yaz'**
+  String deleteConfirmLabel(String word);
+
+  /// No description provided for @deleteConfirmWord.
+  ///
+  /// In az, this message translates to:
+  /// **'SİL'**
+  String get deleteConfirmWord;
+
+  /// No description provided for @setupOnlineTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Onlayn oyun'**
+  String get setupOnlineTitle;
+
+  /// No description provided for @setupTimeLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'VAXT NƏZARƏTİ'**
+  String get setupTimeLabel;
+
+  /// No description provided for @timeRapid.
+  ///
+  /// In az, this message translates to:
+  /// **'Sürətli'**
+  String get timeRapid;
+
+  /// No description provided for @timeValue.
+  ///
+  /// In az, this message translates to:
+  /// **'{minutes} dəq + {delay}s'**
+  String timeValue(int minutes, int delay);
+
+  /// No description provided for @setupRated.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinqli'**
+  String get setupRated;
+
+  /// No description provided for @setupRatedSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinqin: {rating}'**
+  String setupRatedSub(int rating);
+
+  /// No description provided for @setupFindOpponent.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqib axtar'**
+  String get setupFindOpponent;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -1631,30 +2527,27 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['az', 'en', 'ru', 'tr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['az', 'en', 'ru', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'az':
-      return AppLocalizationsAz();
-    case 'en':
-      return AppLocalizationsEn();
-    case 'ru':
-      return AppLocalizationsRu();
-    case 'tr':
-      return AppLocalizationsTr();
+    case 'az': return AppLocalizationsAz();
+    case 'en': return AppLocalizationsEn();
+    case 'ru': return AppLocalizationsRu();
+    case 'tr': return AppLocalizationsTr();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

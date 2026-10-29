@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -92,6 +93,21 @@ class ApiClient {
   final http.Client _http;
   String? token;
 
+  final _reachability = StreamController<bool>.broadcast();
+  bool _reachable = true;
+
+  /// Whether the last request reached the server (any HTTP status counts).
+  bool get reachable => _reachable;
+
+  /// Emits when [reachable] changes (offline banner, 11.1).
+  Stream<bool> get reachability => _reachability.stream;
+
+  void _reached(bool value) {
+    if (value == _reachable) return;
+    _reachable = value;
+    _reachability.add(value);
+  }
+
   Future<Map<String, Object?>> _call(
     String method,
     String path, [
@@ -110,8 +126,10 @@ class ApiClient {
         await _http.send(req).timeout(const Duration(seconds: 15)),
       );
     } on Object catch (e) {
+      _reached(false);
       throw ApiException(0, 'offline', '$e');
     }
+    _reached(true);
     final decoded = res.body.isEmpty ? null : jsonDecode(res.body);
     final json =
         decoded is Map<String, Object?> ? decoded : <String, Object?>{};
@@ -150,6 +168,19 @@ class ApiClient {
           'code': code,
         }),
       );
+
+  /// Apple / Google sign-in (503 `provider_disabled` until configured).
+  Future<(String, Account)> provider(String name, String idToken) async =>
+      _signedIn(await _call('POST', '/auth/$name', {'token': idToken}));
+
+  /// Any answer (even 401) means the API is reachable again.
+  Future<void> probe() async {
+    try {
+      await _call('GET', '/me');
+    } on ApiException {
+      // Only reachability matters here.
+    }
+  }
 
   Future<void> logout() => _call('POST', '/auth/logout');
 

@@ -6,6 +6,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../app/providers.dart';
 import '../data/app_settings.dart';
 import '../l10n/gen/app_localizations.dart';
+import '../online/online_draft.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/background.dart';
@@ -13,8 +14,8 @@ import '../ui/controls.dart';
 import '../ui/layout.dart';
 import '../ui/pressable.dart';
 
-/// 10.2 Settings: the Profil tab root in Phase 2, also pushed from the
-/// game menu.
+/// 10.2 Settings: pushed from the profile header (8.1) and the game menu.
+/// [root] keeps the Phase 2 tab-root layout.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key, this.root = false});
 
@@ -209,6 +210,15 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ]),
         group(l.settingsGroupGeneral, [
+          row(
+            l.settingsAccountPrivacy,
+            value(''),
+            onTap: () async {
+              if (await ensureSignedIn(context, ref) && context.mounted) {
+                await context.push('/account');
+              }
+            },
+          ),
           toggle(l.settingsSound, s.sound, (v) => s.copyWith(sound: v)),
           toggle(l.settingsHaptics, s.haptics, (v) => s.copyWith(haptics: v)),
           row(

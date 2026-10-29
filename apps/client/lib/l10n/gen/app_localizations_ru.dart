@@ -115,12 +115,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get variantQuestionTitle => 'В какие нарды ты играешь?';
 
   @override
-  String get variantShortDesc =>
-      'Классический бэкгаммон: бой, бар, куб удвоения.';
+  String get variantShortDesc => 'Классический бэкгаммон: бой, бар, куб удвоения.';
 
   @override
-  String get variantLongDesc =>
-      'Все шашки на голове. Бить нельзя, только блокировать.';
+  String get variantLongDesc => 'Все шашки на голове. Бить нельзя, только блокировать.';
 
   @override
   String get variantLearnTitle => 'Хочу научиться';
@@ -148,57 +146,49 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lessonStep1Title => 'Это твоя доска';
 
   @override
-  String get lessonStep1Body =>
-      'Белые шашки — твои. Они идут с 24-го пункта к 1-му, а затем выбрасываются с доски. Коснись любой шашки, чтобы продолжить.';
+  String get lessonStep1Body => 'Белые шашки — твои. Они идут с 24-го пункта к 1-му, а затем выбрасываются с доски. Коснись любой шашки, чтобы продолжить.';
 
   @override
   String get lessonStep2Title => 'Передвинь шашку на 6 пунктов';
 
   @override
-  String get lessonStep2Body =>
-      'На кубике 6. Коснись шашки на 13-м пункте, затем коснись подсвеченного 7-го пункта или перетащи шашку туда.';
+  String get lessonStep2Body => 'На кубике 6. Коснись шашки на 13-м пункте, затем коснись подсвеченного 7-го пункта или перетащи шашку туда.';
 
   @override
   String get lessonStep3Title => 'Сыграй оба кубика';
 
   @override
-  String get lessonStep3Body =>
-      'На кубиках 3 и 1. Передвинь шашки с 8-го и 6-го пунктов на 5-й и закрой пункт.';
+  String get lessonStep3Body => 'На кубиках 3 и 1. Передвинь шашки с 8-го и 6-го пунктов на 5-й и закрой пункт.';
 
   @override
   String get lessonStep4Title => 'Закрытый пункт';
 
   @override
-  String get lessonStep4Body =>
-      'Нельзя ходить на пункт, где стоят две и более шашки соперника. На кубике 5: передвинь шашку с 13-го пункта на 8-й.';
+  String get lessonStep4Body => 'Нельзя ходить на пункт, где стоят две и более шашки соперника. На кубике 5: передвинь шашку с 13-го пункта на 8-й.';
 
   @override
   String get lessonStep5Title => 'Бой';
 
   @override
-  String get lessonStep5Body =>
-      'Если встанешь на одиночную шашку соперника, она уходит на бар. Передвинь шашку с 6-го пункта на 4-й и побей.';
+  String get lessonStep5Body => 'Если встанешь на одиночную шашку соперника, она уходит на бар. Передвинь шашку с 6-го пункта на 4-й и побей.';
 
   @override
   String get lessonStep6Title => 'Ввод с бара';
 
   @override
-  String get lessonStep6Body =>
-      'Если у тебя есть шашка на баре, сначала нужно ввести её в дом соперника. Коснись шашки на баре и передвинь её на 22-й пункт.';
+  String get lessonStep6Body => 'Если у тебя есть шашка на баре, сначала нужно ввести её в дом соперника. Коснись шашки на баре и передвинь её на 22-й пункт.';
 
   @override
   String get lessonStep7Title => 'Выброси шашки';
 
   @override
-  String get lessonStep7Body =>
-      'Все шашки в доме (1–6). На кубике 6: выброси шашку с 6-го пункта.';
+  String get lessonStep7Body => 'Все шашки в доме (1–6). На кубике 6: выброси шашку с 6-го пункта.';
 
   @override
   String get lessonDoneTitle => 'Отлично, можно играть';
 
   @override
-  String get lessonDoneBody =>
-      'Ты знаешь правила. Теперь потренируйся против компьютера.';
+  String get lessonDoneBody => 'Ты знаешь правила. Теперь потренируйся против компьютера.';
 
   @override
   String get lessonFinish => 'Начать игру';
@@ -786,8 +776,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ruleHeadTitle => 'С головы можно взять только одну шашку';
 
   @override
-  String get ruleHeadBody =>
-      'В этот ход с головы сыграно больше одной шашки. Исключение: при первом броске 6-6, 4-4 или 3-3 можно взять две.';
+  String get ruleHeadBody => 'В этот ход с головы сыграно больше одной шашки. Исключение: при первом броске 6-6, 4-4 или 3-3 можно взять две.';
 
   @override
   String get ruleSixBlockTitle => 'Нельзя закрывать 6 пунктов подряд';
@@ -801,55 +790,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rulePointClosedTitle => 'Этот пункт закрыт';
 
   @override
-  String get rulePointClosedShort =>
-      'Нельзя ходить на пункт, где стоят две и более шашки соперника.';
+  String get rulePointClosedShort => 'Нельзя ходить на пункт, где стоят две и более шашки соперника.';
 
   @override
-  String get rulePointClosedLong =>
-      'В длинных нардах нельзя ходить на пункт с шашкой соперника.';
+  String get rulePointClosedLong => 'В длинных нардах нельзя ходить на пункт с шашкой соперника.';
 
   @override
   String get ruleBarTitle => 'Сначала введи шашку с бара';
 
   @override
-  String get ruleBarBody =>
-      'Пока у тебя есть шашка на баре, другими шашками ходить нельзя.';
+  String get ruleBarBody => 'Пока у тебя есть шашка на баре, другими шашками ходить нельзя.';
 
   @override
   String get ruleBothDiceTitle => 'Нужно сыграть оба кубика';
 
   @override
-  String get ruleBothDiceBody =>
-      'Этот ход не даёт сыграть второй кубик. Выбери ход, который использует оба кубика.';
+  String get ruleBothDiceBody => 'Этот ход не даёт сыграть второй кубик. Выбери ход, который использует оба кубика.';
 
   @override
   String get ruleLargerDieTitle => 'Сыграй больший кубик';
 
   @override
-  String get ruleLargerDieBody =>
-      'Если можно сыграть только один кубик, нужно сыграть больший.';
+  String get ruleLargerDieBody => 'Если можно сыграть только один кубик, нужно сыграть больший.';
 
   @override
   String get ruleBearOffTitle => 'Выбрасывать ещё нельзя';
 
   @override
-  String get ruleBearOffBody =>
-      'Чтобы выбрасывать шашки, все они должны быть в доме (1–6).';
+  String get ruleBearOffBody => 'Чтобы выбрасывать шашки, все они должны быть в доме (1–6).';
 
   @override
-  String get ruleBearOffHigherTitle =>
-      'Сначала сыграй шашку с более высокого пункта';
+  String get ruleBearOffHigherTitle => 'Сначала сыграй шашку с более высокого пункта';
 
   @override
-  String get ruleBearOffHigherBody =>
-      'Большим кубиком можно выбросить только шашку с самого высокого пункта.';
+  String get ruleBearOffHigherBody => 'Большим кубиком можно выбросить только шашку с самого высокого пункта.';
 
   @override
   String get ruleNoDieTitle => 'Нет кубика на это расстояние';
 
   @override
-  String get ruleNoDieBody =>
-      'Шашку можно передвинуть только на число пунктов, выпавшее на кубиках.';
+  String get ruleNoDieBody => 'Шашку можно передвинуть только на число пунктов, выпавшее на кубиках.';
 
   @override
   String get ruleNoCheckerTitle => 'На этом пункте нет твоей шашки';
@@ -867,8 +847,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get replayEmptyTitle => 'Пока нет игр';
 
   @override
-  String get replayEmptyBody =>
-      'Завершённые игры появятся здесь. В повторе можно заново просмотреть каждый ход.';
+  String get replayEmptyBody => 'Завершённые игры появятся здесь. В повторе можно заново просмотреть каждый ход.';
 
   @override
   String replayTitle(int n) {
@@ -1003,17 +982,570 @@ class AppLocalizationsRu extends AppLocalizations {
   String get errorTitle => 'Что-то пошло не так';
 
   @override
-  String get errorBody =>
-      'Попробуй ещё раз. Если проблема не исчезнет, перезапусти приложение.';
+  String get errorBody => 'Попробуй ещё раз. Если проблема не исчезнет, перезапусти приложение.';
 
   @override
   String get playVsComputer => 'Играть с компьютером';
 
   @override
-  String get rulesShortBody =>
-      'У каждого игрока 15 шашек. Шашки ходят по кубикам от 24 к 1. Если встанешь на одиночную шашку соперника, она уходит на бар; пункт с двумя и более шашками закрыт. Когда все шашки в доме (1–6), начинается выброс. Побеждает тот, кто первым выбросит все 15 шашек. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка на баре или в твоём доме — кокс (×3).';
+  String get rulesShortBody => 'У каждого игрока 15 шашек. Шашки ходят по кубикам от 24 к 1. Если встанешь на одиночную шашку соперника, она уходит на бар; пункт с двумя и более шашками закрыт. Когда все шашки в доме (1–6), начинается выброс. Побеждает тот, кто первым выбросит все 15 шашек. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка на баре или в твоём доме — кокс (×3).';
 
   @override
-  String get rulesLongBody =>
-      'Все 15 шашек начинают с головы (24-й пункт). Боя нет: на пункт с шашкой соперника ходить нельзя. За ход с головы можно взять только одну шашку (исключение — 6-6, 4-4, 3-3 при первом броске). Нельзя закрывать 6 пунктов подряд, если впереди нет ни одной шашки соперника. Когда все шашки в доме, начинается выброс. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка ещё не прошла твой дом — кокс (×3).';
+  String get rulesLongBody => 'Все 15 шашек начинают с головы (24-й пункт). Боя нет: на пункт с шашкой соперника ходить нельзя. За ход с головы можно взять только одну шашку (исключение — 6-6, 4-4, 3-3 при первом броске). Нельзя закрывать 6 пунктов подряд, если впереди нет ни одной шашки соперника. Когда все шашки в доме, начинается выброс. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка ещё не прошла твой дом — кокс (×3).';
+
+  @override
+  String get actionSave => 'Сохранить';
+
+  @override
+  String get copied => 'Скопировано';
+
+  @override
+  String get valueNone => '—';
+
+  @override
+  String get authWelcomeTitle => 'Добро пожаловать';
+
+  @override
+  String get authWelcomeBody => 'С аккаунтом твой рейтинг и история матчей сохранятся на всех устройствах.';
+
+  @override
+  String get authApple => 'Продолжить с Apple';
+
+  @override
+  String get authGoogle => 'Продолжить с Google';
+
+  @override
+  String get authEmail => 'Продолжить с e-mail';
+
+  @override
+  String get authGuest => 'Играть как гость';
+
+  @override
+  String authLegal(String terms, String privacy) {
+    return 'Продолжая, ты принимаешь $terms и $privacy.';
+  }
+
+  @override
+  String get authTerms => 'Условия использования';
+
+  @override
+  String get authPrivacy => 'Политику конфиденциальности';
+
+  @override
+  String get authProviderUnavailable => 'Этот способ входа пока недоступен. Продолжи через e-mail или как гость.';
+
+  @override
+  String get authOffline => 'Нет связи с сервером. Проверь интернет и попробуй снова.';
+
+  @override
+  String get authTooManyTries => 'Слишком много попыток. Попробуй чуть позже.';
+
+  @override
+  String get authSignIn => 'Войти';
+
+  @override
+  String get emailTitle => 'Введи свой e-mail';
+
+  @override
+  String get emailBody => 'Пароль не нужен. Мы пришлём 6-значный код для входа.';
+
+  @override
+  String get emailLabel => 'E-mail';
+
+  @override
+  String get emailSend => 'Отправить код';
+
+  @override
+  String get emailInvalid => 'Неверный адрес e-mail';
+
+  @override
+  String get codeTitle => 'Введи код';
+
+  @override
+  String codeBody(String email) {
+    return 'Мы отправили его на $email. Проверь и папку «Спам».';
+  }
+
+  @override
+  String get codeLabel => '6-значный код';
+
+  @override
+  String codeResendIn(String time) {
+    return 'Отправить код снова · $time';
+  }
+
+  @override
+  String get codeResend => 'Отправить код снова';
+
+  @override
+  String get codeSent => 'Новый код отправлен';
+
+  @override
+  String get codeInvalid => 'Неверный код. Проверь и попробуй снова.';
+
+  @override
+  String get codeExpired => 'Срок действия кода истёк. Запроси новый.';
+
+  @override
+  String get modeCasual => 'Обычная';
+
+  @override
+  String get modeRanked => 'Рейтинговая';
+
+  @override
+  String get searchTitle => 'Ищем соперника…';
+
+  @override
+  String searchElapsed(String elapsed) {
+    return 'Прошло $elapsed';
+  }
+
+  @override
+  String searchTip(String tip) {
+    return 'Совет: $tip';
+  }
+
+  @override
+  String get searchTipHeadRule => 'В длинных нардах с головы за ход снимают только одну шашку.';
+
+  @override
+  String get searchTipPip => 'Счёт пипов показывает, кто впереди в гонке.';
+
+  @override
+  String get searchBotSoon => 'Если за 30 секунд живой соперник не найдётся, сыграешь с ботом.';
+
+  @override
+  String timeControlShort(int minutes, int delay) {
+    return '$minutes+$delay с';
+  }
+
+  @override
+  String ratingRange(int min, int max) {
+    return '$min–$max';
+  }
+
+  @override
+  String vsMeta(String rank, int rating, int percent) {
+    return '$rank · $rating · Побед $percent%';
+  }
+
+  @override
+  String vsMetaNoStats(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get vsLabel => 'vs';
+
+  @override
+  String pointsUpper(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n ОЧКА',
+      many: '$n ОЧКОВ',
+      few: '$n ОЧКА',
+      one: '$n ОЧКО',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get rankedUpper => 'РЕЙТИНГОВАЯ';
+
+  @override
+  String get unrankedUpper => 'БЕЗ РЕЙТИНГА';
+
+  @override
+  String vsStartsIn(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds секунды',
+      many: '$seconds секунд',
+      few: '$seconds секунды',
+      one: '$seconds секунду',
+    );
+    return 'Игра начнётся через $_temp0';
+  }
+
+  @override
+  String get botBadge => 'BOT';
+
+  @override
+  String get botNoRating => 'Не влияет на рейтинг';
+
+  @override
+  String get botFallbackNotice => 'За 30 секунд живой соперник не нашёлся, поэтому ты играешь с ботом. Результат не влияет на рейтинг.';
+
+  @override
+  String get gameModeCasual => 'Обычная · без рейтинга';
+
+  @override
+  String playerBotMeta(String noRating, String pip) {
+    return '$noRating · $pip';
+  }
+
+  @override
+  String get bannerLowTime => 'Время на исходе';
+
+  @override
+  String bannerTimeLeft(String time) {
+    return 'Осталось $time';
+  }
+
+  @override
+  String get bannerOpponentOffline => 'Соперник отключился';
+
+  @override
+  String get bannerDisconnected => 'Соединение потеряно';
+
+  @override
+  String get playerOffline => 'Офлайн';
+
+  @override
+  String reconnectTitle(String name) {
+    return '$name переподключается…';
+  }
+
+  @override
+  String reconnectBody(String time) {
+    return 'Осталось $time · если время выйдет, победа твоя';
+  }
+
+  @override
+  String get selfReconnectTitle => 'Восстанавливаем соединение…';
+
+  @override
+  String get menuFairDice => 'Честные кости';
+
+  @override
+  String get menuFairDiceVerify => 'Проверить';
+
+  @override
+  String get matchRatingLabel => 'РЕЙТИНГ';
+
+  @override
+  String matchRatingFrom(int old) {
+    return 'было $old';
+  }
+
+  @override
+  String matchRatingToNext(String rank, int points) {
+    String _temp0 = intl.Intl.pluralLogic(
+      points,
+      locale: localeName,
+      other: '$points очка',
+      many: '$points очков',
+      few: '$points очка',
+      one: '$points очко',
+    );
+    return 'До ранга $rank: $_temp0';
+  }
+
+  @override
+  String ratingDeltaUp(int n) {
+    return '+$n';
+  }
+
+  @override
+  String ratingDeltaDown(int n) {
+    return '−$n';
+  }
+
+  @override
+  String get fairTitle => 'Честные кости';
+
+  @override
+  String get fairIntro => 'Каждый бросок вычисляется из серверного ключа, зафиксированного до игры, твоего ключа и номера броска. После игры ты можешь сам проверить любой бросок.';
+
+  @override
+  String get fairCommitment => 'Хеш серверного ключа (до игры)';
+
+  @override
+  String fairCommitmentValue(String hash) {
+    return 'sha256: $hash';
+  }
+
+  @override
+  String get fairServerSeed => 'Серверный ключ (раскрывается после игры)';
+
+  @override
+  String get fairYourSeed => 'Твой ключ';
+
+  @override
+  String get fairOpponentSeed => 'Ключ соперника';
+
+  @override
+  String get fairRollNumber => 'Номер броска';
+
+  @override
+  String fairRollValue(int n, int a, int b) {
+    return '#$n · HMAC → $a, $b';
+  }
+
+  @override
+  String fairMatch(int a, int b) {
+    return 'Совпадает · $a – $b';
+  }
+
+  @override
+  String fairMatchSub(int n) {
+    return 'Бросок #$n совпадает с расчётом';
+  }
+
+  @override
+  String fairMismatch(int a, int b) {
+    return 'Не совпадает · $a – $b';
+  }
+
+  @override
+  String fairMismatchSub(int n) {
+    return 'Бросок #$n отличается от расчёта';
+  }
+
+  @override
+  String get fairCommitmentMismatch => 'Серверный ключ не совпадает с хешем';
+
+  @override
+  String get fairPending => 'Откроется после игры';
+
+  @override
+  String get fairPendingNote => 'Серверный ключ откроется после окончания игры. Тогда здесь можно будет проверить каждый бросок.';
+
+  @override
+  String get fairNoRolls => 'Бросков пока нет';
+
+  @override
+  String get fairCopy => 'Скопировать данные';
+
+  @override
+  String get fairCheckAnother => 'Проверить другой бросок';
+
+  @override
+  String get fairPickTitle => 'Выбери бросок';
+
+  @override
+  String fairRollRow(int n, int a, int b) {
+    return '#$n · $a – $b';
+  }
+
+  @override
+  String get fairOpeningTag => 'первый бросок';
+
+  @override
+  String get tierBronze => 'Бронза';
+
+  @override
+  String get tierSilver => 'Серебро';
+
+  @override
+  String get tierGold => 'Золото';
+
+  @override
+  String get tierPlatinum => 'Платина';
+
+  @override
+  String get tierDiamond => 'Алмаз';
+
+  @override
+  String get tierMaster => 'Мастер';
+
+  @override
+  String get tierGrandmaster => 'Гроссмейстер';
+
+  @override
+  String rankWithSub(String tier, String sub) {
+    return '$tier $sub';
+  }
+
+  @override
+  String profileMeta(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get statRating => 'Рейтинг';
+
+  @override
+  String get statWinRate => 'Процент побед';
+
+  @override
+  String get statMatches => 'Матчи';
+
+  @override
+  String get statWins => 'Победы';
+
+  @override
+  String statPercent(int n) {
+    return '$n%';
+  }
+
+  @override
+  String get profileHistory => 'ИСТОРИЯ МАТЧЕЙ';
+
+  @override
+  String historyMeta(String variant, String format, String date) {
+    return '$variant · $format · $date';
+  }
+
+  @override
+  String get variantShortAbbr => 'Короткие';
+
+  @override
+  String get variantLongAbbr => 'Длинные';
+
+  @override
+  String get dateToday => 'сегодня';
+
+  @override
+  String get dateYesterday => 'вчера';
+
+  @override
+  String historyScore(int me, int opp) {
+    return '$me–$opp';
+  }
+
+  @override
+  String get profileEdit => 'Редактировать профиль';
+
+  @override
+  String get historyEmptyTitle => 'Пока нет онлайн-матчей';
+
+  @override
+  String get historyEmptyBody => 'Здесь появятся матчи, сыгранные онлайн.';
+
+  @override
+  String get profileSignedOutTitle => 'Войди в аккаунт';
+
+  @override
+  String get profileSignedOutBody => 'Здесь будут твой рейтинг, статистика и история матчей.';
+
+  @override
+  String get nameInvalid => 'Имя: 3–20 букв, цифр или _';
+
+  @override
+  String get offlineBanner => 'Нет сети · офлайн-режим';
+
+  @override
+  String get onlineOfflineTitle => 'Онлайн-игра недоступна';
+
+  @override
+  String get onlineOfflineBody => 'Игра с компьютером и на одном устройстве работает. Попробуй снова, когда связь вернётся.';
+
+  @override
+  String get settingsAccountPrivacy => 'Аккаунт и конфиденциальность';
+
+  @override
+  String get accountGroupAccount => 'АККАУНТ';
+
+  @override
+  String get accountEmail => 'E-mail';
+
+  @override
+  String get accountNickname => 'Имя игрока';
+
+  @override
+  String get accountEmailAdd => 'Добавить';
+
+  @override
+  String get accountSignOut => 'Выйти из аккаунта';
+
+  @override
+  String get accountGroupData => 'ДАННЫЕ';
+
+  @override
+  String get accountExport => 'Экспортировать мои данные';
+
+  @override
+  String get accountDelete => 'Удалить аккаунт';
+
+  @override
+  String get exportTitle => 'Экспорт данных';
+
+  @override
+  String get exportBody => 'Профиль и история матчей будут собраны в JSON-файл. Когда он будет готов, его можно скопировать.';
+
+  @override
+  String get exportProfile => 'Профиль и аккаунт';
+
+  @override
+  String get exportGames => 'История матчей';
+
+  @override
+  String exportGamesCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n матча',
+      many: '$n матчей',
+      few: '$n матча',
+      one: '$n матч',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exportFormat => 'Формат';
+
+  @override
+  String get exportFormatValue => 'JSON';
+
+  @override
+  String get exportStart => 'Начать экспорт';
+
+  @override
+  String exportReady(String size) {
+    return 'Файл готов · $size КБ';
+  }
+
+  @override
+  String get exportCopy => 'Скопировать JSON';
+
+  @override
+  String get deleteTitle => 'Удалить аккаунт?';
+
+  @override
+  String deleteItemRating(int rating) {
+    return 'Рейтинг ($rating), ранг и вся история матчей';
+  }
+
+  @override
+  String get deleteItemHistory => 'Профиль и вся история матчей';
+
+  @override
+  String get deleteIrreversible => 'Аккаунт удаляется сразу, восстановить его нельзя.';
+
+  @override
+  String deleteConfirmLabel(String word) {
+    return 'Введи $word для подтверждения';
+  }
+
+  @override
+  String get deleteConfirmWord => 'УДАЛИТЬ';
+
+  @override
+  String get setupOnlineTitle => 'Онлайн-игра';
+
+  @override
+  String get setupTimeLabel => 'КОНТРОЛЬ ВРЕМЕНИ';
+
+  @override
+  String get timeRapid => 'Рапид';
+
+  @override
+  String timeValue(int minutes, int delay) {
+    return '$minutes мин + $delay с';
+  }
+
+  @override
+  String get setupRated => 'Рейтинговая игра';
+
+  @override
+  String setupRatedSub(int rating) {
+    return 'Твой рейтинг: $rating';
+  }
+
+  @override
+  String get setupFindOpponent => 'Найти соперника';
 }

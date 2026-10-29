@@ -8,18 +8,22 @@ import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:nard_core/nard_core.dart';
+import 'package:nard_protocol/nard_protocol.dart';
 
 import '../app/providers.dart';
 import '../app/sounds.dart';
 import '../board/board_game.dart';
 import '../data/app_settings.dart';
 import '../l10n/gen/app_localizations.dart';
+import '../online/account.dart';
 import '../online/online_game_controller.dart';
+import '../online/online_text.dart';
 import '../theme/board_theme.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/background.dart';
 import '../ui/buttons.dart';
+import '../ui/identity.dart';
 import '../ui/layout.dart';
 import 'game_actions.dart';
 import 'game_clock.dart';
@@ -28,6 +32,7 @@ import 'game_overlays.dart';
 import 'game_parts.dart';
 import 'game_presenter.dart';
 import 'game_sheets.dart';
+import 'online_overlays.dart';
 import 'session.dart';
 
 /// The in-game screen (game.md §1 portrait, §1L landscape).
@@ -48,10 +53,12 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   bool _offerOpen = false;
   bool _matchResultReady = false;
   Timer? _resultTimer;
+  Timer? _ratingTimer;
 
   @override
   void dispose() {
     _resultTimer?.cancel();
+    _ratingTimer?.cancel();
     super.dispose();
   }
 
@@ -111,6 +118,16 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       _resultTimer = Timer(const Duration(milliseconds: 1400), () {
         if (mounted) setState(() => _matchResultReady = true);
       });
+      if (widget.online && _ratingTimer == null) {
+        // The API records the result a moment after the server ends the
+        // match; refresh again for the 2.6 rating card.
+        _ratingTimer = Timer(const Duration(seconds: 3), () {
+          if (!mounted) return;
+          unawaited(
+            ref.read(accountProvider.notifier).refresh().catchError((_) {}),
+          );
+        });
+      }
     }
   }
 
@@ -159,6 +176,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       context,
       variant: p.setup.variant,
       soundOn: settings.sound,
+      fairDice: widget.online,
     );
     if (!mounted || choice == null) return;
     switch (choice) {
@@ -166,6 +184,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         break;
       case MenuChoice.settings:
         unawaited(context.push('/settings'));
+      case MenuChoice.fairDice:
+        unawaited(context.push('/online/fair'));
       case MenuChoice.rules:
         unawaited(showRulesSheet(context, p.setup.variant));
       case MenuChoice.sound:
@@ -239,9 +259,27 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           WidgetsBinding.instance.addPostFrameCallback(
             (_) => _sync(view, settings, l),
           );
-          return landscape
-              ? _landscape(p, l, game, box)
-              : _portrait(p, l, game, box);
+          final screen =
+              landscape
+                  ? _landscape(p, l, game, box)
+                  : _portrait(p, l, game, box);
+          final online = view.online;
+          if (online == null) return screen;
+          return Stack(
+            children: [
+              screen,
+              Positioned.fill(
+                child: PeriodicBuilder(
+                  builder:
+                      (_) => LowTimeVignette(
+                        active:
+                            online.connected &&
+                            isLowTime(online, p.viewer, DateTime.now()),
+                      ),
+                ),
+              ),
+            ],
+          );
         },
       );
     }
@@ -256,16 +294,74 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   // ---- Pieces ---------------------------------------------------------
 
+  /// Our own socket is down: every control is off (online.md §3.4).
+  bool _lost(GamePresenter p) => p.view.online?.connected == false;
+
+  Widget _lockable(GamePresenter p, Widget child) {
+    final lost = _lost(p);
+    return IgnorePointer(
+      ignoring: lost,
+      child: AnimatedOpacity(
+        duration: NardMotion.fast,
+        opacity: lost ? .5 : 1,
+        child: child,
+      ),
+    );
+  }
+
+  bool _opponentBot(GamePresenter p) =>
+      p.setup.online?.player(p.viewer.opponent).bot ?? false;
+
+  Widget? _reconnectCard(GamePresenter p, AppLocalizations l, bool short) {
+    final online = p.view.online;
+    if (online == null) return null;
+    if (!online.connected) return ReconnectCard(title: l.selfReconnectTitle);
+    if (online.opponentConnected || _opponentBot(p)) return null;
+    final name = p.name(p.viewer.opponent);
+    return PeriodicBuilder(
+      period: const Duration(milliseconds: 500),
+      builder: (_) {
+        // Rounded up like the clocks.
+        final left = formatClock(
+          (reconnectLeft(online, DateTime.now()) ?? Duration.zero)
+              .inMilliseconds,
+        );
+        return ReconnectCard(
+          title: l.reconnectTitle(name),
+          sub: short ? l.bannerTimeLeft(left) : l.reconnectBody(left),
+        );
+      },
+    );
+  }
+
+  ({String title, String? sub, BannerTone tone}) _bannerData(
+    GamePresenter p,
+    AppLocalizations l,
+  ) {
+    final online = p.view.online;
+    if (online == null) return p.banner();
+    return onlineBanner(
+          online,
+          p.viewer,
+          l,
+          DateTime.now(),
+          opponentBot: _opponentBot(p),
+        ) ??
+        p.banner();
+  }
+
   Widget _boardStack(
     GamePresenter p,
     AppLocalizations l,
     NardBoardGame game,
-    double width,
-  ) {
+    double width, {
+    bool landscape = false,
+  }) {
     final s = p.s;
     final rule = p.rejectionText();
     final h = width * _boardHeight / BoardGeometry.width;
     final dice = s.dice;
+    final reconnect = _reconnectCard(p, l, landscape);
     return SizedBox(
       width: width,
       height: h,
@@ -273,7 +369,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: [
-          Positioned.fill(child: GameWidget(game: game)),
+          Positioned.fill(
+            child: IgnorePointer(
+              ignoring: _lost(p),
+              child: GameWidget(game: game),
+            ),
+          ),
+          if (reconnect != null) reconnect,
           if (p.view.noMoves && dice != null)
             NoMovesCard(
               title: l.noMovesTitle,
@@ -325,26 +427,39 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }) {
     final s = p.s;
     final settings = ref.read(currentSettingsProvider);
+    final online = p.view.online;
+    final seat = p.setup.online?.player(side);
+    final bot = seat?.bot ?? false;
     final parts = <String>[
-      if (p.setup.isRemote(side)) l.playerBotLevel(p.levelName(p.setup.level)),
+      if (p.setup.vsComputer && p.setup.isRemote(side))
+        l.playerBotLevel(p.levelName(p.setup.level)),
+      if (bot) l.botNoRating,
       if (settings.showPipCount) l.playerPip(s.board.pipCount(side)),
     ];
     final active =
         !s.isGameOver &&
         s.phase != GamePhase.opening &&
         (s.phase == GamePhase.cubeOffered ? s.turn.opponent : s.turn) == side;
-    final online = p.view.online;
-    final seat = p.setup.online?.player(side);
-    if (seat?.rating != null) parts.insert(0, '${seat!.rating}');
+    if (seat?.rating != null && !bot) parts.insert(0, '${seat!.rating}');
+    final away =
+        online != null &&
+        !online.opponentConnected &&
+        side != p.setup.localSide &&
+        !bot;
     return PlayerCard(
       name: p.name(side),
       meta: parts.join(' · '),
       active: active,
       ivory: side == Side.white,
       side: column,
+      bot: bot,
+      badge: bot && !column ? BotBadge(label: l.botBadge) : null,
+      offlineLabel: away ? l.playerOffline : null,
       trailing:
           online == null || p.setup.online == null
               ? null
+              : bot
+              ? ClockPlaceholder(label: l.valueNone, compact: column)
               : GameClock(
                 clock: online.clock,
                 side: side,
@@ -356,9 +471,17 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     );
   }
 
-  Widget _banner(GamePresenter p) {
-    final b = p.banner();
-    return StatusBanner(title: b.title, sub: b.sub, tone: b.tone);
+  Widget _banner(GamePresenter p, AppLocalizations l) {
+    if (p.view.online == null) {
+      final b = p.banner();
+      return StatusBanner(title: b.title, sub: b.sub, tone: b.tone);
+    }
+    return PeriodicBuilder(
+      builder: (_) {
+        final b = _bannerData(p, l);
+        return StatusBanner(title: b.title, sub: b.sub, tone: b.tone);
+      },
+    );
   }
 
   Widget _topBar(GamePresenter p, AppLocalizations l) {
@@ -402,8 +525,18 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 ],
               ),
             ),
-            // Keeps the title centred (fair-dice button is Phase 3).
-            const SizedBox(width: 42),
+            if (widget.online)
+              NardIconButton(
+                icon: LucideIcons.shieldCheck,
+                semanticLabel: l.menuFairDice,
+                size: 42,
+                circle: true,
+                color: c.accent,
+                onPressed: () => context.push('/online/fair'),
+              )
+            else
+              // Keeps the title centred.
+              const SizedBox(width: 42),
           ],
         ),
       ),
@@ -486,7 +619,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _banner(p),
+                _banner(p, l),
                 const SizedBox(height: 10),
                 _boardStack(p, l, game, boardWidth),
               ],
@@ -496,21 +629,24 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: _card(p, l, me),
           ),
-          SizedBox(
-            height: 62,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  _undoButton(p, l),
-                  const SizedBox(width: 10),
-                  Expanded(child: _primaryButton(p)),
-                  const SizedBox(width: 10),
-                  if (p.showDouble)
-                    _doubleButton(p, l)
-                  else
-                    const SizedBox(width: 66),
-                ],
+          _lockable(
+            p,
+            SizedBox(
+              height: 62,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    _undoButton(p, l),
+                    const SizedBox(width: 10),
+                    Expanded(child: _primaryButton(p)),
+                    const SizedBox(width: 10),
+                    if (p.showDouble)
+                      _doubleButton(p, l)
+                    else
+                      const SizedBox(width: 66),
+                  ],
+                ),
               ),
             ),
           ),
@@ -528,7 +664,6 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   ) {
     final c = context.nard;
     final me = p.viewer;
-    final b = p.banner();
     final pad = MediaQuery.paddingOf(context);
     final boardWidth =
         (box.maxWidth - pad.left - pad.right - 158 - 96 - 18 - 28)
@@ -578,18 +713,23 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                         ),
                       ),
                       const SizedBox(height: 6),
-                      Text(
-                        b.title,
-                        maxLines: 2,
-                        style: NardType.caption.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: switch (b.tone) {
-                            BannerTone.brass => c.accent,
-                            BannerTone.dim => c.text,
-                            BannerTone.danger => c.dangerText,
-                            BannerTone.ok => c.successText,
-                          },
-                        ),
+                      PeriodicBuilder(
+                        builder: (_) {
+                          final b = _bannerData(p, l);
+                          return Text(
+                            b.title,
+                            maxLines: 2,
+                            style: NardType.caption.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: switch (b.tone) {
+                                BannerTone.brass => c.accent,
+                                BannerTone.dim => c.text,
+                                BannerTone.danger => c.dangerText,
+                                BannerTone.ok => c.successText,
+                              },
+                            ),
+                          );
+                        },
                       ),
                       if (p.crawford) ...[
                         const SizedBox(height: 6),
@@ -603,7 +743,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             ),
           ),
           const SizedBox(width: 14),
-          Expanded(child: Center(child: _boardStack(p, l, game, width))),
+          Expanded(
+            child: Center(
+              child: _boardStack(p, l, game, width, landscape: true),
+            ),
+          ),
           const SizedBox(width: 14),
           SizedBox(
             width: 96,
@@ -618,13 +762,20 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                   onPressed: () => _openMenu(p),
                 ),
                 const Spacer(),
-                _undoButton(p, l, width: 96, height: 60),
-                if (p.showDouble) ...[
-                  const SizedBox(height: 10),
-                  _doubleButton(p, l, width: 96, height: 60),
-                ],
-                const SizedBox(height: 10),
-                _primaryButton(p, height: 88, column: true),
+                _lockable(
+                  p,
+                  Column(
+                    children: [
+                      _undoButton(p, l, width: 96, height: 60),
+                      if (p.showDouble) ...[
+                        const SizedBox(height: 10),
+                        _doubleButton(p, l, width: 96, height: 60),
+                      ],
+                      const SizedBox(height: 10),
+                      _primaryButton(p, height: 88, column: true),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -682,13 +833,17 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       meScore: p.score(me),
       oppScore: p.score(me.opponent),
       meta: meta,
+      extra: _ratingCard(p, me),
       rematchLabel: l.matchRematch,
       onRematch: () {
         setState(() {
           _matchResultReady = false;
           _resultTimer = null;
+          _ratingTimer = null;
         });
         _ctrl.rematch();
+        // Online rematch = queue again with the same settings.
+        if (widget.online) context.go('/online/search');
       },
       homeLabel: l.matchHome,
       onHome: () {
@@ -696,7 +851,25 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         context.go('/home');
       },
       replayLabel: l.actionViewReplay,
-      onReplay: () => context.push('/replays'),
+      // Online matches are not saved locally (history lives in 8.1).
+      onReplay: widget.online ? null : () => context.push('/replays'),
+    );
+  }
+
+  /// 2.6 rating card: ranked online matches once the API has the new
+  /// rating; hidden until then (and for casual / bot matches).
+  Widget? _ratingCard(GamePresenter p, Side me) {
+    final online = p.setup.online;
+    if (online == null || online.mode != QueueMode.ranked) return null;
+    final before = online.player(me).rating;
+    if (before == null) return null;
+    return Consumer(
+      builder: (context, ref, _) {
+        final account = ref.watch(accountProvider).value;
+        final after = ratingFor(account, p.setup.variant)?.rating;
+        if (after == null || after == before) return const SizedBox.shrink();
+        return RatingCard(before: before, after: after);
+      },
     );
   }
 }

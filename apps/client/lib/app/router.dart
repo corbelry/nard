@@ -9,6 +9,15 @@ import '../screens/hotseat_setup_screen.dart';
 import '../screens/language_screen.dart';
 import '../screens/lesson_screen.dart';
 import '../screens/onboarding_screen.dart';
+import '../screens/online/account_screen.dart';
+import '../screens/online/code_screen.dart';
+import '../screens/online/email_screen.dart';
+import '../screens/online/fair_dice_screen.dart';
+import '../screens/online/online_setup_screen.dart';
+import '../screens/online/profile_screen.dart';
+import '../screens/online/searching_screen.dart';
+import '../screens/online/sign_in_screen.dart';
+import '../screens/online/versus_screen.dart';
 import '../screens/replay_list_screen.dart';
 import '../screens/replay_screen.dart';
 import '../screens/settings_screen.dart';
@@ -58,7 +67,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/profile',
-                builder: (_, _) => const SettingsScreen(root: true),
+                builder: (_, _) => const ProfileScreen(),
               ),
             ],
           ),
@@ -66,6 +75,28 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
       GoRoute(path: '/setup', builder: (_, _) => const SetupScreen()),
+      GoRoute(
+        path: '/online/setup',
+        builder: (_, _) => const OnlineSetupScreen(),
+      ),
+      // Auth flow (17.x): each screen pops `true` once signed in.
+      GoRoute(path: '/signin', builder: (_, _) => const SignInScreen()),
+      GoRoute(path: '/signin/email', builder: (_, _) => const EmailScreen()),
+      GoRoute(
+        path: '/signin/code',
+        builder:
+            (_, s) => CodeScreen(email: s.uri.queryParameters['email'] ?? ''),
+      ),
+      GoRoute(
+        path: '/online/search',
+        pageBuilder: (_, s) => _fade(s, const SearchingScreen()),
+      ),
+      GoRoute(
+        path: '/online/vs',
+        pageBuilder: (_, s) => _fade(s, const VersusScreen()),
+      ),
+      GoRoute(path: '/online/fair', builder: (_, _) => const FairDiceScreen()),
+      GoRoute(path: '/account', builder: (_, _) => const AccountScreen()),
       GoRoute(path: '/ai', builder: (_, _) => const AiLevelScreen()),
       GoRoute(path: '/hotseat', builder: (_, _) => const HotseatSetupScreen()),
       GoRoute(

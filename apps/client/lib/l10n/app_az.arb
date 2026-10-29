@@ -692,5 +692,474 @@
   "errorBody": "Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.",
   "playVsComputer": "Kompüterə qarşı oyna",
   "rulesShortBody": "Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).",
-  "rulesLongBody": "Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3)."
+  "rulesLongBody": "Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).",
+  "actionSave": "Yadda saxla",
+  "copied": "Kopyalandı",
+  "valueNone": "—",
+  "authWelcomeTitle": "Xoş gəldin",
+  "authWelcomeBody": "Hesab yaratsan reytinqin və matç tarixçən bütün cihazlarda saxlanacaq.",
+  "authApple": "Apple ilə davam et",
+  "authGoogle": "Google ilə davam et",
+  "authEmail": "E-poçt ilə davam et",
+  "authGuest": "Qonaq kimi oyna",
+  "authLegal": "Davam etməklə {terms} və {privacy} ilə razılaşırsan.",
+  "@authLegal": {
+    "placeholders": {
+      "terms": {
+        "type": "String"
+      },
+      "privacy": {
+        "type": "String"
+      }
+    }
+  },
+  "authTerms": "İstifadə şərtləri",
+  "authPrivacy": "Məxfilik siyasəti",
+  "authProviderUnavailable": "Bu giriş üsulu hələ hazır deyil. E-poçt ilə və ya qonaq kimi davam et.",
+  "authOffline": "Serverlə əlaqə yoxdur. İnterneti yoxla və yenidən cəhd et.",
+  "authTooManyTries": "Çox cəhd etdin. Bir az sonra yenidən yoxla.",
+  "authSignIn": "Daxil ol",
+  "emailTitle": "E-poçtunu yaz",
+  "emailBody": "Şifrə lazım deyil. 6 rəqəmli giriş kodu göndərəcəyik.",
+  "emailLabel": "E-poçt",
+  "emailSend": "Kodu göndər",
+  "emailInvalid": "E-poçt ünvanı düzgün deyil",
+  "codeTitle": "Kodu yaz",
+  "codeBody": "{email} ünvanına göndərdik. Spam qovluğunu da yoxla.",
+  "@codeBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "codeLabel": "6 rəqəmli kod",
+  "codeResendIn": "Kodu yenidən göndər · {time}",
+  "@codeResendIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "codeResend": "Kodu yenidən göndər",
+  "codeSent": "Yeni kod göndərildi",
+  "codeInvalid": "Kod yanlışdır. Yenidən yoxla.",
+  "codeExpired": "Kodun vaxtı bitib. Yeni kod istə.",
+  "modeCasual": "Adi",
+  "modeRanked": "Reytinqli",
+  "searchTitle": "Rəqib axtarılır…",
+  "searchElapsed": "Keçən vaxt {elapsed}",
+  "@searchElapsed": {
+    "placeholders": {
+      "elapsed": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTip": "Məsləhət: {tip}",
+  "@searchTip": {
+    "placeholders": {
+      "tip": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTipHeadRule": "Uzun nərddə başdan yalnız bir daş götürülür.",
+  "searchTipPip": "Pip sayı yarışda kimin öndə olduğunu göstərir.",
+  "searchBotSoon": "30 saniyədə canlı rəqib tapılmasa, bot ilə oynayacaqsan.",
+  "timeControlShort": "{minutes}+{delay}s",
+  "@timeControlShort": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "delay": {
+        "type": "int"
+      }
+    }
+  },
+  "ratingRange": "{min}–{max}",
+  "@ratingRange": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "vsMeta": "{rank} · {rating} · Qələbə {percent}%",
+  "@vsMeta": {
+    "placeholders": {
+      "rank": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "int"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "vsMetaNoStats": "{rank} · {rating}",
+  "@vsMetaNoStats": {
+    "placeholders": {
+      "rank": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "vsLabel": "vs",
+  "pointsUpper": "{n} XAL",
+  "@pointsUpper": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "rankedUpper": "REYTİNQLİ",
+  "unrankedUpper": "REYTİNQSİZ",
+  "vsStartsIn": "Oyun {seconds} saniyəyə başlayır",
+  "@vsStartsIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "botBadge": "BOT",
+  "botNoRating": "Reytinqə təsir etmir",
+  "botFallbackNotice": "30 saniyədə canlı rəqib tapılmadı, ona görə bot ilə oynayırsan. Nəticə reytinqə təsir etmir.",
+  "gameModeCasual": "Adi · reytinqsiz",
+  "playerBotMeta": "{noRating} · {pip}",
+  "@playerBotMeta": {
+    "placeholders": {
+      "noRating": {
+        "type": "String"
+      },
+      "pip": {
+        "type": "String"
+      }
+    }
+  },
+  "bannerLowTime": "Vaxt azalır",
+  "bannerTimeLeft": "{time} qaldı",
+  "@bannerTimeLeft": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "bannerOpponentOffline": "Rəqibin bağlantısı kəsildi",
+  "bannerDisconnected": "Bağlantı kəsildi",
+  "playerOffline": "Oflayn",
+  "reconnectTitle": "{name} yenidən qoşulur…",
+  "@reconnectTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reconnectBody": "{time} qaldı · vaxt bitsə, qələbə sənindir",
+  "@reconnectBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "selfReconnectTitle": "Bağlantı bərpa olunur…",
+  "menuFairDice": "Ədalətli zər",
+  "menuFairDiceVerify": "Yoxla",
+  "matchRatingLabel": "REYTİNQ",
+  "matchRatingFrom": "{old} idi",
+  "@matchRatingFrom": {
+    "placeholders": {
+      "old": {
+        "type": "int"
+      }
+    }
+  },
+  "matchRatingToNext": "{rank} üçün {points} xal qaldı",
+  "@matchRatingToNext": {
+    "placeholders": {
+      "rank": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "ratingDeltaUp": "+{n}",
+  "@ratingDeltaUp": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ratingDeltaDown": "−{n}",
+  "@ratingDeltaDown": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fairTitle": "Ədalətli zər",
+  "fairIntro": "Hər zər atışı oyundan əvvəl kilidlənən server açarından, sənin açarından və atışın sırasından hesablanır. Oyundan sonra hər atışı özün yoxlaya bilərsən.",
+  "fairCommitment": "Server açarının heşi (oyundan əvvəl)",
+  "fairCommitmentValue": "sha256: {hash}",
+  "@fairCommitmentValue": {
+    "placeholders": {
+      "hash": {
+        "type": "String"
+      }
+    }
+  },
+  "fairServerSeed": "Server açarı (oyundan sonra açılır)",
+  "fairYourSeed": "Sənin açarın",
+  "fairOpponentSeed": "Rəqibin açarı",
+  "fairRollNumber": "Atış nömrəsi",
+  "fairRollValue": "#{n} · HMAC → {a}, {b}",
+  "@fairRollValue": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "fairMatch": "Uyğundur · {a} – {b}",
+  "@fairMatch": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "fairMatchSub": "Atış #{n} hesablanmış nəticə ilə eynidir",
+  "@fairMatchSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fairMismatch": "Uyğun deyil · {a} – {b}",
+  "@fairMismatch": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "fairMismatchSub": "Atış #{n} hesablanmış nəticədən fərqlidir",
+  "@fairMismatchSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "fairCommitmentMismatch": "Server açarı heşə uyğun gəlmir",
+  "fairPending": "Oyundan sonra açılacaq",
+  "fairPendingNote": "Server açarı oyun bitəndə açılacaq. Sonra hər atışı burada yoxlaya bilərsən.",
+  "fairNoRolls": "Hələ atış yoxdur",
+  "fairCopy": "Kodu kopyala",
+  "fairCheckAnother": "Başqa atışı yoxla",
+  "fairPickTitle": "Atışı seç",
+  "fairRollRow": "#{n} · {a} – {b}",
+  "@fairRollRow": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "fairOpeningTag": "açılış",
+  "tierBronze": "Bürünc",
+  "tierSilver": "Gümüş",
+  "tierGold": "Qızıl",
+  "tierPlatinum": "Platin",
+  "tierDiamond": "Almaz",
+  "tierMaster": "Master",
+  "tierGrandmaster": "Qrossmeyster",
+  "rankWithSub": "{tier} {sub}",
+  "@rankWithSub": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      },
+      "sub": {
+        "type": "String"
+      }
+    }
+  },
+  "profileMeta": "{rank} · {rating}",
+  "@profileMeta": {
+    "placeholders": {
+      "rank": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "statRating": "Reytinq",
+  "statWinRate": "Qələbə faizi",
+  "statMatches": "Matçlar",
+  "statWins": "Qələbələr",
+  "statPercent": "{n}%",
+  "@statPercent": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "profileHistory": "MATÇ TARİXÇƏSİ",
+  "historyMeta": "{variant} · {format} · {date}",
+  "@historyMeta": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "variantShortAbbr": "Qısa",
+  "variantLongAbbr": "Uzun",
+  "dateToday": "bu gün",
+  "dateYesterday": "dünən",
+  "historyScore": "{me}–{opp}",
+  "@historyScore": {
+    "placeholders": {
+      "me": {
+        "type": "int"
+      },
+      "opp": {
+        "type": "int"
+      }
+    }
+  },
+  "profileEdit": "Profili redaktə et",
+  "historyEmptyTitle": "Hələ onlayn matç yoxdur",
+  "historyEmptyBody": "Onlayn oynadığın matçlar burada görünəcək.",
+  "profileSignedOutTitle": "Hesabına daxil ol",
+  "profileSignedOutBody": "Reytinqin, statistikan və matç tarixçən burada olacaq.",
+  "nameInvalid": "Ad 3–20 hərf, rəqəm və ya _ olmalıdır",
+  "offlineBanner": "İnternet yoxdur · oflayn rejim",
+  "onlineOfflineTitle": "Onlayn oyun əlçatan deyil",
+  "onlineOfflineBody": "Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda yenidən cəhd et.",
+  "settingsAccountPrivacy": "Hesab və məxfilik",
+  "accountGroupAccount": "HESAB",
+  "accountEmail": "E-poçt",
+  "accountNickname": "Oyunçu adı",
+  "accountEmailAdd": "Əlavə et",
+  "accountSignOut": "Hesabdan çıx",
+  "accountGroupData": "MƏLUMAT",
+  "accountExport": "Məlumatlarımı ixrac et",
+  "accountDelete": "Hesabı sil",
+  "exportTitle": "Məlumatlarını ixrac et",
+  "exportBody": "Profilin və matç tarixçən JSON faylı kimi hazırlanacaq. Hazır olanda onu kopyalaya bilərsən.",
+  "exportProfile": "Profil və hesab",
+  "exportGames": "Matç tarixçəsi",
+  "exportGamesCount": "{n} matç",
+  "@exportGamesCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "exportFormat": "Format",
+  "exportFormatValue": "JSON",
+  "exportStart": "İxracı başlat",
+  "exportReady": "Fayl hazırdır · {size} KB",
+  "@exportReady": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "exportCopy": "JSON-u kopyala",
+  "deleteTitle": "Hesab silinsin?",
+  "deleteItemRating": "Reytinq ({rating}), dərəcə və bütün matç tarixçəsi",
+  "@deleteItemRating": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "deleteItemHistory": "Profil və bütün matç tarixçəsi",
+  "deleteIrreversible": "Hesab dərhal silinir və bərpa olunmur.",
+  "deleteConfirmLabel": "Təsdiq üçün {word} yaz",
+  "@deleteConfirmLabel": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteConfirmWord": "SİL",
+  "setupOnlineTitle": "Onlayn oyun",
+  "setupTimeLabel": "VAXT NƏZARƏTİ",
+  "timeRapid": "Sürətli",
+  "timeValue": "{minutes} dəq + {delay}s",
+  "@timeValue": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "delay": {
+        "type": "int"
+      }
+    }
+  },
+  "setupRated": "Reytinqli",
+  "setupRatedSub": "Reytinqin: {rating}",
+  "@setupRatedSub": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "setupFindOpponent": "Rəqib axtar"
 }

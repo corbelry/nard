@@ -112,8 +112,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get variantShortDesc => 'Klasik tavla: kırma, bar, katlama küpü.';
 
   @override
-  String get variantLongDesc =>
-      'Tüm pullar başta. Pul kırılmaz, sadece bloklanır.';
+  String get variantLongDesc => 'Tüm pullar başta. Pul kırılmaz, sadece bloklanır.';
 
   @override
   String get variantLearnTitle => 'Öğrenmek istiyorum';
@@ -135,57 +134,49 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lessonStep1Title => 'Bu senin tahtan';
 
   @override
-  String get lessonStep1Body =>
-      'Beyaz pullar senin. Pullar 24. haneden 1. haneye doğru ilerler, sonra tahtadan toplanır. Devam etmek için herhangi bir pula dokun.';
+  String get lessonStep1Body => 'Beyaz pullar senin. Pullar 24. haneden 1. haneye doğru ilerler, sonra tahtadan toplanır. Devam etmek için herhangi bir pula dokun.';
 
   @override
   String get lessonStep2Title => 'Pulu 6 hane ilerlet';
 
   @override
-  String get lessonStep2Body =>
-      'Zar 6 gösteriyor. 13. hanedeki pula dokun, sonra parlayan 7. haneye dokun ya da pulu oraya sürükle.';
+  String get lessonStep2Body => 'Zar 6 gösteriyor. 13. hanedeki pula dokun, sonra parlayan 7. haneye dokun ya da pulu oraya sürükle.';
 
   @override
   String get lessonStep3Title => 'İki zarı da oyna';
 
   @override
-  String get lessonStep3Body =>
-      'Zarlar 3 ve 1 gösteriyor. 8. ve 6. hanedeki pulları 5. haneye götür ve haneyi kapat.';
+  String get lessonStep3Body => 'Zarlar 3 ve 1 gösteriyor. 8. ve 6. hanedeki pulları 5. haneye götür ve haneyi kapat.';
 
   @override
   String get lessonStep4Title => 'Kapalı hane';
 
   @override
-  String get lessonStep4Body =>
-      'Rakibin iki veya daha fazla pulu olan haneye gidemezsin. Zar 5 gösteriyor: 13. hanedeki pulu 8. haneye götür.';
+  String get lessonStep4Body => 'Rakibin iki veya daha fazla pulu olan haneye gidemezsin. Zar 5 gösteriyor: 13. hanedeki pulu 8. haneye götür.';
 
   @override
   String get lessonStep5Title => 'Kırmak';
 
   @override
-  String get lessonStep5Body =>
-      'Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin. 6. hanedeki pulu 4. haneye götür ve kır.';
+  String get lessonStep5Body => 'Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin. 6. hanedeki pulu 4. haneye götür ve kır.';
 
   @override
   String get lessonStep6Title => 'Bardan giriş';
 
   @override
-  String get lessonStep6Body =>
-      'Barda pulun varsa, önce onu rakibin evine sokmalısın. Bardaki pula dokun ve 22. haneye götür.';
+  String get lessonStep6Body => 'Barda pulun varsa, önce onu rakibin evine sokmalısın. Bardaki pula dokun ve 22. haneye götür.';
 
   @override
   String get lessonStep7Title => 'Pulları topla';
 
   @override
-  String get lessonStep7Body =>
-      'Tüm pullar evde (1–6). Zar 6 gösteriyor: 6. hanedeki pulu topla.';
+  String get lessonStep7Body => 'Tüm pullar evde (1–6). Zar 6 gösteriyor: 6. hanedeki pulu topla.';
 
   @override
   String get lessonDoneTitle => 'Harika, hazırsın';
 
   @override
-  String get lessonDoneBody =>
-      'Kuralları biliyorsun. Şimdi bilgisayara karşı oynayıp pratik yap.';
+  String get lessonDoneBody => 'Kuralları biliyorsun. Şimdi bilgisayara karşı oynayıp pratik yap.';
 
   @override
   String get lessonFinish => 'Oynamaya başla';
@@ -667,8 +658,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ruleHeadTitle => 'Baştan yalnızca bir pul alınabilir';
 
   @override
-  String get ruleHeadBody =>
-      'Bu sırada baştan birden fazla pul oynadın. İstisna: ilk atışta 6-6, 4-4 veya 3-3 gelirse iki pul alınabilir.';
+  String get ruleHeadBody => 'Bu sırada baştan birden fazla pul oynadın. İstisna: ilk atışta 6-6, 4-4 veya 3-3 gelirse iki pul alınabilir.';
 
   @override
   String get ruleSixBlockTitle => 'Art arda 6 hane kapatılamaz';
@@ -682,12 +672,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rulePointClosedTitle => 'Bu hane kapalı';
 
   @override
-  String get rulePointClosedShort =>
-      'Rakibin iki veya daha fazla pulu olan haneye gidilemez.';
+  String get rulePointClosedShort => 'Rakibin iki veya daha fazla pulu olan haneye gidilemez.';
 
   @override
-  String get rulePointClosedLong =>
-      'Uzun tavlada rakibin pulu olan haneye gidilemez.';
+  String get rulePointClosedLong => 'Uzun tavlada rakibin pulu olan haneye gidilemez.';
 
   @override
   String get ruleBarTitle => 'Önce bardaki pulu sok';
@@ -699,36 +687,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ruleBothDiceTitle => 'İki zarı da oynamalısın';
 
   @override
-  String get ruleBothDiceBody =>
-      'Bu hamle diğer zarı oynamana izin vermiyor. İki zarı da kullanan bir hamle seç.';
+  String get ruleBothDiceBody => 'Bu hamle diğer zarı oynamana izin vermiyor. İki zarı da kullanan bir hamle seç.';
 
   @override
   String get ruleLargerDieTitle => 'Büyük zarı oyna';
 
   @override
-  String get ruleLargerDieBody =>
-      'Yalnızca bir zar oynanabiliyorsa büyük zarı oynamalısın.';
+  String get ruleLargerDieBody => 'Yalnızca bir zar oynanabiliyorsa büyük zarı oynamalısın.';
 
   @override
   String get ruleBearOffTitle => 'Henüz pul toplanamaz';
 
   @override
-  String get ruleBearOffBody =>
-      'Pul toplamak için tüm pullar evde (1–6) olmalı.';
+  String get ruleBearOffBody => 'Pul toplamak için tüm pullar evde (1–6) olmalı.';
 
   @override
   String get ruleBearOffHigherTitle => 'Önce üst hanedeki pulu oyna';
 
   @override
-  String get ruleBearOffHigherBody =>
-      'Büyük zarla yalnızca en üst hanedeki pul toplanabilir.';
+  String get ruleBearOffHigherBody => 'Büyük zarla yalnızca en üst hanedeki pul toplanabilir.';
 
   @override
   String get ruleNoDieTitle => 'Bu mesafe için zar yok';
 
   @override
-  String get ruleNoDieBody =>
-      'Pul yalnızca zarlardaki sayı kadar ilerletilebilir.';
+  String get ruleNoDieBody => 'Pul yalnızca zarlardaki sayı kadar ilerletilebilir.';
 
   @override
   String get ruleNoCheckerTitle => 'Bu hanede senin pulun yok';
@@ -746,8 +729,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get replayEmptyTitle => 'Henüz oyun yok';
 
   @override
-  String get replayEmptyBody =>
-      'Bitirdiğin oyunlar burada görünecek. Tekrar izleyerek her hamleye yeniden bakabilirsin.';
+  String get replayEmptyBody => 'Bitirdiğin oyunlar burada görünecek. Tekrar izleyerek her hamleye yeniden bakabilirsin.';
 
   @override
   String replayTitle(int n) {
@@ -874,17 +856,538 @@ class AppLocalizationsTr extends AppLocalizations {
   String get errorTitle => 'Bir şeyler ters gitti';
 
   @override
-  String get errorBody =>
-      'Tekrar dene. Sorun devam ederse uygulamayı yeniden aç.';
+  String get errorBody => 'Tekrar dene. Sorun devam ederse uygulamayı yeniden aç.';
 
   @override
   String get playVsComputer => 'Bilgisayara karşı oyna';
 
   @override
-  String get rulesShortBody =>
-      'Her oyuncunun 15 pulu var. Pullar zara göre 24\'ten 1\'e doğru ilerler. Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin; iki veya daha fazla pulu olan hane kapalıdır. Tüm pullar eve (1–6) ulaşınca toplamaya başlarsın. 15 pulun hepsini ilk toplayan kazanır. Rakip hiç pul toplamamışsa — mars (×2), pulu barda veya senin evindeyse — koks (×3).';
+  String get rulesShortBody => 'Her oyuncunun 15 pulu var. Pullar zara göre 24\'ten 1\'e doğru ilerler. Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin; iki veya daha fazla pulu olan hane kapalıdır. Tüm pullar eve (1–6) ulaşınca toplamaya başlarsın. 15 pulun hepsini ilk toplayan kazanır. Rakip hiç pul toplamamışsa — mars (×2), pulu barda veya senin evindeyse — koks (×3).';
 
   @override
-  String get rulesLongBody =>
-      '15 pulun hepsi baştan (24. hane) başlar. Kırma yoktur: rakibin pulu olan haneye gidilemez. Her sırada baştan yalnızca bir pul alınabilir (ilk atışta 6-6, 4-4, 3-3 istisnadır). Önünde rakip pulu olmayan art arda 6 hane kapatılamaz. Tüm pullar eve ulaşınca toplamaya başlarsın. Rakip hiç pul toplamamışsa — mars (×2), pulu henüz senin evinden geçmemişse — koks (×3).';
+  String get rulesLongBody => '15 pulun hepsi baştan (24. hane) başlar. Kırma yoktur: rakibin pulu olan haneye gidilemez. Her sırada baştan yalnızca bir pul alınabilir (ilk atışta 6-6, 4-4, 3-3 istisnadır). Önünde rakip pulu olmayan art arda 6 hane kapatılamaz. Tüm pullar eve ulaşınca toplamaya başlarsın. Rakip hiç pul toplamamışsa — mars (×2), pulu henüz senin evinden geçmemişse — koks (×3).';
+
+  @override
+  String get actionSave => 'Kaydet';
+
+  @override
+  String get copied => 'Kopyalandı';
+
+  @override
+  String get valueNone => '—';
+
+  @override
+  String get authWelcomeTitle => 'Hoş geldin';
+
+  @override
+  String get authWelcomeBody => 'Hesap oluşturursan puanın ve maç geçmişin tüm cihazlarında saklanır.';
+
+  @override
+  String get authApple => 'Apple ile devam et';
+
+  @override
+  String get authGoogle => 'Google ile devam et';
+
+  @override
+  String get authEmail => 'E-posta ile devam et';
+
+  @override
+  String get authGuest => 'Misafir olarak oyna';
+
+  @override
+  String authLegal(String terms, String privacy) {
+    return 'Devam ederek $terms ve $privacy metinlerini kabul edersin.';
+  }
+
+  @override
+  String get authTerms => 'Kullanım Koşulları';
+
+  @override
+  String get authPrivacy => 'Gizlilik Politikası';
+
+  @override
+  String get authProviderUnavailable => 'Bu giriş yöntemi henüz hazır değil. E-posta ile ya da misafir olarak devam et.';
+
+  @override
+  String get authOffline => 'Sunucuya ulaşılamıyor. Bağlantını kontrol edip tekrar dene.';
+
+  @override
+  String get authTooManyTries => 'Çok fazla deneme yaptın. Biraz sonra tekrar dene.';
+
+  @override
+  String get authSignIn => 'Giriş yap';
+
+  @override
+  String get emailTitle => 'E-postanı yaz';
+
+  @override
+  String get emailBody => 'Şifre gerekmez. 6 haneli bir giriş kodu göndereceğiz.';
+
+  @override
+  String get emailLabel => 'E-posta';
+
+  @override
+  String get emailSend => 'Kodu gönder';
+
+  @override
+  String get emailInvalid => 'E-posta adresi geçersiz';
+
+  @override
+  String get codeTitle => 'Kodu yaz';
+
+  @override
+  String codeBody(String email) {
+    return '$email adresine gönderdik. Spam klasörünü de kontrol et.';
+  }
+
+  @override
+  String get codeLabel => '6 haneli kod';
+
+  @override
+  String codeResendIn(String time) {
+    return 'Kodu tekrar gönder · $time';
+  }
+
+  @override
+  String get codeResend => 'Kodu tekrar gönder';
+
+  @override
+  String get codeSent => 'Yeni kod gönderildi';
+
+  @override
+  String get codeInvalid => 'Kod yanlış. Tekrar kontrol et.';
+
+  @override
+  String get codeExpired => 'Kodun süresi doldu. Yeni kod iste.';
+
+  @override
+  String get modeCasual => 'Normal';
+
+  @override
+  String get modeRanked => 'Dereceli';
+
+  @override
+  String get searchTitle => 'Rakip aranıyor…';
+
+  @override
+  String searchElapsed(String elapsed) {
+    return 'Geçen süre $elapsed';
+  }
+
+  @override
+  String searchTip(String tip) {
+    return 'İpucu: $tip';
+  }
+
+  @override
+  String get searchTipHeadRule => 'Uzun tavlada her sırada baştan yalnızca bir pul alınır.';
+
+  @override
+  String get searchTipPip => 'Pip sayısı yarışta kimin önde olduğunu gösterir.';
+
+  @override
+  String get searchBotSoon => '30 saniye içinde canlı rakip bulunmazsa bir botla oynarsın.';
+
+  @override
+  String timeControlShort(int minutes, int delay) {
+    return '$minutes+$delay sn';
+  }
+
+  @override
+  String ratingRange(int min, int max) {
+    return '$min–$max';
+  }
+
+  @override
+  String vsMeta(String rank, int rating, int percent) {
+    return '$rank · $rating · Galibiyet %$percent';
+  }
+
+  @override
+  String vsMetaNoStats(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get vsLabel => 'vs';
+
+  @override
+  String pointsUpper(int n) {
+    return '$n PUAN';
+  }
+
+  @override
+  String get rankedUpper => 'DERECELİ';
+
+  @override
+  String get unrankedUpper => 'DERECESİZ';
+
+  @override
+  String vsStartsIn(int seconds) {
+    return 'Oyun $seconds saniye içinde başlıyor';
+  }
+
+  @override
+  String get botBadge => 'BOT';
+
+  @override
+  String get botNoRating => 'Puanı etkilemez';
+
+  @override
+  String get botFallbackNotice => '30 saniye içinde canlı rakip bulunamadı, bu yüzden bir botla oynuyorsun. Sonuç puanını etkilemez.';
+
+  @override
+  String get gameModeCasual => 'Normal · puansız';
+
+  @override
+  String playerBotMeta(String noRating, String pip) {
+    return '$noRating · $pip';
+  }
+
+  @override
+  String get bannerLowTime => 'Süre azalıyor';
+
+  @override
+  String bannerTimeLeft(String time) {
+    return '$time kaldı';
+  }
+
+  @override
+  String get bannerOpponentOffline => 'Rakibin bağlantısı koptu';
+
+  @override
+  String get bannerDisconnected => 'Bağlantı koptu';
+
+  @override
+  String get playerOffline => 'Çevrimdışı';
+
+  @override
+  String reconnectTitle(String name) {
+    return '$name yeniden bağlanıyor…';
+  }
+
+  @override
+  String reconnectBody(String time) {
+    return '$time kaldı · süre biterse kazanan sensin';
+  }
+
+  @override
+  String get selfReconnectTitle => 'Bağlantı yeniden kuruluyor…';
+
+  @override
+  String get menuFairDice => 'Adil zar';
+
+  @override
+  String get menuFairDiceVerify => 'Doğrula';
+
+  @override
+  String get matchRatingLabel => 'PUAN';
+
+  @override
+  String matchRatingFrom(int old) {
+    return 'önceki $old';
+  }
+
+  @override
+  String matchRatingToNext(String rank, int points) {
+    return '$rank için $points puan kaldı';
+  }
+
+  @override
+  String ratingDeltaUp(int n) {
+    return '+$n';
+  }
+
+  @override
+  String ratingDeltaDown(int n) {
+    return '−$n';
+  }
+
+  @override
+  String get fairTitle => 'Adil zar';
+
+  @override
+  String get fairIntro => 'Her zar atışı, oyundan önce kilitlenen sunucu anahtarından, senin anahtarından ve atışın sırasından hesaplanır. Oyundan sonra her atışı kendin doğrulayabilirsin.';
+
+  @override
+  String get fairCommitment => 'Sunucu anahtarının özeti (oyundan önce)';
+
+  @override
+  String fairCommitmentValue(String hash) {
+    return 'sha256: $hash';
+  }
+
+  @override
+  String get fairServerSeed => 'Sunucu anahtarı (oyundan sonra açılır)';
+
+  @override
+  String get fairYourSeed => 'Senin anahtarın';
+
+  @override
+  String get fairOpponentSeed => 'Rakibin anahtarı';
+
+  @override
+  String get fairRollNumber => 'Atış numarası';
+
+  @override
+  String fairRollValue(int n, int a, int b) {
+    return '#$n · HMAC → $a, $b';
+  }
+
+  @override
+  String fairMatch(int a, int b) {
+    return 'Eşleşiyor · $a – $b';
+  }
+
+  @override
+  String fairMatchSub(int n) {
+    return 'Atış #$n hesaplanan sonuçla aynı';
+  }
+
+  @override
+  String fairMismatch(int a, int b) {
+    return 'Eşleşmiyor · $a – $b';
+  }
+
+  @override
+  String fairMismatchSub(int n) {
+    return 'Atış #$n hesaplanan sonuçtan farklı';
+  }
+
+  @override
+  String get fairCommitmentMismatch => 'Sunucu anahtarı özetle eşleşmiyor';
+
+  @override
+  String get fairPending => 'Oyundan sonra açılacak';
+
+  @override
+  String get fairPendingNote => 'Sunucu anahtarı oyun bitince açılır. Sonra her atışı burada doğrulayabilirsin.';
+
+  @override
+  String get fairNoRolls => 'Henüz atış yok';
+
+  @override
+  String get fairCopy => 'Verileri kopyala';
+
+  @override
+  String get fairCheckAnother => 'Başka atışı doğrula';
+
+  @override
+  String get fairPickTitle => 'Atış seç';
+
+  @override
+  String fairRollRow(int n, int a, int b) {
+    return '#$n · $a – $b';
+  }
+
+  @override
+  String get fairOpeningTag => 'açılış';
+
+  @override
+  String get tierBronze => 'Bronz';
+
+  @override
+  String get tierSilver => 'Gümüş';
+
+  @override
+  String get tierGold => 'Altın';
+
+  @override
+  String get tierPlatinum => 'Platin';
+
+  @override
+  String get tierDiamond => 'Elmas';
+
+  @override
+  String get tierMaster => 'Usta';
+
+  @override
+  String get tierGrandmaster => 'Büyük Usta';
+
+  @override
+  String rankWithSub(String tier, String sub) {
+    return '$tier $sub';
+  }
+
+  @override
+  String profileMeta(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get statRating => 'Puan';
+
+  @override
+  String get statWinRate => 'Galibiyet oranı';
+
+  @override
+  String get statMatches => 'Maçlar';
+
+  @override
+  String get statWins => 'Galibiyetler';
+
+  @override
+  String statPercent(int n) {
+    return '%$n';
+  }
+
+  @override
+  String get profileHistory => 'MAÇ GEÇMİŞİ';
+
+  @override
+  String historyMeta(String variant, String format, String date) {
+    return '$variant · $format · $date';
+  }
+
+  @override
+  String get variantShortAbbr => 'Tavla';
+
+  @override
+  String get variantLongAbbr => 'Uzun';
+
+  @override
+  String get dateToday => 'bugün';
+
+  @override
+  String get dateYesterday => 'dün';
+
+  @override
+  String historyScore(int me, int opp) {
+    return '$me–$opp';
+  }
+
+  @override
+  String get profileEdit => 'Profili düzenle';
+
+  @override
+  String get historyEmptyTitle => 'Henüz çevrimiçi maç yok';
+
+  @override
+  String get historyEmptyBody => 'Çevrimiçi oynadığın maçlar burada görünecek.';
+
+  @override
+  String get profileSignedOutTitle => 'Hesabına giriş yap';
+
+  @override
+  String get profileSignedOutBody => 'Puanın, istatistiklerin ve maç geçmişin burada olacak.';
+
+  @override
+  String get nameInvalid => 'Ad 3–20 harf, rakam ya da _ olmalı';
+
+  @override
+  String get offlineBanner => 'Bağlantı yok · çevrimdışı mod';
+
+  @override
+  String get onlineOfflineTitle => 'Çevrimiçi oyun kullanılamıyor';
+
+  @override
+  String get onlineOfflineBody => 'Bilgisayara karşı ve tek cihazda oyun çalışıyor. Bağlantı geri gelince tekrar dene.';
+
+  @override
+  String get settingsAccountPrivacy => 'Hesap ve gizlilik';
+
+  @override
+  String get accountGroupAccount => 'HESAP';
+
+  @override
+  String get accountEmail => 'E-posta';
+
+  @override
+  String get accountNickname => 'Oyuncu adı';
+
+  @override
+  String get accountEmailAdd => 'Ekle';
+
+  @override
+  String get accountSignOut => 'Çıkış yap';
+
+  @override
+  String get accountGroupData => 'VERİLER';
+
+  @override
+  String get accountExport => 'Verilerimi dışa aktar';
+
+  @override
+  String get accountDelete => 'Hesabı sil';
+
+  @override
+  String get exportTitle => 'Verilerini dışa aktar';
+
+  @override
+  String get exportBody => 'Profilin ve maç geçmişin bir JSON dosyası olarak hazırlanır. Hazır olunca kopyalayabilirsin.';
+
+  @override
+  String get exportProfile => 'Profil ve hesap';
+
+  @override
+  String get exportGames => 'Maç geçmişi';
+
+  @override
+  String exportGamesCount(int n) {
+    return '$n maç';
+  }
+
+  @override
+  String get exportFormat => 'Biçim';
+
+  @override
+  String get exportFormatValue => 'JSON';
+
+  @override
+  String get exportStart => 'Dışa aktarmayı başlat';
+
+  @override
+  String exportReady(String size) {
+    return 'Dosya hazır · $size KB';
+  }
+
+  @override
+  String get exportCopy => 'JSON\'u kopyala';
+
+  @override
+  String get deleteTitle => 'Hesap silinsin mi?';
+
+  @override
+  String deleteItemRating(int rating) {
+    return 'Puan ($rating), derece ve tüm maç geçmişi';
+  }
+
+  @override
+  String get deleteItemHistory => 'Profil ve tüm maç geçmişi';
+
+  @override
+  String get deleteIrreversible => 'Hesap hemen silinir ve geri getirilemez.';
+
+  @override
+  String deleteConfirmLabel(String word) {
+    return 'Onaylamak için $word yaz';
+  }
+
+  @override
+  String get deleteConfirmWord => 'SİL';
+
+  @override
+  String get setupOnlineTitle => 'Çevrimiçi oyun';
+
+  @override
+  String get setupTimeLabel => 'SÜRE KONTROLÜ';
+
+  @override
+  String get timeRapid => 'Hızlı';
+
+  @override
+  String timeValue(int minutes, int delay) {
+    return '$minutes dk + $delay sn';
+  }
+
+  @override
+  String get setupRated => 'Dereceli';
+
+  @override
+  String setupRatedSub(int rating) {
+    return 'Puanın: $rating';
+  }
+
+  @override
+  String get setupFindOpponent => 'Rakip bul';
 }

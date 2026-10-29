@@ -1,5 +1,6 @@
 import 'package:nard_ai/nard_ai.dart';
 import 'package:nard_core/nard_core.dart';
+import 'package:nard_protocol/nard_protocol.dart';
 
 import '../board/board_scene.dart';
 import '../data/app_settings.dart';
@@ -52,7 +53,13 @@ class GamePresenter {
       return side == setup.localSide ? l.you : l.computerName;
     }
     final online = setup.online;
-    if (online != null) return online.player(side).name;
+    if (online != null) {
+      final seat = online.player(side);
+      // The server's bot is always labelled (ADR-024, 20.2).
+      return seat.bot
+          ? l.playerBotLevel(levelName(BotLevel.medium))
+          : seat.name;
+    }
     final custom = side == Side.white ? setup.whiteName : setup.blackName;
     if (custom.isNotEmpty) return custom;
     return side == Side.white ? l.hotseatDefaultWhite : l.hotseatDefaultBlack;
@@ -71,7 +78,9 @@ class GamePresenter {
       v == Variant.shortNard ? l.variantShort : l.variantLong;
 
   String get modeLabel =>
-      setup.matchLength <= 1
+      setup.online?.mode == QueueMode.casual
+          ? l.gameModeCasual
+          : setup.matchLength <= 1
           ? l.gameModeSingle(variantName(setup.variant))
           : l.gameModeTo(variantName(setup.variant), setup.matchLength);
 

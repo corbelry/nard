@@ -103,7 +103,8 @@ class RadioDot extends StatelessWidget {
   }
 }
 
-/// Segmented control. [pill] is the 18.1 variant (accent selection).
+/// Segmented control. [pill] is the 18.1 variant (accent selection);
+/// [compact] the 8.1 one (segments 34 high, 13 px, no ring).
 class NardSegmented<T> extends StatelessWidget {
   const NardSegmented({
     super.key,
@@ -112,6 +113,7 @@ class NardSegmented<T> extends StatelessWidget {
     required this.selected,
     required this.onChanged,
     this.pill = false,
+    this.compact = false,
   });
 
   final List<T> values;
@@ -119,18 +121,19 @@ class NardSegmented<T> extends StatelessWidget {
   final T selected;
   final ValueChanged<T> onChanged;
   final bool pill;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     final c = context.nard;
-    final outer = pill ? 999.0 : 14.0;
-    final inner = pill ? 999.0 : 10.0;
+    final outer = pill ? 999.0 : (compact ? 12.0 : 14.0);
+    final inner = pill ? 999.0 : (compact ? 9.0 : 10.0);
     return Container(
-      padding: EdgeInsets.all(pill ? 3 : 4),
+      padding: EdgeInsets.all(pill || compact ? 3 : 4),
       decoration: BoxDecoration(
         color: pill ? c.text.withValues(alpha: .06) : c.surfaceSunken,
         borderRadius: BorderRadius.circular(outer),
-        border: pill ? null : Border.all(color: c.lineSoft),
+        border: pill || compact ? null : Border.all(color: c.lineSoft),
       ),
       child: Row(
         children: [
@@ -145,7 +148,7 @@ class NardSegmented<T> extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: NardMotion.fast,
                     curve: NardMotion.standard,
-                    height: pill ? 36 : 44,
+                    height: pill ? 36 : (compact ? 34 : 44),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color:
@@ -159,7 +162,11 @@ class NardSegmented<T> extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: NardType.labelM.copyWith(
-                        fontSize: pill ? 14 : 15,
+                        fontSize: pill ? 14 : (compact ? 13 : 15),
+                        fontWeight:
+                            compact && values[i] != selected
+                                ? FontWeight.w400
+                                : FontWeight.w600,
                         color:
                             values[i] == selected
                                 ? (pill ? c.onAccent : NardPalette.walnut900)

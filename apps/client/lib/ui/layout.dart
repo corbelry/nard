@@ -31,23 +31,58 @@ class Overline extends StatelessWidget {
   );
 }
 
-/// Header of pushed screens: back button + title.
+/// Header of pushed screens: back button + title. [bare] is the 48-high
+/// variant of 10.3 / 15.x / 17.x (chevron without box, title 20).
 class ScreenHeader extends StatelessWidget {
   const ScreenHeader({
     super.key,
     required this.title,
     this.onBack,
     this.trailing,
+    this.bare = false,
   });
 
   final String title;
   final VoidCallback? onBack;
   final Widget? trailing;
+  final bool bare;
 
   @override
   Widget build(BuildContext context) {
     final c = context.nard;
     final back = onBack ?? () => Navigator.of(context).maybePop();
+    if (bare) {
+      return SizedBox(
+        height: 48,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 4, right: 16),
+          child: Row(
+            children: [
+              Pressable(
+                onTap: back,
+                semanticLabel:
+                    MaterialLocalizations.of(context).backButtonTooltip,
+                child: Center(
+                  child: Icon(LucideIcons.chevronLeft, size: 20, color: c.text),
+                ),
+              ),
+              if (title.isNotEmpty)
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: NardType.title.copyWith(fontSize: 20, color: c.text),
+                  ),
+                )
+              else
+                const Spacer(),
+              if (trailing != null) trailing!,
+            ],
+          ),
+        ),
+      );
+    }
     return SizedBox(
       height: 52,
       child: Padding(
@@ -520,6 +555,65 @@ class MessageState extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+/// 11.1 offline banner: garnet-tinted strip with a dot, shown on tab roots
+/// and online screens while the server is unreachable. Slides away when
+/// [visible] turns false.
+class OfflineBanner extends StatelessWidget {
+  const OfflineBanner({super.key, required this.text, required this.visible});
+
+  final String text;
+  final bool visible;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.nard;
+    return AnimatedSize(
+      duration: NardMotion.sheetIn,
+      curve: NardMotion.standard,
+      alignment: Alignment.topCenter,
+      child:
+          !visible
+              ? const SizedBox(width: double.infinity)
+              : Semantics(
+                liveRegion: true,
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  height: 40,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                    color: c.dangerText.withValues(alpha: .14),
+                    borderRadius: BorderRadius.circular(NardRadius.m),
+                    border: Border.all(
+                      color: c.dangerText.withValues(alpha: .4),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: c.dangerText,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          text,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: NardType.bodyS.copyWith(color: c.errorTitle),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
     );
   }
 }

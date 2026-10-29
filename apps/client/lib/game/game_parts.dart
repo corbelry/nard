@@ -22,10 +22,30 @@ class PlayerCard extends StatelessWidget {
     required this.ivory,
     this.side = false,
     this.trailing,
+    this.bot = false,
+    this.badge,
+    this.offlineLabel,
   });
 
   /// The clock (online games).
   final Widget? trailing;
+
+  /// The server's bot seat: grey avatar with the bot glyph (20.2).
+  final bool bot;
+
+  /// Shown after the name (BOT badge).
+  final Widget? badge;
+
+  /// Set while the online opponent is reconnecting: dims the player and
+  /// shows this pill before the clock (online.md §3.3).
+  final String? offlineLabel;
+
+  static const _grayscale = ColorFilter.matrix([
+    .2126, .7152, .0722, 0, 0, //
+    .2126, .7152, .0722, 0, 0, //
+    .2126, .7152, .0722, 0, 0, //
+    0, 0, 0, 1, 0,
+  ]);
 
   final String name;
   final String meta;
@@ -47,17 +67,21 @@ class PlayerCard extends StatelessWidget {
       height: avatarSize,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const SweepGradient(
-          startAngle: 210 * pi / 180,
-          endAngle: 210 * pi / 180 + 2 * pi,
-          colors: [
-            Color(0xFF8A6A22),
-            Color(0xFFE8C468),
-            Color(0xFFA07C30),
-            Color(0xFFE8C468),
-            Color(0xFF8A6A22),
-          ],
-        ),
+        color: bot ? c.text.withValues(alpha: .2) : null,
+        gradient:
+            bot
+                ? null
+                : const SweepGradient(
+                  startAngle: 210 * pi / 180,
+                  endAngle: 210 * pi / 180 + 2 * pi,
+                  colors: [
+                    Color(0xFF8A6A22),
+                    Color(0xFFE8C468),
+                    Color(0xFFA07C30),
+                    Color(0xFFE8C468),
+                    Color(0xFF8A6A22),
+                  ],
+                ),
         boxShadow:
             active
                 ? [
@@ -80,35 +104,50 @@ class PlayerCard extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors:
-                ivory
+                bot
+                    ? c.avatarBot
+                    : ivory
                     ? const [Color(0xFF5B4A33), Color(0xFF2A2116)]
                     : const [Color(0xFF2F4A52), Color(0xFF162428)],
           ),
         ),
         alignment: Alignment.center,
-        child: Text(
-          initials,
-          style: NardType.title.copyWith(
-            fontSize: side ? 15 : 18,
-            color: c.text,
-            height: 1,
-          ),
-        ),
+        child:
+            bot
+                ? Icon(LucideIcons.bot, size: side ? 16 : 20, color: c.text)
+                : Text(
+                  initials,
+                  style: NardType.title.copyWith(
+                    fontSize: side ? 15 : 18,
+                    color: c.text,
+                    height: 1,
+                  ),
+                ),
+      ),
+    );
+    final nameText = Text(
+      name,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: (side ? NardType.bodyS : NardType.labelM).copyWith(
+        color: c.text,
+        fontWeight: FontWeight.w600,
       ),
     );
     final texts = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: (side ? NardType.bodyS : NardType.labelM).copyWith(
-            color: c.text,
-            fontWeight: FontWeight.w600,
+        if (badge == null)
+          nameText
+        else
+          Row(
+            children: [
+              Flexible(child: nameText),
+              const SizedBox(width: 8),
+              badge!,
+            ],
           ),
-        ),
         SizedBox(height: side ? 3 : 5),
         Text(
           meta,
@@ -121,6 +160,33 @@ class PlayerCard extends StatelessWidget {
         ),
       ],
     );
+    final offline = offlineLabel != null;
+    Widget dim(Widget child) =>
+        offline
+            ? Opacity(
+              opacity: .45,
+              child: ColorFiltered(colorFilter: _grayscale, child: child),
+            )
+            : child;
+    final pill =
+        offline && !side
+            ? Container(
+              margin: const EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              decoration: BoxDecoration(
+                color: c.dangerText.withValues(alpha: .14),
+                borderRadius: BorderRadius.circular(NardRadius.pill),
+              ),
+              child: Text(
+                offlineLabel!,
+                style: NardType.micro.copyWith(
+                  height: 14 / 11,
+                  fontWeight: FontWeight.w600,
+                  color: c.dangerText,
+                ),
+              ),
+            )
+            : null;
     return AnimatedContainer(
       duration: NardMotion.fast,
       padding:
@@ -138,12 +204,14 @@ class PlayerCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    children: [
-                      avatar,
-                      const SizedBox(width: 10),
-                      Expanded(child: texts),
-                    ],
+                  dim(
+                    Row(
+                      children: [
+                        avatar,
+                        const SizedBox(width: 10),
+                        Expanded(child: texts),
+                      ],
+                    ),
                   ),
                   if (trailing != null) ...[
                     const SizedBox(height: 10),
@@ -153,9 +221,10 @@ class PlayerCard extends StatelessWidget {
               )
               : Row(
                 children: [
-                  avatar,
+                  dim(avatar),
                   const SizedBox(width: 12),
-                  Expanded(child: texts),
+                  Expanded(child: dim(texts)),
+                  if (pill != null) pill,
                   if (trailing != null) ...[
                     const SizedBox(width: 12),
                     trailing!,

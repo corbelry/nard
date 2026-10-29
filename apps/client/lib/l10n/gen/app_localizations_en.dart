@@ -115,12 +115,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get variantQuestionTitle => 'Which nard do you play?';
 
   @override
-  String get variantShortDesc =>
-      'Classic backgammon: hitting, the bar, the doubling cube.';
+  String get variantShortDesc => 'Classic backgammon: hitting, the bar, the doubling cube.';
 
   @override
-  String get variantLongDesc =>
-      'All checkers start on the head. No hitting, only blocking.';
+  String get variantLongDesc => 'All checkers start on the head. No hitting, only blocking.';
 
   @override
   String get variantLearnTitle => 'I want to learn';
@@ -142,57 +140,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lessonStep1Title => 'This is your board';
 
   @override
-  String get lessonStep1Body =>
-      'The white checkers are yours. They move from point 24 towards point 1, then are borne off the board. Tap any checker to continue.';
+  String get lessonStep1Body => 'The white checkers are yours. They move from point 24 towards point 1, then are borne off the board. Tap any checker to continue.';
 
   @override
   String get lessonStep2Title => 'Move a checker 6 points';
 
   @override
-  String get lessonStep2Body =>
-      'The die shows 6. Tap the checker on point 13, then tap or drag it to the highlighted point 7.';
+  String get lessonStep2Body => 'The die shows 6. Tap the checker on point 13, then tap or drag it to the highlighted point 7.';
 
   @override
   String get lessonStep3Title => 'Play both dice';
 
   @override
-  String get lessonStep3Body =>
-      'The dice show 3 and 1. Move checkers from points 8 and 6 to point 5 and make the point.';
+  String get lessonStep3Body => 'The dice show 3 and 1. Move checkers from points 8 and 6 to point 5 and make the point.';
 
   @override
   String get lessonStep4Title => 'Blocked point';
 
   @override
-  String get lessonStep4Body =>
-      'You can\'t move to a point that holds two or more of your opponent\'s checkers. The die shows 5: move the checker from point 13 to point 8.';
+  String get lessonStep4Body => 'You can\'t move to a point that holds two or more of your opponent\'s checkers. The die shows 5: move the checker from point 13 to point 8.';
 
   @override
   String get lessonStep5Title => 'Hitting';
 
   @override
-  String get lessonStep5Body =>
-      'Land on a lone opponent checker and you send it to the bar. Move the checker from point 6 to point 4 and hit.';
+  String get lessonStep5Body => 'Land on a lone opponent checker and you send it to the bar. Move the checker from point 6 to point 4 and hit.';
 
   @override
   String get lessonStep6Title => 'Entering from the bar';
 
   @override
-  String get lessonStep6Body =>
-      'If you have a checker on the bar, you must enter it into your opponent\'s home first. Tap the checker on the bar and move it to point 22.';
+  String get lessonStep6Body => 'If you have a checker on the bar, you must enter it into your opponent\'s home first. Tap the checker on the bar and move it to point 22.';
 
   @override
   String get lessonStep7Title => 'Bear off your checkers';
 
   @override
-  String get lessonStep7Body =>
-      'All your checkers are home (1–6). The die shows 6: bear off the checker on point 6.';
+  String get lessonStep7Body => 'All your checkers are home (1–6). The die shows 6: bear off the checker on point 6.';
 
   @override
   String get lessonDoneTitle => 'Well done, you\'re ready';
 
   @override
-  String get lessonDoneBody =>
-      'You know the rules. Now practice against the computer.';
+  String get lessonDoneBody => 'You know the rules. Now practice against the computer.';
 
   @override
   String get lessonFinish => 'Start playing';
@@ -316,8 +306,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotseatHideBetweenTurns => 'Hide screen between turns';
 
   @override
-  String get hotseatHideBetweenTurnsSub =>
-      '“Pass the phone to your opponent” screen';
+  String get hotseatHideBetweenTurnsSub => '“Pass the phone to your opponent” screen';
 
   @override
   String get hotseatFlipBoard => 'Flip the board';
@@ -707,12 +696,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resignKoks => 'Koks';
 
   @override
-  String get resignKoksDesc =>
-      'A checker on the bar or in the opponent\'s home';
+  String get resignKoksDesc => 'A checker on the bar or in the opponent\'s home';
 
   @override
-  String get resignKoksDescLong =>
-      'A checker hasn\'t left the opponent\'s home yet';
+  String get resignKoksDescLong => 'A checker hasn\'t left the opponent\'s home yet';
 
   @override
   String resignPoints(int points) {
@@ -755,8 +742,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ruleHeadTitle => 'Only one checker may leave the head';
 
   @override
-  String get ruleHeadBody =>
-      'This turn you played more than one checker from the head. Exception: a 6-6, 4-4 or 3-3 on the first roll lets you take two.';
+  String get ruleHeadBody => 'This turn you played more than one checker from the head. Exception: a 6-6, 4-4 or 3-3 on the first roll lets you take two.';
 
   @override
   String get ruleSixBlockTitle => 'You can\'t block 6 points in a row';
@@ -770,55 +756,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rulePointClosedTitle => 'This point is blocked';
 
   @override
-  String get rulePointClosedShort =>
-      'You can\'t move to a point with two or more opponent checkers.';
+  String get rulePointClosedShort => 'You can\'t move to a point with two or more opponent checkers.';
 
   @override
-  String get rulePointClosedLong =>
-      'In Long Nard you can\'t move to a point with an opponent checker.';
+  String get rulePointClosedLong => 'In Long Nard you can\'t move to a point with an opponent checker.';
 
   @override
   String get ruleBarTitle => 'Enter the checker from the bar first';
 
   @override
-  String get ruleBarBody =>
-      'While you have a checker on the bar, you can\'t move any other checker.';
+  String get ruleBarBody => 'While you have a checker on the bar, you can\'t move any other checker.';
 
   @override
   String get ruleBothDiceTitle => 'You must play both dice';
 
   @override
-  String get ruleBothDiceBody =>
-      'This move leaves no way to play the other die. Choose a move that uses both dice.';
+  String get ruleBothDiceBody => 'This move leaves no way to play the other die. Choose a move that uses both dice.';
 
   @override
   String get ruleLargerDieTitle => 'Play the larger die';
 
   @override
-  String get ruleLargerDieBody =>
-      'If only one die can be played, you must play the larger one.';
+  String get ruleLargerDieBody => 'If only one die can be played, you must play the larger one.';
 
   @override
   String get ruleBearOffTitle => 'You can\'t bear off yet';
 
   @override
-  String get ruleBearOffBody =>
-      'To bear off, all your checkers must be home (1–6).';
+  String get ruleBearOffBody => 'To bear off, all your checkers must be home (1–6).';
 
   @override
-  String get ruleBearOffHigherTitle =>
-      'Play the checker on the higher point first';
+  String get ruleBearOffHigherTitle => 'Play the checker on the higher point first';
 
   @override
-  String get ruleBearOffHigherBody =>
-      'With a larger die you can only bear off the checker on the highest point.';
+  String get ruleBearOffHigherBody => 'With a larger die you can only bear off the checker on the highest point.';
 
   @override
   String get ruleNoDieTitle => 'No die for this distance';
 
   @override
-  String get ruleNoDieBody =>
-      'You can only move a checker by the number of points shown on the dice.';
+  String get ruleNoDieBody => 'You can only move a checker by the number of points shown on the dice.';
 
   @override
   String get ruleNoCheckerTitle => 'You have no checker on this point';
@@ -836,8 +813,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get replayEmptyTitle => 'No games yet';
 
   @override
-  String get replayEmptyBody =>
-      'Games you finish will appear here. With Replay you can go through every move again.';
+  String get replayEmptyBody => 'Games you finish will appear here. With Replay you can go through every move again.';
 
   @override
   String replayTitle(int n) {
@@ -970,17 +946,562 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorTitle => 'Something went wrong';
 
   @override
-  String get errorBody =>
-      'Try again. If the problem persists, restart the app.';
+  String get errorBody => 'Try again. If the problem persists, restart the app.';
 
   @override
   String get playVsComputer => 'Play vs computer';
 
   @override
-  String get rulesShortBody =>
-      'Each player has 15 checkers. Checkers move from 24 towards 1 according to the dice. Land on a lone opponent checker and you send it to the bar; a point with two or more checkers is blocked. Once all your checkers are home (1–6), you start bearing off. The first to bear off all 15 checkers wins. If the opponent has borne off none — mars (×2); if they still have a checker on the bar or in your home — koks (×3).';
+  String get rulesShortBody => 'Each player has 15 checkers. Checkers move from 24 towards 1 according to the dice. Land on a lone opponent checker and you send it to the bar; a point with two or more checkers is blocked. Once all your checkers are home (1–6), you start bearing off. The first to bear off all 15 checkers wins. If the opponent has borne off none — mars (×2); if they still have a checker on the bar or in your home — koks (×3).';
 
   @override
-  String get rulesLongBody =>
-      'All 15 checkers start on the head (point 24). There is no hitting: you can\'t move to a point with an opponent checker. Each turn you may take only one checker from the head (except 6-6, 4-4 and 3-3 on the first roll). You can\'t block 6 points in a row unless an opponent checker is ahead of them. Once all your checkers are home, you start bearing off. If the opponent has borne off none — mars (×2); if one of their checkers hasn\'t yet passed your home — koks (×3).';
+  String get rulesLongBody => 'All 15 checkers start on the head (point 24). There is no hitting: you can\'t move to a point with an opponent checker. Each turn you may take only one checker from the head (except 6-6, 4-4 and 3-3 on the first roll). You can\'t block 6 points in a row unless an opponent checker is ahead of them. Once all your checkers are home, you start bearing off. If the opponent has borne off none — mars (×2); if one of their checkers hasn\'t yet passed your home — koks (×3).';
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get copied => 'Copied';
+
+  @override
+  String get valueNone => '—';
+
+  @override
+  String get authWelcomeTitle => 'Welcome';
+
+  @override
+  String get authWelcomeBody => 'With an account your rating and match history follow you to every device.';
+
+  @override
+  String get authApple => 'Continue with Apple';
+
+  @override
+  String get authGoogle => 'Continue with Google';
+
+  @override
+  String get authEmail => 'Continue with e-mail';
+
+  @override
+  String get authGuest => 'Play as a guest';
+
+  @override
+  String authLegal(String terms, String privacy) {
+    return 'By continuing you accept the $terms and the $privacy.';
+  }
+
+  @override
+  String get authTerms => 'Terms of Use';
+
+  @override
+  String get authPrivacy => 'Privacy Policy';
+
+  @override
+  String get authProviderUnavailable => 'This sign-in option isn\'t available yet. Continue with e-mail or as a guest.';
+
+  @override
+  String get authOffline => 'Can\'t reach the server. Check your connection and try again.';
+
+  @override
+  String get authTooManyTries => 'Too many attempts. Try again in a little while.';
+
+  @override
+  String get authSignIn => 'Sign in';
+
+  @override
+  String get emailTitle => 'Enter your e-mail';
+
+  @override
+  String get emailBody => 'No password needed. We\'ll send you a 6-digit sign-in code.';
+
+  @override
+  String get emailLabel => 'E-mail';
+
+  @override
+  String get emailSend => 'Send code';
+
+  @override
+  String get emailInvalid => 'That e-mail address isn\'t valid';
+
+  @override
+  String get codeTitle => 'Enter the code';
+
+  @override
+  String codeBody(String email) {
+    return 'We sent it to $email. Check your spam folder too.';
+  }
+
+  @override
+  String get codeLabel => '6-digit code';
+
+  @override
+  String codeResendIn(String time) {
+    return 'Resend code · $time';
+  }
+
+  @override
+  String get codeResend => 'Resend code';
+
+  @override
+  String get codeSent => 'A new code is on its way';
+
+  @override
+  String get codeInvalid => 'That code is wrong. Check it and try again.';
+
+  @override
+  String get codeExpired => 'The code has expired. Ask for a new one.';
+
+  @override
+  String get modeCasual => 'Casual';
+
+  @override
+  String get modeRanked => 'Ranked';
+
+  @override
+  String get searchTitle => 'Finding an opponent…';
+
+  @override
+  String searchElapsed(String elapsed) {
+    return 'Elapsed $elapsed';
+  }
+
+  @override
+  String searchTip(String tip) {
+    return 'Tip: $tip';
+  }
+
+  @override
+  String get searchTipHeadRule => 'In Long Nard you may take only one checker from the head per turn.';
+
+  @override
+  String get searchTipPip => 'The pip count shows who is ahead in the race.';
+
+  @override
+  String get searchBotSoon => 'If no live opponent turns up within 30 seconds, you\'ll play a bot.';
+
+  @override
+  String timeControlShort(int minutes, int delay) {
+    return '$minutes+${delay}s';
+  }
+
+  @override
+  String ratingRange(int min, int max) {
+    return '$min–$max';
+  }
+
+  @override
+  String vsMeta(String rank, int rating, int percent) {
+    return '$rank · $rating · $percent% wins';
+  }
+
+  @override
+  String vsMetaNoStats(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get vsLabel => 'vs';
+
+  @override
+  String pointsUpper(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n POINTS',
+      one: '1 POINT',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get rankedUpper => 'RANKED';
+
+  @override
+  String get unrankedUpper => 'UNRANKED';
+
+  @override
+  String vsStartsIn(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds seconds',
+      one: '1 second',
+    );
+    return 'The game starts in $_temp0';
+  }
+
+  @override
+  String get botBadge => 'BOT';
+
+  @override
+  String get botNoRating => 'Doesn\'t affect rating';
+
+  @override
+  String get botFallbackNotice => 'No live opponent turned up within 30 seconds, so you\'re playing a bot. The result doesn\'t affect your rating.';
+
+  @override
+  String get gameModeCasual => 'Casual · unranked';
+
+  @override
+  String playerBotMeta(String noRating, String pip) {
+    return '$noRating · $pip';
+  }
+
+  @override
+  String get bannerLowTime => 'Time is running out';
+
+  @override
+  String bannerTimeLeft(String time) {
+    return '$time left';
+  }
+
+  @override
+  String get bannerOpponentOffline => 'Opponent disconnected';
+
+  @override
+  String get bannerDisconnected => 'Connection lost';
+
+  @override
+  String get playerOffline => 'Offline';
+
+  @override
+  String reconnectTitle(String name) {
+    return '$name is reconnecting…';
+  }
+
+  @override
+  String reconnectBody(String time) {
+    return '$time left · if time runs out, you win';
+  }
+
+  @override
+  String get selfReconnectTitle => 'Reconnecting…';
+
+  @override
+  String get menuFairDice => 'Fair dice';
+
+  @override
+  String get menuFairDiceVerify => 'Verify';
+
+  @override
+  String get matchRatingLabel => 'RATING';
+
+  @override
+  String matchRatingFrom(int old) {
+    return 'from $old';
+  }
+
+  @override
+  String matchRatingToNext(String rank, int points) {
+    String _temp0 = intl.Intl.pluralLogic(
+      points,
+      locale: localeName,
+      other: '$points points',
+      one: '1 point',
+    );
+    return '$_temp0 to $rank';
+  }
+
+  @override
+  String ratingDeltaUp(int n) {
+    return '+$n';
+  }
+
+  @override
+  String ratingDeltaDown(int n) {
+    return '−$n';
+  }
+
+  @override
+  String get fairTitle => 'Fair dice';
+
+  @override
+  String get fairIntro => 'Every roll is computed from a server key locked before the game, your key and the roll\'s number. After the game you can check every roll yourself.';
+
+  @override
+  String get fairCommitment => 'Server key hash (before the game)';
+
+  @override
+  String fairCommitmentValue(String hash) {
+    return 'sha256: $hash';
+  }
+
+  @override
+  String get fairServerSeed => 'Server key (revealed after the game)';
+
+  @override
+  String get fairYourSeed => 'Your key';
+
+  @override
+  String get fairOpponentSeed => 'Opponent\'s key';
+
+  @override
+  String get fairRollNumber => 'Roll number';
+
+  @override
+  String fairRollValue(int n, int a, int b) {
+    return '#$n · HMAC → $a, $b';
+  }
+
+  @override
+  String fairMatch(int a, int b) {
+    return 'Matches · $a – $b';
+  }
+
+  @override
+  String fairMatchSub(int n) {
+    return 'Roll #$n equals the computed result';
+  }
+
+  @override
+  String fairMismatch(int a, int b) {
+    return 'Doesn\'t match · $a – $b';
+  }
+
+  @override
+  String fairMismatchSub(int n) {
+    return 'Roll #$n differs from the computed result';
+  }
+
+  @override
+  String get fairCommitmentMismatch => 'The server key doesn\'t match its hash';
+
+  @override
+  String get fairPending => 'Revealed after the game';
+
+  @override
+  String get fairPendingNote => 'The server key is revealed when the game ends. Then you can check every roll here.';
+
+  @override
+  String get fairNoRolls => 'No rolls yet';
+
+  @override
+  String get fairCopy => 'Copy data';
+
+  @override
+  String get fairCheckAnother => 'Check another roll';
+
+  @override
+  String get fairPickTitle => 'Pick a roll';
+
+  @override
+  String fairRollRow(int n, int a, int b) {
+    return '#$n · $a – $b';
+  }
+
+  @override
+  String get fairOpeningTag => 'opening';
+
+  @override
+  String get tierBronze => 'Bronze';
+
+  @override
+  String get tierSilver => 'Silver';
+
+  @override
+  String get tierGold => 'Gold';
+
+  @override
+  String get tierPlatinum => 'Platinum';
+
+  @override
+  String get tierDiamond => 'Diamond';
+
+  @override
+  String get tierMaster => 'Master';
+
+  @override
+  String get tierGrandmaster => 'Grandmaster';
+
+  @override
+  String rankWithSub(String tier, String sub) {
+    return '$tier $sub';
+  }
+
+  @override
+  String profileMeta(String rank, int rating) {
+    return '$rank · $rating';
+  }
+
+  @override
+  String get statRating => 'Rating';
+
+  @override
+  String get statWinRate => 'Win rate';
+
+  @override
+  String get statMatches => 'Matches';
+
+  @override
+  String get statWins => 'Wins';
+
+  @override
+  String statPercent(int n) {
+    return '$n%';
+  }
+
+  @override
+  String get profileHistory => 'MATCH HISTORY';
+
+  @override
+  String historyMeta(String variant, String format, String date) {
+    return '$variant · $format · $date';
+  }
+
+  @override
+  String get variantShortAbbr => 'Short';
+
+  @override
+  String get variantLongAbbr => 'Long';
+
+  @override
+  String get dateToday => 'today';
+
+  @override
+  String get dateYesterday => 'yesterday';
+
+  @override
+  String historyScore(int me, int opp) {
+    return '$me–$opp';
+  }
+
+  @override
+  String get profileEdit => 'Edit profile';
+
+  @override
+  String get historyEmptyTitle => 'No online matches yet';
+
+  @override
+  String get historyEmptyBody => 'Matches you play online will show up here.';
+
+  @override
+  String get profileSignedOutTitle => 'Sign in to your account';
+
+  @override
+  String get profileSignedOutBody => 'Your rating, stats and match history will live here.';
+
+  @override
+  String get nameInvalid => 'Use 3–20 letters, digits or _';
+
+  @override
+  String get offlineBanner => 'No connection · offline mode';
+
+  @override
+  String get onlineOfflineTitle => 'Online play isn\'t available';
+
+  @override
+  String get onlineOfflineBody => 'Games against the computer and on one device still work. Try again when the connection is back.';
+
+  @override
+  String get settingsAccountPrivacy => 'Account & privacy';
+
+  @override
+  String get accountGroupAccount => 'ACCOUNT';
+
+  @override
+  String get accountEmail => 'E-mail';
+
+  @override
+  String get accountNickname => 'Player name';
+
+  @override
+  String get accountEmailAdd => 'Add';
+
+  @override
+  String get accountSignOut => 'Sign out';
+
+  @override
+  String get accountGroupData => 'DATA';
+
+  @override
+  String get accountExport => 'Export my data';
+
+  @override
+  String get accountDelete => 'Delete account';
+
+  @override
+  String get exportTitle => 'Export your data';
+
+  @override
+  String get exportBody => 'Your profile and match history are packed into a JSON file. When it\'s ready you can copy it.';
+
+  @override
+  String get exportProfile => 'Profile and account';
+
+  @override
+  String get exportGames => 'Match history';
+
+  @override
+  String exportGamesCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exportFormat => 'Format';
+
+  @override
+  String get exportFormatValue => 'JSON';
+
+  @override
+  String get exportStart => 'Start export';
+
+  @override
+  String exportReady(String size) {
+    return 'File ready · $size KB';
+  }
+
+  @override
+  String get exportCopy => 'Copy JSON';
+
+  @override
+  String get deleteTitle => 'Delete your account?';
+
+  @override
+  String deleteItemRating(int rating) {
+    return 'Your rating ($rating), rank and full match history';
+  }
+
+  @override
+  String get deleteItemHistory => 'Your profile and full match history';
+
+  @override
+  String get deleteIrreversible => 'The account is deleted right away and can\'t be restored.';
+
+  @override
+  String deleteConfirmLabel(String word) {
+    return 'Type $word to confirm';
+  }
+
+  @override
+  String get deleteConfirmWord => 'DELETE';
+
+  @override
+  String get setupOnlineTitle => 'Online game';
+
+  @override
+  String get setupTimeLabel => 'TIME CONTROL';
+
+  @override
+  String get timeRapid => 'Rapid';
+
+  @override
+  String timeValue(int minutes, int delay) {
+    return '$minutes min + ${delay}s';
+  }
+
+  @override
+  String get setupRated => 'Ranked';
+
+  @override
+  String setupRatedSub(int rating) {
+    return 'Your rating: $rating';
+  }
+
+  @override
+  String get setupFindOpponent => 'Find an opponent';
 }

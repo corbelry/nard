@@ -66,6 +66,9 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
   int _lastSeq = -1;
   MatchSetup? _setup;
 
+  /// Index of the last game we sent a client seed for (FD-02: one per game).
+  int _seededGame = -1;
+
   @override
   GameView? build() {
     ref.onDispose(_dispose);
@@ -165,6 +168,7 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
           ),
         );
         _lastSeq = -1;
+        _seededGame = 0;
         _lobby = _lobby.copyWith(phase: LobbyPhase.found, match: () => found);
         _send(MessageType.gameSeed, SeedPayload(_seed()).toJson());
       case MessageType.gameState:
@@ -190,6 +194,14 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
     if (setup == null || p.matchId != setup.online?.matchId) return;
     if (p.seq <= _lastSeq) return;
     _lastSeq = p.seq;
+    // Every game of a match needs fresh client seeds before its opening
+    // roll; the first one went out with `match.found`.
+    if (p.record.actions.isEmpty &&
+        !p.clientSeeds.containsKey(setup.localSide) &&
+        _seededGame != p.gameIndex) {
+      _seededGame = p.gameIndex;
+      _send(MessageType.gameSeed, SeedPayload(_seed()).toJson());
+    }
     final previous = state;
     final session = Session.fromServer(
       setup: setup,

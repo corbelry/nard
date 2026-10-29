@@ -12,13 +12,14 @@ import '../ui/controls.dart';
 import '../ui/layout.dart';
 import '../ui/pressable.dart';
 
-enum MenuChoice { resume, settings, rules, sound, resign, leave }
+enum MenuChoice { resume, settings, fairDice, rules, sound, resign, leave }
 
-/// Game menu sheet (2.9).
+/// Game menu sheet (2.9); [fairDice] adds the 10.3 row (online games).
 Future<MenuChoice?> showGameMenu(
   BuildContext context, {
   required Variant variant,
   required bool soundOn,
+  bool fairDice = false,
 }) {
   final l = AppLocalizations.of(context);
   return showNardSheet<MenuChoice>(
@@ -71,6 +72,13 @@ Future<MenuChoice?> showGameMenu(
           children: [
             row(MenuChoice.resume, LucideIcons.play, l.menuResume),
             row(MenuChoice.settings, LucideIcons.settings, l.menuSettings),
+            if (fairDice)
+              row(
+                MenuChoice.fairDice,
+                LucideIcons.shieldCheck,
+                l.menuFairDice,
+                trailing: l.menuFairDiceVerify,
+              ),
             row(
               MenuChoice.rules,
               LucideIcons.fileText,
