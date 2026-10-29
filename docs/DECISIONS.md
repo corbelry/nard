@@ -43,7 +43,7 @@ oracle in `test/oracle.dart` on thousands of random positions.
 ## ADR-006 — Long Nard opening (2026-10-30)
 The opening throw (one die each, ties re-thrown) only decides who starts;
 the starter then rolls both dice. In Short Nard the opening dice are played.
-Configurable per rule set (`openingRollIsFirstMove`).
+Configurable per rule set (`openingRollIsFirstMove`). Confirmed by the product owner (2026-10-30).
 
 ## ADR-007 — Long Nard head exception (2026-10-30)
 On each side's own first turn, 6-6, 4-4 and 3-3 allow two checkers off the
@@ -58,14 +58,14 @@ one opposing checker is past the block; borne-off checkers count as past.
 The rule is checked after **every single move**, not only at the end of the
 turn (a move that forms an illegal block is illegal even if a later move of
 the same turn would break it).
-**Open question:** some clubs apply it only to the final position of a turn.
+Confirmed by the product owner (2026-10-30).
 
 ## ADR-009 — Long Nard koks definition (2026-10-30)
 Koks (×3) = the loser has borne off nothing **and** has at least one checker
 that has not passed the winner's home board (loser's own points 13–24, which
 includes its own starting quarter). Mars = ×2, oyn = ×1. Koks can be disabled
-via `LongNardRules(koks: false)`. No "last roll for a draw" rule.
-**Open question:** regional definitions of koks vary; confirm for AZ market.
+via `LongNardRules(koks: false)`. No "last roll for a draw" rule: the first
+side to bear off all checkers wins. Confirmed by the product owner (2026-10-30).
 
 ## ADR-010 — No cube in Long Nard (2026-10-30)
 Traditional Long Nard has no doubling cube; `LongNardRules.usesCube` is
@@ -118,3 +118,27 @@ phase in §12:
 - The replay viewer for local games ships in **Phase 2** (offline feature,
   §8.10); shared replay links follow in Phase 3, and per-move equity analysis
   stays in Phase 6.
+
+## ADR-018 — Languages (2026-10-30)
+The app ships in **az, en, ru, tr** (ARB files in the client, lang files in
+Laravel; no hard-coded user-facing strings). Azerbaijani is the design's
+source language. On first launch the language picker (design 9.2) is always
+shown, preselected from the device locale when it is one of the four;
+otherwise it falls back to **English**. Product-owner decision.
+
+## ADR-019 — AI levels and names (2026-10-30)
+Spec levels map to the design's names: Beginner = Başlanğıc, Easy =
+Həvəskar, Medium = Orta, Hard = Güclü, Expert = Usta, Master = Qrossmeyster.
+Phase 2 ships the first four (heuristic). Usta and Qrossmeyster are shown
+**locked with a "Tezliklə" (coming soon) state** until the neural evaluator
+lands in Phase 6. Product-owner decision.
+
+## ADR-020 — Sign-in methods (2026-10-30)
+Guest, Apple, Google, phone **and email** (spec §8.1). The design lacks the
+email option; it has been requested from Claude Design. Product-owner
+decision.
+
+## ADR-021 — No .mat match files for now (2026-10-30)
+Move notation, GNU BG Position/Match IDs and JSON game records cover the
+product's needs; `.mat` import/export is not planned. Revisit if serious
+players ask for external analysis. Product-owner decision.

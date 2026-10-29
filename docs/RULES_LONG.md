@@ -22,8 +22,9 @@ bar.
 | LN-13 | Opening: each side throws one die, ties re-thrown; the higher die moves first and then **rolls both dice** (the opening dice are not played). | `game_state_test` |
 | LN-14 | No doubling cube. | `long_nard_test` |
 
-## Open questions for the product owner
+## Confirmed by the product owner (2026-10-30)
 
-* LN-12 koks definition — regional rule sets differ (see DECISIONS ADR-009).
-* Some rule sets give the second player a final roll to draw the game when
-  the first player finishes; not implemented.
+* LN-06: the six-block rule is checked after every single move (ADR-008).
+* LN-12: koks as defined above (ADR-009).
+* LN-13: the opening throw only decides who starts (ADR-006).
+* No "last roll for a draw" rule: the first side to bear off wins (ADR-009).

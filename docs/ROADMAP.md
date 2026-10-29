@@ -63,12 +63,14 @@ design is updated and re-exported into the skill.
 - [ ] Email sign-in option (§8.1) — Phase 3
 - [ ] Crawford-game indicator on the match game screen (§2) — Phase 2
 - [ ] Long Nard rule feedback: head rule and six-block illegal-move messages (§2) — Phase 2
+- [ ] Locked "Tezliklə" state for AI levels Usta and Qrossmeyster on 2.3 (ADR-019) — Phase 2
 
 ### Design vs spec conflicts
 
 - **Platforms — resolved:** mobile only (iOS + Android), as in the design
   (ADR-016).
-- **Login options (open):** design shows Apple / Google / phone / guest; spec §8.1
+- **Login options — resolved:** email is kept (ADR-020) and requested from
+  Claude Design. Was: design shows Apple / Google / phone / guest; spec §8.1
   also lists email.
 - **Token file names:** spec §13 says `apps/client/lib/theme/tokens.dart`;
   the design ships `nard_tokens.dart`, `nard_colors.dart`, `nard_theme.dart`,
@@ -83,23 +85,16 @@ design is updated and re-exported into the skill.
   for PHP are Phase 3.
 - `game_server`: `/healthz` + WS ping/pong only; game loop is Phase 3.
 - Filament admin: Phase 7 (pick a Laravel 13 compatible version, ADR-002).
-- `.mat` match-file import/export: not implemented (pending answer below).
+- `.mat` match-file import/export: not planned (ADR-021).
 - CI workflow has not yet run on GitHub (verified locally only).
 
 ## Open questions for the product owner
 
-1. Koks definition (ADR-009): loser has borne off nothing and still has a
-   checker on own points 13–24 — correct for the AZ market?
-2. Six-block rule (ADR-008): checked after every single move, or only at
-   the end of the turn?
-3. Long Nard "last roll for a draw" rule — wanted?
-4. Long Nard opening (ADR-006): opening throw only decides who starts,
-   who then rolls both dice — correct?
-5. Cube cap 64, no beavers/automatic doubles (ADR-012) — acceptable?
-6. `.mat` match-file import/export — wanted in addition to move notation,
-   GNU BG IDs and JSON game records?
-7. Login: add email sign-in to the design (spec §8.1), or drop it from the
-   spec?
+1. Cube cap 64, no beavers/raccoons/automatic doubles (ADR-012) — current
+   default; change only if needed.
 
-Resolved: platforms → mobile only (ADR-016); progression → Phase 4, replay
-viewer → Phase 2 (ADR-017).
+Resolved 2026-10-30: platforms → mobile only (ADR-016); progression →
+Phase 4, replay viewer → Phase 2 (ADR-017); koks, six-block per move,
+Long Nard opening, no draw rule (ADR-006/008/009); languages az/en/ru/tr
+with English fallback (ADR-018); AI levels 5–6 locked until Phase 6
+(ADR-019); email sign-in kept (ADR-020); no `.mat` files (ADR-021).
