@@ -38,7 +38,15 @@ next — without waiting for approval (start only after they say "başla").
 
 - [x] 1. Engine: `TurnPlanner.explain(from, to, played)` → `MoveRejection?`
   (`move_rejection_test.dart` + property test; coverage 98.6%).
-- [ ] 2. `apps/client` scaffold — next.
+- [~] 2. `apps/client` scaffold: created (`flutter create --empty`), in the
+  workspace, deps resolved (drift 2.28 — newer needs Dart 3.9+), fonts in
+  `assets/fonts` (static instances of Google Fonts variable files), theme
+  copied to `lib/theme/`, `l10n.yaml` (workspaces don't support
+  `generate: true`; run `flutter gen-l10n`). Not committed yet.
+- [x] 5. `nard_ai`: `HeuristicEvaluator` + `HeuristicBot` (levels, 2-ply for
+  hard, cube decisions); hard ≤ 50 ms/move on desktop.
+- Design specs being extracted by subagents → `docs/design-notes/game.md`,
+  `docs/design-notes/screens.md` (read these instead of the *.dc.html).
 
 ## Where things stand
 
