@@ -161,3 +161,17 @@ tier. The paid currency is renamed **Yaqut** (az), matching its garnet gem
 icon; localized as Yakut (tr), Рубины (ru), Rubies (en). The rank tier stays
 Almaz / Diamond. Code and DB keep the neutral identifier `gems`
 (`wallets.gems`, `CurrencyPill kind="gem"`). Product-owner decision.
+
+## ADR-024 — Bot fallback after 30 seconds (2026-10-30)
+In casual (unrated) queues only, if no live opponent is found within **30 s**
+the player is matched with a clearly labelled BOT (spec §7.4) while the
+search continues in the background. Bots never affect rating. The design's
+20 s text is to be corrected. Product-owner decision.
+
+## ADR-025 — No subscription at launch (2026-10-30)
+Launch monetization is one-off purchases only: Yaqut packs and the premium
+season pass (one purchase per season). No auto-renewing subscription.
+A subscription may come later; any future product that would grant coins
+(subscription perks, coin packs) conflicts with ADR-022 and needs a legal
+review plus a change to coin-entry tournament prizes first.
+Product-owner decision.

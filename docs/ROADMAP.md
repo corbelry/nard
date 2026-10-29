@@ -44,28 +44,39 @@ design screen mapped to the phase that builds it:
 | 10.2 Settings | 2 |
 | 10.3 Fair dice verification | 3 |
 | Offline / empty / error / loading states | 2 (online-specific ones: 3) |
+| 12.1 Daily/weekly missions · 12.2 Login streak · 12.3 Level up | 4 (ADR-017) |
+| 13.x Practice puzzles | 6 |
+| 14.1 Player menu · 14.2 Report reason · 14.3 Block confirm · 14.4 Report sent | 5 |
+| 15.1 Account & privacy · 15.2 Export my data · 15.3 Delete account | 3 |
+| 16.1 Notification settings · 16.2 Inbox · 16.3 Push permission pre-prompt | 7 |
+| 17.1 Sign-in · 17.2 Enter email · 17.3 Confirm code | 3 |
+| 18.1 Pass & play setup · 18.2 Hand the phone over | 2 |
+| 19.1 Create clan: name, tag, emblem · 19.2 Join policy, rating, language, price | 5 |
+| 20.1 Opponent found · BOT · 20.2 Game vs BOT | 3 (ADR-024) |
+| 21.1 Sit-and-go lobby · 21.2 Opponent no-show · 21.3 Walkover win · 21.4 Tournament not filled | 6 |
+| 22.1 Private tournament settings · 22.2 Invite / registration | 6 |
+| 23.1 Crawford game · 23.2 Long Nard head rule · 23.3 Long Nard six-block | 2 |
 
-### Screens requested from Claude Design (spec features with no design yet)
+### Screens requested from Claude Design
 
-Found by keyword search of the design files (2026-10-30); tick off when the
-design is updated and re-exported into the skill.
+Delivered in the 2026-10-30 update (Ekranlar 7 and 8):
+missions/streak/level-up (12), puzzles (13), report/block (14), account &
+privacy (15), notifications (16), email sign-in (17), pass & play hand-over
+(18), clan creation (19), BOT badge (20), sit-and-go + no-show (21), private
+tournament (22), Crawford indicator and Long Nard rule messages (23).
 
-- [ ] Daily/weekly missions + login streak + level-up moment (§8.8) — Phase 4
-- [ ] Practice puzzles "find the best move" (§8.8) — Phase 6 (needs Master-level best move)
-- [ ] Report player + block flow (§8.5) — Phase 5
-- [ ] Account & privacy: delete account, export data (§11) — Phase 3
-- [ ] Notification preferences per category + inbox + push permission (§8.11) — Phase 7
-- [ ] Pass & play hand-over screen between turns (§1) — Phase 2
-- [ ] Clan creation flow: cost, name/tag, open/request/invite, min rating, language (§8.4) — Phase 5
-- [ ] Bot badge for casual bot fallback (§7.4) — Phase 3
-- [ ] Sit-and-go waiting lobby (8/16/32) and no-show states (§8.3) — Phase 6
-- [ ] User-created private tournament (§8.3, P1) — Phase 6
-- [ ] Email sign-in option (§8.1) — Phase 3
-- [ ] Remove the phone-number sign-in option from 9.4 (ADR-020) — Phase 3
-- [ ] Rename the paid currency "almaz" to "yaqut" on every store/price/pass screen; rank tier stays "Almaz" (ADR-023) — Phase 4
-- [ ] Crawford-game indicator on the match game screen (§2) — Phase 2
-- [ ] Long Nard rule feedback: head rule and six-block illegal-move messages (§2) — Phase 2
-- [ ] Locked "Tezliklə" state for AI levels Usta and Qrossmeyster on 2.3 (ADR-019) — Phase 2
+Still open (send to Claude Design):
+
+- [ ] 2.3: locked "Tezliklə" state for Usta and Qrossmeyster (ADR-019)
+- [ ] 9.4 and 17.1: remove the phone sign-in option (ADR-020)
+- [ ] Paid currency is "yaqut", not "almaz" (3.2, 7.1, 7.3, 7.4, Yaqut packs)
+  nor "daş" (15.3 says "120 daş"; "daş" means checker) (ADR-023)
+- [ ] 23.3: the example is not a legal illustration — the selected checker
+  on 11 cannot form the block with 3–1. Select 16 (16/13 with the 3) or 14
+  (14/13 with the 1); point 13 is what closes 18–13 (verified with
+  `nard_core`)
+- [ ] 20.1: "20 saniyədə" → "30 saniyədə" (ADR-024)
+- [ ] 15.3: remove the "active subscription" line (ADR-025)
 
 ### Design vs spec conflicts
 
@@ -88,6 +99,10 @@ design is updated and re-exported into the skill.
 - Filament admin: Phase 7 (pick a Laravel 13 compatible version, ADR-002).
 - `.mat` match-file import/export: not planned (ADR-021).
 - CI workflow has not yet run on GitHub (verified locally only).
+- Engine work for Phase 2: an API that explains why a move is illegal
+  (head rule, six-block, closed point, must enter from the bar, must use
+  both dice / the larger die) for the design's illegal-move banners (23.2,
+  23.3); today the planner only omits illegal moves.
 - App/bundle ID: use placeholder `com.nardarena.app` in Phase 2; the final
   ID must be fixed before the app is first registered in App Store Connect /
   Play Console (it cannot change after that).
@@ -102,4 +117,5 @@ Phase 4, replay viewer → Phase 2 (ADR-017); koks, six-block per move,
 Long Nard opening, no draw rule (ADR-006/008/009); languages az/en/ru/tr
 with English fallback (ADR-018); AI levels 5–6 locked until Phase 6
 (ADR-019); sign-in = guest/Apple/Google/email, no phone (ADR-020); no `.mat` files (ADR-021); coins never purchasable (ADR-022);
-paid currency named Yaqut (ADR-023).
+paid currency named Yaqut (ADR-023); bot fallback after 30 s (ADR-024);
+no subscription at launch (ADR-025).
