@@ -3,10 +3,7 @@ import 'nard_colors.dart';
 import 'nard_tokens.dart';
 
 abstract final class NardTheme {
-  static ThemeData build(
-    NardColors c, {
-    Brightness brightness = Brightness.dark,
-  }) {
+  static ThemeData build(NardColors c, {Brightness brightness = Brightness.dark}) {
     final scheme = ColorScheme(
       brightness: brightness,
       primary: c.accent,
@@ -40,24 +37,13 @@ abstract final class NardTheme {
       dividerTheme: DividerThemeData(color: c.line, thickness: 1, space: 1),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: c.surfaceRaised,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(NardRadius.xl),
-          ),
-        ),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(NardRadius.xl))),
         showDragHandle: true,
         dragHandleColor: c.text.withValues(alpha: .25),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? c.bg : c.text,
-        ),
-        trackColor: WidgetStateProperty.resolveWith(
-          (s) =>
-              s.contains(WidgetState.selected)
-                  ? c.accent
-                  : c.text.withValues(alpha: .14),
-        ),
+        thumbColor: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected) ? c.bg : c.text),
+        trackColor: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected) ? c.accent : c.text.withValues(alpha: .14)),
         trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
       ),
     );
