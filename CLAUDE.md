@@ -16,8 +16,12 @@ Rules catalogues: `docs/RULES_SHORT.md`, `docs/RULES_LONG.md`.
 - Every cosmetic is data-driven; no cosmetic logic in game rules.
 - Small, focused commits per feature; conventional commit messages.
 - Log non-obvious decisions in `docs/DECISIONS.md` (ADR style).
-- UI must follow the design files exported from Claude Design (tokens in
-  `apps/client/lib/theme/tokens.dart` generated from the design system).
+- UI must follow the `nardarena-design` skill (`.claude/skills/nardarena-design`,
+  exported from Claude Design): copy its `flutter/lib/theme/` into
+  `apps/client/lib/theme/` and map every visual value to those tokens
+  (`context.nard.*`, `NardSpace`, `NardRadius`, `NardMotion`, `NardType`);
+  never hard-code colors. Screen references are its `*.dc.html` files; which
+  phase builds which screen is in `docs/ROADMAP.md`.
 
 ## Before finishing a task
 ```

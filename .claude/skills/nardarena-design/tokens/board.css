@@ -1,0 +1,28 @@
+/* Board geometry in logical px (portrait height 566, landscape 460). Scale uniformly. */
+:root {
+  --board-w: 640; /* @kind other */
+  --board-h-portrait: 566; /* @kind other */
+  --board-h-landscape: 460; /* @kind other */
+  --board-frame: 20; /* @kind other */
+  --board-point-w: 42; /* @kind other */
+  --board-bar: 36; /* @kind other */
+  --board-tray: 46; /* @kind other */
+  --board-checker: 38; /* @kind other */
+  --board-die: 44; /* @kind other */
+  --board-cube: 34; /* @kind other */
+  --board-point-h-ratio: 0.43; /* @kind other */
+
+  --legal-fill: rgba(240, 205, 110, 0.85); /* @kind color */
+  --legal-ghost: rgba(244, 212, 120, 0.95); /* @kind color */
+  --last-move-ghost: rgba(243, 235, 221, 0.45); /* @kind color */
+
+  /* Classic Walnut (default cosmetic) */
+  --walnut-frame: #5d3720;
+  --walnut-field: #b4824d;
+  --walnut-point-dark: #1a0e07;
+  --walnut-point-light: #e3d3b4;
+  --checker-ivory: #efe4cf;
+  --checker-onyx: #2b2724;
+  --die-ivory: #f2e8d2;
+  --die-pip: #1a110b;
+}

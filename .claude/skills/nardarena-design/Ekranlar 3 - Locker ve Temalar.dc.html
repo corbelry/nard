@@ -1,0 +1,152 @@
+<!-- @dsCard group="Screens" viewport="1440x900" name="Locker və Temalar" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Serif+Display:ital,wght@0,400;0,600;0,700;1,500&display=swap"><style>html,body{margin:0;background:#0f0d0c;color:#F3EBDD;font-family:'IBM Plex Sans',system-ui,sans-serif}a{color:#E8C468}a:hover{color:#F3EBDD}</style></helmet>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px;border-bottom:1px solid rgba(201,162,74,.16)">
+  <div style="display:flex;align-items:baseline;gap:14px"><span style="font:600 26px/1.2 'Noto Serif Display',serif">Öncelik 3 · 6 kosmetik tema</span><span style="font-size:13px;color:rgba(243,235,221,.55)">Hər tema = taxta + daşlar + zər + zər qabı + fon</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,560px);gap:40px 36px">
+    <sc-for list="{{ themes }}" as="t" hint-placeholder-count="6">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="padding:24px;border-radius:20px;background:{{ t.bg }};display:flex;justify-content:center">
+          <dc-import name="Board" theme="{{ t.k }}" w="{{ 512 }}" h="{{ 460 }}" pos="{{ pos }}" dice="{{ t.dice }}" hint-size="512px,368px"></dc-import>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:44px;height:58px;flex:none;border-radius:8px 8px 14px 14px;background:{{ t.cup }};box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 4px 8px rgba(0,0,0,.4)"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:3px"><div style="display:flex;align-items:center;gap:10px"><span style="font:600 19px 'Noto Serif Display',serif">{{ t.n }}</span><span style="font-size:11px;font-weight:600;color:{{ t.rc }}">{{ t.r }}</span></div><span style="font-size:13px;line-height:18px;color:rgba(243,235,221,.64)">{{ t.d }}</span></div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <span style="font-size:12px;color:rgba(243,235,221,.5);max-width:900px">Sol altdakı kiçik forma zər qabının rəng nümunəsidir. Real 3D qab modeli asset mərhələsində hazırlanacaq.</span>
+</section>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px;border-bottom:1px solid rgba(201,162,74,.16)">
+  <div style="display:flex;align-items:baseline;gap:14px"><span style="font:600 26px/1.2 'Noto Serif Display',serif">Dolab (Locker) + əşya detalı</span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">3.1 · Dolab · Taxta</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px"><span style="font:600 24px 'Noto Serif Display',serif">Dolab</span><div style="height:30px;padding:0 12px 0 6px;border-radius:999px;background:rgba(243,235,221,.06);box-shadow:inset 0 0 0 1px rgba(201,162,74,.24);display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600"><div style="width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbe7a6,#c9a24a 60%,#8a6a22)"></div>12 450</div></div>
+        <div style="height:230px;flex:none;display:flex;align-items:center;justify-content:center;perspective:900px;background:radial-gradient(60% 60% at 50% 55%,rgba(201,162,74,.14),transparent 70%)">
+          <div style="transform:rotateX(24deg) translateY(-6px);transform-style:preserve-3d"><dc-import name="Board" theme="marble" w="{{ 330 }}" h="{{ 460 }}" pos="{{ pos }}" dice="{{ dice }}" hint-size="330px,237px"></dc-import></div>
+        </div>
+        <div style="display:flex;gap:8px;padding:6px 16px 10px;align-items:center">
+          <div style="height:30px;padding:0 12px;border-radius:999px;background:#F3EBDD;color:#2B1D14;display:flex;align-items:center;font-size:12px;font-weight:600">Dəst 1 · Turnir</div>
+          <div style="height:30px;padding:0 12px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.24);display:flex;align-items:center;font-size:12px">Dəst 2</div>
+          <div style="width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(201,162,74,.24);display:flex;align-items:center;justify-content:center;font-size:16px;color:#C9A24A">+</div>
+          <div style="flex:1"></div>
+          <span style="font-size:12px;color:#E8C468;font-weight:500">Saxla</span>
+        </div>
+        <div style="display:flex;gap:6px;padding:0 16px 12px;overflow:hidden;flex:none">
+          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6"><span style="height:34px;padding:0 14px;flex:none;border-radius:10px;display:flex;align-items:center;font-size:13px;font-weight:{{ c.w }};background:{{ c.bg }};color:{{ c.c }};box-shadow:{{ c.ring }}">{{ c.n }}</span></sc-for>
+        </div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 16px;align-content:start;overflow:hidden">
+          <sc-for list="{{ items }}" as="it" hint-placeholder-count="6">
+            <div style="border-radius:14px;padding:6px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 {{ it.bw }}px {{ it.rc }};display:flex;flex-direction:column;gap:6px;position:relative">
+              <div style="height:64px;border-radius:9px;background:{{ it.sw }};position:relative;overflow:hidden;opacity:{{ it.op }}"><div style="position:absolute;left:8px;right:8px;bottom:0;height:34px;background:{{ it.pt }};clip-path:polygon(0 100%,8% 0,16% 100%,24% 0,32% 100%,40% 0,48% 100%,56% 0,64% 100%,72% 0,80% 100%,88% 0,96% 100%)"></div></div>
+              <div style="display:flex;flex-direction:column;gap:2px;padding:0 3px 3px"><span style="font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.n }}</span><span style="font-size:11px;color:{{ it.sc }};font-weight:500">{{ it.s }}</span></div>
+              <sc-if value="{{ it.eq }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:#C9A24A;color:#231709;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">✓</div></sc-if>
+              <sc-if value="{{ it.lock }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:6px;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F3EBDD" stroke-width="2.5"><path d="M7 11V8a5 5 0 0 1 10 0v3M5 11h14v10H5z"></path></svg></div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 18px 0;border-top:1px solid rgba(201,162,74,.12)"><span style="font-size:13px">Rəqibin kosmetikasını göstər</span><div style="width:44px;height:26px;border-radius:999px;background:#C9A24A;position:relative"><div style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#2B1D14"></div></div></div>
+        <dc-import name="TabBar" active="store" hint-size="100%,86px"></dc-import>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">3.2 · Əşya detalı (sheet)</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="position:absolute;left:0;right:0;bottom:0;top:84px;border-radius:28px 28px 42px 42px;background:linear-gradient(180deg,oklch(0.80 0.13 85 / .22),#34251a 45%);box-shadow:inset 0 0 0 1px oklch(0.80 0.13 85 / .5);display:flex;flex-direction:column;padding:12px 18px 34px;gap:16px">
+          <div style="width:40px;height:4px;border-radius:2px;background:rgba(243,235,221,.25);align-self:center"></div>
+          <div style="display:flex;justify-content:center;padding:8px 0;filter:drop-shadow(0 0 30px oklch(0.80 0.13 85 / .35))"><dc-import name="Board" theme="marble" w="{{ 354 }}" h="{{ 460 }}" pos="{{ pos }}" dice="{{ dice }}" hint-size="354px,254px"></dc-import></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;font-weight:700;letter-spacing:.08em;color:oklch(0.80 0.13 85)">ƏFSANƏVİ</span><span style="font-size:12px;color:rgba(243,235,221,.55)">Kral dəsti · 4 əşya</span></div>
+            <span style="font:600 28px 'Noto Serif Display',serif">Marble Royale</span>
+            <span style="font-size:14px;line-height:20px;color:rgba(243,235,221,.7)">Ağ və qara mərmər, qızıl kakma, kristal zərlər. Daş səsi: daş üzərində mərmər.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;border-top:1px solid rgba(201,162,74,.14)">
+            <span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);letter-spacing:.06em;padding:12px 0 4px">NECƏ ƏLDƏ EDİLİR</span>
+            <sc-for list="{{ obtain }}" as="o" hint-placeholder-count="3"><div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(201,162,74,.1);font-size:14px"><span>{{ o.n }}</span><span style="color:rgba(243,235,221,.64)">{{ o.v }}</span></div></sc-for>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:10px"><div style="flex:1;height:56px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.3);display:flex;align-items:center;justify-content:center;font-weight:600">Sına</div><div style="flex:2;height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Al · <div style="width:12px;height:12px;transform:rotate(45deg);background:linear-gradient(135deg,#ff9fb0,#9E1B32)"></div> 1 800</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px">
+  <div style="display:flex;align-items:baseline;gap:14px"><span style="font:600 26px/1.2 'Noto Serif Display',serif">Asset spesifikasiyası · developer üçün</span><span style="font-size:13px;color:rgba(243,235,221,.55)">Flutter + Flame · bütün ölçülər logical px (pt)</span></div>
+  <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;max-width:1500px">
+    <div style="display:flex;flex-direction:column;border-top:1px solid rgba(201,162,74,.2)">
+      <div style="display:grid;grid-template-columns:1.2fr .9fr 1.3fr 1.6fr;gap:12px;padding:10px 0;font:600 11px 'IBM Plex Mono',monospace;color:#C9A24A;letter-spacing:.04em;border-bottom:1px solid rgba(201,162,74,.2)"><span>ASSET</span><span>@1x</span><span>@2x / @3x</span><span>FAYL ADI</span></div>
+      <sc-for list="{{ spec }}" as="s" hint-placeholder-count="10">
+        <div style="display:grid;grid-template-columns:1.2fr .9fr 1.3fr 1.6fr;gap:12px;padding:11px 0;border-bottom:1px solid rgba(201,162,74,.1);font-size:13px;line-height:1.45"><span>{{ s.a }}</span><span style="font-family:'IBM Plex Mono',monospace;color:rgba(243,235,221,.8)">{{ s.x1 }}</span><span style="font-family:'IBM Plex Mono',monospace;color:rgba(243,235,221,.8)">{{ s.x23 }}</span><span style="font-family:'IBM Plex Mono',monospace;color:#E8C468;font-size:12px">{{ s.f }}</span></div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:22px;font-size:13px;line-height:1.6;color:rgba(243,235,221,.75)">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11px 'IBM Plex Mono',monospace;color:#C9A24A">TAXTA GEOMETRİYASI</span><span>Məntiqi ölçü 640 × 460 (yatay), 640 × 566 (dikey). Çərçivə 20, xana eni 42, bar 36, çıxış qabı 46. Daş 38, zər 44, kub 34. Xanaların hündürlüyü daxili hündürlüyün 43%-i.</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11px 'IBM Plex Mono',monospace;color:#C9A24A">TƏHLÜKƏSİZ ZONALAR</span><span>Dikey: üst 59, alt 34, taxta 6 pt yan boşluqla 378 pt. Yatay: sol 50 (Dynamic Island), sağ 18, alt 21. Android: WindowInsets istifadə et, sabit rəqəm yox.</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11px 'IBM Plex Mono',monospace;color:#C9A24A">KODDA ÇƏKİLƏNLƏR</span><span>Keçərli gediş vurğusu, xəyal daşlar, seçim halqası, son gediş işarələri, xana nömrələri. Bunlar tema rənglərini ThemeExtension-dan oxuyur, asset deyil.</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11px 'IBM Plex Mono',monospace;color:#C9A24A">FORMAT</span><span>Teksturalar WebP (keyfiyyət 85), şəffaf spritelar PNG. Zər fırlanması: 12 kadr, 30 fps, hər tema üçün bir atlas. Səslər: OGG 48 kHz, −14 LUFS.</span></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const RC = { 'Adi': 'oklch(0.75 0.01 80)', 'Nadir': 'oklch(0.72 0.13 245)', 'Epik': 'oklch(0.72 0.13 305)', 'Əfsanəvi': 'oklch(0.80 0.13 85)', 'Mövsümi': 'oklch(0.72 0.13 20)' };
+class Component extends DCLogic {
+  renderVals() {
+    const pos = [[24,1],[13,4],[8,3],[6,4],[5,2],[4,1],[1,-2],[12,-5],[17,-3],[18,-2],[19,-3]];
+    const T = [
+      ['walnut', 'Classic Walnut', 'Adi', 'Standart. Oyma ceviz, fil sümüyü və qara daşlar, qara xallı ağ zərlər.', 'radial-gradient(80% 80% at 50% 40%,#3b2819,#1b120c)', 'linear-gradient(180deg,#6e4224,#3b2112)', [6,3]],
+      ['baku', 'Baku Night', 'Epik', 'Gecə şəhəri, Flame Towers işıltısı. Qızıl və oniks daşlar, qara zərdə qızıl xal.', 'radial-gradient(80% 80% at 50% 80%,#3a2418,#0d0f16)', 'linear-gradient(180deg,#2c2c33,#0d0d12)', [5,5]],
+      ['carpet', 'Carpet Heritage', 'Nadir', 'Xalça naxışlı xanalar, qırmızı/indiqo palitrası, pirinç kənarlı daşlar.', 'radial-gradient(80% 80% at 50% 40%,#3a1416,#140708)', 'linear-gradient(180deg,#8a2228,#4a1014)', [4,2]],
+      ['marble', 'Marble Royale', 'Əfsanəvi', 'Ağ və qara mərmər, qızıl kakma, kristal zərlər.', 'radial-gradient(80% 80% at 50% 40%,#2e2a24,#0c0b0a)', 'linear-gradient(180deg,#e9cf82,#8a6a22)', [6,6]],
+      ['caspian', 'Caspian', 'Mövsümi', 'Xəzər mavisi, mirvari daşlar, balıqqulağı teksturalı zərlər.', 'radial-gradient(80% 80% at 50% 40%,#123844,#051318)', 'linear-gradient(180deg,#f5ded0,#c9a99a)', [3,1]],
+      ['minimal', 'Minimal Pro', 'Adi', 'Düz, yüksək kontrast, turnir üslubu. Heç bir yayındırıcı detal yoxdur.', '#16181D', '#2a2d32', [2,1]]
+    ];
+    const cat = ['Taxta', 'Daşlar', 'Zər', 'Zər qabı', 'İkiqat kub', 'Fon', 'Səslər', 'Emote', 'Avatar çərçivəsi', 'Titul', 'Qələbə effekti'];
+    const IT = [
+      ['Classic Walnut', 'Adi', 'Taxılıb', '#a87745', '#2e1c10', true, false], ['Marble Royale', 'Əfsanəvi', 'Sınanır', '#dcd7cf', '#1a1a1e', false, false], ['Baku Night', 'Epik', 'Sahibsən', '#232838', '#c9a24a', false, false],
+      ['Carpet Heritage', 'Nadir', '1 200', '#7d1f24', '#26346e', false, true], ['Caspian', 'Mövsümi', 'Sezon · Səv. 30', '#1d6577', '#ece3d1', false, true], ['Minimal Pro', 'Adi', 'Sahibsən', '#2a2d32', '#E9E6DF', false, false],
+      ['Gecə Qarağacı', 'Nadir', '900', '#4d3322', '#b08b3f', false, true], ['Şuşa Xatəmi', 'Epik', 'Turnir mükafatı', '#835330', '#9E1B32', false, true], ['Kəhrəba', 'Nadir', '1 200', '#c4883a', '#3a2010', false, true]
+    ];
+    return {
+      pos, dice: [6, 3],
+      themes: T.map(([k, n, r, d, bg, cup, dice]) => ({ k, n, r, rc: RC[r], d, bg, cup, dice })),
+      cats: cat.map((n, i) => ({ n, w: i === 0 ? 600 : 500, bg: i === 0 ? '#F3EBDD' : 'transparent', c: i === 0 ? '#2B1D14' : 'rgba(243,235,221,.75)', ring: i === 0 ? 'none' : 'inset 0 0 0 1px rgba(201,162,74,.2)' })),
+      items: IT.map(([n, r, s, sw, pt, eq, lock], i) => ({ n, s, sw, pt, eq, lock, rc: i === 1 ? '#E8C468' : RC[r], bw: i === 1 ? 2 : 1, op: lock ? .55 : 1, sc: lock ? 'rgba(243,235,221,.6)' : eq || i === 1 ? '#E8C468' : RC[r] })),
+      obtain: [{ n: 'Mağaza', v: '1 800 almaz' }, { n: 'Sezon bileti · Premium', v: 'Səviyyə 40' }, { n: 'Bakı Payız Kuboku', v: 'Top 3 mükafatı' }],
+      spec: [
+        { a: 'Taxta çərçivə', x1: '640×460', x23: '1280×920 / 1920×1380', f: 'board_{theme}_frame@3x.webp' },
+        { a: 'Oyun sahəsi (yarım)', x1: '252×420', x23: '504×840 / 756×1260', f: 'board_{theme}_field@3x.webp' },
+        { a: 'Xana A / B (üçbucaq)', x1: '40×181', x23: '80×362 / 120×543', f: 'point_{theme}_{a|b}@3x.png' },
+        { a: 'Daş (ağ / qara)', x1: '38×38', x23: '76×76 / 114×114', f: 'checker_{theme}_{w|b}@3x.png' },
+        { a: 'Daş yan görünüş (çıxış)', x1: '40×10', x23: '80×20 / 120×30', f: 'checker_{theme}_{w|b}_side@3x.png' },
+        { a: 'Zər üzü × 6', x1: '44×44', x23: '88×88 / 132×132', f: 'die_{theme}_face{1-6}@3x.png' },
+        { a: 'Zər fırlanma atlası', x1: '12 kadr', x23: '132×132 hər kadr', f: 'die_{theme}_roll_atlas.png' },
+        { a: 'Zər qabı', x1: '96×128', x23: '192×256 / 288×384', f: 'cup_{theme}@3x.png' },
+        { a: 'İkiqat kub × 7', x1: '34×34', x23: '68×68 / 102×102', f: 'cube_{theme}_{2-64}@3x.png' },
+        { a: 'Fon', x1: '430×932', x23: '1290×2796 (@3x)', f: 'bg_{theme}.webp' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

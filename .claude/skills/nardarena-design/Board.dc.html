@@ -1,0 +1,119 @@
+<!-- @dsCard group="Game" viewport="680x500" name="Board" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="width:{{ ow }}px;height:{{ oh }}px;position:relative;flex:none">
+  <div style="{{ frameStyle }}">
+    <sc-for list="{{ els }}" as="e" hint-placeholder-count="0">
+      <div style="{{ e.style }}">{{ e.text }}<sc-for list="{{ e.kids }}" as="k" hint-placeholder-count="0"><div style="{{ k.style }}"></div></sc-for></div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:680,&quot;height&quot;:500},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;walnut&quot;,&quot;dark&quot;,&quot;xatam&quot;],&quot;default&quot;:&quot;walnut&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;w&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:640,&quot;tsType&quot;:&quot;number&quot;},&quot;h&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:460,&quot;tsType&quot;:&quot;number&quot;},&quot;pos&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;[number,number][]&quot;},&quot;hl&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;sel&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;lastFrom&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;lastTo&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;dice&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;diceSide&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;diceState&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;cube&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;cubeVal&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;hideCube&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;barMe&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;barOpp&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;offMe&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;offOpp&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+const grain = (base, dark, light) => `repeating-linear-gradient(179.4deg, transparent 0 5px, ${dark} 5px 6px, transparent 6px 13px, ${light} 13px 15px), repeating-linear-gradient(180.7deg, transparent 0 17px, ${dark} 17px 18.5px, transparent 18.5px 31px), repeating-linear-gradient(179.8deg, transparent 0 41px, ${dark} 41px 43px, transparent 43px 67px), radial-gradient(ellipse 55% 28% at 27% 38%, ${light}, transparent 70%), radial-gradient(ellipse 45% 38% at 76% 66%, rgba(0,0,0,.13), transparent 70%), ${base}`;
+const EBONY = 'repeating-linear-gradient(90deg, rgba(255,235,200,.035) 0 1px, transparent 1px 4px), linear-gradient(180deg,#2e1c10,#1a0e07)';
+const BONE = 'repeating-linear-gradient(90deg, rgba(120,90,50,.09) 0 1px, transparent 1px 5px), linear-gradient(180deg,#f2e7cf,#d5c29d)';
+const CHW = 'repeating-radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0 5px, rgba(110,85,50,.17) 5px 6px), radial-gradient(circle at 38% 30%, #fffbf2 0%, #efe4cf 42%, #d4c3a2 78%, #b3a07c 100%)';
+const CHB = 'repeating-radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0 5px, rgba(255,255,255,.055) 5px 6px), radial-gradient(circle at 38% 30%, #5d564f 0%, #2b2724 40%, #151312 80%, #0a0909 100%)';
+const SHW = '0 2px 2px rgba(0,0,0,.35), 0 4px 8px rgba(0,0,0,.25), inset 0 -2px 3px rgba(80,55,25,.35), inset 0 1px 1px rgba(255,255,255,.9)';
+const SHB = '0 2px 2px rgba(0,0,0,.45), 0 4px 8px rgba(0,0,0,.3), inset 0 -2px 3px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.18)';
+const THEMES = {
+  walnut: { frame: grain('linear-gradient(180deg,#6e4224,#4b2b16 55%,#5d3720)', 'rgba(30,12,4,.2)', 'rgba(255,220,170,.06)'), field: grain('linear-gradient(180deg,#c49159,#a87745)', 'rgba(90,45,15,.15)', 'rgba(255,240,210,.11)'), ptA: EBONY, ptB: BONE, tray: 'linear-gradient(180deg,#2a170c,#1c0f07)', chW: CHW, chB: CHB, shW: SHW, shB: SHB, num: 'rgba(243,235,221,.55)' },
+  dark: { frame: grain('linear-gradient(180deg,#3b2617,#22150c 55%,#2e1d11)', 'rgba(0,0,0,.25)', 'rgba(255,220,170,.04)'), field: grain('linear-gradient(180deg,#4d3322,#3a2519)', 'rgba(0,0,0,.18)', 'rgba(255,225,190,.05)'), ptA: 'repeating-linear-gradient(90deg, rgba(255,240,200,.06) 0 1px, transparent 1px 4px), linear-gradient(180deg,#b08b3f,#7d5f24)', ptB: 'repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 4px), linear-gradient(180deg,#7e1b2d,#530e1c)', tray: 'linear-gradient(180deg,#140c07,#0c0704)', chW: CHW, chB: CHB, shW: SHW, shB: SHB + ', inset 0 0 0 2px rgba(201,162,74,.8)', num: 'rgba(236,231,222,.5)' },
+  xatam: { frame: grain('linear-gradient(180deg,#5c2b17,#3e1c0e 55%,#4c2414)', 'rgba(20,6,2,.22)', 'rgba(255,210,170,.05)'), field: grain('linear-gradient(180deg,#9c683d,#835330)', 'rgba(60,25,8,.17)', 'rgba(255,230,200,.08)'), ptA: 'repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 4px), linear-gradient(180deg,#a8213b,#72111f)', ptB: BONE, tray: 'linear-gradient(180deg,#24120a,#170a05)', chW: CHW, chB: CHB, shW: SHW, shB: SHB, num: 'rgba(243,235,221,.55)', inlay: 'repeating-linear-gradient(45deg,#C9A24A 0 3px,#F3EBDD 3px 5px,#9E1B32 5px 8px,#1c120b 8px 10px)' }
+};
+const flat = c => c;
+const MARBLE_W = 'repeating-linear-gradient(118deg, transparent 0 22px, rgba(120,120,130,.18) 22px 23px, transparent 23px 61px), repeating-linear-gradient(32deg, transparent 0 47px, rgba(140,140,150,.12) 47px 48.5px, transparent 48.5px 90px), radial-gradient(ellipse 60% 40% at 30% 40%, rgba(255,255,255,.6), transparent 70%), linear-gradient(160deg,#f4f1ec,#dcd7cf)';
+const MARBLE_B = 'repeating-linear-gradient(118deg, transparent 0 26px, rgba(220,220,230,.10) 26px 27px, transparent 27px 70px), repeating-linear-gradient(40deg, transparent 0 51px, rgba(201,162,74,.16) 51px 52px, transparent 52px 96px), linear-gradient(160deg,#2a2a2e,#0f0f12)';
+Object.assign(THEMES, {
+  baku: { frame: 'repeating-linear-gradient(180deg, transparent 0 9px, rgba(255,255,255,.025) 9px 10px), linear-gradient(180deg,#1d212c,#11131a)', field: 'radial-gradient(3px 3px at 18% 30%, rgba(255,190,90,.5), transparent), radial-gradient(2px 2px at 64% 22%, rgba(255,190,90,.45), transparent), radial-gradient(2px 2px at 80% 70%, rgba(255,150,80,.4), transparent), radial-gradient(90% 60% at 50% 100%, rgba(232,120,60,.18), transparent 70%), linear-gradient(180deg,#232838,#171a26)', ptA: 'linear-gradient(180deg,#d9b560,#8a6a22)', ptB: 'linear-gradient(180deg,#39406a,#20253f)', tray: '#0b0d12', chW: 'repeating-radial-gradient(circle, rgba(0,0,0,0) 0 5px, rgba(120,80,10,.2) 5px 6px), radial-gradient(circle at 38% 30%, #fff3c8, #e8c86e 45%, #b08a35 85%, #8a6a22)', chB: CHB, shW: '0 2px 2px rgba(0,0,0,.45), 0 0 10px rgba(232,196,104,.35), inset 0 -2px 3px rgba(80,55,10,.4), inset 0 1px 1px rgba(255,255,255,.8)', shB: SHB + ', inset 0 0 0 1.5px rgba(232,196,104,.6)', num: 'rgba(232,196,104,.55)', die: 'linear-gradient(145deg,#2c2c33,#101014)', pip: 'radial-gradient(circle at 40% 35%, #fff0b8, #c9a24a)' },
+  carpet: { frame: grain('linear-gradient(180deg,#4a2418,#2e140c)', 'rgba(0,0,0,.2)', 'rgba(255,210,170,.05)'), field: 'repeating-linear-gradient(45deg, rgba(243,235,221,.07) 0 2px, transparent 2px 14px), repeating-linear-gradient(-45deg, rgba(243,235,221,.07) 0 2px, transparent 2px 14px), linear-gradient(180deg,#8a2228,#6c171d)', ptA: 'repeating-linear-gradient(45deg, rgba(201,162,74,.35) 0 2px, transparent 2px 8px), repeating-linear-gradient(-45deg, rgba(201,162,74,.35) 0 2px, transparent 2px 8px), linear-gradient(180deg,#26346e,#18214a)', ptB: 'repeating-linear-gradient(45deg, rgba(140,30,36,.35) 0 2px, transparent 2px 8px), repeating-linear-gradient(-45deg, rgba(140,30,36,.35) 0 2px, transparent 2px 8px), linear-gradient(180deg,#f1e4c8,#d6c39d)', tray: 'linear-gradient(180deg,#1f0d08,#140804)', chW: CHW, chB: 'repeating-radial-gradient(circle, rgba(0,0,0,0) 0 5px, rgba(255,255,255,.06) 5px 6px), radial-gradient(circle at 38% 30%, #4a5a9a, #26346e 50%, #141c40)', shW: SHW + ', inset 0 0 0 2.5px #b88f3a', shB: SHB + ', inset 0 0 0 2.5px #c9a24a', num: 'rgba(243,235,221,.55)', pip: 'radial-gradient(circle at 40% 35%, #c2323c, #6c171d)' },
+  marble: { frame: MARBLE_B, field: MARBLE_W, ptA: MARBLE_B, ptB: 'linear-gradient(180deg,#e9cf82,#b38a35)', tray: 'linear-gradient(180deg,#141416,#08080a)', chW: 'radial-gradient(circle at 38% 30%, rgba(255,255,255,.9), transparent 40%), ' + MARBLE_W, chB: 'radial-gradient(circle at 38% 30%, rgba(255,255,255,.25), transparent 40%), ' + MARBLE_B, shW: SHW + ', inset 0 0 0 2px #c9a24a', shB: SHB + ', inset 0 0 0 2px #c9a24a', num: 'rgba(232,196,104,.7)', inlay: 'linear-gradient(180deg,#e9cf82,#a8822f)', die: 'linear-gradient(145deg, rgba(235,245,255,.95), rgba(170,200,230,.75) 50%, rgba(220,235,250,.9))', pip: 'radial-gradient(circle at 40% 35%, #3a5a8a, #0e1d36)' },
+  caspian: { frame: 'repeating-linear-gradient(180deg, transparent 0 7px, rgba(255,255,255,.03) 7px 8px), linear-gradient(180deg,#0f3d48,#082731)', field: 'repeating-radial-gradient(ellipse 40px 14px at 50% 120%, rgba(255,255,255,.05) 0 1px, transparent 1px 10px), linear-gradient(180deg,#1d6577,#0e4351)', ptA: 'linear-gradient(180deg,#ece3d1,#cdbd9f)', ptB: 'linear-gradient(180deg,#0a2c36,#061c23)', tray: '#05161b', chW: 'radial-gradient(circle at 38% 30%, #ffffff 0%, #f1f0f4 30%, #e6dde8 55%, #cfd9e2 80%, #b6c3cf)', chB: 'repeating-radial-gradient(circle, rgba(0,0,0,0) 0 5px, rgba(255,255,255,.06) 5px 6px), radial-gradient(circle at 38% 30%, #3a5566, #142836 50%, #08141c)', shW: '0 2px 2px rgba(0,0,0,.35), 0 4px 8px rgba(0,0,0,.25), inset 0 -2px 4px rgba(120,130,160,.35), inset 0 1px 1px #fff', shB: SHB, num: 'rgba(236,227,209,.55)', die: 'repeating-linear-gradient(90deg, rgba(160,110,90,.12) 0 2px, transparent 2px 5px), linear-gradient(145deg,#fff4ee,#ecd2c4)', pip: 'radial-gradient(circle at 40% 35%, #1d4a5a, #061c23)' },
+  minimal: { frame: '#1f2125', field: '#2a2d32', ptA: '#E9E6DF', ptB: '#5c6068', tray: '#17181b', chW: '#F5F3EE', chB: '#111214', shW: '0 1px 2px rgba(0,0,0,.4), inset 0 0 0 2px #c9c4b9', shB: '0 1px 2px rgba(0,0,0,.4), inset 0 0 0 2px #4a4d53', num: 'rgba(236,231,222,.7)', die: '#F5F3EE', pip: '#111214', noBevel: true }
+});
+const PIPS = { 1: [4], 2: [2, 6], 3: [2, 4, 6], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
+
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const W = 640, H = p.h ?? 460, F = 20, Q = 252, BAR = 36, PW = 42, D = 38, TX = F + Q + BAR + Q + 14, TW = 46;
+    const th = THEMES[p.theme] || THEMES.walnut;
+    const ow = p.w ?? 640, s = ow / W, oh = Math.round(H * s);
+    const ph = Math.round((H - 2 * F) * 0.43);
+    const hl = new Set(p.hl || []), lastTo = new Set(p.lastTo || []), lastFrom = new Set(p.lastFrom || []);
+    const els = [];
+    const add = (style, text = '', kids = []) => els.push({ style: Object.assign({ position: 'absolute', boxSizing: 'border-box' }, style), text, kids });
+    const colX = c => c < 6 ? F + c * PW : F + Q + BAR + (c - 6) * PW;
+    const geo = i => i <= 12 ? { x: colX(12 - i), b: true } : { x: colX(i - 13), b: false };
+    const counts = {};
+    (p.pos || []).forEach(([pt, n]) => counts[pt] = n);
+    const maxFit = Math.floor(ph / D);
+    const slotY = (g, k, c) => { const sp = c <= maxFit ? D : (ph - D) / (c - 1); return g.b ? H - F - D - k * sp : F + k * sp; };
+    const fieldShadow = 'inset 0 3px 10px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.35)';
+    [F, F + Q + BAR].forEach(x => {
+      if (th.inlay) add({ left: x - 6, top: F - 6, width: Q + 12, height: H - 2 * F + 12, background: th.inlay, borderRadius: 3, boxShadow: '0 0 0 1px rgba(0,0,0,.5)' });
+      add({ left: x, top: F, width: Q, height: H - 2 * F, background: th.field, borderRadius: 2 });
+    });
+    add({ left: F + Q + 5, top: F, width: BAR - 10, height: H - 2 * F, background: 'linear-gradient(90deg, rgba(0,0,0,.4), rgba(0,0,0,.06) 30%, rgba(0,0,0,.06) 70%, rgba(0,0,0,.4))', borderRadius: 2 });
+    [H * 0.2, H * 0.8 - 26].forEach(y => add({ left: F + Q + BAR / 2 - 4, top: y, width: 8, height: 26, borderRadius: 2, background: 'linear-gradient(90deg,#8a6a2a,#e2c472 45%,#a07c30)', boxShadow: '0 1px 2px rgba(0,0,0,.6)' }));
+    for (let i = 1; i <= 24; i++) {
+      const g = geo(i);
+      const base = { left: g.x + 1, top: g.b ? H - F - ph : F, width: PW - 2, height: ph, clipPath: g.b ? 'polygon(50% 0,100% 100%,0 100%)' : 'polygon(0 0,100% 0,50% 100%)' };
+      add(Object.assign({ background: i % 2 ? th.ptA : th.ptB }, base));
+      if (hl.has(i)) add(Object.assign({ background: `linear-gradient(${g.b ? 0 : 180}deg, rgba(240,205,110,.85), rgba(240,205,110,.12))` }, base));
+      add({ left: g.x, top: g.b ? H - F + 4 : 4, width: PW, height: 12, textAlign: 'center', font: "600 9px/12px 'IBM Plex Sans', sans-serif", color: hl.has(i) ? '#F0CD6E' : th.num, fontVariantNumeric: 'tabular-nums' }, String(i));
+    }
+    [F, F + Q + BAR].forEach(x => add({ left: x, top: F, width: Q, height: H - 2 * F, boxShadow: fieldShadow, borderRadius: 2 }));
+    [[F, (H - 2 * F) / 2 - 26], [H / 2 + 26, (H - 2 * F) / 2 - 26]].forEach(([y, h]) => add({ left: TX, top: y, width: TW, height: h, background: th.tray, borderRadius: 4, boxShadow: 'inset 0 3px 8px rgba(0,0,0,.7), inset 0 0 0 1px rgba(0,0,0,.5), 0 1px 0 rgba(255,220,170,.12)' }));
+    const ghost = (pt, gold) => {
+      const g = geo(pt), n = counts[pt] || 0, c = (n > 0 ? n : 0) + 1;
+      const k = Math.min(c - 1, maxFit - 1);
+      add({ left: g.x + (PW - D) / 2, top: slotY(g, k, Math.min(c, maxFit)), width: D, height: D, borderRadius: '50%', border: gold ? '2px dashed rgba(244,212,120,.95)' : '2px dashed rgba(243,235,221,.45)', background: gold ? 'rgba(240,205,110,.18)' : 'transparent' });
+    };
+    lastFrom.forEach(pt => ghost(pt, false));
+    (p.pos || []).forEach(([pt, n]) => {
+      const me = n > 0, c = Math.abs(n), g = geo(pt);
+      for (let k = 0; k < c; k++) {
+        const top = k === c - 1, sh = me ? th.shW : th.shB;
+        const st = { left: g.x + (PW - D) / 2, top: slotY(g, k, c), width: D, height: D, borderRadius: '50%', background: me ? th.chW : th.chB, boxShadow: sh, display: 'flex', alignItems: 'center', justifyContent: 'center', font: "700 15px 'IBM Plex Sans', sans-serif", color: me ? '#4a3620' : '#efe4cf' };
+        if (top && p.sel === pt) Object.assign(st, { boxShadow: sh + ', 0 0 0 3px #F0CD6E, 0 0 18px 5px rgba(240,205,110,.55)', transform: `translateY(${g.b ? -5 : 5}px)` });
+        else if (top && lastTo.has(pt)) st.boxShadow = sh + ', 0 0 0 2px rgba(240,205,110,.6)';
+        add(st, top && c > maxFit ? String(c) : '');
+      }
+    });
+    hl.forEach(pt => ghost(pt, true));
+    const bx = F + Q + (BAR - 34) / 2;
+    for (let k = 0; k < (p.barMe || 0); k++) add({ left: bx, top: H / 2 + 22 + k * 30, width: 34, height: 34, borderRadius: '50%', background: th.chW, boxShadow: th.shW + (p.barGlow ? ', 0 0 0 3px #F0CD6E' : '') });
+    for (let k = 0; k < (p.barOpp || 0); k++) add({ left: bx, top: H / 2 - 56 - k * 30, width: 34, height: 34, borderRadius: '50%', background: th.chB, boxShadow: th.shB });
+    for (let k = 0; k < (p.offMe || 0); k++) add({ left: TX + 3, top: H - F - 14 - k * 11, width: 40, height: 10, borderRadius: 3, background: 'linear-gradient(180deg,#fbf4e4,#d9c9a8)', boxShadow: '0 1px 1px rgba(0,0,0,.5)' });
+    for (let k = 0; k < (p.offOpp || 0); k++) add({ left: TX + 3, top: F + 4 + k * 11, width: 40, height: 10, borderRadius: 3, background: 'linear-gradient(180deg,#4a4440,#151312)', boxShadow: '0 1px 1px rgba(0,0,0,.6)' });
+    if (!p.hideCube) {
+      const offer = p.cube === 'offer';
+      add(offer
+        ? { left: F + Q + BAR + Q / 2 - 28, top: H / 2 - 28, width: 56, height: 56, borderRadius: 10, background: 'linear-gradient(145deg,#fbf5e8,#ddcdaa)', boxShadow: '0 8px 16px rgba(0,0,0,.5), inset 0 -3px 4px rgba(0,0,0,.18), 0 0 0 3px #F0CD6E, 0 0 30px 8px rgba(240,205,110,.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', font: "700 28px 'Noto Serif Display', serif", color: '#2B1D14' }
+        : { left: TX + 6, top: H / 2 - 17, width: 34, height: 34, borderRadius: 6, background: 'linear-gradient(145deg,#fbf5e8,#d6c5a0)', boxShadow: '0 3px 6px rgba(0,0,0,.55), inset 0 -2px 3px rgba(0,0,0,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', font: "700 13px 'IBM Plex Sans', sans-serif", color: '#2B1D14' },
+        offer ? '2' : String(p.cubeVal ?? 64));
+    }
+    if (p.dice) {
+      const cx = p.diceSide === 'opp' ? F + Q / 2 : F + Q + BAR + Q / 2, st = p.diceState || 'idle';
+      p.dice.forEach((v, j) => {
+        const pips = (PIPS[v] || []).map(ix => ({ style: { position: 'absolute', left: 8 + (ix % 3) * 10.5, top: 8 + Math.floor(ix / 3) * 10.5, width: 7.5, height: 7.5, borderRadius: '50%', background: th.pip || 'radial-gradient(circle at 40% 35%, #3a2a1e, #0d0806)', boxShadow: th.noBevel ? 'none' : 'inset 0 1px 1px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.4)' } }));
+        const rot = st === 'rolling' ? (j ? 'rotate(31deg) translate(10px,-14px)' : 'rotate(-22deg) translate(-8px,12px)') : (j ? 'rotate(4deg)' : 'rotate(-3deg)');
+        add({ left: cx - 48 + j * 52, top: H / 2 - 22, width: 44, height: 44, borderRadius: 9, background: th.die || 'linear-gradient(145deg,#fffaf0,#e4d6b8)', boxShadow: st === 'rolling' ? '0 10px 14px rgba(0,0,0,.4), -14px 8px 10px -6px rgba(255,248,230,.25), inset 0 -3px 4px rgba(0,0,0,.18)' : '0 4px 6px rgba(0,0,0,.45), inset 0 -3px 4px rgba(0,0,0,.18), inset 0 2px 2px rgba(255,255,255,.8)', transform: rot, filter: st === 'rolling' ? 'blur(.8px)' : 'none', opacity: st === 'used' ? .4 : 1 }, '', pips);
+      });
+    }
+    const frameStyle = { position: 'absolute', left: 0, top: 0, width: W, height: H, transform: `scale(${s})`, transformOrigin: '0 0', borderRadius: 12, background: th.frame, boxShadow: '0 18px 40px rgba(0,0,0,.55), 0 4px 10px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,220,170,.18), inset 0 -3px 0 rgba(0,0,0,.35), inset 0 0 0 1px rgba(0,0,0,.45)' };
+    return { ow, oh, els, frameStyle };
+  }
+}
+</script>
+</body>
+</html>

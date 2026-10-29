@@ -1,0 +1,340 @@
+<!-- @dsCard group="Screens" viewport="1440x900" name="Turnir və Klan" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Serif+Display:ital,wght@0,400;0,600;0,700;1,500&display=swap"><style>html,body{margin:0;background:#0f0d0c;color:#F3EBDD;font-family:'IBM Plex Sans',system-ui,sans-serif}a{color:#E8C468}a:hover{color:#F3EBDD}</style></helmet>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px;border-bottom:1px solid rgba(201,162,74,.16)">
+  <span style="font:600 26px/1.2 'Noto Serif Display',serif">Öncelik 4 · Turnirlər</span>
+  <div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">4.1 · Turnir siyahısı</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="padding:4px 16px 0;display:flex;flex-direction:column;gap:14px">
+          <span style="font:600 26px 'Noto Serif Display',serif">Turnirlər</span>
+          <div style="display:flex;border-bottom:1px solid rgba(201,162,74,.16)">
+            <sc-for list="{{ ttabs }}" as="t" hint-placeholder-count="4"><div style="flex:1;height:40px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:{{ t.w }};color:{{ t.c }};box-shadow:{{ t.u }}">{{ t.n }}</div></sc-for>
+          </div>
+          <div style="display:flex;gap:6px"><sc-for list="{{ tfilters }}" as="f" hint-placeholder-count="4"><span style="height:30px;padding:0 12px;border-radius:999px;display:flex;align-items:center;font-size:12px;font-weight:500;background:{{ f.bg }};color:{{ f.c }};box-shadow:{{ f.ring }}">{{ f.n }}</span></sc-for></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px;padding:14px 16px 0;min-height:0;overflow:hidden">
+          <sc-for list="{{ tours }}" as="t" hint-placeholder-count="4">
+            <div style="border-radius:18px;padding:14px;background:#34251a;box-shadow:inset 0 0 0 1px rgba(201,162,74,.2);display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:{{ t.sc }}">{{ t.st }}</span><span style="font-size:12px;color:rgba(243,235,221,.64);font-variant-numeric:tabular-nums">{{ t.time }}</span></div>
+              <span style="font:600 18px 'Noto Serif Display',serif">{{ t.n }}</span>
+              <div style="display:flex;gap:14px;font-size:12px;color:rgba(243,235,221,.7)"><span>{{ t.fmt }}</span><span>{{ t.p }}</span><span>{{ t.e }}</span></div>
+              <div style="height:4px;border-radius:2px;background:rgba(243,235,221,.1)"><div style="width:{{ t.fill }};height:100%;border-radius:2px;background:#C9A24A"></div></div>
+            </div>
+          </sc-for>
+        </div>
+        <dc-import name="TabBar" active="tour" hint-size="100%,86px"></dc-import>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">4.2 · Turnir detalı</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <div style="height:250px;flex:none;position:relative;background:repeating-linear-gradient(135deg,rgba(243,235,221,.05) 0 6px,transparent 6px 12px),linear-gradient(180deg,#4a321f,#1b120c);display:flex;flex-direction:column">
+          <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+          <span style="position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);font:400 10px 'IBM Plex Mono',monospace;color:rgba(243,235,221,.4)">turnir afişası</span>
+          <div style="margin-top:auto;padding:0 18px 16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#E8C468">GƏLƏCƏK · KNOCKOUT 64</span><span style="font:600 28px 'Noto Serif Display',serif">Novruz Çempionatı</span></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:16px;padding:16px 18px 0">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:rgba(243,235,221,.6)">Başlanğıca</span><span style="font:600 30px 'IBM Plex Sans',sans-serif;font-variant-numeric:tabular-nums">02:14:36</span></div><div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end"><span style="font-size:12px;color:rgba(243,235,221,.6)">Mükafat fondu</span><span style="font:600 22px 'Noto Serif Display',serif;color:#E8C468">50 000</span></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>İştirakçılar</span><span style="font-variant-numeric:tabular-nums">48 / 64</span></div><div style="height:6px;border-radius:3px;background:rgba(243,235,221,.1)"><div style="width:75%;height:100%;border-radius:3px;background:#C9A24A"></div></div></div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+            <div style="padding:10px;border-radius:12px;background:rgba(201,162,74,.12);display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;color:#E8C468;font-weight:600">1-ci</span><span style="font-size:15px;font-weight:600">25 000</span></div>
+            <div style="padding:10px;border-radius:12px;background:rgba(243,235,221,.05);display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;color:rgba(243,235,221,.6);font-weight:600">2-ci</span><span style="font-size:15px;font-weight:600">12 000</span></div>
+            <div style="padding:10px;border-radius:12px;background:rgba(243,235,221,.05);display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;color:rgba(243,235,221,.6);font-weight:600">3–4</span><span style="font-size:15px;font-weight:600">6 500</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;border-top:1px solid rgba(201,162,74,.14)">
+            <sc-for list="{{ rules }}" as="r" hint-placeholder-count="5"><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(201,162,74,.1);font-size:14px"><span style="color:rgba(243,235,221,.64)">{{ r.k }}</span><span>{{ r.v }}</span></div></sc-for>
+          </div>
+        </div>
+        <div style="padding:0 16px 40px"><div style="height:58px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:600;color:#F8F1E4;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Qeydiyyat · <div style="width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c8,#8a6a22)"></div>500</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">4.3 · Canlı bracket (sürüşdür / böyüt)</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="font:600 19px 'Noto Serif Display',serif;flex:1">Bakı Payız Kuboku</span><span style="font-size:11px;font-weight:700;color:#E0566C">● CANLI</span></div>
+        <div style="display:flex;gap:6px;padding:0 16px 10px"><span style="height:28px;padding:0 10px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.2);display:flex;align-items:center;font-size:12px;color:rgba(243,235,221,.6)">1/16</span><span style="height:28px;padding:0 10px;border-radius:8px;background:#F3EBDD;color:#2B1D14;display:flex;align-items:center;font-size:12px;font-weight:600">1/8</span><span style="height:28px;padding:0 10px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.2);display:flex;align-items:center;font-size:12px">1/4</span><span style="height:28px;padding:0 10px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.2);display:flex;align-items:center;font-size:12px">1/2</span><span style="height:28px;padding:0 10px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.2);display:flex;align-items:center;font-size:12px">Final</span></div>
+        <div style="flex:1;position:relative;overflow:hidden;background:radial-gradient(circle,rgba(201,162,74,.12) 1px,transparent 1.5px) 0 0/16px 16px">
+          <sc-for list="{{ bracket }}" as="b" hint-placeholder-count="8">
+            <div style="position:absolute;left:{{ b.x }}px;top:{{ b.y }}px;width:150px;border-radius:10px;background:#2B1D14;box-shadow:{{ b.ring }};overflow:hidden">
+              <div style="display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;border-bottom:1px solid rgba(201,162,74,.12);font-size:12px;font-weight:{{ b.w1 }};color:{{ b.c1 }}"><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.a }}</span><span style="font-variant-numeric:tabular-nums">{{ b.sa }}</span></div>
+              <div style="display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;font-size:12px;font-weight:{{ b.w2 }};color:{{ b.c2 }}"><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.b }}</span><span style="font-variant-numeric:tabular-nums">{{ b.sb }}</span></div>
+            </div>
+          </sc-for>
+          <sc-for list="{{ links }}" as="l" hint-placeholder-count="0"><div style="{{ l }}"></div></sc-for>
+          <div style="position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;border-radius:12px;background:#34251a;box-shadow:inset 0 0 0 1px rgba(201,162,74,.24)"><div style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px;border-bottom:1px solid rgba(201,162,74,.2)">+</div><div style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px">−</div></div>
+        </div>
+        <div style="padding:12px 16px 36px;background:#2B1D14;border-top:1px solid rgba(201,162,74,.2);display:flex;align-items:center;gap:12px">
+          <div style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#E8C468">NÖVBƏTİ MATÇIN · 1/4</span><span style="font-size:15px;font-weight:600">Elvin – Nigar_88</span><span style="font-size:12px;color:rgba(243,235,221,.6)">14 dəq sonra · 5 xala qədər</span></div>
+          <div style="height:44px;padding:0 16px;border-radius:12px;background:#C9A24A;color:#231709;display:flex;align-items:center;font-weight:600;font-size:14px">Hazıram</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">4.4 · Standings (İsveç sistemi)</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="padding:4px 16px 12px;display:flex;flex-direction:column;gap:10px"><span style="font:600 22px 'Noto Serif Display',serif">Gecə Liqası · Cədvəl</span><div style="display:flex;gap:6px;align-items:center"><span style="font-size:12px;color:rgba(243,235,221,.6)">Raund</span><sc-for list="{{ rounds }}" as="r" hint-placeholder-count="7"><span style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;background:{{ r.bg }};color:{{ r.c }}">{{ r.n }}</span></sc-for></div></div>
+        <div style="display:grid;grid-template-columns:28px minmax(0,1fr) 44px 44px 36px;gap:6px;padding:8px 16px;font:600 10px 'IBM Plex Mono',monospace;color:rgba(243,235,221,.5);border-bottom:1px solid rgba(201,162,74,.16)"><span>#</span><span>OYUNÇU</span><span>Q–M</span><span>BUCH</span><span style="text-align:right">XAL</span></div>
+        <sc-for list="{{ stand }}" as="s" hint-placeholder-count="12">
+          <div style="display:grid;grid-template-columns:28px minmax(0,1fr) 44px 44px 36px;gap:6px;padding:0 16px;height:46px;align-items:center;font-size:13px;font-variant-numeric:tabular-nums;background:{{ s.bg }};border-bottom:1px solid rgba(201,162,74,.08)"><span style="color:{{ s.rc }};font-weight:600">{{ s.r }}</span><span style="font-weight:{{ s.w }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.n }}</span><span style="color:rgba(243,235,221,.7)">{{ s.wl }}</span><span style="color:rgba(243,235,221,.7)">{{ s.b }}</span><span style="text-align:right;font-weight:600">{{ s.p }}</span></div>
+        </sc-for>
+        <span style="padding:12px 16px;font-size:11px;color:rgba(243,235,221,.5)">İlk 8 pley-offa keçir · bərabərlikdə Buchholz</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">4.5 · Çempion mərasimi</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:radial-gradient(70% 45% at 50% 38%,rgba(232,196,104,.35),#2B1D14 60%,#120c08);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:0 24px;text-align:center">
+          <div style="width:200px;height:240px;border-radius:16px;background:repeating-linear-gradient(135deg,rgba(243,235,221,.07) 0 6px,transparent 6px 12px);box-shadow:inset 0 0 0 1px rgba(232,196,104,.4);display:flex;align-items:center;justify-content:center;font:400 10px 'IBM Plex Mono',monospace;color:rgba(243,235,221,.5)">kubok · 3D render</div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:40px;height:1px;background:#C9A24A"></div><div style="width:8px;height:8px;transform:rotate(45deg);background:#C9A24A"></div><div style="width:40px;height:1px;background:#C9A24A"></div></div>
+          <span style="font:600 40px/44px 'Noto Serif Display',serif;color:#E8C468">Çempion</span>
+          <span style="font-size:15px;line-height:22px;color:rgba(243,235,221,.8)">Elvin · Bakı Payız Kuboku 2026<br>Final: 7 – 4 · Nigar_88</span>
+          <div style="display:flex;gap:8px"><span style="height:34px;padding:0 14px;border-radius:999px;background:rgba(201,162,74,.18);display:flex;align-items:center;font-size:13px;font-weight:600">+25 000 sikkə</span><span style="height:34px;padding:0 14px;border-radius:999px;background:oklch(0.80 0.13 85 / .18);color:oklch(0.85 0.12 85);display:flex;align-items:center;font-size:13px;font-weight:600">Titul: Payız Xanı</span></div>
+        </div>
+        <div style="width:100%;padding:0 16px 40px;box-sizing:border-box;display:flex;gap:10px"><div style="flex:1;height:54px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.3);display:flex;align-items:center;justify-content:center;font-weight:600">Paylaş</div><div style="flex:1.5;height:54px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Kuboku vitrinə qoy</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px">
+  <span style="font:600 26px/1.2 'Noto Serif Display',serif">Öncelik 5 · Klanlar</span>
+  <div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">5.1 · Klan axtarışı</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="padding:4px 16px 0;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 26px 'Noto Serif Display',serif">Klanlar</span><span style="font-size:14px;font-weight:600;color:#E8C468">+ Yarat</span></div>
+          <div style="height:46px;border-radius:14px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px rgba(201,162,74,.2);display:flex;align-items:center;gap:10px;padding:0 14px;color:rgba(243,235,221,.5);font-size:15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>Ad və ya teq axtar</div>
+          <div style="display:flex;gap:6px"><span style="height:30px;padding:0 12px;border-radius:999px;background:rgba(201,162,74,.18);box-shadow:inset 0 0 0 1px #C9A24A;color:#E8C468;display:flex;align-items:center;font-size:12px;font-weight:600">Dil: AZ</span><span style="height:30px;padding:0 12px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.24);display:flex;align-items:center;font-size:12px">Açıq</span><span style="height:30px;padding:0 12px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.24);display:flex;align-items:center;font-size:12px">Min. reytinq ≤ 1842</span></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;padding:8px 16px 0;min-height:0;overflow:hidden">
+          <sc-for list="{{ clans }}" as="c" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(201,162,74,.1)">
+              <div style="width:46px;height:52px;flex:none;clip-path:{{ c.shape }};background:{{ c.bg }};display:flex;align-items:center;justify-content:center;font:700 14px 'Noto Serif Display',serif;color:#F3EBDD">{{ c.ini }}</div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><div style="display:flex;gap:6px;align-items:baseline"><span style="font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.n }}</span><span style="font:500 11px 'IBM Plex Mono',monospace;color:#C9A24A">[{{ c.tag }}]</span></div><span style="font-size:12px;color:rgba(243,235,221,.6);font-variant-numeric:tabular-nums">Səv. {{ c.lvl }} · {{ c.m }}/50 · {{ c.r }}</span></div>
+              <div style="height:34px;padding:0 14px;border-radius:10px;display:flex;align-items:center;font-size:13px;font-weight:600;background:{{ c.bbg }};color:{{ c.bc }};box-shadow:{{ c.bring }}">{{ c.btn }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <dc-import name="TabBar" active="clan" hint-size="100%,86px"></dc-import>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">5.2 · Klan profili</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:radial-gradient(90% 40% at 50% 18%,rgba(158,27,50,.35),#2B1D14 60%,#1b120c);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 16px 18px">
+          <div style="width:96px;height:110px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);background:linear-gradient(160deg,#c52f4a,#6e0f20);display:flex;align-items:center;justify-content:center;position:relative"><div style="position:absolute;inset:6px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);box-shadow:inset 0 0 0 2px #E8C468"></div><div style="width:30px;height:30px;transform:rotate(45deg);border:3px solid #E8C468"></div></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 26px 'Noto Serif Display',serif">Qızıl Zər</span><span style="font:500 13px 'IBM Plex Mono',monospace;color:#C9A24A">[QZR]</span></div>
+          <span style="font-size:13px;color:rgba(243,235,221,.7);text-align:center;line-height:19px">Bakıdan ciddi nərd oyunçuları. Hər cümə klan döyüşü.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0 16px;border-radius:14px;overflow:hidden;background:rgba(201,162,74,.16)">
+          <sc-for list="{{ cstats }}" as="s" hint-placeholder-count="4"><div style="background:#2B1D14;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-size:16px;font-weight:600;font-variant-numeric:tabular-nums">{{ s.v }}</span><span style="font-size:11px;color:rgba(243,235,221,.6)">{{ s.k }}</span></div></sc-for>
+        </div>
+        <div style="padding:18px 16px 0;display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);letter-spacing:.06em;padding-bottom:6px">TƏLƏBLƏR</span>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:rgba(243,235,221,.7)">Min. reytinq</span><span>1500 <span style="color:#3FB57F">✓</span></span></div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:rgba(243,235,221,.7)">Min. səviyyə</span><span>10 <span style="color:#3FB57F">✓</span></span></div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:rgba(243,235,221,.7)">Qəbul</span><span>Müraciət ilə</span></div>
+        </div>
+        <div style="padding:14px 16px 0;display:flex;flex-direction:column">
+          <span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);letter-spacing:.06em;padding-bottom:4px">ƏN YAXŞI ÜZVLƏR</span>
+          <sc-for list="{{ topm }}" as="m" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:8px 0"><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(150deg,#2f4a52,#162428);display:flex;align-items:center;justify-content:center;font:600 13px 'Noto Serif Display',serif;box-shadow:0 0 0 1.5px #C9A24A">{{ m.i }}</div><span style="flex:1;font-size:14px">{{ m.n }}</span><span style="font-size:13px;color:rgba(243,235,221,.7);font-variant-numeric:tabular-nums">{{ m.r }}</span></div></sc-for>
+        </div>
+        <div style="flex:1"></div>
+        <div style="padding:0 16px 40px"><div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Müraciət et</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">5.3 · Emblem qurucusu</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px"><span style="font-size:15px;color:rgba(243,235,221,.7)">Ləğv et</span><span style="font:600 18px 'Noto Serif Display',serif">Emblem</span><span style="font-size:15px;font-weight:600;color:#E8C468">Saxla</span></div>
+        <div style="height:280px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(201,162,74,.14),transparent 60%)">
+          <div style="width:170px;height:196px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);background:repeating-linear-gradient(60deg,rgba(232,196,104,.22) 0 2px,transparent 2px 14px),repeating-linear-gradient(-60deg,rgba(232,196,104,.22) 0 2px,transparent 2px 14px),linear-gradient(160deg,#c52f4a,#6e0f20);display:flex;align-items:center;justify-content:center;position:relative"><div style="position:absolute;inset:10px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);box-shadow:inset 0 0 0 3px #E8C468"></div><div style="width:54px;height:54px;transform:rotate(45deg);border:5px solid #E8C468"></div></div>
+        </div>
+        <div style="display:flex;border-bottom:1px solid rgba(201,162,74,.16);margin:0 16px"><sc-for list="{{ etabs }}" as="t" hint-placeholder-count="4"><div style="flex:1;height:42px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:{{ t.w }};color:{{ t.c }};box-shadow:{{ t.u }}">{{ t.n }}</div></sc-for></div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:16px">
+          <sc-for list="{{ shapes }}" as="s" hint-placeholder-count="8"><div style="aspect-ratio:1;border-radius:14px;background:rgba(243,235,221,.05);box-shadow:{{ s.ring }};display:flex;align-items:center;justify-content:center"><div style="width:42px;height:48px;clip-path:{{ s.cp }};background:{{ s.bg }}"></div></div></sc-for>
+        </div>
+        <div style="padding:0 16px;display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);letter-spacing:.06em">ƏSAS RƏNG</span><div style="display:flex;gap:10px"><sc-for list="{{ ecolors }}" as="c" hint-placeholder-count="7"><div style="width:38px;height:38px;border-radius:50%;background:{{ c.c }};box-shadow:{{ c.ring }}"></div></sc-for></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">5.4 · Klan evi · söhbət</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="display:flex;align-items:center;gap:12px;padding:4px 16px 12px"><div style="width:40px;height:46px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);background:linear-gradient(160deg,#c52f4a,#6e0f20);display:flex;align-items:center;justify-content:center"><div style="width:12px;height:12px;transform:rotate(45deg);border:2px solid #E8C468"></div></div><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 19px 'Noto Serif Display',serif">Qızıl Zər</span><span style="font-size:12px;color:#3FB57F">● 18 onlayn</span></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></div>
+        <div style="display:flex;border-bottom:1px solid rgba(201,162,74,.16);margin:0 16px"><sc-for list="{{ htabs }}" as="t" hint-placeholder-count="4"><div style="flex:1;height:40px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:{{ t.w }};color:{{ t.c }};box-shadow:{{ t.u }}">{{ t.n }}</div></sc-for></div>
+        <div style="margin:12px 16px 0;padding:12px 14px;border-radius:14px;background:rgba(201,162,74,.12);box-shadow:inset 0 0 0 1px rgba(201,162,74,.3);display:flex;align-items:center;gap:12px"><div style="width:36px;height:32px;border-radius:6px 6px 4px 4px;background:linear-gradient(180deg,#c9a24a,#6e4224)"></div><div style="flex:1;display:flex;flex-direction:column;gap:5px"><div style="display:flex;justify-content:space-between;font-size:13px"><span style="font-weight:600">Həftəlik sandıq</span><span style="font-variant-numeric:tabular-nums;color:rgba(243,235,221,.7)">7 400 / 10 000</span></div><div style="height:4px;border-radius:2px;background:rgba(243,235,221,.12)"><div style="width:74%;height:100%;background:#C9A24A;border-radius:2px"></div></div></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px;padding:14px 16px;justify-content:flex-end;min-height:0;overflow:hidden">
+          <span style="align-self:center;font-size:12px;color:rgba(243,235,221,.55);padding:5px 12px;border-radius:999px;background:rgba(243,235,221,.05)">Rauf klan döyüşündə qalib gəldi · +3</span>
+          <sc-for list="{{ chat }}" as="m" hint-placeholder-count="4">
+            <div style="display:flex;gap:8px;align-self:{{ m.al }};max-width:78%;flex-direction:{{ m.dir }}">
+              <div style="width:28px;height:28px;flex:none;border-radius:50%;background:linear-gradient(150deg,#2f4a52,#162428);display:{{ m.av }};align-items:center;justify-content:center;font:600 11px 'Noto Serif Display',serif">{{ m.i }}</div>
+              <div style="padding:9px 12px;border-radius:{{ m.r }};background:{{ m.bg }};color:{{ m.c }};display:flex;flex-direction:column;gap:3px"><span style="font-size:11px;font-weight:600;color:{{ m.nc }}">{{ m.n }}</span><span style="font-size:14px;line-height:19px">{{ m.t }}</span></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:8px 12px 34px;display:flex;gap:8px;border-top:1px solid rgba(201,162,74,.12)"><div style="flex:1;height:44px;border-radius:22px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px rgba(201,162,74,.2);display:flex;align-items:center;padding:0 16px;font-size:14px;color:rgba(243,235,221,.45)">Mesaj yaz…</div><div style="width:44px;height:44px;border-radius:50%;background:#C9A24A;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#231709" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">5.5 · Üzvlər və idarəetmə</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="padding:4px 16px 10px;display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 22px 'Noto Serif Display',serif">Üzvlər</span><span style="font-size:13px;color:rgba(243,235,221,.6)">42 / 50</span></div>
+        <sc-for list="{{ members }}" as="m" hint-placeholder-count="8">
+          <div style="display:flex;align-items:center;gap:12px;height:58px;padding:0 16px;border-bottom:1px solid rgba(201,162,74,.08);background:{{ m.bg }}">
+            <div style="position:relative;width:36px;height:36px;flex:none"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(150deg,#2f4a52,#162428);display:flex;align-items:center;justify-content:center;font:600 14px 'Noto Serif Display',serif">{{ m.i }}</div><div style="position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:{{ m.pc }};box-shadow:0 0 0 2px #1b120c"></div></div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:600">{{ m.n }}</span><span style="font-size:12px;color:rgba(243,235,221,.6)">{{ m.p }}</span></div>
+            <span style="font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;background:{{ m.rbg }};color:{{ m.rc }}">{{ m.role }}</span>
+          </div>
+        </sc-for>
+        <div style="position:absolute;inset:0;background:rgba(8,6,5,.55);border-radius:50px"></div>
+        <div style="position:absolute;left:8px;right:8px;bottom:8px;padding:12px 20px 30px;border-radius:24px 24px 42px 42px;background:#34251a;box-shadow:inset 0 0 0 1px rgba(201,162,74,.24);display:flex;flex-direction:column">
+          <div style="width:40px;height:4px;border-radius:2px;background:rgba(243,235,221,.25);align-self:center;margin-bottom:12px"></div>
+          <span style="font:600 18px 'Noto Serif Display',serif;padding-bottom:8px">Nigar_88 · Ağsaqqal</span>
+          <sc-for list="{{ macts }}" as="a" hint-placeholder-count="4"><div style="height:50px;display:flex;align-items:center;border-bottom:1px solid rgba(201,162,74,.1);font-size:15px;color:{{ a.c }}">{{ a.n }}</div></sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">5.6 · Klan döyüşü</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(90deg,rgba(158,27,50,.3),transparent 45%,transparent 55%,rgba(38,52,110,.35)),#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 16px 0"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;color:#E0566C">● CANLI · BİTMƏSİNƏ 1:42:08</span></div>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:18px 16px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:64px;height:74px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);background:linear-gradient(160deg,#c52f4a,#6e0f20);display:flex;align-items:center;justify-content:center"><div style="width:20px;height:20px;transform:rotate(45deg);border:3px solid #E8C468"></div></div><span style="font-size:14px;font-weight:600">Qızıl Zər</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center"><span style="font:600 44px/48px 'Noto Serif Display',serif;font-variant-numeric:tabular-nums">12<span style="color:rgba(243,235,221,.4)"> : </span>9</span><span style="font-size:11px;color:rgba(243,235,221,.6)">25 matçdan</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:64px;height:64px;clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);background:linear-gradient(160deg,#4a5a9a,#18214a);display:flex;align-items:center;justify-content:center;font:700 18px 'Noto Serif Display',serif">XQ</div><span style="font-size:14px;font-weight:600">Xəzər Qartalları</span></div>
+        </div>
+        <div style="height:6px;margin:0 16px;border-radius:3px;overflow:hidden;display:flex"><div style="width:48%;background:#9E1B32"></div><div style="width:36%;background:#26346e"></div><div style="flex:1;background:rgba(243,235,221,.12)"></div></div>
+        <div style="padding:18px 16px 0;display:flex;flex-direction:column"><span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);letter-spacing:.06em;padding-bottom:6px">MATÇ TƏYİNATLARI</span>
+          <sc-for list="{{ war }}" as="w" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);gap:8px;align-items:center;height:52px;border-bottom:1px solid rgba(201,162,74,.1);font-size:13px"><span style="font-weight:{{ w.wa }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ w.a }}</span><span style="text-align:center;font-size:12px;font-weight:600;padding:4px 0;border-radius:6px;background:{{ w.sbg }};color:{{ w.sc }};font-variant-numeric:tabular-nums">{{ w.s }}</span><span style="text-align:right;font-weight:{{ w.wb }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ w.b }}</span></div>
+          </sc-for>
+        </div>
+        <div style="flex:1"></div>
+        <div style="padding:0 16px 40px"><div style="height:54px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #C9A24A;color:#E8C468;display:flex;align-items:center;justify-content:center;font-weight:600">Canlı matçları izlə · 4</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">5.7 · Klan liderlər cədvəli</span>
+      <div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:radial-gradient(90% 40% at 50% 20%,rgba(201,162,74,.22),#1b120c 70%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+        <dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+        <span style="font:600 22px 'Noto Serif Display',serif;padding:4px 16px 0">Klan reytinqi · Sezon 4</span>
+        <div style="display:flex;align-items:flex-end;justify-content:center;gap:10px;padding:24px 16px 0;height:210px;box-sizing:border-box">
+          <sc-for list="{{ podium }}" as="p" hint-placeholder-count="3">
+            <div style="width:106px;display:flex;flex-direction:column;align-items:center;gap:8px"><div style="width:48px;height:54px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);background:{{ p.bg }};display:flex;align-items:center;justify-content:center;font:700 13px 'Noto Serif Display',serif">{{ p.i }}</div><span style="font-size:12px;font-weight:600;text-align:center;line-height:15px">{{ p.n }}</span><div style="width:100%;height:{{ p.h }}px;border-radius:10px 10px 0 0;background:{{ p.col }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font:600 22px 'Noto Serif Display',serif;color:#231709">{{ p.r }}</span><span style="font-size:11px;color:#231709;font-weight:600">{{ p.pts }}</span></div></div>
+          </sc-for>
+        </div>
+        <sc-for list="{{ clanlb }}" as="c" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;gap:12px;height:54px;padding:0 16px;border-bottom:1px solid rgba(201,162,74,.08);background:{{ c.bg }}"><span style="width:22px;font-size:13px;font-weight:600;color:rgba(243,235,221,.6)">{{ c.r }}</span><div style="width:30px;height:34px;clip-path:polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%);background:{{ c.e }}"></div><span style="flex:1;font-size:14px;font-weight:{{ c.w }}">{{ c.n }}</span><span style="font-size:13px;font-variant-numeric:tabular-nums">{{ c.p }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const tabs = (arr, a) => arr.map((n, i) => ({ n, w: i === a ? 600 : 500, c: i === a ? '#E8C468' : 'rgba(243,235,221,.6)', u: i === a ? 'inset 0 -2px 0 #C9A24A' : 'none' }));
+const SHIELD = 'polygon(50% 0,100% 18%,100% 62%,50% 100%,0 62%,0 18%)', HEX = 'polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)', OCT = 'polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%)', CIRC = 'circle(50%)', DIAM = 'polygon(50% 0,100% 50%,50% 100%,0 50%)', BAN = 'polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)', STAR = 'polygon(50% 0,62% 35%,100% 38%,70% 60%,80% 100%,50% 76%,20% 100%,30% 60%,0 38%,38% 35%)', ARCH = 'polygon(0 30%,20% 8%,50% 0,80% 8%,100% 30%,100% 100%,0 100%)';
+class Component extends DCLogic {
+  renderVals() {
+    const chip = (n, on) => ({ n, bg: on ? 'rgba(201,162,74,.18)' : 'transparent', c: on ? '#E8C468' : '#F3EBDD', ring: on ? 'inset 0 0 0 1px #C9A24A' : 'inset 0 0 0 1px rgba(201,162,74,.24)' });
+    // bracket geometry
+    const R1 = [['Elvin', 'Samir_77', 5, 2, 0], ['Leyla', 'Orxan', 3, 5, 1], ['Nigar_88', 'Tural', 5, 4, 0], ['Kerem_TR', 'Fərid', 5, 1, 0]];
+    const bracket = [], links = [];
+    const me = '#E8C468';
+    R1.forEach(([a, b, sa, sb, win], i) => {
+      const y = 20 + i * 120;
+      const hasMe = a === 'Elvin' || b === 'Elvin';
+      bracket.push({ x: 14, y, a, b, sa, sb, w1: win === 0 ? 600 : 400, w2: win === 1 ? 600 : 400, c1: win === 0 ? '#F3EBDD' : 'rgba(243,235,221,.5)', c2: win === 1 ? '#F3EBDD' : 'rgba(243,235,221,.5)', ring: hasMe ? `inset 0 0 0 1.5px ${me}` : 'inset 0 0 0 1px rgba(201,162,74,.2)' });
+      links.push({ position: 'absolute', left: 164, top: y + 30, width: 20, height: 1, background: hasMe ? me : 'rgba(201,162,74,.35)' });
+    });
+    [[80, 'Elvin', 'Orxan', '–', '–', true], [320, 'Nigar_88', 'Kerem_TR', '2', '1', false]].forEach(([y, a, b, sa, sb, m], i) => {
+      bracket.push({ x: 200, y, a, b, sa, sb, w1: 600, w2: 600, c1: '#F3EBDD', c2: '#F3EBDD', ring: m ? `inset 0 0 0 1.5px ${me}, 0 0 20px rgba(232,196,104,.25)` : 'inset 0 0 0 1px rgba(201,162,74,.2)' });
+      const top = 20 + i * 240 + 30;
+      links.push({ position: 'absolute', left: 184, top, width: 1, height: 120, background: i === 0 ? me : 'rgba(201,162,74,.35)' });
+      links.push({ position: 'absolute', left: 184, top: y + 30, width: 16, height: 1, background: i === 0 ? me : 'rgba(201,162,74,.35)' });
+    });
+    const stNames = ['Rauf', 'Aysel_A', 'Elvin', 'Kerem_TR', 'Murad', 'Günay', 'Orxan', 'Sevda', 'Tural', 'Zaur', 'Leyla', 'Samir_77'];
+    const pts = [6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2];
+    return {
+      ttabs: tabs(['Canlı', 'Gələcək', 'Mənim', 'Bitmiş'], 0),
+      tfilters: [chip('Hamısı', true), chip('Qısa'), chip('Uzun'), chip('Pulsuz')],
+      tours: [
+        { st: '● CANLI · RAUND 3', sc: '#E0566C', time: '14 dəq', n: 'Bakı Payız Kuboku', fmt: 'Qısa · 5 xal', p: '50 000', e: '64/64', fill: '100%' },
+        { st: '● CANLI · RAUND 1', sc: '#E0566C', time: '32 dəq', n: 'Gecə Blitsi', fmt: 'Qısa · 3 xal · 1+8s', p: '8 000', e: '128/128', fill: '100%' },
+        { st: 'QEYDİYYAT AÇIQDIR', sc: '#E8C468', time: '02:14:36', n: 'Novruz Çempionatı', fmt: 'Qısa · 7 xal', p: '50 000', e: '48/64', fill: '75%' },
+        { st: 'QEYDİYYAT AÇIQDIR', sc: '#E8C468', time: 'Sabah 20:00', n: 'Uzun Nərd Liqası', fmt: 'Uzun · İsveç · 7 raund', p: '20 000', e: '91/128', fill: '71%' }
+      ],
+      rules: [{ k: 'Variant', v: 'Qısa nərd' }, { k: 'Format', v: 'Knockout · 7 xala qədər' }, { k: 'Vaxt', v: '3 dəq + 12s' }, { k: 'Giriş', v: '500 sikkə · min. 1500' }, { k: 'Ədalətli zər', v: 'Yoxlanıla bilər' }],
+      bracket, links,
+      rounds: [1, 2, 3, 4, 5, 6, 7].map(n => ({ n, bg: n === 7 ? '#F3EBDD' : 'rgba(243,235,221,.06)', c: n === 7 ? '#2B1D14' : '#F3EBDD' })),
+      stand: stNames.map((n, i) => ({ r: i + 1, n, wl: `${pts[i]}–${7 - pts[i]}`, b: (24 - i * 1.3).toFixed(1), p: pts[i], bg: n === 'Elvin' ? 'rgba(201,162,74,.14)' : 'transparent', w: n === 'Elvin' ? 600 : 400, rc: i < 8 ? '#E8C468' : 'rgba(243,235,221,.5)' })),
+      clans: [
+        ['Qızıl Zər', 'QZR', 'QZ', 14, 42, 2140, SHIELD, 'linear-gradient(160deg,#c52f4a,#6e0f20)', 'Müraciət'], ['Xəzər Qartalları', 'XQ', 'XQ', 12, 50, 2085, OCT, 'linear-gradient(160deg,#4a5a9a,#18214a)', 'Dolu'],
+        ['Şəki Ustaları', 'ŞKU', 'ŞU', 9, 31, 1910, HEX, 'linear-gradient(160deg,#3FB57F,#145a3a)', 'Qoşul'], ['Gəncə Nərdçiləri', 'GNC', 'GN', 11, 44, 1880, SHIELD, 'linear-gradient(160deg,#c9a24a,#6e4224)', 'Qoşul'],
+        ['Abşeron 6-5', 'A65', '65', 7, 22, 1760, CIRC, 'linear-gradient(160deg,#7d4fc4,#3a1f66)', 'Qoşul'], ['Bayıl Gecələri', 'BYL', 'BG', 6, 18, 1690, DIAM, 'linear-gradient(160deg,#5c6068,#2a2d32)', 'Qoşul']
+      ].map(([n, tag, ini, lvl, m, r, shape, bg, btn]) => ({ n, tag, ini, lvl, m, r, shape, bg, btn, bbg: btn === 'Qoşul' ? '#C9A24A' : 'transparent', bc: btn === 'Qoşul' ? '#231709' : btn === 'Dolu' ? 'rgba(243,235,221,.4)' : '#E8C468', bring: btn === 'Qoşul' ? 'none' : btn === 'Dolu' ? 'inset 0 0 0 1px rgba(243,235,221,.15)' : 'inset 0 0 0 1px #C9A24A' })),
+      cstats: [{ v: 14, k: 'Səviyyə' }, { v: '42/50', k: 'Üzv' }, { v: 2140, k: 'Reytinq' }, { v: 'AZ', k: 'Dil' }],
+      topm: [{ i: 'R', n: 'Rauf · Lider', r: 2210 }, { i: 'A', n: 'Aysel_A', r: 2105 }, { i: 'N', n: 'Nigar_88', r: 1990 }],
+      etabs: tabs(['Forma', 'Simvol', 'Rəng', 'Naxış'], 0),
+      shapes: [SHIELD, HEX, OCT, CIRC, DIAM, BAN, STAR, ARCH].map((cp, i) => ({ cp, bg: i === 0 ? 'linear-gradient(160deg,#c52f4a,#6e0f20)' : 'rgba(243,235,221,.4)', ring: i === 0 ? 'inset 0 0 0 2px #C9A24A' : 'inset 0 0 0 1px rgba(201,162,74,.16)' })),
+      ecolors: ['#9E1B32', '#26346e', '#1F8A5B', '#C9A24A', '#7d4fc4', '#2a2d32', '#F3EBDD'].map((c, i) => ({ c, ring: i === 0 ? '0 0 0 2px #1b120c, 0 0 0 4px #E8C468' : 'inset 0 0 0 1px rgba(255,255,255,.15)' })),
+      htabs: tabs(['Söhbət', 'Fəaliyyət', 'Döyüş', 'Sandıq'], 0),
+      chat: [
+        { n: 'Aysel_A', i: 'A', t: 'Bu axşam döyüşə kim hazırdır?', mine: false }, { n: 'Rauf', i: 'R', t: 'Mən 21:00-dan sonra. Kerem ilə oynayacağam.', mine: false },
+        { n: 'Sən', i: 'E', t: 'Hazıram. Sandığa 500 qoydum', mine: true }, { n: 'Nigar_88', i: 'N', t: 'Əla! 3 min qaldı 👍', mine: false }
+      ].map(m => Object.assign(m, { t: m.t.replace(' 👍', ''), al: m.mine ? 'flex-end' : 'flex-start', dir: m.mine ? 'row-reverse' : 'row', av: m.mine ? 'none' : 'flex', r: m.mine ? '16px 16px 4px 16px' : '16px 16px 16px 4px', bg: m.mine ? '#C9A24A' : 'rgba(243,235,221,.08)', c: m.mine ? '#231709' : '#F3EBDD', nc: m.mine ? 'rgba(35,23,9,.7)' : '#E8C468' })),
+      members: [
+        ['R', 'Rauf', 'Onlayn · 2210', 'Lider', '#3FB57F'], ['A', 'Aysel_A', 'Oyunda · 2105', 'Müavin', '#E8C468'], ['N', 'Nigar_88', 'Onlayn · 1990', 'Ağsaqqal', '#3FB57F'],
+        ['E', 'Elvin (sən)', 'Onlayn · 1842', 'Ağsaqqal', '#3FB57F'], ['M', 'Murad', '2 saat əvvəl · 1801', 'Üzv', 'rgba(243,235,221,.3)'], ['G', 'Günay', 'Oyunda · 1777', 'Üzv', '#E8C468'],
+        ['T', 'Tural', 'Dünən · 1720', 'Üzv', 'rgba(243,235,221,.3)'], ['S', 'Sevda', '3 gün əvvəl · 1695', 'Üzv', 'rgba(243,235,221,.3)']
+      ].map(([i, n, p, role, pc], k) => ({ i, n, p, role, pc, bg: k === 2 ? 'rgba(201,162,74,.1)' : 'transparent', rbg: role === 'Lider' ? 'rgba(201,162,74,.22)' : role === 'Üzv' ? 'rgba(243,235,221,.06)' : 'rgba(158,27,50,.25)', rc: role === 'Lider' ? '#E8C468' : role === 'Üzv' ? 'rgba(243,235,221,.6)' : '#F3B0BC' })),
+      macts: [{ n: 'Profilə bax', c: '#F3EBDD' }, { n: 'Dostluq matçına çağır', c: '#F3EBDD' }, { n: 'Müavin et', c: '#E8C468' }, { n: 'Klandan çıxar', c: '#E0566C' }],
+      war: [
+        ['Rauf', 'Bitdi 5–3', 'Kamran', 1], ['Aysel_A', 'Canlı 2–2', 'Ülvi', 0], ['Elvin', 'Canlı 3–1', 'Rəşad', 0], ['Nigar_88', 'Bitdi 1–5', 'Fidan', 2], ['Murad', '21:30', 'Elçin', -1], ['Günay', '21:30', 'Lalə', -1]
+      ].map(([a, s, b, st]) => ({ a, s, b, wa: st === 1 ? 600 : 400, wb: st === 2 ? 600 : 400, sbg: s.startsWith('Canlı') ? 'rgba(224,86,108,.16)' : st === -1 ? 'rgba(243,235,221,.05)' : 'rgba(201,162,74,.14)', sc: s.startsWith('Canlı') ? '#E0566C' : st === -1 ? 'rgba(243,235,221,.6)' : '#E8C468' })),
+      podium: [
+        { i: 'XQ', n: 'Xəzər Qartalları', r: 2, pts: '48 210', h: 70, bg: 'linear-gradient(160deg,#4a5a9a,#18214a)', col: 'linear-gradient(180deg,#eef0f2,#8d939b)' },
+        { i: 'QZ', n: 'Qızıl Zər', r: 1, pts: '51 940', h: 96, bg: 'linear-gradient(160deg,#c52f4a,#6e0f20)', col: 'linear-gradient(180deg,#f4dc8e,#b0852c)' },
+        { i: 'ŞU', n: 'Şəki Ustaları', r: 3, pts: '44 100', h: 52, bg: 'linear-gradient(160deg,#3FB57F,#145a3a)', col: 'linear-gradient(180deg,#e0a77a,#8a5330)' }
+      ],
+      clanlb: [['4', 'Gəncə Nərdçiləri', '41 870', '#c9a24a'], ['5', 'Abşeron 6-5', '39 200', '#7d4fc4'], ['6', 'Bayıl Gecələri', '35 640', '#5c6068'], ['7', 'Lənkəran Çayı', '33 010', '#1F8A5B'], ['8', 'Qəbələ Dağları', '30 560', '#26346e']].map(([r, n, p, e]) => ({ r, n, p, e, w: 500, bg: 'transparent' }))
+    };
+  }
+}
+</script>
+</body>
+</html>
