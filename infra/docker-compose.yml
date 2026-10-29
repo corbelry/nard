@@ -44,11 +44,13 @@ services:
       MAIL_HOST: mailpit
       MAIL_PORT: "1025"
       MAIL_FROM_ADDRESS: no-reply@nardarena.local
+    # `artisan serve` passes only a few variables to its child process, so
+    # run PHP's server directly to keep DB_/REDIS_/MAIL_ settings.
     command: >
       sh -c "cp -n .env.example .env &&
              php artisan key:generate --force -q &&
              php artisan migrate --force &&
-             php artisan serve --host=0.0.0.0 --port=8000"
+             cd public && php -S 0.0.0.0:8000 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
     ports: ["${NARD_API_PORT:-18000}:8000"]
     depends_on:
       mysql: { condition: service_healthy }

@@ -52,7 +52,15 @@ next — without waiting for approval (start only after they say "başla").
   delete (15.x), match history, signed game tickets, signed match-result
   ingestion with FIBS Elo + tiers; 13 feature tests. game_server posts
   results via `HttpResultSink` (`API_URL`).
-- [ ] 7. End-to-end on docker compose — next; then 5 (Redis) and 6 (client).
+- [x] 7. End-to-end on docker compose: `apps/game_server/tool/e2e.dart`
+  (2 guests → tickets → ranked match on the server → API records match +
+  FIBS rating → e-mail sign-in via Mailpit) passes. Fixed: compose api ran
+  `artisan serve`, which drops DB_/REDIS_ env → now `php -S` from public/.
+- [ ] 6. Client online mode — next (sign-in 9.4/17.x, online play, search
+  2.4, VS 2.5, BOT 20.x, reconnect, clocks, fair-dice verify 10.3, profile
+  8.1, account 15.x). First get specs from the design files into
+  `docs/design-notes/online.md` with a subagent.
+- [ ] 5. Redis: snapshots per turn + shared queue for several pods.
 
 Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: lesson
 content revisit, iOS build (sounds done: Kenney CC0).
