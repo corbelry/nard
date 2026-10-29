@@ -38,7 +38,9 @@ next — without waiting for approval (start only after they say "başla").
 
 - [x] 1. Provably fair dice: `FairDice` in nard_core, `docs/FAIRNESS.md`
   (FD-01…05, vectors from an independent Python script).
-- [ ] 2. Protocol payloads — next.
+- [x] 2. Protocol payloads (`nard_protocol`: messages, `game.seed`,
+  `MatchResult` + JSON schema), `docs/PROTOCOL.md`.
+- [ ] 4. game_server rooms (no auth yet) — next.
 
 Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: sound files
 (owner downloads Kenney Casino Audio), lesson content revisit, iOS build.

@@ -1,7 +1,7 @@
 /// Protocol version; bumped on any breaking change to message shapes.
 const int protocolVersion = 1;
 
-/// Message types (spec §7.2). Payload models arrive in Phase 3.
+/// Message types (spec §7.2, docs/PROTOCOL.md).
 abstract final class MessageType {
   static const hello = 'hello';
   static const auth = 'auth';
@@ -9,6 +9,7 @@ abstract final class MessageType {
   static const queueLeave = 'queue.leave';
   static const matchFound = 'match.found';
   static const gameState = 'game.state';
+  static const gameSeed = 'game.seed';
   static const gameRoll = 'game.roll';
   static const gameMove = 'game.move';
   static const gameUndo = 'game.undo';
@@ -31,6 +32,7 @@ abstract final class MessageType {
     queueLeave,
     matchFound,
     gameState,
+    gameSeed,
     gameRoll,
     gameMove,
     gameUndo,
