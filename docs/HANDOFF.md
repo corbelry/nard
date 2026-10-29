@@ -36,7 +36,13 @@ next — without waiting for approval (start only after they say "başla").
 
 ## Phase 4 progress (update after every step)
 
-- [ ] 1. Item catalog + inventory + wallet ledger (API) — next.
+- [x] 1. API economy: `items` (seeded: design's 6 boards + default
+  checkers/dice/cube, placeholder prices), `user_items`, `loadouts`,
+  `wallets` + append-only `wallet_transactions` with idempotency keys;
+  `WalletService` (coins earn-only enforced, ADR-022), `StoreService`;
+  endpoints catalog / inventory / purchase / loadouts. Compose seeds on
+  start. Theme files restored byte-for-byte + guard test.
+- [ ] 2. Rewards & progression (API) — next.
 
 Phase 3 is done (CHANGELOG, ADR-031…033). Leftovers: Apple/Google token
 verification (needs keys), multi-pod Redis (Phase 7), iOS build, lesson

@@ -50,6 +50,7 @@ services:
       sh -c "cp -n .env.example .env &&
              php artisan key:generate --force -q &&
              php artisan migrate --force &&
+             php artisan db:seed --force &&
              cd public && php -S 0.0.0.0:8000 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
     ports: ["${NARD_API_PORT:-18000}:8000"]
     depends_on:
