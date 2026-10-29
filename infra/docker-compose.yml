@@ -44,6 +44,8 @@ services:
       MAIL_HOST: mailpit
       MAIL_PORT: "1025"
       MAIL_FROM_ADDRESS: no-reply@nardarena.local
+      # Local only: receipts "test-…" credit Yaqut (config/iap.php).
+      IAP_FAKE: "true"
     # `artisan serve` passes only a few variables to its child process, so
     # run PHP's server directly to keep DB_/REDIS_/MAIL_ settings.
     command: >

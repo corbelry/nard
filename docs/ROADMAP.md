@@ -105,6 +105,8 @@ No design requests are open.
 
 - Multi-pod game server (Redis queues, match registry, per-turn snapshots,
   Redis Streams for results): Phase 7 (ADR-032).
+- IAP receipt verification (Google Play / App Store APIs): when the
+  owner has store accounts (endpoints exist, disabled by config).
 - Apple / Google token verification: when the owner provides keys
   (endpoints exist, disabled by config, ADR-030).
 

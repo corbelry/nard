@@ -47,7 +47,11 @@ next — without waiting for approval (start only after they say "başla").
   (100 + 50·(n−1) XP, coins on level-up), daily/weekly missions with claim,
   login streak check-in (7-day cycle), achievements unlocking title items;
   `config/progression.php` numbers are placeholders (QUESTIONS).
-- [ ] 3. IAP receipt validation stub — next; then 4/5 client.
+- [x] 3. IAP: `/store/products`, `/store/iap/{google|apple}` — disabled
+  until store accounts (503), verification 501 when enabled; local fake
+  receipts `test-…` credit Yaqut once (compose `IAP_FAKE=true`).
+- [ ] 4/5. Client cosmetics + store/locker/progression screens — next
+  (needs `docs/design-notes/store.md` from the subagent).
 
 Phase 3 is done (CHANGELOG, ADR-031…033). Leftovers: Apple/Google token
 verification (needs keys), multi-pod Redis (Phase 7), iOS build, lesson

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\IapController;
 use App\Http\Controllers\Api\MatchResultController;
 use App\Http\Controllers\Api\MeController;
 use App\Http\Controllers\Api\ProgressController;
@@ -32,6 +33,10 @@ Route::prefix('v1')->group(function (): void {
         Route::post('/me/checkin', [ProgressController::class, 'checkIn']);
         Route::post('/me/missions/{id}/claim', [ProgressController::class, 'claim']);
         Route::put('/me/title', [ProgressController::class, 'title']);
+
+        Route::get('/store/products', [IapController::class, 'products']);
+        Route::post('/store/iap/{platform}', [IapController::class, 'redeem'])
+            ->whereIn('platform', ['google', 'apple'])->middleware('throttle:20,1');
 
         Route::get('/catalog', [StoreController::class, 'catalog']);
         Route::get('/me/inventory', [StoreController::class, 'inventory']);
