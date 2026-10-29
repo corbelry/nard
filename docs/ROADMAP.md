@@ -7,9 +7,9 @@ end of every phase (together with `CHANGELOG.md`).
 |---|---|---|
 | 0 – Foundation | Monorepo, CI, docker-compose (MySQL, Redis, api, game_server), CLAUDE.md, DECISIONS.md | ✅ Done (2026-10-30) |
 | 1 – Rules engine | `nard_core` Short + Long Nard, match/cube logic, notation, ≥95% coverage, property tests | ✅ Done (2026-10-30) — 108 tests, 98.6% coverage |
-| 2 – Offline client MVP | Flutter + Flame board, pass & play, AI Beginner→Hard (heuristic), default cosmetics, settings, i18n az/en/ru/tr, tutorial skeleton — UI from the `nardarena-design` skill (see Design coverage) | ⏭ Next |
+| 2 – Offline client MVP | Flutter + Flame board, pass & play, AI Beginner→Hard (heuristic), default cosmetics, settings, i18n az/en/ru/tr, tutorial skeleton, local replay viewer (ADR-017) — mobile only (ADR-016), UI from the `nardarena-design` skill (see Design coverage) | ⏭ Next |
 | 3 – Accounts & online core | Laravel auth, profiles, game_server, provably fair dice (`docs/FAIRNESS.md`), casual + ranked matchmaking, clocks, reconnection, rating | Planned |
-| 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation | Planned |
+| 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation; progression: level/XP, missions, achievements, titles, login streak (ADR-017) | Planned |
 | 5 – Social & clans | Friends, private rooms, spectating, emotes, clans, clan chat, clan wars | Planned |
 | 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | Planned |
 | 7 – Polish & launch | Admin completeness, anti-cheat, notifications, observability, load tests, store listings | Planned |
@@ -36,11 +36,11 @@ design screen mapped to the phase that builds it:
 | 6.5 Leaderboard · 7.1 Season pass · 7.2 Season summary | 6 |
 | 7.3 Store · 7.4 Confirm purchase · 7.5 Purchase success | 4 |
 | 8.1 Profile + statistics | 3 |
-| 8.2 Achievements + titles; level/XP bar on Home | **no phase in spec §12** — proposed: 4 (with economy) |
+| 8.2 Achievements + titles; level/XP bar on Home | 4 (ADR-017) |
 | 9.0 Logo + app icon | 2 (placeholder), final in 7 |
 | 9.1 Splash · 9.2 Language · 9.3 "Which nard do you play?" · 9.5 Interactive lesson (skeleton) | 2 |
 | 9.4 Login or guest (Apple / Google / phone / guest) | 3 |
-| 10.1 Analysis + replay | replay viewer: **no phase in spec §12** — proposed: 2 (local replays are an offline feature, §8.10); equity analysis: 6 |
+| 10.1 Analysis + replay | replay viewer: 2 (ADR-017); equity analysis: 6 |
 | 10.2 Settings | 2 |
 | 10.3 Fair dice verification | 3 |
 | Offline / empty / error / loading states | 2 (online-specific ones: 3) |
@@ -51,7 +51,7 @@ Found by keyword search of the design files (2026-10-30); tick off when the
 design is updated and re-exported into the skill.
 
 - [ ] Daily/weekly missions + login streak + level-up moment (§8.8) — Phase 4
-- [ ] Practice puzzles "find the best move" (§8.8) — Phase 2/6
+- [ ] Practice puzzles "find the best move" (§8.8) — Phase 6 (needs Master-level best move)
 - [ ] Report player + block flow (§8.5) — Phase 5
 - [ ] Account & privacy: delete account, export data (§11) — Phase 3
 - [ ] Notification preferences per category + inbox + push permission (§8.11) — Phase 7
@@ -64,11 +64,11 @@ design is updated and re-exported into the skill.
 - [ ] Crawford-game indicator on the match game screen (§2) — Phase 2
 - [ ] Long Nard rule feedback: head rule and six-block illegal-move messages (§2) — Phase 2
 
-### Design vs spec conflicts (need a decision)
+### Design vs spec conflicts
 
-- **Platforms:** the design says *mobile only, no web or desktop*; spec §3 and
-  §10 list Web and Windows/macOS plus desktop/web layouts.
-- **Login options:** design shows Apple / Google / phone / guest; spec §8.1
+- **Platforms — resolved:** mobile only (iOS + Android), as in the design
+  (ADR-016).
+- **Login options (open):** design shows Apple / Google / phone / guest; spec §8.1
   also lists email.
 - **Token file names:** spec §13 says `apps/client/lib/theme/tokens.dart`;
   the design ships `nard_tokens.dart`, `nard_colors.dart`, `nard_theme.dart`,
@@ -98,8 +98,8 @@ design is updated and re-exported into the skill.
 5. Cube cap 64, no beavers/automatic doubles (ADR-012) — acceptable?
 6. `.mat` match-file import/export — wanted in addition to move notation,
    GNU BG IDs and JSON game records?
-7. Progression (level/XP, missions, achievements, titles, login streak,
-   spec §8.8) and the replay viewer (§8.9) have no phase in §12 — OK to put
-   progression in Phase 4 and the replay viewer in Phase 2?
-8. Platforms: design is mobile-only, spec includes web and desktop — which
-   one wins?
+7. Login: add email sign-in to the design (spec §8.1), or drop it from the
+   spec?
+
+Resolved: platforms → mobile only (ADR-016); progression → Phase 4, replay
+viewer → Phase 2 (ADR-017).

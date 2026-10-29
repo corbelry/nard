@@ -100,3 +100,21 @@ a 1-point match therefore has no Crawford game. It is triggered once.
 Local compose publishes MySQL/Redis/API/game server on 13306/16379/18000/
 18080 by default (overridable with `NARD_*_PORT`) to avoid clashing with
 services already installed on developer machines.
+
+## ADR-016 — Mobile-only client (2026-10-30)
+Product-owner decision, matching the design system: the Flutter client
+targets **iOS and Android only** — phone portrait (390×844, primary), phone
+landscape (844×390) for the board, tablet as a scaled-up phone layout. No web
+or Windows/macOS builds; this overrides spec §3 (client row) and §10
+(desktop/web layouts). `nard_core` stays web-safe (ADR-004) at no cost, so
+the decision can be revisited without engine changes.
+
+## ADR-017 — Phase placement for progression and replays (2026-10-30)
+Product-owner decision. Spec §8.8 (progression) and §8.9 (replays) had no
+phase in §12:
+- Progression — player level/XP, daily/weekly missions, achievements,
+  titles, login streak — ships in **Phase 4** with the coins/gems economy
+  (missions and achievements pay out coins).
+- The replay viewer for local games ships in **Phase 2** (offline feature,
+  §8.10); shared replay links follow in Phase 3, and per-move equity analysis
+  stays in Phase 6.

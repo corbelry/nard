@@ -16,6 +16,8 @@ Rules catalogues: `docs/RULES_SHORT.md`, `docs/RULES_LONG.md`.
 - Every cosmetic is data-driven; no cosmetic logic in game rules.
 - Small, focused commits per feature; conventional commit messages.
 - Log non-obvious decisions in `docs/DECISIONS.md` (ADR style).
+- The client is mobile only: iOS + Android, phone portrait/landscape, tablet
+  as a scaled phone layout — no web/desktop work (ADR-016).
 - UI must follow the `nardarena-design` skill (`.claude/skills/nardarena-design`,
   exported from Claude Design): copy its `flutter/lib/theme/` into
   `apps/client/lib/theme/` and map every visual value to those tokens
