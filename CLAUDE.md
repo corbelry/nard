@@ -1,5 +1,8 @@
 # NardArena — working rules for Claude Code
 
+**Start every session with `docs/HANDOFF.md`** (current state, next step,
+how to work with the product owner).
+
 Master spec: `docs/SPEC.md` (phases in §12). Phase status, carried-over work and
 open questions: `docs/ROADMAP.md` — read it first and update it at the end of
 every phase. Decisions: `docs/DECISIONS.md`.
