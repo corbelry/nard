@@ -102,6 +102,7 @@ class PlayerInfo {
     this.rating,
     this.country,
     this.bot = false,
+    this.cosmetics = const {},
   });
 
   final String userId;
@@ -116,12 +117,17 @@ class PlayerInfo {
   /// Bots are always labelled (spec §7.4, ADR-024).
   final bool bot;
 
+  /// Equipped items, category → item id (spec §8.6, "show opponent's
+  /// cosmetics").
+  final Map<String, String> cosmetics;
+
   Map<String, Object?> toJson() => {
     'userId': userId,
     'name': name,
     if (rating != null) 'rating': rating,
     if (country != null) 'country': country,
     'bot': bot,
+    if (cosmetics.isNotEmpty) 'cosmetics': cosmetics,
   };
 
   static PlayerInfo fromJson(Map<String, Object?> j) => PlayerInfo(
@@ -130,6 +136,12 @@ class PlayerInfo {
     rating: j.opt<int>('rating'),
     country: j.opt<String>('country'),
     bot: j.opt<bool>('bot') ?? false,
+    cosmetics: {
+      for (final e
+          in (j.opt<Map<String, Object?>>('cosmetics') ?? const {}).entries)
+        if (e.value is String && e.key.length <= 24)
+          e.key: (e.value! as String),
+    },
   );
 }
 

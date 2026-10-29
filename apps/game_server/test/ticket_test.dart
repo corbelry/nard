@@ -8,6 +8,7 @@ void main() {
     name: 'Elvin',
     country: 'AZ',
     ratings: {Variant.shortNard: 1620},
+    cosmetics: {'board': 'board.caspian'},
     expiresAt: 1000,
   );
 
@@ -18,6 +19,7 @@ void main() {
     expect(back.country, 'AZ');
     expect(back.rating(Variant.shortNard), 1620);
     expect(back.rating(Variant.longNard), 1500);
+    expect(back.cosmetics, {'board': 'board.caspian'});
     expect(Ticket.verify(token, 'secret', nowSeconds: 1001), isNull);
   });
 

@@ -13,6 +13,7 @@ class Ticket {
     required this.expiresAt,
     this.country,
     this.ratings = const {},
+    this.cosmetics = const {},
   });
 
   final String userId;
@@ -21,6 +22,9 @@ class Ticket {
 
   /// Per-variant rating used for ranked matchmaking.
   final Map<Variant, int> ratings;
+
+  /// Equipped items, category → item id.
+  final Map<String, String> cosmetics;
 
   /// Seconds since epoch.
   final int expiresAt;
@@ -32,6 +36,7 @@ class Ticket {
     'name': name,
     if (country != null) 'country': country,
     'ratings': {for (final e in ratings.entries) e.key.name: e.value},
+    if (cosmetics.isNotEmpty) 'cosmetics': cosmetics,
     'exp': expiresAt,
   };
 
@@ -77,11 +82,18 @@ class Ticket {
         }
       }
       final country = json['country'];
+      final rawCosmetics = json['cosmetics'];
+      final cosmetics = <String, String>{
+        if (rawCosmetics is Map<String, Object?>)
+          for (final e in rawCosmetics.entries)
+            if (e.value is String) e.key: e.value! as String,
+      };
       return Ticket(
         userId: sub,
         name: name,
         country: country is String ? country : null,
         ratings: ratings,
+        cosmetics: cosmetics,
         expiresAt: exp,
       );
     } on FormatException {

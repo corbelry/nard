@@ -174,6 +174,7 @@ class Hub {
     name: e.ticket.name,
     country: e.ticket.country,
     rating: e.request.mode == QueueMode.ranked ? e.rating : null,
+    cosmetics: e.ticket.cosmetics,
   );
 
   void _pair(QueueEntry a, QueueEntry b) {

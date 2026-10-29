@@ -12,6 +12,8 @@ use RuntimeException;
  */
 class TicketSigner
 {
+    public function __construct(private StoreService $store) {}
+
     public function sign(User $user, int $now): string
     {
         $secret = (string) config('nard.ticket_secret');
@@ -31,6 +33,11 @@ class TicketSigner
         ];
         if ($user->country !== null) {
             $payload['country'] = $user->country;
+        }
+        // The opponent sees these if they allow it (spec §8.6).
+        $equipped = $this->store->equipped($user);
+        if ($equipped !== []) {
+            $payload['cosmetics'] = $equipped;
         }
         $body = self::b64((string) json_encode($payload, JSON_UNESCAPED_UNICODE));
 
