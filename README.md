@@ -3,6 +3,7 @@
 Cross-platform backgammon / nard (Short Nard and Long Nard) with offline AI,
 online ranked play, tournaments, clans and cosmetics.
 
+- Spec: [docs/SPEC.md](docs/SPEC.md) · Roadmap & status: [docs/ROADMAP.md](docs/ROADMAP.md)
 - Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - Rules: [Short Nard](docs/RULES_SHORT.md) · [Long Nard](docs/RULES_LONG.md)
 - Decisions: [docs/DECISIONS.md](docs/DECISIONS.md)

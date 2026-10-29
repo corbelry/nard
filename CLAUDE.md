@@ -1,6 +1,8 @@
 # NardArena — working rules for Claude Code
 
-Master spec: see the project spec (phases in §12). Decisions: `docs/DECISIONS.md`.
+Master spec: `docs/SPEC.md` (phases in §12). Phase status, carried-over work and
+open questions: `docs/ROADMAP.md` — read it first and update it at the end of
+every phase. Decisions: `docs/DECISIONS.md`.
 Rules catalogues: `docs/RULES_SHORT.md`, `docs/RULES_LONG.md`.
 
 ## Rules
