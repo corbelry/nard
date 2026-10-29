@@ -1,5 +1,23 @@
 # Changelog
 
+## Phase 3 — Accounts & online core (2026-10-30)
+- `nard_core`: provably fair dice `FairDice` (HMAC-SHA256, no modulo bias,
+  `docs/FAIRNESS.md`).
+- `nard_protocol`: typed payloads, `game.seed`, `MatchResult` + JSON schema
+  (`docs/PROTOCOL.md`, ADR-031).
+- `game_server`: authoritative `MatchRoom` (server-side pending moves,
+  clocks 3+12, 60 s reconnect grace, forfeits), `BotDriver`, signed tickets,
+  matchmaker (rating band ±50→±400, casual bot after 30 s), WebSocket hub,
+  signed result reporting to the API (ADR-032: one pod until Phase 7).
+- `api`: Sanctum; guest device accounts, e-mail codes (Mailpit), Apple /
+  Google endpoints disabled until keys exist; profile, export, delete;
+  game tickets; match-result ingestion with FIBS Elo and tiers.
+- Client: sign-in, online setup, searching, VS, BOT seat, clocks, low time,
+  reconnect/offline states, fair-dice verification, profile, account &
+  privacy, rating card (ADR-033); CC0 sound effects.
+- End-to-end test on docker compose (`apps/game_server/tool/e2e.dart`) in
+  CI; compose API now keeps its environment (was silently using `.env`).
+
 ## Phase 2 — Offline client MVP (2026-10-30)
 - `nard_core`: `TurnPlanner.explain` → `MoveRejection` for rule banners
   (ADR-026); 98.6% coverage.

@@ -8,8 +8,8 @@ end of every phase (together with `CHANGELOG.md`).
 | 0 – Foundation | Monorepo, CI, docker-compose (MySQL, Redis, api, game_server), CLAUDE.md, DECISIONS.md | ✅ Done (2026-10-30) |
 | 1 – Rules engine | `nard_core` Short + Long Nard, match/cube logic, notation, ≥95% coverage, property tests | ✅ Done (2026-10-30) — 108 tests, 98.6% coverage |
 | 2 – Offline client MVP | Flutter + Flame board, pass & play, AI Beginner→Hard (heuristic), default cosmetics, settings, i18n az/en/ru/tr, tutorial skeleton, local replay viewer (ADR-017) — mobile only (ADR-016), UI from the `nardarena-design` skill (see Design coverage) | ✅ Done (2026-10-30) — Android verified on emulator; iOS not built (no Mac) |
-| 3 – Accounts & online core | Laravel auth, profiles, game_server, provably fair dice (`docs/FAIRNESS.md`), casual + ranked matchmaking, clocks, reconnection, rating | ⏭ Next |
-| 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation; progression: level/XP, missions, achievements, titles, login streak (ADR-017) | Planned |
+| 3 – Accounts & online core | Laravel auth, profiles, game_server, provably fair dice (`docs/FAIRNESS.md`), casual + ranked matchmaking, clocks, reconnection, rating | ✅ Done (2026-10-30) — single game-server pod (ADR-032); Apple/Google keys pending |
+| 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation; progression: level/XP, missions, achievements, titles, login streak (ADR-017) | ⏭ Next |
 | 5 – Social & clans | Friends, private rooms, spectating, emotes, clans, clan chat, clan wars | Planned |
 | 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | Planned |
 | 7 – Polish & launch | Admin completeness, anti-cheat, notifications, observability, load tests, store listings | Planned |

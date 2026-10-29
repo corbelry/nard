@@ -1,6 +1,6 @@
 # Session handoff — start here
 
-Last updated: 2026-10-30. Next step: **Phase 3 – Accounts & online core**.
+Last updated: 2026-10-30. Next step: **Phase 4 – Customization & store**.
 
 ## Working with the product owner
 
@@ -34,38 +34,13 @@ next — without waiting for approval (start only after they say "başla").
   sleep) — resume from this file on "davam et". iOS can't be built on this
   Linux machine; verify with tests + Android.
 
-## Phase 3 progress (update after every step)
+## Phase 4 progress (update after every step)
 
-- [x] 1. Provably fair dice: `FairDice` in nard_core, `docs/FAIRNESS.md`
-  (FD-01…05, vectors from an independent Python script).
-- [x] 2. Protocol payloads (`nard_protocol`: messages, `game.seed`,
-  `MatchResult` + JSON schema), `docs/PROTOCOL.md`.
-- [x] 4. game_server: `MatchRoom` (fair dice, server-side pending moves,
-  clocks, reconnect grace, results), `BotDriver`, signed `Ticket`s,
-  in-memory `Matchmaker` (band ±50→±400, casual bot at 30 s), `Hub` (WS ↔
-  rooms, takeover on reconnect); e2e test over real WebSockets. Results go
-  to `MemoryResultSink` until the API endpoint exists. Redis snapshots /
-  multi-pod queue: step 5.
-- [x] 3. API (Laravel 13 + Sanctum): guest/device accounts, e-mail codes
-  (Mailpit in compose), Apple/Google endpoints disabled by config (501
-  when enabled — token verification still to do), profile edit, export,
-  delete (15.x), match history, signed game tickets, signed match-result
-  ingestion with FIBS Elo + tiers; 13 feature tests. game_server posts
-  results via `HttpResultSink` (`API_URL`).
-- [x] 7. End-to-end on docker compose: `apps/game_server/tool/e2e.dart`
-  (2 guests → tickets → ranked match on the server → API records match +
-  FIBS rating → e-mail sign-in via Mailpit) passes. Fixed: compose api ran
-  `artisan serve`, which drops DB_/REDIS_ env → now `php -S` from public/.
-- [x] 6. Client online: `lib/online/` core + screens (sign-in 9.4/17.x,
-  online setup, searching 2.4, VS 2.5/20.1, BOT seat, clocks, low time,
-  reconnect card, offline banner, fair dice 10.3, profile 8.1 as the Profil
-  tab, account 15.x, rating card on 2.6). Verified on the emulator against
-  the compose stack (guest → casual search → bot after 30 s → play → fair
-  dice screen). ADR-033 lists the design gaps we resolved.
-- [→] 5. Redis queues/snapshots/registry deferred to Phase 7 (ADR-032).
+- [ ] 1. Item catalog + inventory + wallet ledger (API) — next.
 
-Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: lesson
-content revisit, iOS build (sounds done: Kenney CC0).
+Phase 3 is done (CHANGELOG, ADR-031…033). Leftovers: Apple/Google token
+verification (needs keys), multi-pod Redis (Phase 7), iOS build, lesson
+content revisit.
 
 ## Where things stand
 
@@ -95,39 +70,33 @@ content revisit, iOS build (sounds done: Kenney CC0).
 - gnu.org rate-limits fetches; the gnubg source mirror on GitHub
   (`mormegil-cz/gnubg`) worked.
 
-## Phase 3 plan (spec §7, §8.1–8.2, §12 + ADRs)
+## Phase 4 plan (spec §8.6–8.8, ADR-017/022/023/025)
 
-Done when: two clients can sign in (guest / e-mail code), find each other
-(casual + ranked) or get a labelled bot after 30 s in casual, play a full
-match on the authoritative server with clocks, reconnect within 60 s,
-verify the dice afterwards, and see rating changes on the result screen;
+Done when: a player earns coins and XP by playing, completes missions and a
+login streak, levels up, buys cosmetics with coins (or Yaqut via a stubbed
+IAP), equips them in loadouts, sees them live on the board (and the
+opponent's, if enabled), and new items can ship without an app update;
 tests green; docs updated.
 
-1. **Provably fair dice** (spec §7.1): HMAC-SHA256(serverSeed,
-   clientSeedA|clientSeedB|N) → dice without modulo bias, as a `DiceSource`
-   (not inside rules) shared by server and client verification; test
-   vectors; `docs/FAIRNESS.md`.
-2. **Protocol** (`nard_protocol`): typed payloads for the §7.2 messages,
-   `seq` ordering, errors (reuse `MoveRejection`), JSON-schema export for
-   PHP; `docs/PROTOCOL.md`.
-3. **API (Laravel)**: guest device accounts, e-mail code sign-in (Mailpit in
-   compose, ADR-030), Apple/Google built but disabled by config; Sanctum
-   tokens; profiles (nickname, avatar, flag); per-variant ratings (Elo with
-   match-length weighting, FIBS reference) and tiers; match history;
-   game-server tickets (signed); results via Redis Streams + signed HTTP.
-   Run checks in the Docker image (CLAUDE.md).
-4. **game_server**: ticket auth, rooms per match feeding intents through
-   `GameState.apply`, clocks (reserve + delay, §7.3), 60 s reconnect grace,
-   Redis snapshots per turn, result publishing; bots via `nard_ai` for the
-   casual fallback (ADR-024).
-5. **Matchmaking** in Redis: queues per (variant, format, mode), rating
-   band ±50 → ±400 over time, casual bot fallback at 30 s.
-6. **Client**: sign-in 9.4 / 17.1–17.3, online mode on Home, searching 2.4,
-   VS 2.5, BOT badge 20.x, reconnect states, low-time state, fair-dice
-   verification 10.3, profile + stats 8.1, account & privacy 15.x, offline
-   banner; online parts of 2.1 / 2.6 (rating change). Ask the design spec
-   subagents for these screens first (`docs/design-notes/online.md`).
-7. **Infra/CI**: Mailpit, env docs, end-to-end test (two simulated clients
-   against game_server + API in compose).
-
-Suggested order: 1 → 2 → 4 (local rooms, no auth) → 3 → 5 → 6 → 7.
+1. **API catalog & economy**: `items` (category, rarity, price in coins and/or
+   Yaqut, data JSON for colors, asset pack URL + version, availability),
+   `user_items`, `loadouts`, wallet ledger (`wallet_transactions`, balances
+   derived; coins earn-only ADR-022, Yaqut = `gems` ADR-023); endpoints:
+   catalog, inventory, purchase, loadouts, equip. Seed the design's 6 board
+   themes and default checker/dice sets.
+2. **Rewards & progression (API)**: coins + XP per finished match (from the
+   match-result ingest; casual/ranked/bot amounts in config), levels, daily
+   and weekly missions, login streak, achievements + titles (ADR-017).
+3. **IAP**: server-side receipt validation endpoints for Google Play / App
+   Store, disabled until the owner has store accounts (stub like ADR-030);
+   Yaqut packs + premium pass products defined in config (no subscription,
+   ADR-025).
+4. **Client cosmetics**: data-driven `BoardTheme`/checker/dice sets from the
+   catalog (the design's `BoardTheme.all` as built-ins), remote asset packs
+   downloaded + cached, "show opponent's cosmetics" setting, opponent loadout
+   in `match.found` (PlayerInfo gets cosmetics), live preview.
+5. **Client screens**: Locker 3.1, item detail 3.2, store 7.3, confirm 7.4,
+   success 7.5, missions 12.1, streak 12.2, level up 12.3, achievements +
+   titles 8.2, level/XP on Home, rewards on 2.6. Get a design spec first
+   (`docs/design-notes/store.md`, subagent).
+6. Tests, docs, CHANGELOG; ask the owner about prices/rewards (QUESTIONS).
