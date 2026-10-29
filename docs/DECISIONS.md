@@ -253,3 +253,15 @@ opponent sees moves live and a reconnecting client resumes mid-turn.
 Resignations are accepted at once online as offline (ADR-030); the
 `OfferResignation`/`AcceptResignation` pair is still recorded. Fair-dice
 client seeds travel in `game.seed` before the opening roll (FD-02).
+
+## ADR-032 — Single game-server pod in Phase 3; Redis scaling in Phase 7 (2026-10-30)
+Phase 3 ships an in-memory `Matchmaker` and `MatchRoom`s in one game_server
+process: it already implements the queue rules (per variant/length/mode,
+rating band ±50 → ±400, casual bot after 30 s), clocks, reconnect grace and
+fair dice, and passes the compose end-to-end test. The multi-pod pieces of
+spec §7.5 — Redis queues, a `matchId` → pod registry and per-turn Redis
+snapshots for crash recovery — move to Phase 7 together with Kubernetes,
+load tests and observability, where they can be measured. The `Matchmaker`
+and `ResultSink` interfaces are the seams for that work. Results reach the
+API over signed HTTP with retries (idempotent by match id) instead of
+Redis Streams for now.

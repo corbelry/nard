@@ -60,7 +60,7 @@ next — without waiting for approval (start only after they say "başla").
   2.4, VS 2.5, BOT 20.x, reconnect, clocks, fair-dice verify 10.3, profile
   8.1, account 15.x). First get specs from the design files into
   `docs/design-notes/online.md` with a subagent.
-- [ ] 5. Redis: snapshots per turn + shared queue for several pods.
+- [→] 5. Redis queues/snapshots/registry deferred to Phase 7 (ADR-032).
 
 Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: lesson
 content revisit, iOS build (sounds done: Kenney CC0).

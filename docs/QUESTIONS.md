@@ -20,5 +20,6 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 12 | 2 | iOS was not built (Linux machine). | a) Build/run on a Mac when available · b) Set up a CI macOS job | open — needs a Mac | open |
 | 13 | 3 | Apple / Google Sign-In need keys from the owner's developer accounts. | a) Build server side, keep disabled by config until keys exist · b) Owner provides keys now | — | answered 2026-10-30: a |
 | 14 | 3 | E-mail for sign-in codes in development. | a) Mailpit in docker-compose; real provider in Phase 7 · b) Real provider now | — | answered 2026-10-30: a |
+| 15 | 3 | Multi-pod scaling (Redis queues, snapshots) now or with the Phase 7 load tests? | a) Phase 7 (single pod is enough until launch tests) · b) Now | a (ADR-032) | assumed |
 
 Earlier questions are tracked in `ROADMAP.md` → "Open questions".

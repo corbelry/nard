@@ -103,6 +103,12 @@ No design requests are open.
 - Board direction setting ("Taxta istiqaməti") not built (QUESTIONS #4).
 - iOS build not verified (no Mac; QUESTIONS #12).
 
+- Multi-pod game server (Redis queues, match registry, per-turn snapshots,
+  Redis Streams for results): Phase 7 (ADR-032).
+- Apple / Google token verification: when the owner provides keys
+  (endpoints exist, disabled by config, ADR-030).
+- e2e (`apps/game_server/tool/e2e.dart`) is not in CI yet.
+
 ## Open questions for the product owner
 
 1. Cube cap 64, no beavers/raccoons/automatic doubles (ADR-012) — current
