@@ -187,8 +187,10 @@ class MatchResultView extends StatelessWidget {
         gradient: RadialGradient(
           center: const Alignment(0, -.56),
           radius: 1.0,
+          // Brass glow blended into walnut (opaque, so nothing shows
+          // through); dimmer after a loss.
           colors: [
-            won ? const Color(0x47C9A24A) : const Color(0x24C9A24A),
+            won ? const Color(0xFF6A5028) : const Color(0xFF45321F),
             NardPalette.walnut900,
             NardPalette.walnut950,
           ],

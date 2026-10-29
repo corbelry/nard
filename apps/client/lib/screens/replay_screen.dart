@@ -278,7 +278,8 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
       children: [
         ScreenHeader(
           title: l.replayTitle(widget.gameNumber),
-          trailing: Flexible(
+          trailing: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 130),
             child: Text(
               l.replayPlayers(white, black),
               maxLines: 1,

@@ -195,7 +195,7 @@ class GamePresenter {
       if (setup.variant == Variant.longNard &&
           s.pending.any((m) => m.from == LongNardRules.head)) {
         sub = l.bannerHeadRuleHint;
-      } else {
+      } else if (s.remainingDice.isNotEmpty && !s.canConfirm) {
         sub = l.bannerLegalMoveCount(
           {for (final m in s.nextMoves) (m.from, m.to)}.length,
         );

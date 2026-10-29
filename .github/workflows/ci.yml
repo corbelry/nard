@@ -11,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
+      # The pub workspace contains the Flutter client, so resolve it with the
+      # Flutter SDK (its Dart is 3.7.2).
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: 3.7.2
-      - run: dart pub get
+          flutter-version: 3.29.2
+          channel: stable
+      - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed packages apps/game_server
       - run: dart analyze --fatal-infos
       - name: nard_core tests + coverage gate (>= 95%)
@@ -28,6 +31,29 @@ jobs:
         run: dart test
       - working-directory: apps/game_server
         run: dart test
+
+  client:
+    name: Flutter client (format, analyze, l10n, test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.2
+          channel: stable
+      - run: flutter pub get
+      - name: Format (theme is vendored, generated code excluded)
+        run: >
+          dart format --output=none --set-exit-if-changed
+          $(find lib test -name '*.dart' -not -path '*/theme/*'
+          -not -path '*/gen/*' -not -name '*.g.dart')
+      - name: Generated localizations are up to date
+        run: flutter gen-l10n && git diff --exit-code lib/l10n/gen
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
 
   api:
     name: Laravel API (pint, phpstan, tests)
@@ -53,7 +79,7 @@ jobs:
   docker:
     name: Docker images build
     runs-on: ubuntu-latest
-    needs: [dart, api]
+    needs: [dart, client, api]
     steps:
       - uses: actions/checkout@v4
       - run: docker build -f apps/game_server/Dockerfile -t nard-game-server:ci .
