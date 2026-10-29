@@ -45,6 +45,25 @@ design screen mapped to the phase that builds it:
 | 10.3 Fair dice verification | 3 |
 | Offline / empty / error / loading states | 2 (online-specific ones: 3) |
 
+### Screens requested from Claude Design (spec features with no design yet)
+
+Found by keyword search of the design files (2026-10-30); tick off when the
+design is updated and re-exported into the skill.
+
+- [ ] Daily/weekly missions + login streak + level-up moment (§8.8) — Phase 4
+- [ ] Practice puzzles "find the best move" (§8.8) — Phase 2/6
+- [ ] Report player + block flow (§8.5) — Phase 5
+- [ ] Account & privacy: delete account, export data (§11) — Phase 3
+- [ ] Notification preferences per category + inbox + push permission (§8.11) — Phase 7
+- [ ] Pass & play hand-over screen between turns (§1) — Phase 2
+- [ ] Clan creation flow: cost, name/tag, open/request/invite, min rating, language (§8.4) — Phase 5
+- [ ] Bot badge for casual bot fallback (§7.4) — Phase 3
+- [ ] Sit-and-go waiting lobby (8/16/32) and no-show states (§8.3) — Phase 6
+- [ ] User-created private tournament (§8.3, P1) — Phase 6
+- [ ] Email sign-in option (§8.1) — Phase 3
+- [ ] Crawford-game indicator on the match game screen (§2) — Phase 2
+- [ ] Long Nard rule feedback: head rule and six-block illegal-move messages (§2) — Phase 2
+
 ### Design vs spec conflicts (need a decision)
 
 - **Platforms:** the design says *mobile only, no web or desktop*; spec §3 and
