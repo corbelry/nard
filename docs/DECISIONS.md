@@ -134,9 +134,10 @@ Phase 2 ships the first four (heuristic). Usta and Qrossmeyster are shown
 lands in Phase 6. Product-owner decision.
 
 ## ADR-020 — Sign-in methods (2026-10-30)
-Guest, Apple, Google, phone **and email** (spec §8.1). The design lacks the
-email option; it has been requested from Claude Design. Product-owner
-decision.
+Sign-in methods are **guest, Apple, Google and email**. Phone-number
+sign-in is **removed** (overrides spec §8.1): no SMS provider, no phone
+field on accounts. The design shows a phone option and lacks email; both
+changes have been requested from Claude Design. Product-owner decision.
 
 ## ADR-021 — No .mat match files for now (2026-10-30)
 Move notation, GNU BG Position/Match IDs and JSON game records cover the

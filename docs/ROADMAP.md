@@ -39,7 +39,7 @@ design screen mapped to the phase that builds it:
 | 8.2 Achievements + titles; level/XP bar on Home | 4 (ADR-017) |
 | 9.0 Logo + app icon | 2 (placeholder), final in 7 |
 | 9.1 Splash · 9.2 Language · 9.3 "Which nard do you play?" · 9.5 Interactive lesson (skeleton) | 2 |
-| 9.4 Login or guest (Apple / Google / phone / guest) | 3 |
+| 9.4 Login or guest (Apple / Google / email / guest — no phone, ADR-020) | 3 |
 | 10.1 Analysis + replay | replay viewer: 2 (ADR-017); equity analysis: 6 |
 | 10.2 Settings | 2 |
 | 10.3 Fair dice verification | 3 |
@@ -61,6 +61,7 @@ design is updated and re-exported into the skill.
 - [ ] Sit-and-go waiting lobby (8/16/32) and no-show states (§8.3) — Phase 6
 - [ ] User-created private tournament (§8.3, P1) — Phase 6
 - [ ] Email sign-in option (§8.1) — Phase 3
+- [ ] Remove the phone-number sign-in option from 9.4 (ADR-020) — Phase 3
 - [ ] Crawford-game indicator on the match game screen (§2) — Phase 2
 - [ ] Long Nard rule feedback: head rule and six-block illegal-move messages (§2) — Phase 2
 - [ ] Locked "Tezliklə" state for AI levels Usta and Qrossmeyster on 2.3 (ADR-019) — Phase 2
@@ -69,9 +70,8 @@ design is updated and re-exported into the skill.
 
 - **Platforms — resolved:** mobile only (iOS + Android), as in the design
   (ADR-016).
-- **Login options — resolved:** email is kept (ADR-020) and requested from
-  Claude Design. Was: design shows Apple / Google / phone / guest; spec §8.1
-  also lists email.
+- **Login options — resolved:** guest / Apple / Google / email; phone
+  sign-in removed (ADR-020). Both changes requested from Claude Design.
 - **Token file names:** spec §13 says `apps/client/lib/theme/tokens.dart`;
   the design ships `nard_tokens.dart`, `nard_colors.dart`, `nard_theme.dart`,
   `board_theme.dart` — use the design's files as-is (CLAUDE.md updated).
@@ -97,4 +97,4 @@ Resolved 2026-10-30: platforms → mobile only (ADR-016); progression →
 Phase 4, replay viewer → Phase 2 (ADR-017); koks, six-block per move,
 Long Nard opening, no draw rule (ADR-006/008/009); languages az/en/ru/tr
 with English fallback (ADR-018); AI levels 5–6 locked until Phase 6
-(ADR-019); email sign-in kept (ADR-020); no `.mat` files (ADR-021).
+(ADR-019); sign-in = guest/Apple/Google/email, no phone (ADR-020); no `.mat` files (ADR-021).

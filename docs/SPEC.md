@@ -4,7 +4,7 @@
 
 Working title: **`NardArena`** (placeholder — keep the name in one config constant so it can change).
 
-> Progress and deviations from this spec are tracked in `docs/ROADMAP.md` and `docs/DECISIONS.md` — notably ADR-002 (Laravel 13 instead of 11), ADR-016 (mobile-only client, overrides §3/§10 web and desktop) and ADR-017 (progression in Phase 4, replay viewer in Phase 2).
+> Progress and deviations from this spec are tracked in `docs/ROADMAP.md` and `docs/DECISIONS.md` — notably ADR-002 (Laravel 13 instead of 11), ADR-016 (mobile-only client, overrides §3/§10 web and desktop) and ADR-017 (progression in Phase 4, replay viewer in Phase 2) and ADR-020 (no phone-number sign-in, overrides §8.1).
 
 ---
 
