@@ -12,6 +12,28 @@ Last updated: 2026-10-30. Next step: **Phase 2 – Offline client MVP**.
 - Commit on the feature branch after each step; **do not push or merge**
   without asking.
 
+## Unattended work protocol (agreed 2026-10-30)
+
+When the product owner is away, keep going — including from one phase to the
+next — without waiting for approval (start only after they say "başla").
+
+- **State lives on disk.** Update this file after every step (done / next /
+  half-done). After a context compaction, re-read this file first.
+- **Questions** go to `docs/QUESTIONS.md` with a recommended option and the
+  assumption used. Reversible decisions: apply the recommended option, mark it
+  "assumed", continue; revisit when the owner answers.
+- **Never alone:** irreversible or account-bound steps (Apple/Google sign-in
+  keys, store registration, payments, final bundle ID) — stub and move on.
+- **Commits:** small commit after each step on the feature branch; no push or
+  merge; no `Co-Authored-By`.
+- **Lean context:** delegate large files (design `*.dc.html`) to subagents,
+  read only what's needed, keep only tails/errors of test output.
+- **Phase end:** run the CLAUDE.md checks, update ROADMAP / CHANGELOG /
+  DECISIONS / this file, commit, write the next phase's plan here, start it.
+- **Limits:** the session can stop (usage limit, permission prompt, machine
+  sleep) — resume from this file on "davam et". iOS can't be built on this
+  Linux machine; verify with tests + Android.
+
 ## Where things stand
 
 - Branch `feat/foundation-and-rules-engine` (not pushed; `main` is behind).
