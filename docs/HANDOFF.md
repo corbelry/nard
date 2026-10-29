@@ -26,9 +26,8 @@ Last updated: 2026-10-30. Next step: **Phase 2 – Offline client MVP**.
   Usta/Qrossmeyster locked "Tezliklə" (ADR-019), Long Nard rules confirmed
   (ADR-006/008/009).
 - Design: the `nardarena-design` skill in `.claude/skills/nardarena-design`
-  (exported from Claude Design). Screen-to-phase mapping and the list of
-  fixes still requested from Claude Design: `docs/ROADMAP.md`. The pending
-  fixes do not block Phase 2.
+  (exported from Claude Design). Screen-to-phase mapping: `docs/ROADMAP.md`.
+  All requested design fixes were delivered and verified; none are open.
 
 ## Environment notes
 

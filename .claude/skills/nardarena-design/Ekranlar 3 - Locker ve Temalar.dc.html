@@ -131,7 +131,7 @@ class Component extends DCLogic {
       themes: T.map(([k, n, r, d, bg, cup, dice]) => ({ k, n, r, rc: RC[r], d, bg, cup, dice })),
       cats: cat.map((n, i) => ({ n, w: i === 0 ? 600 : 500, bg: i === 0 ? '#F3EBDD' : 'transparent', c: i === 0 ? '#2B1D14' : 'rgba(243,235,221,.75)', ring: i === 0 ? 'none' : 'inset 0 0 0 1px rgba(201,162,74,.2)' })),
       items: IT.map(([n, r, s, sw, pt, eq, lock], i) => ({ n, s, sw, pt, eq, lock, rc: i === 1 ? '#E8C468' : RC[r], bw: i === 1 ? 2 : 1, op: lock ? .55 : 1, sc: lock ? 'rgba(243,235,221,.6)' : eq || i === 1 ? '#E8C468' : RC[r] })),
-      obtain: [{ n: 'Mağaza', v: '1 800 almaz' }, { n: 'Sezon bileti · Premium', v: 'Səviyyə 40' }, { n: 'Bakı Payız Kuboku', v: 'Top 3 mükafatı' }],
+      obtain: [{ n: 'Mağaza', v: '1 800 yaqut' }, { n: 'Sezon bileti · Premium', v: 'Səviyyə 40' }, { n: 'Bakı Payız Kuboku', v: 'Top 3 mükafatı' }],
       spec: [
         { a: 'Taxta çərçivə', x1: '640×460', x23: '1280×920 / 1920×1380', f: 'board_{theme}_frame@3x.webp' },
         { a: 'Oyun sahəsi (yarım)', x1: '252×420', x23: '504×840 / 756×1260', f: 'board_{theme}_field@3x.webp' },

@@ -16,7 +16,7 @@
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:680,&quot;height&quot;:500},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;walnut&quot;,&quot;dark&quot;,&quot;xatam&quot;],&quot;default&quot;:&quot;walnut&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;w&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:640,&quot;tsType&quot;:&quot;number&quot;},&quot;h&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:460,&quot;tsType&quot;:&quot;number&quot;},&quot;pos&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;[number,number][]&quot;},&quot;hl&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;sel&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;lastFrom&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;lastTo&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;dice&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;diceSide&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;diceState&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;cube&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;cubeVal&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;hideCube&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;barMe&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;barOpp&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;offMe&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;offOpp&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:680,&quot;height&quot;:500},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;walnut&quot;,&quot;dark&quot;,&quot;xatam&quot;],&quot;default&quot;:&quot;walnut&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;w&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:640,&quot;tsType&quot;:&quot;number&quot;},&quot;h&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:460,&quot;tsType&quot;:&quot;number&quot;},&quot;pos&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;[number,number][]&quot;},&quot;hl&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;bad&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;sel&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;lastFrom&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;lastTo&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;dice&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number[]&quot;},&quot;diceSide&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;diceState&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;cube&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;cubeVal&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;hideCube&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;barMe&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;barOpp&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;offMe&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;},&quot;offOpp&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;number&quot;}}">
 const grain = (base, dark, light) => `repeating-linear-gradient(179.4deg, transparent 0 5px, ${dark} 5px 6px, transparent 6px 13px, ${light} 13px 15px), repeating-linear-gradient(180.7deg, transparent 0 17px, ${dark} 17px 18.5px, transparent 18.5px 31px), repeating-linear-gradient(179.8deg, transparent 0 41px, ${dark} 41px 43px, transparent 43px 67px), radial-gradient(ellipse 55% 28% at 27% 38%, ${light}, transparent 70%), radial-gradient(ellipse 45% 38% at 76% 66%, rgba(0,0,0,.13), transparent 70%), ${base}`;
 const EBONY = 'repeating-linear-gradient(90deg, rgba(255,235,200,.035) 0 1px, transparent 1px 4px), linear-gradient(180deg,#2e1c10,#1a0e07)';
 const BONE = 'repeating-linear-gradient(90deg, rgba(120,90,50,.09) 0 1px, transparent 1px 5px), linear-gradient(180deg,#f2e7cf,#d5c29d)';
@@ -48,7 +48,7 @@ class Component extends DCLogic {
     const th = THEMES[p.theme] || THEMES.walnut;
     const ow = p.w ?? 640, s = ow / W, oh = Math.round(H * s);
     const ph = Math.round((H - 2 * F) * 0.43);
-    const hl = new Set(p.hl || []), lastTo = new Set(p.lastTo || []), lastFrom = new Set(p.lastFrom || []);
+    const bad = new Set(p.bad || []), hl = new Set(p.hl || []), lastTo = new Set(p.lastTo || []), lastFrom = new Set(p.lastFrom || []);
     const els = [];
     const add = (style, text = '', kids = []) => els.push({ style: Object.assign({ position: 'absolute', boxSizing: 'border-box' }, style), text, kids });
     const colX = c => c < 6 ? F + c * PW : F + Q + BAR + (c - 6) * PW;
@@ -69,14 +69,15 @@ class Component extends DCLogic {
       const base = { left: g.x + 1, top: g.b ? H - F - ph : F, width: PW - 2, height: ph, clipPath: g.b ? 'polygon(50% 0,100% 100%,0 100%)' : 'polygon(0 0,100% 0,50% 100%)' };
       add(Object.assign({ background: i % 2 ? th.ptA : th.ptB }, base));
       if (hl.has(i)) add(Object.assign({ background: `linear-gradient(${g.b ? 0 : 180}deg, rgba(240,205,110,.85), rgba(240,205,110,.12))` }, base));
-      add({ left: g.x, top: g.b ? H - F + 4 : 4, width: PW, height: 12, textAlign: 'center', font: "600 9px/12px 'IBM Plex Sans', sans-serif", color: hl.has(i) ? '#F0CD6E' : th.num, fontVariantNumeric: 'tabular-nums' }, String(i));
+      if (bad.has(i)) add(Object.assign({ background: `linear-gradient(${g.b ? 0 : 180}deg, rgba(224,86,108,.9), rgba(224,86,108,.15))` }, base));
+      add({ left: g.x, top: g.b ? H - F + 4 : 4, width: PW, height: 12, textAlign: 'center', font: "600 9px/12px 'IBM Plex Sans', sans-serif", color: bad.has(i) ? '#E0566C' : hl.has(i) ? '#F0CD6E' : th.num, fontVariantNumeric: 'tabular-nums' }, String(i));
     }
     [F, F + Q + BAR].forEach(x => add({ left: x, top: F, width: Q, height: H - 2 * F, boxShadow: fieldShadow, borderRadius: 2 }));
     [[F, (H - 2 * F) / 2 - 26], [H / 2 + 26, (H - 2 * F) / 2 - 26]].forEach(([y, h]) => add({ left: TX, top: y, width: TW, height: h, background: th.tray, borderRadius: 4, boxShadow: 'inset 0 3px 8px rgba(0,0,0,.7), inset 0 0 0 1px rgba(0,0,0,.5), 0 1px 0 rgba(255,220,170,.12)' }));
     const ghost = (pt, gold) => {
       const g = geo(pt), n = counts[pt] || 0, c = (n > 0 ? n : 0) + 1;
       const k = Math.min(c - 1, maxFit - 1);
-      add({ left: g.x + (PW - D) / 2, top: slotY(g, k, Math.min(c, maxFit)), width: D, height: D, borderRadius: '50%', border: gold ? '2px dashed rgba(244,212,120,.95)' : '2px dashed rgba(243,235,221,.45)', background: gold ? 'rgba(240,205,110,.18)' : 'transparent' });
+      add({ left: g.x + (PW - D) / 2, top: slotY(g, k, Math.min(c, maxFit)), width: D, height: D, borderRadius: '50%', border: gold === 'bad' ? '2px dashed #E0566C' : gold ? '2px dashed rgba(244,212,120,.95)' : '2px dashed rgba(243,235,221,.45)', background: gold === 'bad' ? 'rgba(224,86,108,.22)' : gold ? 'rgba(240,205,110,.18)' : 'transparent' });
     };
     lastFrom.forEach(pt => ghost(pt, false));
     (p.pos || []).forEach(([pt, n]) => {
@@ -90,6 +91,7 @@ class Component extends DCLogic {
       }
     });
     hl.forEach(pt => ghost(pt, true));
+    bad.forEach(pt => ghost(pt, 'bad'));
     const bx = F + Q + (BAR - 34) / 2;
     for (let k = 0; k < (p.barMe || 0); k++) add({ left: bx, top: H / 2 + 22 + k * 30, width: 34, height: 34, borderRadius: '50%', background: th.chW, boxShadow: th.shW + (p.barGlow ? ', 0 0 0 3px #F0CD6E' : '') });
     for (let k = 0; k < (p.barOpp || 0); k++) add({ left: bx, top: H / 2 - 56 - k * 30, width: 34, height: 34, borderRadius: '50%', background: th.chB, boxShadow: th.shB });

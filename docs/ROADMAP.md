@@ -65,18 +65,13 @@ privacy (15), notifications (16), email sign-in (17), pass & play hand-over
 (18), clan creation (19), BOT badge (20), sit-and-go + no-show (21), private
 tournament (22), Crawford indicator and Long Nard rule messages (23).
 
-Still open (send to Claude Design):
+Second round, delivered and verified 2026-10-30: AI levels Usta and
+Qrossmeyster locked "Tezliklə" (2.3); phone sign-in removed (9.4, 17.1);
+paid currency shown as "yaqut" everywhere, rank stays "Almaz"; 23.3
+six-block example fixed (16/13 with the 3, checked against `nard_core`);
+bot fallback text 30 s (20.1); subscription line removed (15.3).
 
-- [ ] 2.3: locked "Tezliklə" state for Usta and Qrossmeyster (ADR-019)
-- [ ] 9.4 and 17.1: remove the phone sign-in option (ADR-020)
-- [ ] Paid currency is "yaqut", not "almaz" (3.2, 7.1, 7.3, 7.4, Yaqut packs)
-  nor "daş" (15.3 says "120 daş"; "daş" means checker) (ADR-023)
-- [ ] 23.3: the example is not a legal illustration — the selected checker
-  on 11 cannot form the block with 3–1. Select 16 (16/13 with the 3) or 14
-  (14/13 with the 1); point 13 is what closes 18–13 (verified with
-  `nard_core`)
-- [ ] 20.1: "20 saniyədə" → "30 saniyədə" (ADR-024)
-- [ ] 15.3: remove the "active subscription" line (ADR-025)
+No design requests are open.
 
 ### Design vs spec conflicts
 
