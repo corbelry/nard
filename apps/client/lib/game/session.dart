@@ -17,6 +17,7 @@ class Session {
     this.pending = const [],
     this.selected,
     this.rejection,
+    this.rejectedMove,
     this.openingDice,
     this.lastTurn = const [],
   });
@@ -33,10 +34,16 @@ class Session {
   }
 
   static GameState _newGame(MatchSetup setup, MatchState match) =>
-      GameState.newGame(rulesFor(setup.variant), config: match.gameConfig());
+      GameState.newGame(
+        rulesFor(setup.variant),
+        config: match.gameConfig(cubeEnabled: setup.cube),
+      );
 
   static GameRecord _newRecord(MatchSetup setup, MatchState match) =>
-      GameRecord(variant: setup.variant, config: match.gameConfig());
+      GameRecord(
+        variant: setup.variant,
+        config: match.gameConfig(cubeEnabled: setup.cube),
+      );
 
   final MatchSetup setup;
 
@@ -58,6 +65,9 @@ class Session {
 
   /// Why the last requested move was refused, for the rule banners.
   final MoveRejection? rejection;
+
+  /// The refused `(from, to)` when [rejection] came from a move attempt.
+  final (int, int)? rejectedMove;
 
   /// The last opening throw (White's die, Black's die), shown until the
   /// first move.
@@ -127,6 +137,7 @@ class Session {
     List<Move>? pending,
     int? Function()? selected,
     MoveRejection? Function()? rejection,
+    (int, int)? Function()? rejectedMove,
     (int, int)? Function()? openingDice,
     List<Move>? lastTurn,
   }) => Session._(
@@ -138,6 +149,10 @@ class Session {
     pending: pending ?? this.pending,
     selected: selected != null ? selected() : this.selected,
     rejection: rejection != null ? rejection() : this.rejection,
+    rejectedMove:
+        rejectedMove != null
+            ? rejectedMove()
+            : (rejection != null ? null : this.rejectedMove),
     openingDice: openingDice != null ? openingDice() : this.openingDice,
     lastTurn: lastTurn ?? this.lastTurn,
   );
@@ -195,6 +210,7 @@ class Session {
       return _copy(
         selected: () => null,
         rejection: () => game.planner.explain(from, to, pending),
+        rejectedMove: () => (from, to),
       );
     }
     // Fewest dice first; among those, the smallest die (exact bear-off).

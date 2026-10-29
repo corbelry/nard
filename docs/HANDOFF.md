@@ -48,7 +48,19 @@ next — without waiting for approval (start only after they say "başla").
   workspaces).
 - [x] Shared widgets `lib/ui/*`, `Session` (pure match/turn logic,
   `lib/game/session.dart`), Drift DB + `AppSettings`, `BoardLayout`.
-- [ ] 6. Flame board + game screen — next.
+- [x] 4. i18n en/ru/tr done (subagent; plurals in en/ru).
+- [x] 6. Flame board (`lib/board/`: layout, painter, scene, game) + game
+  screen (`lib/game/`: controller, presenter, parts, sheets, overlays).
+  Verified on the `nard_phone` emulator (created for this project; run with
+  `-gpu host` — swiftshader crashed): onboarding → home → game, roll, select,
+  move, undo work.
+- [x] 7. Screens: splash, language, onboarding, lesson (7 scripted steps),
+  home + tab shell, setup 2.2, AI level 2.3, pass & play 18.1/18.2, settings,
+  replay list + viewer, match result.
+- [x] 8. Storage: settings + finished games (Drift) — stats screen not built
+  (Profile/stats is Phase 3, 8.1).
+- [ ] Next: more emulator checks (landscape, Long Nard, pass & play, cube,
+  replay), widget tests, CI Flutter job (9), docs/ADRs, QUESTIONS.md.
 - [x] 5. `nard_ai`: `HeuristicEvaluator` + `HeuristicBot` (levels, 2-ply for
   hard, cube decisions); hard ≤ 50 ms/move on desktop.
 - Design specs being extracted by subagents → `docs/design-notes/game.md`,
