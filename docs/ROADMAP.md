@@ -85,9 +85,8 @@ No design requests are open.
 
 ## Carried over / not yet done
 
-- Sound effects: code ready (`lib/app/sounds.dart`), files missing — the
-  owner downloads Kenney "Casino Audio" (CC0) into `~/Downloads`; we pick
-  and convert them into `apps/client/assets/sounds/` (ADR-030).
+- Sound effects: Kenney "Casino Audio" (CC0) placeholders in
+  `apps/client/assets/sounds/`; custom sounds in Phase 7 (ADR-030).
 - `nard_protocol`: envelope only; payload models, `seq`, JSON-schema export
   for PHP are Phase 3.
 - `game_server`: `/healthz` + WS ping/pong only; game loop is Phase 3.

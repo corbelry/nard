@@ -1,7 +1,13 @@
 # Sound effects
 
-Expected files (OGG): `dice.ogg`, `checker.ogg`, `hit.ogg`, `bear_off.ogg`,
-`double.ogg`. Missing files are skipped silently.
+Kenney "Casino Audio" 1.1 (CC0 1.0, see `LICENSE-kenney-casino-audio.txt`):
 
-Source: Kenney "Casino Audio" (CC0 1.0), to be added by the product owner
-(automated download is blocked by the site). Custom sounds: Phase 7.
+| File | Source |
+|---|---|
+| `dice.ogg` | `dice-throw-1.ogg` |
+| `checker.ogg` | `chip-lay-1.ogg` |
+| `hit.ogg` | `chips-collide-1.ogg` |
+| `bear_off.ogg` | `chips-stack-1.ogg` |
+| `double.ogg` | `chips-handle-1.ogg` |
+
+Custom sounds are planned for Phase 7 (ADR-030).

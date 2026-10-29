@@ -25,6 +25,7 @@ class SoundService {
   final Ref _ref;
   final _players = <Sfx, AudioPlayer>{};
   final _available = <Sfx, bool>{};
+  bool _contextSet = false;
 
   Future<bool> _exists(Sfx sfx) async {
     final known = _available[sfx];
@@ -44,6 +45,15 @@ class SoundService {
 
   Future<void> _play(Sfx sfx) async {
     if (!await _exists(sfx)) return;
+    if (!_contextSet) {
+      _contextSet = true;
+      // Effects mix with the player's music instead of taking audio focus.
+      await AudioPlayer.global.setAudioContext(
+        AudioContextConfig(
+          focus: AudioContextConfigFocus.mixWithOthers,
+        ).build(),
+      );
+    }
     var player = _players[sfx];
     if (player == null) {
       player = _players[sfx] = AudioPlayer();
