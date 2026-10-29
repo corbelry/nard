@@ -21,5 +21,12 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 13 | 3 | Apple / Google Sign-In need keys from the owner's developer accounts. | a) Build server side, keep disabled by config until keys exist · b) Owner provides keys now | — | answered 2026-10-30: a |
 | 14 | 3 | E-mail for sign-in codes in development. | a) Mailpit in docker-compose; real provider in Phase 7 · b) Real provider now | — | answered 2026-10-30: a |
 | 15 | 3 | Multi-pod scaling (Redis queues, snapshots) now or with the Phase 7 load tests? | a) Phase 7 (single pod is enough until launch tests) · b) Now | a (ADR-032) | assumed |
+| 16 | 3 | Bot fallback (ADR-024): the design says the search for a live opponent continues in the background during the bot game; the server stops searching. | a) Stop searching, change the copy (simple, no interrupted games) · b) Keep searching and offer to switch when a player is found | a | open |
+| 17 | 3 | 15.2 Export: the design promises an e-mailed ZIP within 24 h; the API returns the data at once (guests have no e-mail). | a) Save/share the JSON now, change the copy · b) Async e-mail job | a | open |
+| 18 | 3 | 15.3 Delete: the design promises a 30-day grace (sign in to cancel); the API deletes at once. | a) Add the 30-day grace (store a deletion date, purge job) · b) Delete at once, change the copy | b for now | open |
+| 19 | 3 | Opponent disconnected: the banner says the game is "paused", but the server keeps the absent player's clock running (60 s grace, then forfeit). | a) Keep the clock running, change the copy · b) Pause the clock during the grace | a | open |
+| 20 | 3 | Time controls: 2.2 shows Blits/Sürətli/Klassik/Gündəlik; the server has one control (3 min + 12 s). | a) Phase 3: 3+12 only; Blits/Klassik next, Gündəlik (correspondence) later · b) All now | a | open |
+| 21 | 3 | Home grid: where do online casual ("Adi" / "Təsadüfi") and ranked go, and is the hero "Oyna" online or offline by default? | a) Hero stays offline vs computer; add an "Onlayn" tile opening casual/ranked choice · b) Hero = online casual when signed in | a | open |
+| 22 | 3 | Store rules: Apple requires Sign in with Apple when Google sign-in is offered on iOS (guideline 4.8); show Apple on Android too? | a) Apple on iOS only, Google on both · b) Both everywhere | a | open |
 
 Earlier questions are tracked in `ROADMAP.md` → "Open questions".
