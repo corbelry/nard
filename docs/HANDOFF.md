@@ -40,13 +40,16 @@ next — without waiting for approval (start only after they say "başla").
   (FD-01…05, vectors from an independent Python script).
 - [x] 2. Protocol payloads (`nard_protocol`: messages, `game.seed`,
   `MatchResult` + JSON schema), `docs/PROTOCOL.md`.
-- [~] 4. game_server: `MatchRoom` (fair dice, server-side pending moves,
-  clocks, reconnect grace, results) + `BotDriver` done with fake_async
-  tests. Next: tickets + hub (WS connections ↔ rooms) + in-memory
-  matchmaker, wire into `server.dart`.
+- [x] 4. game_server: `MatchRoom` (fair dice, server-side pending moves,
+  clocks, reconnect grace, results), `BotDriver`, signed `Ticket`s,
+  in-memory `Matchmaker` (band ±50→±400, casual bot at 30 s), `Hub` (WS ↔
+  rooms, takeover on reconnect); e2e test over real WebSockets. Results go
+  to `MemoryResultSink` until the API endpoint exists. Redis snapshots /
+  multi-pod queue: step 5.
+- [ ] 3. API (Laravel): accounts, tickets, results, ratings — next.
 
-Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: sound files
-(owner downloads Kenney Casino Audio), lesson content revisit, iOS build.
+Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: lesson
+content revisit, iOS build (sounds done: Kenney CC0).
 
 ## Where things stand
 

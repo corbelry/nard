@@ -52,6 +52,15 @@ client                                   game_server
 `game.state` is always the full state; clients replay `record` with
 `nard_core` and drop any state whose `seq` is not newer than the last one.
 
+## Tickets
+
+The API issues a short-lived ticket per WebSocket session:
+`base64url(json) "." base64url(HMAC-SHA256(GAME_TICKET_SECRET, base64url(json)))`
+(unpadded base64url), JSON `{sub, name, country?, ratings: {shortNard?,
+longNard?}, exp}` (`exp` in seconds). The game server verifies it in
+constant time (`apps/game_server/lib/src/ticket.dart`). One live connection
+per user; a newer connection replaces the old one (reconnect).
+
 ## API contract
 
 The game server reports finished matches as `MatchResult`

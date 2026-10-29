@@ -1,23 +1,76 @@
 import 'dart:async';
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:game_server/server.dart';
 import 'package:http/http.dart' as http;
+import 'package:nard_core/nard_core.dart';
 import 'package:nard_protocol/nard_protocol.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:test/test.dart';
 import 'package:web_socket_channel/io.dart';
 
+const secret = 'test-secret-test-secret-test-secret!';
+
+class Client {
+  Client(int port)
+    : ws = IOWebSocketChannel.connect('ws://localhost:$port/ws') {
+    it = StreamIterator(
+      ws.stream.map((f) => Envelope.fromJson(jsonDecode(f as String))),
+    );
+  }
+
+  final IOWebSocketChannel ws;
+  late final StreamIterator<Envelope> it;
+  int _id = 0;
+
+  void send(String type, [Map<String, Object?> payload = const {}]) =>
+      ws.sink.add(
+        jsonEncode(
+          Envelope(
+            type: type,
+            id: 'c${_id++}',
+            ts: 0,
+            payload: payload,
+          ).toJson(),
+        ),
+      );
+
+  /// Next message of [type], skipping others.
+  Future<Envelope> next(String type) async {
+    while (await it.moveNext().timeout(const Duration(seconds: 5))) {
+      if (it.current.type == type) return it.current;
+    }
+    throw StateError('Stream closed');
+  }
+
+  void auth(String user) => send(MessageType.auth, {
+    'ticket': Ticket.sign(
+      Ticket(
+        userId: user,
+        name: user,
+        expiresAt: DateTime.now().millisecondsSinceEpoch ~/ 1000 + 60,
+      ),
+      secret,
+    ),
+  });
+}
+
 void main() {
   late HttpServer server;
+  late Hub hub;
+  late MemoryResultSink results;
 
   setUp(() async {
-    server = await io.serve(buildHandler(), InternetAddress.loopbackIPv4, 0);
+    results = MemoryResultSink();
+    hub = Hub(ticketSecret: secret, results: results);
+    server = await io.serve(buildHandler(hub), InternetAddress.loopbackIPv4, 0);
   });
 
-  tearDown(() => server.close(force: true));
+  tearDown(() async {
+    hub.dispose();
+    await server.close(force: true);
+  });
 
   test('health check', () async {
     final res = await http.get(
@@ -27,31 +80,107 @@ void main() {
     expect(res.body, 'ok');
   });
 
-  test('WebSocket ping/pong and error replies', () async {
-    final ws = IOWebSocketChannel.connect('ws://localhost:${server.port}/ws');
-    final replies = ws.stream.map(
-      (f) => Envelope.fromJson(jsonDecode(f as String)),
+  test('ping, bad frames and unauthenticated intents', () async {
+    final c = Client(server.port);
+    c.send(MessageType.ping);
+    expect((await c.next(MessageType.pong)).id, 'c0');
+    c.ws.sink.add('garbage');
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.badRequest,
     );
-    final it = StreamIterator(replies);
-    ws.sink.add(
-      jsonEncode(
-        const Envelope(type: MessageType.ping, id: 'p1', ts: 0).toJson(),
-      ),
+    c.send(MessageType.gameRoll);
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.unauthorized,
     );
-    expect(await it.moveNext(), isTrue);
-    expect(it.current.type, MessageType.pong);
-    expect(it.current.id, 'p1');
-    ws.sink.add('garbage');
-    expect(await it.moveNext(), isTrue);
-    expect(it.current.type, MessageType.error);
-    expect(it.current.payload['code'], 'bad_request');
-    ws.sink.add(
-      jsonEncode(
-        const Envelope(type: MessageType.gameRoll, id: 'r', ts: 0).toJson(),
-      ),
+    c.send(MessageType.auth, {'ticket': 'forged.ticket'});
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.unauthorized,
     );
-    expect(await it.moveNext(), isTrue);
-    expect(it.current.payload['code'], 'not_implemented');
-    await ws.sink.close();
+    c.auth('u1');
+    expect((await c.next(MessageType.hello)).payload['userId'], 'u1');
+    c.send(MessageType.gameRoll);
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.notInMatch,
+    );
+    c.send(MessageType.queueJoin, {'variant': 'x'});
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.badRequest,
+    );
+    await c.ws.sink.close();
   });
+
+  test(
+    'two players are matched and play on the authoritative server',
+    () async {
+      final a = Client(server.port)..auth('alice');
+      final b = Client(server.port)..auth('bob');
+      await a.next(MessageType.hello);
+      await b.next(MessageType.hello);
+      const join = QueueJoinPayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+        mode: QueueMode.casual,
+      );
+      a.send(MessageType.queueJoin, join.toJson());
+      b.send(MessageType.queueJoin, join.toJson());
+      final fa = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      final fb = MatchFoundPayload.fromJson(
+        (await b.next(MessageType.matchFound)).payload,
+      );
+      expect(fa.matchId, fb.matchId);
+      expect(fa.you, fb.you.opponent);
+      a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+      b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+      GameStatePayload s;
+      do {
+        s = GameStatePayload.fromJson(
+          (await a.next(MessageType.gameState)).payload,
+        );
+      } while (s.state.phase == GamePhase.opening);
+      // Short Nard: the opening dice are played (SN-02).
+      expect(s.state.phase, GamePhase.awaitingMove);
+      final mover = s.state.turn == fa.you ? a : b;
+      final turn = s.state.legalTurns.first;
+      for (final m in turn.moves) {
+        mover.send(
+          MessageType.gameMove,
+          MovePayload(m.from, m.to, die: m.die).toJson(),
+        );
+      }
+      mover.send(MessageType.gameConfirmTurn);
+      do {
+        s = GameStatePayload.fromJson(
+          (await a.next(MessageType.gameState)).payload,
+        );
+      } while (s.state.phase == GamePhase.awaitingMove);
+      expect(s.state.phase, GamePhase.awaitingRoll);
+      expect(s.record.actions.whereType<PlayTurn>(), hasLength(1));
+      // Reconnect: a new connection takes over and gets the state again.
+      final loser = s.state.turn == fa.you ? a : b;
+      final user = loser == a ? 'alice' : 'bob';
+      final again = Client(server.port)..auth(user);
+      await again.next(MessageType.hello);
+      final resumed = GameStatePayload.fromJson(
+        (await again.next(MessageType.gameState)).payload,
+      );
+      expect(resumed.matchId, fa.matchId);
+      again.send(
+        MessageType.gameResign,
+        const ResignPayload(WinKind.single).toJson(),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+      expect(results.results.single.reason, MatchEndReason.resigned);
+      expect(hub.activeMatches, 0);
+      for (final c in [a, b, again]) {
+        await c.ws.sink.close();
+      }
+    },
+  );
 }

@@ -32,6 +32,7 @@ services:
     build: ../apps/api
     environment:
       APP_ENV: local
+      GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
       DB_HOST: mysql
       REDIS_HOST: redis
     command: >
@@ -51,6 +52,9 @@ services:
     environment:
       PORT: "8080"
       REDIS_URL: redis://redis:6379
+      # Shared with the API, which signs game-server tickets. Local default
+      # only; production reads it from a secret.
+      GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
     ports: ["${NARD_GAME_PORT:-18080}:8080"]
     depends_on:
       redis: { condition: service_healthy }
