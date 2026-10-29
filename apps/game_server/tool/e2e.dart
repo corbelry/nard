@@ -169,6 +169,14 @@ Future<void> main() async {
     '   match ${match['id']} reason ${match['reason']}; rating $rating',
   );
   if (rating == null) throw StateError('rating missing');
+  final inventory = await call(
+    'GET',
+    '/api/v1/me/inventory',
+    token: players[0].token,
+  );
+  final coins = (inventory['wallet']! as Map)['coins'] as int;
+  stdout.writeln('   match reward: $coins coins');
+  if (coins <= 0) throw StateError('no match reward');
 
   stdout.writeln('4. e-mail sign-in through Mailpit');
   final email = 'e2e-$run@example.com';
