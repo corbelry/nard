@@ -1,6 +1,6 @@
 # Session handoff — start here
 
-Last updated: 2026-10-30. Next step: **Phase 2 – Offline client MVP**.
+Last updated: 2026-10-30. Next step: **Phase 3 – Accounts & online core**.
 
 ## Working with the product owner
 
@@ -34,37 +34,12 @@ next — without waiting for approval (start only after they say "başla").
   sleep) — resume from this file on "davam et". iOS can't be built on this
   Linux machine; verify with tests + Android.
 
-## Phase 2 progress (update after every step)
+## Phase 3 progress (update after every step)
 
-- [x] 1. Engine: `TurnPlanner.explain(from, to, played)` → `MoveRejection?`
-  (`move_rejection_test.dart` + property test; coverage 98.6%).
-- [x] 2. `apps/client` scaffold (workspace, deps — drift 2.28 since newer
-  needs Dart 3.9+; Flutter uses JDK 17 via `flutter config --jdk-dir`;
-  bundle ID placeholder `com.nardarena.app`).
-- [x] 3. Theme copied unchanged to `lib/theme/` (excluded from analysis);
-  missing tokens in `lib/ui/extra_tokens.dart`; fonts in `assets/fonts`.
-- [~] 4. i18n: `lib/l10n/app_az.arb` (template, ~250 keys); en/ru/tr being
-  translated by a subagent; run `flutter gen-l10n` (no `generate: true` in
-  workspaces).
-- [x] Shared widgets `lib/ui/*`, `Session` (pure match/turn logic,
-  `lib/game/session.dart`), Drift DB + `AppSettings`, `BoardLayout`.
-- [x] 4. i18n en/ru/tr done (subagent; plurals in en/ru).
-- [x] 6. Flame board (`lib/board/`: layout, painter, scene, game) + game
-  screen (`lib/game/`: controller, presenter, parts, sheets, overlays).
-  Verified on the `nard_phone` emulator (created for this project; run with
-  `-gpu host` — swiftshader crashed): onboarding → home → game, roll, select,
-  move, undo work.
-- [x] 7. Screens: splash, language, onboarding, lesson (7 scripted steps),
-  home + tab shell, setup 2.2, AI level 2.3, pass & play 18.1/18.2, settings,
-  replay list + viewer, match result.
-- [x] 8. Storage: settings + finished games (Drift) — stats screen not built
-  (Profile/stats is Phase 3, 8.1).
-- [ ] Next: more emulator checks (landscape, Long Nard, pass & play, cube,
-  replay), widget tests, CI Flutter job (9), docs/ADRs, QUESTIONS.md.
-- [x] 5. `nard_ai`: `HeuristicEvaluator` + `HeuristicBot` (levels, 2-ply for
-  hard, cube decisions); hard ≤ 50 ms/move on desktop.
-- Design specs being extracted by subagents → `docs/design-notes/game.md`,
-  `docs/design-notes/screens.md` (read these instead of the *.dc.html).
+- [ ] 1. Provably fair dice — next.
+
+Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: sound files
+(owner downloads Kenney Casino Audio), lesson content revisit, iOS build.
 
 ## Where things stand
 
@@ -94,48 +69,39 @@ next — without waiting for approval (start only after they say "başla").
 - gnu.org rate-limits fetches; the gnubg source mirror on GitHub
   (`mormegil-cz/gnubg`) worked.
 
-## Phase 2 plan (spec §12 + ADRs)
+## Phase 3 plan (spec §7, §8.1–8.2, §12 + ADRs)
 
-Done when: everything below works offline on Android and iOS, tests are
-green, `docs/` (ROADMAP, CHANGELOG, DECISIONS) are updated.
+Done when: two clients can sign in (guest / e-mail code), find each other
+(casual + ranked) or get a labelled bot after 30 s in casual, play a full
+match on the authoritative server with clocks, reconnect within 60 s,
+verify the dice afterwards, and see rating changes on the result screen;
+tests green; docs updated.
 
-1. **Engine additions (test-first, `nard_core`).** An API that explains why a
-   move is illegal (head rule, six-block, closed point, must enter from the
-   bar, must use both dice / the larger die, bearing off not allowed yet),
-   needed by the design's illegal-move banners (23.2, 23.3). Keep coverage
-   ≥ 95%.
-2. **Create `apps/client`.** `flutter create --org com.nardarena
-   --project-name nard_client --platforms ios,android apps/client`
-   (bundle ID is a placeholder, see ROADMAP); add it to the root workspace
-   (`resolution: workspace`); depend on `nard_core`, `nard_ai`.
-   Packages: flame, flutter_riverpod, go_router, drift (+ sqlite3_flutter_libs),
-   flutter_localizations, intl, lucide_icons. Check versions work with
-   Flutter 3.29.2.
-3. **Theme.** Copy the skill's `flutter/lib/theme/` into
-   `apps/client/lib/theme/` unchanged; follow the skill's `flutter/README.md`
-   (fonts into `assets/fonts/`, OFL; default theme `sebeke`). Every visual
-   value comes from these tokens.
-4. **i18n.** ARB files with Azerbaijani as the template (`app_az.arb`), plus
-   en/ru/tr; English fallback; language picker on first launch (9.2). Copy
-   rules: the skill's `readme.md` "CONTENT FUNDAMENTALS".
-5. **AI (`nard_ai`).** Heuristic evaluator (pip count, blots, primes,
-   anchors, home-board strength, race) with 1-ply / 2-ply expectiminimax;
-   levels Başlanğıc, Həvəskar, Orta, Güclü via noise / blunder rate; cube
-   decisions for Short Nard; runs in an Isolate with a thinking delay.
-6. **Game screen (Flame).** `BoardGeometry` 640×H logical space, portrait
-   and landscape; drag and tap-tap moves driven by `TurnPlanner.nextMoves`;
-   undo before confirm; highlights / ghost checkers / numbers drawn in code;
-   motion tokens; haptics; cube offer sheet, resign (2.8), menu (2.9), no
-   legal move banner, Crawford indicator (23.1), Long Nard rule banners
-   (23.2, 23.3), match result (2.6).
-7. **Screens.** Splash 9.1, language 9.2, "which nard" 9.3, lesson skeleton
-   9.5, home 2.1 (offline parts), setup 2.2, AI level 2.3, pass & play
-   18.1 / 18.2, settings 10.2, local replay viewer, offline / empty / error
-   states. Default cosmetic theme only (others are Phase 4).
-8. **Storage (Drift).** Settings, local `GameRecord`s (JSON) for replays,
-   local stats. Offline games never affect rating (spec §8.10).
-9. **CI.** Add a Flutter job (format, analyze, test) to
-   `.github/workflows/ci.yml`.
+1. **Provably fair dice** (spec §7.1): HMAC-SHA256(serverSeed,
+   clientSeedA|clientSeedB|N) → dice without modulo bias, as a `DiceSource`
+   (not inside rules) shared by server and client verification; test
+   vectors; `docs/FAIRNESS.md`.
+2. **Protocol** (`nard_protocol`): typed payloads for the §7.2 messages,
+   `seq` ordering, errors (reuse `MoveRejection`), JSON-schema export for
+   PHP; `docs/PROTOCOL.md`.
+3. **API (Laravel)**: guest device accounts, e-mail code sign-in (Mailpit in
+   compose, ADR-030), Apple/Google built but disabled by config; Sanctum
+   tokens; profiles (nickname, avatar, flag); per-variant ratings (Elo with
+   match-length weighting, FIBS reference) and tiers; match history;
+   game-server tickets (signed); results via Redis Streams + signed HTTP.
+   Run checks in the Docker image (CLAUDE.md).
+4. **game_server**: ticket auth, rooms per match feeding intents through
+   `GameState.apply`, clocks (reserve + delay, §7.3), 60 s reconnect grace,
+   Redis snapshots per turn, result publishing; bots via `nard_ai` for the
+   casual fallback (ADR-024).
+5. **Matchmaking** in Redis: queues per (variant, format, mode), rating
+   band ±50 → ±400 over time, casual bot fallback at 30 s.
+6. **Client**: sign-in 9.4 / 17.1–17.3, online mode on Home, searching 2.4,
+   VS 2.5, BOT badge 20.x, reconnect states, low-time state, fair-dice
+   verification 10.3, profile + stats 8.1, account & privacy 15.x, offline
+   banner; online parts of 2.1 / 2.6 (rating change). Ask the design spec
+   subagents for these screens first (`docs/design-notes/online.md`).
+7. **Infra/CI**: Mailpit, env docs, end-to-end test (two simulated clients
+   against game_server + API in compose).
 
-Suggested order: 1 → 2 → 3 → 4 → 6 (pass & play first, no AI) → 5 → 7 → 8 → 9,
-committing after each step.
+Suggested order: 1 → 2 → 4 (local rooms, no auth) → 3 → 5 → 6 → 7.

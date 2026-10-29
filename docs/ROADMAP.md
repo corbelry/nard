@@ -7,8 +7,8 @@ end of every phase (together with `CHANGELOG.md`).
 |---|---|---|
 | 0 – Foundation | Monorepo, CI, docker-compose (MySQL, Redis, api, game_server), CLAUDE.md, DECISIONS.md | ✅ Done (2026-10-30) |
 | 1 – Rules engine | `nard_core` Short + Long Nard, match/cube logic, notation, ≥95% coverage, property tests | ✅ Done (2026-10-30) — 108 tests, 98.6% coverage |
-| 2 – Offline client MVP | Flutter + Flame board, pass & play, AI Beginner→Hard (heuristic), default cosmetics, settings, i18n az/en/ru/tr, tutorial skeleton, local replay viewer (ADR-017) — mobile only (ADR-016), UI from the `nardarena-design` skill (see Design coverage) | ⏭ Next |
-| 3 – Accounts & online core | Laravel auth, profiles, game_server, provably fair dice (`docs/FAIRNESS.md`), casual + ranked matchmaking, clocks, reconnection, rating | Planned |
+| 2 – Offline client MVP | Flutter + Flame board, pass & play, AI Beginner→Hard (heuristic), default cosmetics, settings, i18n az/en/ru/tr, tutorial skeleton, local replay viewer (ADR-017) — mobile only (ADR-016), UI from the `nardarena-design` skill (see Design coverage) | ✅ Done (2026-10-30) — Android verified on emulator; iOS not built (no Mac) |
+| 3 – Accounts & online core | Laravel auth, profiles, game_server, provably fair dice (`docs/FAIRNESS.md`), casual + ranked matchmaking, clocks, reconnection, rating | ⏭ Next |
 | 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation; progression: level/XP, missions, achievements, titles, login streak (ADR-017) | Planned |
 | 5 – Social & clans | Friends, private rooms, spectating, emotes, clans, clan chat, clan wars | Planned |
 | 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | Planned |
@@ -85,22 +85,24 @@ No design requests are open.
 
 ## Carried over / not yet done
 
-- Flutter client (`apps/client`) not created yet — first step of Phase 2
-  (add it to the pub workspace, ADR-001).
-- `nard_ai`: only `RandomBot`; heuristic levels are Phase 2.
+- Sound effects: code ready (`lib/app/sounds.dart`), files missing — the
+  owner downloads Kenney "Casino Audio" (CC0) into `~/Downloads`; we pick
+  and convert them into `apps/client/assets/sounds/` (ADR-030).
 - `nard_protocol`: envelope only; payload models, `seq`, JSON-schema export
   for PHP are Phase 3.
 - `game_server`: `/healthz` + WS ping/pong only; game loop is Phase 3.
 - Filament admin: Phase 7 (pick a Laravel 13 compatible version, ADR-002).
 - `.mat` match-file import/export: not planned (ADR-021).
 - CI workflow has not yet run on GitHub (verified locally only).
-- Engine work for Phase 2: an API that explains why a move is illegal
-  (head rule, six-block, closed point, must enter from the bar, must use
-  both dice / the larger die) for the design's illegal-move banners (23.2,
-  23.3); today the planner only omits illegal moves.
 - App/bundle ID: use placeholder `com.nardarena.app` in Phase 2; the final
   ID must be fixed before the app is first registered in App Store Connect /
   Play Console (it cannot change after that).
+
+- Lesson (9.5): steps 1 and 3–7 were written by us (Short Nard only);
+  the owner wants to **revisit the lesson content later** (ADR-030) —
+  consider a Long Nard lesson and designed coach art.
+- Board direction setting ("Taxta istiqaməti") not built (QUESTIONS #4).
+- iOS build not verified (no Mac; QUESTIONS #12).
 
 ## Open questions for the product owner
 

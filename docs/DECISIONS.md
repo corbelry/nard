@@ -175,3 +175,71 @@ A subscription may come later; any future product that would grant coins
 (subscription perks, coin packs) conflicts with ADR-022 and needs a legal
 review plus a change to coin-entry tournament prizes first.
 Product-owner decision.
+
+## ADR-026 — The engine explains illegal moves (2026-10-30)
+`TurnPlanner.explain(from, to, played)` returns a `MoveRejection`
+(turnComplete, noChecker, noMatchingDie, mustEnterFromBar, pointClosed,
+headRule, sixBlock, bearOffNotAllowed, bearOffHigherDie, mustUseBothDice,
+mustUseLargerDie) or null when the move is legal. A property test checks
+that `explain` rejects exactly the moves `nextMoves` omits. The client maps
+reasons to the rule banners (23.2, 23.3) and toasts; the server can reuse it
+for error replies in Phase 3.
+
+## ADR-027 — Heuristic AI levels (2026-10-30)
+`nard_ai` scores positions with a hand-tuned, antisymmetric logit
+(race/pip term, blot risk, made home points, primes, anchors for Short Nard;
+blocking runs and point coverage for Long Nard) and maps it to a win
+probability. Levels: Başlanğıc = `beginner` (1-ply, heavy noise, 25 %
+random turns), Həvəskar = `easy` (1-ply, light noise, 8 %), Orta = `medium`
+(1-ply), Güclü = `hard` (2-ply expectiminimax over the opponent's 21 rolls
+for the best 4 candidates). Usta/Qrossmeyster (`expert`/`master`) are locked
+in the UI (ADR-019) and play like `hard`. Cube: double at ≥ 68 % win
+probability, take at ≥ 25 % (no gammon-aware "too good"). The bot runs in an
+`Isolate` with a 0.5–1 s thinking delay. The "~elo" labels of 2.3 are not
+shown until the bots are calibrated.
+
+## ADR-028 — Client architecture (2026-10-30)
+- State: Riverpod 3; navigation: go_router (tab shell for Əsas/Profil);
+  storage: Drift 2.28 (newer Drift needs Dart ≥ 3.9; Flutter is 3.29.2).
+- Rules flow through a pure `Session` (`lib/game/session.dart`) wrapping
+  `GameState`/`TurnPlanner`; `GameController` adds dice, bot, timers and
+  saving; `GamePresenter` maps state to the screen. The Flame board only
+  draws a `BoardScene` and reports taps/drags in the mover's numbering.
+- `lib/theme/` is vendored unchanged from the design skill and excluded
+  from analysis and formatting; values the design uses without a token live
+  in `lib/ui/extra_tokens.dart`.
+- Fonts are static instances (fontTools) of the Google Fonts variable
+  files; IBM Plex Sans Condensed has no Cyrillic (only the komur theme uses
+  it).
+- Offline dice use `Random.secure()`; provably fair dice are Phase 3.
+- Pub workspaces don't support `generate: true`, so `flutter gen-l10n` runs
+  explicitly and the generated files are committed (CI checks they are up to
+  date). The game_server Docker build removes the client from the workspace.
+
+## ADR-029 — Design gaps resolved for Phase 2 (2026-10-30)
+Assumptions taken while building from `docs/design-notes/*` (open questions
+there); each can be changed without touching the rules:
+plain walnut board without the xatəm inlay; an owned cube rests at the inner
+end of its owner's tray; doubles show four dice that dim one by one; the
+opponent's last-move markers clear with the player's first move; one sheet
+style (surfaceRaised, radius 24/42) except the cube offer (no handle, not
+dismissible); non-primary buttons use the card radius, sebeke button labels
+use Noto Serif Display; names in sentences use neutral phrasing to avoid
+Azerbaijani suffix harmony ("Növbə: {name}"); Home = hero card + four tiles
+(Kompüter, Bir cihazda, Dərs, Oyunlarım); vs computer flow 2.2 → 2.3; time
+controls, the rated toggle and "İpuçlarını göstər" are omitted offline;
+"Təhlil" on result screens becomes "Replay"; the Profil tab opens Settings
+until 8.1; offline resignations are accepted at once; pass & play adds a
+match-length row and keeps the cube on for Short Nard; the clock block is
+hidden in offline games; lesson steps 1 and 3–7 were written by us.
+Listed for review in `docs/QUESTIONS.md`.
+
+## ADR-030 — Product-owner answers, Phase 2 review (2026-10-30)
+Default board stays plain walnut (xatəm inlay → Phase 4 cosmetic);
+"İpuçlarını göstər" waits for the Phase 6 analysis; a CC0 sound pack ships
+now, custom sounds in Phase 7; Turkish names the variants **Tavla / Uzun
+tavla**; the lesson steps we wrote stay for now and are revisited later;
+the offline Home layout is accepted; AI "~elo" labels stay hidden until
+calibrated; pass & play resignations are accepted at once. Phase 3:
+Apple/Google sign-in is built but disabled by config until the owner adds
+keys; development e-mail goes to Mailpit (real provider in Phase 7).

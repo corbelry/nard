@@ -33,16 +33,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get valueOff => 'Kapalı';
 
   @override
-  String get variantShort => 'Kısa nard';
+  String get variantShort => 'Tavla';
 
   @override
-  String get variantLong => 'Uzun nard';
+  String get variantLong => 'Uzun tavla';
 
   @override
-  String get variantShortUpper => 'KISA NARD';
+  String get variantShortUpper => 'TAVLA';
 
   @override
-  String get variantLongUpper => 'UZUN NARD';
+  String get variantLongUpper => 'UZUN TAVLA';
 
   @override
   String matchToPointsUpper(int n) {
@@ -106,7 +106,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get variantQuestionTitle => 'Hangi nardı oynuyorsun?';
+  String get variantQuestionTitle => 'Hangi tavlayı oynuyorsun?';
 
   @override
   String get variantShortDesc => 'Klasik tavla: kırma, bar, katlama küpü.';
@@ -675,7 +675,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rulePointClosedShort => 'Rakibin iki veya daha fazla pulu olan haneye gidilemez.';
 
   @override
-  String get rulePointClosedLong => 'Uzun nardda rakibin pulu olan haneye gidilemez.';
+  String get rulePointClosedLong => 'Uzun tavlada rakibin pulu olan haneye gidilemez.';
 
   @override
   String get ruleBarTitle => 'Önce bardaki pulu sok';

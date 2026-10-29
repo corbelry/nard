@@ -9,6 +9,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:nard_core/nard_core.dart';
 
 import '../app/providers.dart';
+import '../app/sounds.dart';
 import '../board/board_game.dart';
 import '../data/app_settings.dart';
 import '../l10n/gen/app_localizations.dart';
@@ -24,6 +25,7 @@ import 'game_parts.dart';
 import 'game_presenter.dart';
 import 'game_sheets.dart';
 import 'match_setup.dart';
+import 'session.dart';
 
 /// The in-game screen (game.md §1 portrait, §1L landscape).
 class GameScreen extends ConsumerStatefulWidget {
@@ -93,6 +95,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         unawaited(HapticFeedback.lightImpact());
       }
     }
+    if (prev != null) _sounds(prev.session, s, next);
     final p = GamePresenter(next, settings, AppLocalizations.of(context));
     if (p.mustAnswerDouble && !_offerOpen && !next.handoff) {
       unawaited(_answerDouble(p));
@@ -101,6 +104,32 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       _resultTimer = Timer(const Duration(milliseconds: 1400), () {
         if (mounted) setState(() => _matchResultReady = true);
       });
+    }
+  }
+
+  void _sounds(Session before, Session after, GameView view) {
+    final sfx = ref.read(soundProvider);
+    if (view.rolling && after.dice != before.dice) sfx.play(Sfx.dice);
+    if (after.phase == GamePhase.cubeOffered &&
+        before.phase != GamePhase.cubeOffered) {
+      sfx.play(Sfx.double);
+    }
+    // New checker movement: pending moves added, or a turn confirmed by
+    // the bot (the human's confirm has already sounded per move).
+    List<Move> moved = const [];
+    if (after.pending.length > before.pending.length) {
+      moved = after.pending.sublist(before.pending.length);
+    } else if (!identical(after.lastTurn, before.lastTurn) &&
+        before.pending.isEmpty) {
+      moved = after.lastTurn;
+    }
+    if (moved.isEmpty) return;
+    if (moved.any((m) => m.hit)) {
+      sfx.play(Sfx.hit);
+    } else if (moved.any((m) => m.isBearOff)) {
+      sfx.play(Sfx.bearOff);
+    } else {
+      sfx.play(Sfx.checker);
     }
   }
 

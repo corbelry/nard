@@ -1,5 +1,20 @@
 # Changelog
 
+## Phase 2 — Offline client MVP (2026-10-30)
+- `nard_core`: `TurnPlanner.explain` → `MoveRejection` for rule banners
+  (ADR-026); 98.6% coverage.
+- `nard_ai`: heuristic evaluator, `HeuristicBot` levels Başlanğıc…Güclü
+  with 2-ply search for Güclü, cube decisions (ADR-027).
+- `apps/client` (Flutter 3.29, mobile only): vendored design theme, fonts,
+  az/en/ru/tr; Flame board (drag + tap, animations, highlights, dice, cube,
+  portrait/landscape); vs computer and pass & play (hand-over screen, board
+  flip, undo); cube, resign, menu, rules sheets; illegal-move toasts;
+  Crawford chip; match result; splash, language, onboarding, 7-step lesson,
+  home, setup, AI level, settings, replay list + viewer; Drift storage for
+  settings and finished games; placeholder app icon (ADR-028/029/030).
+- CI: Flutter client job; workspace resolved with the Flutter SDK; the
+  game_server image drops the client from the workspace.
+
 ## Phase 1 — Rules engine (2026-10-30)
 - `nard_core`: Short Nard and Long Nard rule sets, move generator with
   max-dice / larger-die rules, Long Nard head and six-block rules,
