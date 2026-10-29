@@ -50,8 +50,12 @@ next — without waiting for approval (start only after they say "başla").
 - [x] 3. IAP: `/store/products`, `/store/iap/{google|apple}` — disabled
   until store accounts (503), verification 501 when enabled; local fake
   receipts `test-…` credit Yaqut once (compose `IAP_FAKE=true`).
+- [x] Economy aligned with the design (ADR-034): 8 board sets with full
+  look data, offers endpoint (featured + 3 daily picks), mission events read
+  from game records (doubles, cube take & win, Long Nard), daily bonus,
+  Yaqut packs 500/1200/2000. API 27 tests.
 - [ ] 4/5. Client cosmetics + store/locker/progression screens — next
-  (needs `docs/design-notes/store.md` from the subagent).
+  (spec: `docs/design-notes/store.md`).
 
 Phase 3 is done (CHANGELOG, ADR-031…033). Leftovers: Apple/Google token
 verification (needs keys), multi-pod Redis (Phase 7), iOS build, lesson

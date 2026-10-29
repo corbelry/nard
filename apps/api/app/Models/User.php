@@ -29,6 +29,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $wins_total
  * @property int $mars_total
  * @property int $ranked_wins_total
+ * @property int $games_total
  */
 #[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
 #[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub'])]
@@ -48,6 +49,7 @@ class User extends Authenticatable
         'wins_total' => 0,
         'mars_total' => 0,
         'ranked_wins_total' => 0,
+        'games_total' => 0,
     ];
 
     /**

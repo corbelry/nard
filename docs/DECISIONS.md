@@ -283,3 +283,23 @@ both platforms and report "not available yet"; sheets use `showNardSheet`;
 the fair-dice screen shows both client seeds; avatars use fixed gradients
 and only AZ/TR/RU/GB/US flags are drawn; neutral phrasing avoids suffix
 harmony. Sign-in opens on demand, not in first-launch onboarding.
+
+## ADR-034 — Cosmetic sets and economy numbers for Phase 4 (2026-10-31)
+- A `board` item carries the whole set look of the design (frame, field,
+  points, tray, numbers, inlay, light/dark checker materials, dice face and
+  pips, table background) as gradients in `items.data.look`; the client
+  paints any board from data, so new sets ship without an app update.
+  Splitting checkers/dice/cup/table into separately equippable categories
+  comes with remote texture packs. Item names/descriptions are per-locale
+  maps in `data` (az + en now; ru/tr fall back to en).
+- Catalog: the six gallery sets plus "Gecə Qarağacı" (`dark`) and "Şuşa
+  Xatəmi" (`xatam`, tournament reward). Bare prices in the design are read
+  as coins, Yaqut prices are explicit. Caspian is season-only (not for
+  sale), Marble Royale is the featured offer (1 800 Yaqut, was 2 400).
+- Economy numbers follow the design (store.md §10): ranked 5-point win
+  +250 coins / +120 XP scaled by match length, XP 350 + 50·(n−1), +200
+  coins per level, streak 20…80 then 150, design's daily missions (the
+  practice-puzzle one waits for Phase 6), a fixed daily bonus for finishing
+  all daily missions. "Sandıq" chests are fixed, visible rewards — no loot
+  boxes (spec §8.7). Yaqut packs 500 / 1 200 / 2 000. All await the
+  owner's confirmation (`QUESTIONS.md`).

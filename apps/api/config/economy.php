@@ -18,4 +18,7 @@ return [
     'rarities' => ['common', 'rare', 'epic', 'legendary', 'seasonal', 'tournament'],
 
     'max_loadouts' => 5,
+
+    // 7.3 featured offer ("Kral dəsti" in the design: 1 800, was 2 400).
+    'featured' => ['item' => 'board.marble_royale', 'oldPrice' => ['gems' => 2400]],
 ];

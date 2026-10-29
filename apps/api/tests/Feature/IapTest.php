@@ -15,11 +15,11 @@ class IapTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)->getJson('/api/v1/store/products')->assertOk()
-            ->assertJsonPath('enabled', false)->assertJsonPath('products.0.id', 'yaqut_80');
-        $this->actingAs($user)->postJson('/api/v1/store/iap/google', ['productId' => 'yaqut_80', 'receipt' => 'token'])
+            ->assertJsonPath('enabled', false)->assertJsonPath('products.0.id', 'yaqut_500');
+        $this->actingAs($user)->postJson('/api/v1/store/iap/google', ['productId' => 'yaqut_500', 'receipt' => 'token'])
             ->assertStatus(503)->assertJsonPath('code', 'iap_disabled');
         config(['iap.enabled' => true]);
-        $this->actingAs($user)->postJson('/api/v1/store/iap/apple', ['productId' => 'yaqut_80', 'receipt' => 'token'])
+        $this->actingAs($user)->postJson('/api/v1/store/iap/apple', ['productId' => 'yaqut_500', 'receipt' => 'token'])
             ->assertStatus(501);
         $this->actingAs($user)->postJson('/api/v1/store/iap/apple', ['productId' => 'nope', 'receipt' => 'token'])
             ->assertStatus(422);

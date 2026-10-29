@@ -11,10 +11,10 @@ return [
 
     // Yaqut packs (ADR-023, ADR-025: one-off purchases, no subscription).
     // Store product id => gems granted. Prices live in the stores.
+    // Packs from the design (7.3); store prices 4,99 / 9,99 / 19,99 ₼.
     'products' => [
-        'yaqut_80' => 80,
         'yaqut_500' => 500,
         'yaqut_1200' => 1200,
-        'yaqut_2600' => 2600,
+        'yaqut_2000' => 2000,
     ],
 ];

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\GameMatch;
 use App\Models\User;
 use App\Services\ProgressionService;
 use App\Services\WalletService;
@@ -24,10 +25,10 @@ class ProgressionTest extends TestCase
     }
 
     /** @return TestResponse<Response> */
-    private function report(User $white, ?User $black, string $id, string $winner = 'white', string $kind = 'single', string $mode = 'casual'): TestResponse
+    private function report(User $white, ?User $black, string $id, string $winner = 'white', string $kind = 'single', string $mode = 'casual', string $variant = 'shortNard'): TestResponse
     {
         $body = (string) json_encode([
-            'matchId' => $id, 'variant' => 'shortNard', 'matchLength' => 1, 'mode' => $mode,
+            'matchId' => $id, 'variant' => $variant, 'matchLength' => 1, 'mode' => $mode,
             'white' => ['userId' => (string) $white->id, 'name' => 'W', 'bot' => false],
             'black' => $black === null ? ['userId' => 'bot-1', 'name' => 'Bot', 'bot' => true]
                 : ['userId' => (string) $black->id, 'name' => 'B', 'bot' => false],
@@ -50,46 +51,63 @@ class ProgressionTest extends TestCase
         $this->report($a, $b, 'm1', 'white', 'gammon')->assertCreated();
         $this->report($a, $b, 'm1', 'white', 'gammon')->assertCreated();
         $wallet = app(WalletService::class);
-        // casual win 30 + mars bonus 10; loser 10.
-        $this->assertSame(40, $wallet->balances($a)['coins']);
-        $this->assertSame(10, $wallet->balances($b)['coins']);
-        $this->assertSame(30, $a->refresh()->xp);
+        // 1-point casual: win 150/5 + mars bonus 20; loss 40/5.
+        $this->assertSame(50, $wallet->balances($a)['coins']);
+        $this->assertSame(8, $wallet->balances($b)['coins']);
+        $this->assertSame(26, $a->refresh()->xp);
         $this->assertSame(1, $a->refresh()->mars_total);
     }
 
-    public function test_bot_games_pay_less_and_missions_advance(): void
+    public function test_missions_count_events_from_the_game_records(): void
     {
         $a = User::factory()->create();
-        foreach (['b1', 'b2', 'b3'] as $id) {
-            $this->report($a, null, $id)->assertCreated();
-        }
+        $this->report($a, null, 'b1', variant: 'longNard')->assertCreated();
         $progress = $this->actingAs($a)->getJson('/api/v1/me/progress')->assertOk()->json('progress');
         $missions = array_column($progress['missions'], null, 'id');
-        $this->assertTrue($missions['daily_play_3']['completed']);
-        $this->assertSame(2, $missions['daily_win_2']['progress']);
-        $this->assertSame(3, $missions['weekly_play_15']['progress']);
+        $this->assertTrue($missions['daily_long_play_1']['completed']);
+        $this->assertSame(0, $missions['daily_ranked_win_3']['progress']);
+        $this->assertSame(1, $missions['weekly_play_15']['progress']);
         $this->assertContains('first_win', $progress['achievements']);
-        $coins = app(WalletService::class)->balances($a)['coins'];
-        $this->assertSame(45, $coins); // 3 × bot win 15
-        $this->actingAs($a)->postJson('/api/v1/me/missions/daily_play_3/claim')->assertOk()
-            ->assertJsonPath('wallet.coins', 95);
-        $this->actingAs($a)->postJson('/api/v1/me/missions/daily_play_3/claim')->assertStatus(422);
-        $this->actingAs($a)->postJson('/api/v1/me/missions/daily_mars_1/claim')->assertStatus(422);
+        $this->assertSame(12, app(WalletService::class)->balances($a)['coins']);
+        $this->actingAs($a)->postJson('/api/v1/me/missions/daily_long_play_1/claim')->assertOk()
+            ->assertJsonPath('wallet.coins', 42);
+        $this->actingAs($a)->postJson('/api/v1/me/missions/daily_long_play_1/claim')->assertStatus(422);
+        $this->actingAs($a)->postJson('/api/v1/me/missions/daily_doubles_3/claim')->assertStatus(422);
         $this->actingAs($a)->postJson('/api/v1/me/missions/nope/claim')->assertStatus(422);
+    }
+
+    public function test_doubles_and_cube_takes_are_read_from_actions(): void
+    {
+        $match = new GameMatch([
+            'variant' => 'shortNard', 'mode' => 'ranked', 'match_length' => 3,
+            'games' => [[
+                'winner' => 'black', 'kind' => 'single',
+                'record' => ['actions' => [
+                    ['type' => 'roll', 'by' => 'black', 'd1' => 4, 'd2' => 4],
+                    ['type' => 'roll', 'by' => 'white', 'd1' => 6, 'd2' => 6],
+                    ['type' => 'roll', 'by' => 'black', 'd1' => 1, 'd2' => 2],
+                    ['type' => 'take', 'by' => 'black'],
+                ]],
+            ]],
+        ]);
+        $events = ProgressionService::events($match, 'black', true, false);
+        $this->assertSame(1, $events['doubles']);
+        $this->assertSame(1, $events['cube_take_win']);
+        $this->assertSame(1, $events['ranked_win']);
+        $this->assertSame(0, ProgressionService::events($match, 'white', false, false)['cube_take_win']);
     }
 
     public function test_levels_need_more_xp_each_time_and_pay_coins(): void
     {
-        $this->assertSame(100, ProgressionService::xpForLevel(1));
-        $this->assertSame(150, ProgressionService::xpForLevel(2));
+        $this->assertSame(350, ProgressionService::xpForLevel(1));
+        $this->assertSame(1500, ProgressionService::xpForLevel(24));
         $a = User::factory()->create();
-        app(ProgressionService::class)->addXp($a, 260);
+        app(ProgressionService::class)->addXp($a, 760);
         $this->assertSame(3, $a->level);
-        // Level 2: 40 coins, level 3: 60 coins.
-        $this->assertSame(100, app(WalletService::class)->balances($a)['coins']);
+        $this->assertSame(400, app(WalletService::class)->balances($a)['coins']);
         $p = $this->actingAs($a)->getJson('/api/v1/me/progress')->json('progress');
         $this->assertSame(10, $p['xp']);
-        $this->assertSame(200, $p['xpForNext']);
+        $this->assertSame(450, $p['xpForNext']);
     }
 
     public function test_login_streak_grows_daily_and_resets_after_a_gap(): void

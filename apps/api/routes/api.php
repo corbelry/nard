@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function (): void {
             ->whereIn('platform', ['google', 'apple'])->middleware('throttle:20,1');
 
         Route::get('/catalog', [StoreController::class, 'catalog']);
+        Route::get('/store/offers', [StoreController::class, 'offers']);
         Route::get('/me/inventory', [StoreController::class, 'inventory']);
         Route::post('/store/purchase', [StoreController::class, 'purchase'])->middleware('throttle:30,1');
         Route::post('/me/loadouts', [StoreController::class, 'saveLoadout']);

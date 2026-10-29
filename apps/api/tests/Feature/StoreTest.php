@@ -26,7 +26,7 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
         $items = $this->actingAs($user)->getJson('/api/v1/catalog')->assertOk()->json('items');
         $boards = array_values(array_filter($items, fn ($i) => $i['category'] === 'board'));
-        $this->assertCount(6, $boards);
+        $this->assertCount(8, $boards);
         $this->assertSame('board.walnut', $boards[0]['id']);
         $this->assertTrue($boards[0]['default']);
     }
@@ -55,7 +55,7 @@ class StoreTest extends TestCase
     public function test_buying_an_item_debits_once_and_grants_it(): void
     {
         $user = User::factory()->create();
-        app(WalletService::class)->credit($user, 'coins', 2500, 'match_reward', 'seed');
+        app(WalletService::class)->credit($user, 'coins', 2000, 'match_reward', 'seed');
         $body = ['itemId' => 'board.minimal_pro', 'currency' => 'coins', 'idempotencyKey' => 'buy-0001'];
         $this->actingAs($user)->postJson('/api/v1/store/purchase', $body)->assertOk()
             ->assertJsonPath('wallet.coins', 500);
@@ -99,5 +99,17 @@ class StoreTest extends TestCase
         $this->actingAs($user)->deleteJson("/api/v1/me/loadouts/{$created['id']}")->assertOk();
         $this->actingAs($user)->deleteJson('/api/v1/me/loadouts/999')->assertNotFound();
         $this->actingAs($user)->postJson('/api/v1/me/loadouts/999/activate')->assertNotFound();
+    }
+
+    public function test_offers_feature_an_item_and_three_daily_picks(): void
+    {
+        $user = User::factory()->create();
+        $offers = $this->actingAs($user)->getJson('/api/v1/store/offers')->assertOk()->json();
+        $this->assertSame('board.marble_royale', $offers['featured']['item']['id']);
+        $this->assertSame(['gems' => 2400], $offers['featured']['oldPrice']);
+        $this->assertCount(3, $offers['daily']);
+        $again = $this->actingAs($user)->getJson('/api/v1/store/offers')->json('daily');
+        $this->assertSame(array_column($offers['daily'], 'id'), array_column($again, 'id'));
+        $this->assertNotContains('board.caspian', array_column($offers['daily'], 'id'));
     }
 }

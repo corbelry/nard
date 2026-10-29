@@ -31,17 +31,14 @@ class ProgressionService
             }
             $vsBot = $side === 'white' ? $match->black_bot : $match->white_bot;
             $won = $match->winner === $side;
-            $mars = 0;
-            foreach ($match->games as $game) {
-                if (($game['winner'] ?? null) === $side && in_array($game['kind'] ?? null, ['gammon', 'backgammon'], true)) {
-                    $mars++;
-                }
-            }
+            $events = self::events($match, $side, $won, $vsBot);
             $mode = $vsBot ? 'bot' : $match->mode;
             /** @var array{0: int, 1: int} $reward */
             $reward = config("progression.match.$mode.".($won ? 'win' : 'loss'));
-            [$coins, $xp] = $reward;
-            if ($won && $mars > 0) {
+            $scale = $match->match_length / (int) config('progression.match_reference_length');
+            $coins = max(1, (int) round($reward[0] * $scale));
+            $xp = max(1, (int) round($reward[1] * $scale));
+            if ($won && $events['mars'] > 0) {
                 /** @var array{0: int, 1: int} $bonus */
                 $bonus = config('progression.gammon_bonus');
                 $coins += $bonus[0];
@@ -49,13 +46,8 @@ class ProgressionService
             }
             $this->wallet->credit($user, 'coins', $coins, 'match_reward', "match:{$match->id}:{$user->id}", $match->id);
             $this->addXp($user, $xp);
-            $events = [
-                'play' => 1,
-                'win' => $won ? 1 : 0,
-                'ranked_win' => $won && $match->mode === 'ranked' && ! $vsBot ? 1 : 0,
-                'mars' => $mars,
-            ];
             $user->forceFill([
+                'games_total' => $user->games_total + 1,
                 'wins_total' => $user->wins_total + $events['win'],
                 'mars_total' => $user->mars_total + $events['mars'],
                 'ranked_wins_total' => $user->ranked_wins_total + $events['ranked_win'],
@@ -66,6 +58,52 @@ class ProgressionService
         }
     }
 
+    /**
+     * What this match counts for missions and achievements, read from the
+     * game records (`GameRecord` JSON).
+     *
+     * @return array<string, int>
+     */
+    public static function events(GameMatch $match, string $side, bool $won, bool $vsBot): array
+    {
+        $mars = 0;
+        $doubles = 0;
+        $cubeTakeWin = 0;
+        foreach ($match->games as $game) {
+            $gameWon = ($game['winner'] ?? null) === $side;
+            if ($gameWon && in_array($game['kind'] ?? null, ['gammon', 'backgammon'], true)) {
+                $mars++;
+            }
+            $took = false;
+            /** @var array<int, array<string, mixed>> $actions */
+            $actions = $game['record']['actions'] ?? [];
+            foreach ($actions as $action) {
+                if (($action['by'] ?? null) !== $side) {
+                    continue;
+                }
+                if (($action['type'] ?? null) === 'roll' && ($action['d1'] ?? 0) === ($action['d2'] ?? -1)) {
+                    $doubles++;
+                }
+                if (($action['type'] ?? null) === 'take') {
+                    $took = true;
+                }
+            }
+            if ($took && $gameWon) {
+                $cubeTakeWin++;
+            }
+        }
+
+        return [
+            'play' => 1,
+            'win' => $won ? 1 : 0,
+            'ranked_win' => $won && $match->mode === 'ranked' && ! $vsBot ? 1 : 0,
+            'mars' => $mars,
+            'doubles' => $doubles,
+            'cube_take_win' => $cubeTakeWin,
+            'long_play' => $match->variant === 'longNard' ? 1 : 0,
+        ];
+    }
+
     public function addXp(User $user, int $xp): void
     {
         $user->xp += $xp;
@@ -74,7 +112,7 @@ class ProgressionService
         while ($user->xp - $spent >= self::xpForLevel($level)) {
             $spent += self::xpForLevel($level);
             $level++;
-            $this->wallet->credit($user, 'coins', (int) config('progression.level_up_coins') * $level, 'level_up', "level:{$user->id}:$level");
+            $this->wallet->credit($user, 'coins', (int) config('progression.level_up_coins'), 'level_up', "level:{$user->id}:$level");
         }
         $user->level = $level;
         $user->save();
@@ -126,9 +164,15 @@ class ProgressionService
         }
     }
 
-    private function unlockAchievements(User $user): void
+    public function unlockAchievements(User $user): void
     {
-        $counters = ['win' => $user->wins_total, 'mars' => $user->mars_total, 'ranked_win' => $user->ranked_wins_total];
+        $counters = [
+            'play' => $user->games_total,
+            'win' => $user->wins_total,
+            'mars' => $user->mars_total,
+            'ranked_win' => $user->ranked_wins_total,
+            'streak' => $user->best_streak,
+        ];
         /** @var array<string, array{event: string, target: int, title: string|null}> $all */
         $all = config('progression.achievements');
         foreach ($all as $id => $a) {
@@ -165,11 +209,26 @@ class ProgressionService
             }
             $this->wallet->credit($user, 'coins', $mission['coins'], 'mission', "mission:{$user->id}:$missionId:$period");
             $this->addXp($user, $mission['xp']);
+            if ($kind === 'daily') {
+                $this->dailyBonus($user, $period);
+            }
 
             return true;
         }
 
         return false;
+    }
+
+    /** All daily missions claimed: the fixed "Günlük sandıq" bonus, once. */
+    private function dailyBonus(User $user, string $period): void
+    {
+        /** @var array<string, mixed> $daily */
+        $daily = config('progression.missions.daily');
+        $claimed = DB::table('user_missions')->where(['user_id' => $user->id, 'period' => $period])
+            ->whereIn('mission_id', array_keys($daily))->whereNotNull('claimed_at')->count();
+        if ($claimed === count($daily)) {
+            $this->wallet->credit($user, 'coins', (int) config('progression.daily_bonus_coins'), 'mission', "daily-bonus:{$user->id}:$period");
+        }
     }
 
     /**
@@ -192,6 +251,7 @@ class ProgressionService
             'last_checkin' => $today->toDateString(),
         ])->save();
         $this->wallet->credit($user, 'coins', $coins, 'streak', "streak:{$user->id}:{$today->toDateString()}");
+        $this->unlockAchievements($user);
 
         return $coins;
     }
@@ -223,6 +283,12 @@ class ProgressionService
             'missions' => $missions,
             'achievements' => DB::table('user_achievements')->where('user_id', $user->id)->pluck('achievement_id')->all(),
             'title' => $user->title_item_id,
+            'dailyBonus' => (int) config('progression.daily_bonus_coins'),
+            // Missions reset at midnight UTC (daily) and Monday (weekly).
+            'resetsAt' => [
+                'daily' => $now->copy()->utc()->addDay()->startOfDay()->toIso8601String(),
+                'weekly' => $now->copy()->utc()->addWeek()->startOfWeek()->toIso8601String(),
+            ],
         ];
     }
 }
