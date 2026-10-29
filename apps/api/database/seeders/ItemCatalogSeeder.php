@@ -49,11 +49,15 @@ class ItemCatalogSeeder extends Seeder
             ['dice.ivory', 'dice', ['name' => 'Ivory', 'face' => '#FFFFFAF0', 'pip' => '#FF0D0806']],
             ['cube.classic', 'cube', ['name' => 'Classic', 'face' => '#FFFBF5E8', 'ink' => '#FF2B1D14']],
         ];
+        // Titles are earned through achievements (config/progression.php).
+        foreach (['regular', 'veteran', 'mars_master', 'contender'] as $i => $title) {
+            $defaults[] = ["title.$title", 'title', ['name' => $title]];
+        }
         foreach ($defaults as $i => [$id, $category, $data]) {
             Item::query()->updateOrCreate(['id' => $id], [
                 'category' => $category,
                 'rarity' => 'common',
-                'is_default' => true,
+                'is_default' => $category !== 'title',
                 'available' => true,
                 'sort' => $i,
                 'data' => $data,

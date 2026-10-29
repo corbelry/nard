@@ -42,7 +42,12 @@ next — without waiting for approval (start only after they say "başla").
   `WalletService` (coins earn-only enforced, ADR-022), `StoreService`;
   endpoints catalog / inventory / purchase / loadouts. Compose seeds on
   start. Theme files restored byte-for-byte + guard test.
-- [ ] 2. Rewards & progression (API) — next.
+- [x] 2. API progression: coins + XP per online match (casual / ranked /
+  bot, mars bonus; game server now reports per-game winner/kind), levels
+  (100 + 50·(n−1) XP, coins on level-up), daily/weekly missions with claim,
+  login streak check-in (7-day cycle), achievements unlocking title items;
+  `config/progression.php` numbers are placeholders (QUESTIONS).
+- [ ] 3. IAP receipt validation stub — next; then 4/5 client.
 
 Phase 3 is done (CHANGELOG, ADR-031…033). Leftovers: Apple/Google token
 verification (needs keys), multi-pod Redis (Phase 7), iOS build, lesson

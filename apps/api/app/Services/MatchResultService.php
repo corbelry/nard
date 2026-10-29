@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 /** Stores a MatchResult and applies rating changes (ranked, humans only). */
 class MatchResultService
 {
+    public function __construct(private ProgressionService $progression) {}
+
     /**
      * Idempotent: a repeated report returns the stored match unchanged.
      *
@@ -73,6 +75,8 @@ class MatchResultService
                 $match->black_rating_after = $b->rating;
             }
             $match->save();
+            // New matches only: rewards are granted exactly once.
+            $this->progression->onMatch($match);
 
             return $match;
         });

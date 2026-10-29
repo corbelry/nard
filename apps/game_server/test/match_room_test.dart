@@ -111,6 +111,9 @@ void main() {
       expect(max(r.whiteScore, r.blackScore), greaterThanOrEqualTo(3));
       expect(r.games, isNotEmpty);
       r.games.forEach(verifyDice);
+      // Each game reports how it was won (missions count mars wins).
+      expect(r.games.first['winner'], isIn(['white', 'black']));
+      expect(r.games.first['kind'], isIn(['single', 'gammon', 'backgammon']));
       // The final state reveals the server seed.
       expect(h.state(Side.white).serverSeed, isNotNull);
       expect(MatchResult.fromJson(r.toJson()).toJson(), r.toJson());

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MatchResultController;
 use App\Http\Controllers\Api\MeController;
+use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Middleware\VerifyGameServerSignature;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,11 @@ Route::prefix('v1')->group(function (): void {
         Route::get('/me/matches', [MeController::class, 'matches']);
         Route::get('/me/matches/{id}', [MeController::class, 'match']);
         Route::post('/game/ticket', [MeController::class, 'ticket'])->middleware('throttle:30,1');
+
+        Route::get('/me/progress', [ProgressController::class, 'show']);
+        Route::post('/me/checkin', [ProgressController::class, 'checkIn']);
+        Route::post('/me/missions/{id}/claim', [ProgressController::class, 'claim']);
+        Route::put('/me/title', [ProgressController::class, 'title']);
 
         Route::get('/catalog', [StoreController::class, 'catalog']);
         Route::get('/me/inventory', [StoreController::class, 'inventory']);

@@ -281,6 +281,9 @@ class MatchRoom {
       'clientSeeds': {
         for (final e in _clientSeeds.entries) e.key.name: e.value,
       },
+      'winner': result.winner.name,
+      'kind': result.kind.name,
+      'points': result.points,
     });
     _broadcast();
     final next = _match.withResult(result);

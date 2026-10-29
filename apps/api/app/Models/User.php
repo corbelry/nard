@@ -20,6 +20,15 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $avatar
  * @property string $locale
  * @property bool $is_guest
+ * @property int $xp
+ * @property int $level
+ * @property int $login_streak
+ * @property int $best_streak
+ * @property string|null $last_checkin
+ * @property string|null $title_item_id
+ * @property int $wins_total
+ * @property int $mars_total
+ * @property int $ranked_wins_total
  */
 #[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
 #[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub'])]
@@ -27,6 +36,19 @@ class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+
+    /** Mirrors the column defaults so new models read them before a refresh. */
+    protected $attributes = [
+        'locale' => 'az',
+        'is_guest' => true,
+        'xp' => 0,
+        'level' => 1,
+        'login_streak' => 0,
+        'best_streak' => 0,
+        'wins_total' => 0,
+        'mars_total' => 0,
+        'ranked_wins_total' => 0,
+    ];
 
     /**
      * @return array<string, string>
