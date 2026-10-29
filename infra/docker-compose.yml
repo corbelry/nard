@@ -1,0 +1,59 @@
+# Local stack: docker compose -f infra/docker-compose.yml up --build
+# Host ports default to 13306/16379/18000/18080 to avoid clashing with
+# locally installed services; override with NARD_*_PORT variables.
+name: nard-arena
+
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: nard
+      MYSQL_USER: nard
+      MYSQL_PASSWORD: nard
+      MYSQL_ROOT_PASSWORD: root
+    ports: ["${NARD_MYSQL_PORT:-13306}:3306"]
+    volumes: [mysql-data:/var/lib/mysql]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-unard", "-pnard"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  redis:
+    image: redis:7.4-alpine
+    ports: ["${NARD_REDIS_PORT:-16379}:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ../apps/api
+    environment:
+      APP_ENV: local
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    command: >
+      sh -c "cp -n .env.example .env &&
+             php artisan key:generate --force -q &&
+             php artisan migrate --force &&
+             php artisan serve --host=0.0.0.0 --port=8000"
+    ports: ["${NARD_API_PORT:-18000}:8000"]
+    depends_on:
+      mysql: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  game_server:
+    build:
+      context: ..
+      dockerfile: apps/game_server/Dockerfile
+    environment:
+      PORT: "8080"
+      REDIS_URL: redis://redis:6379
+    ports: ["${NARD_GAME_PORT:-18080}:8080"]
+    depends_on:
+      redis: { condition: service_healthy }
+
+volumes:
+  mysql-data:

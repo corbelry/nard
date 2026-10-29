@@ -1,0 +1,7 @@
+**/.dart_tool
+**/build
+**/coverage
+apps/api/vendor
+apps/api/node_modules
+.git
+.idea

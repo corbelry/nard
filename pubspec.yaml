@@ -6,6 +6,9 @@ environment:
 
 workspace:
   - packages/nard_core
+  - packages/nard_ai
+  - packages/nard_protocol
+  - apps/game_server
 
 dev_dependencies:
   lints: ^5.1.1
