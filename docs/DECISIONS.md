@@ -243,3 +243,13 @@ the offline Home layout is accepted; AI "~elo" labels stay hidden until
 calibrated; pass & play resignations are accepted at once. Phase 3:
 Apple/Google sign-in is built but disabled by config until the owner adds
 keys; development e-mail goes to Mailpit (real provider in Phase 7).
+
+## ADR-031 — Online protocol shape (2026-10-30)
+`game.state` always carries the full `GameRecord` plus pending moves, clock
+and match score; clients rebuild the position by replaying it with
+`nard_core` and ignore states with an old `seq`. The turn being built is
+server state (`game.move` / `game.undo` / `game.confirmTurn`), so the
+opponent sees moves live and a reconnecting client resumes mid-turn.
+Resignations are accepted at once online as offline (ADR-030); the
+`OfferResignation`/`AcceptResignation` pair is still recorded. Fair-dice
+client seeds travel in `game.seed` before the opening roll (FD-02).
