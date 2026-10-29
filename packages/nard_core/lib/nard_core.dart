@@ -6,6 +6,7 @@ export 'src/app_config.dart';
 export 'src/board_state.dart';
 export 'src/cube.dart';
 export 'src/dice.dart';
+export 'src/fair_dice.dart';
 export 'src/game/game_action.dart';
 export 'src/game/game_record.dart';
 export 'src/game/game_state.dart';

@@ -36,7 +36,9 @@ next — without waiting for approval (start only after they say "başla").
 
 ## Phase 3 progress (update after every step)
 
-- [ ] 1. Provably fair dice — next.
+- [x] 1. Provably fair dice: `FairDice` in nard_core, `docs/FAIRNESS.md`
+  (FD-01…05, vectors from an independent Python script).
+- [ ] 2. Protocol payloads — next.
 
 Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: sound files
 (owner downloads Kenney Casino Audio), lesson content revisit, iOS build.
