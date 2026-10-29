@@ -1,0 +1,11 @@
+name: nard_arena_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.7.0
+
+workspace:
+  - packages/nard_core
+
+dev_dependencies:
+  lints: ^5.1.1

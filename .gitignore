@@ -1,1 +1,9 @@
 .idea/
+.vscode/
+.DS_Store
+
+# Dart
+.dart_tool/
+build/
+coverage/
+*.iml
