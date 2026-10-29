@@ -22,6 +22,7 @@ import '../ui/background.dart';
 import '../ui/buttons.dart';
 import '../ui/layout.dart';
 import 'game_actions.dart';
+import 'game_clock.dart';
 import 'game_controller.dart';
 import 'game_overlays.dart';
 import 'game_parts.dart';
@@ -332,12 +333,26 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         !s.isGameOver &&
         s.phase != GamePhase.opening &&
         (s.phase == GamePhase.cubeOffered ? s.turn.opponent : s.turn) == side;
+    final online = p.view.online;
+    final seat = p.setup.online?.player(side);
+    if (seat?.rating != null) parts.insert(0, '${seat!.rating}');
     return PlayerCard(
       name: p.name(side),
       meta: parts.join(' · '),
       active: active,
       ivory: side == Side.white,
       side: column,
+      trailing:
+          online == null || p.setup.online == null
+              ? null
+              : GameClock(
+                clock: online.clock,
+                side: side,
+                receivedAt: online.receivedAt ?? DateTime.now(),
+                delayTotalMs: p.setup.online!.clock.delayMs,
+                haptics: settings.haptics && side == p.setup.localSide,
+                compact: column,
+              ),
     );
   }
 

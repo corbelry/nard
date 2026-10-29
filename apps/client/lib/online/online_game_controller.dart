@@ -246,6 +246,7 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
         serverSeed: p.serverSeed,
         clientSeeds: p.clientSeeds,
         connected: _socket?.current == SocketStatus.online,
+        receivedAt: DateTime.now(),
       ),
     );
     if (newRoll && diceTime > Duration.zero) {

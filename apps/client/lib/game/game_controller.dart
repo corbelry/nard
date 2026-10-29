@@ -91,9 +91,13 @@ class OnlineExtras {
     this.serverSeed,
     this.clientSeeds = const {},
     this.connected = true,
+    this.receivedAt,
   });
 
   final ClockState clock;
+
+  /// Local time the clock values were received (avoids server clock skew).
+  final DateTime? receivedAt;
   final String commitment;
   final bool opponentConnected;
 

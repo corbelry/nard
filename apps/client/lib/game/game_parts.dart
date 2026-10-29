@@ -21,7 +21,11 @@ class PlayerCard extends StatelessWidget {
     required this.active,
     required this.ivory,
     this.side = false,
+    this.trailing,
   });
+
+  /// The clock (online games).
+  final Widget? trailing;
 
   final String name;
   final String meta;
@@ -128,13 +132,36 @@ class PlayerCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(c.cardRadius),
         border: Border.all(color: active ? c.line : Colors.transparent),
       ),
-      child: Row(
-        children: [
-          avatar,
-          SizedBox(width: side ? 10 : 12),
-          Expanded(child: texts),
-        ],
-      ),
+      child:
+          side
+              ? Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      avatar,
+                      const SizedBox(width: 10),
+                      Expanded(child: texts),
+                    ],
+                  ),
+                  if (trailing != null) ...[
+                    const SizedBox(height: 10),
+                    Align(alignment: Alignment.centerRight, child: trailing),
+                  ],
+                ],
+              )
+              : Row(
+                children: [
+                  avatar,
+                  const SizedBox(width: 12),
+                  Expanded(child: texts),
+                  if (trailing != null) ...[
+                    const SizedBox(width: 12),
+                    trailing!,
+                  ],
+                ],
+              ),
     );
   }
 }
