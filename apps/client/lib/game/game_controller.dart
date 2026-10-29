@@ -7,11 +7,13 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nard_ai/nard_ai.dart';
 import 'package:nard_core/nard_core.dart';
+import 'package:nard_protocol/nard_protocol.dart';
 
 import '../app/providers.dart';
 import '../data/app_settings.dart';
 import '../data/database.dart';
 import '../theme/nard_tokens.dart';
+import 'game_actions.dart';
 import 'match_setup.dart';
 import 'session.dart';
 
@@ -27,9 +29,13 @@ class GameView {
     this.handoff = false,
     this.undoSnapshot,
     this.botTookDouble = false,
+    this.online,
   });
 
   final Session session;
+
+  /// Server-only details of an online match.
+  final OnlineExtras? online;
 
   /// Increments with every change so the board knows what to animate.
   final int revision;
@@ -60,6 +66,7 @@ class GameView {
     bool? handoff,
     Session? Function()? undoSnapshot,
     bool? botTookDouble,
+    OnlineExtras? Function()? online,
   }) => GameView(
     session: session ?? this.session,
     revision: revision + 1,
@@ -70,13 +77,39 @@ class GameView {
     handoff: handoff ?? this.handoff,
     undoSnapshot: undoSnapshot != null ? undoSnapshot() : this.undoSnapshot,
     botTookDouble: botTookDouble ?? this.botTookDouble,
+    online: online != null ? online() : this.online,
   );
+}
+
+/// Clock, connection and fair-dice data of an online match.
+class OnlineExtras {
+  const OnlineExtras({
+    required this.clock,
+    required this.commitment,
+    this.opponentConnected = true,
+    this.reconnectDeadline,
+    this.serverSeed,
+    this.clientSeeds = const {},
+    this.connected = true,
+  });
+
+  final ClockState clock;
+  final String commitment;
+  final bool opponentConnected;
+
+  /// When the absent opponent forfeits (ms since epoch).
+  final int? reconnectDeadline;
+  final String? serverSeed;
+  final Map<Side, String> clientSeeds;
+
+  /// Our own socket is up.
+  final bool connected;
 }
 
 /// Drives an offline match: dice, the bot, forced passes, pass & play
 /// hand-over and saving finished games. Every rule decision goes through
 /// [Session] (and so through nard_core).
-class GameController extends Notifier<GameView?> {
+class GameController extends Notifier<GameView?> implements GameActions {
   final _random = Random.secure();
   Timer? _timer;
   String _matchId = '';
@@ -140,7 +173,7 @@ class GameController extends Notifier<GameView?> {
       case GamePhase.opening:
         _after(const Duration(milliseconds: 700), _openingRoll);
       case GamePhase.awaitingRoll:
-        if (s.botToAct) {
+        if (s.remoteToAct) {
           _after(const Duration(milliseconds: 600), _botRollOrDouble);
         } else if (_settings.autoRoll && !s.canDouble) {
           _after(const Duration(milliseconds: 400), roll);
@@ -149,11 +182,11 @@ class GameController extends Notifier<GameView?> {
         if (s.mustPass) {
           if (!view.noMoves) state = view.copyWith(noMoves: true);
           _after(passDelay, pass);
-        } else if (s.botToAct) {
+        } else if (s.remoteToAct) {
           unawaited(_botMove());
         }
       case GamePhase.cubeOffered:
-        if (s.botToAct) {
+        if (s.remoteToAct) {
           _after(const Duration(milliseconds: 900), _botAnswerDouble);
         }
       case GamePhase.over:
@@ -189,6 +222,7 @@ class GameController extends Notifier<GameView?> {
 
   // ---- Local player actions ----------------------------------------
 
+  @override
   void roll() {
     final view = state;
     if (view == null ||
@@ -204,6 +238,7 @@ class GameController extends Notifier<GameView?> {
     });
   }
 
+  @override
   void tapSlot(int? slot) {
     final view = state;
     if (view == null || !_humanMoving(view)) return;
@@ -225,6 +260,7 @@ class GameController extends Notifier<GameView?> {
     }
   }
 
+  @override
   void drop(int from, int? to) {
     final view = state;
     if (view == null || !_humanMoving(view) || to == null) return;
@@ -236,12 +272,14 @@ class GameController extends Notifier<GameView?> {
     if (next.canConfirm && !_settings.confirmMoves) confirm();
   }
 
+  @override
   void undo() {
     final view = state;
     if (view == null || !_humanMoving(view)) return;
     state = view.copyWith(session: view.session.undo());
   }
 
+  @override
   void confirm() {
     final view = state;
     if (view == null || !view.session.canConfirm || view.noMoves) return;
@@ -258,6 +296,7 @@ class GameController extends Notifier<GameView?> {
   }
 
   /// Plays the forced empty turn now (also called by the countdown).
+  @override
   void pass() {
     final view = state;
     if (view == null || !view.session.mustPass) return;
@@ -275,15 +314,18 @@ class GameController extends Notifier<GameView?> {
     );
   }
 
+  @override
   void offerDouble() {
     final view = state;
-    if (view == null || !view.session.canDouble || view.session.botToAct) {
+    if (view == null || !view.session.canDouble || view.session.remoteToAct) {
       return;
     }
     _set(view.copyWith(session: view.session.offerDouble()));
   }
 
+  @override
   void takeDouble() => _answer(take: true);
+  @override
   void dropDouble() => _answer(take: false);
 
   void _answer({required bool take}) {
@@ -294,11 +336,12 @@ class GameController extends Notifier<GameView?> {
   }
 
   /// The local player (pass & play: the side to move) resigns.
+  @override
   void resign(WinKind kind) {
     final view = state;
     if (view == null || view.session.isGameOver) return;
     final s = view.session;
-    final side = s.setup.vsComputer ? MatchSetup.humanSide : s.turn;
+    final side = s.setup.hasRemote ? s.setup.localSide : s.turn;
     _timer?.cancel();
     _set(
       view.copyWith(
@@ -311,6 +354,7 @@ class GameController extends Notifier<GameView?> {
     );
   }
 
+  @override
   void nextGame() {
     final view = state;
     if (view == null || !view.session.isGameOver || view.session.isMatchOver) {
@@ -322,6 +366,7 @@ class GameController extends Notifier<GameView?> {
   }
 
   /// Pass & play: the next player is ready.
+  @override
   void ready() {
     final view = state;
     if (view == null || !view.handoff) return;
@@ -329,6 +374,7 @@ class GameController extends Notifier<GameView?> {
   }
 
   /// Pass & play: the previous player takes the last turn back.
+  @override
   void undoLastTurn() {
     final view = state;
     final snapshot = view?.undoSnapshot;
@@ -349,7 +395,7 @@ class GameController extends Notifier<GameView?> {
       !view.handoff &&
       !view.noMoves &&
       view.session.phase == GamePhase.awaitingMove &&
-      !view.session.botToAct;
+      !view.session.remoteToAct;
 
   // ---- Bot -----------------------------------------------------------
 
@@ -357,7 +403,7 @@ class GameController extends Notifier<GameView?> {
 
   void _botRollOrDouble() {
     final view = state;
-    if (view == null || !view.session.botToAct) return;
+    if (view == null || !view.session.remoteToAct) return;
     final s = view.session;
     if (s.phase != GamePhase.awaitingRoll) return;
     if (s.canDouble && _bot.shouldDouble(s.rules, s.game.board, s.turn)) {
@@ -369,7 +415,7 @@ class GameController extends Notifier<GameView?> {
 
   void _botAnswerDouble() {
     final view = state;
-    if (view == null || !view.session.botToAct) return;
+    if (view == null || !view.session.remoteToAct) return;
     final s = view.session;
     final take = _bot.shouldTake(s.rules, s.game.board, s.turn.opponent);
     _set(
@@ -450,7 +496,14 @@ class GameController extends Notifier<GameView?> {
     }
   }
 
+  @override
+  void rematch() {
+    final setup = state?.session.setup;
+    if (setup != null) start(setup);
+  }
+
   /// Leaves the match without saving.
+  @override
   void leave() {
     _timer?.cancel();
     state = null;

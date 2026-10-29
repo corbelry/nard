@@ -115,10 +115,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get variantQuestionTitle => 'В какие нарды ты играешь?';
 
   @override
-  String get variantShortDesc => 'Классический бэкгаммон: бой, бар, куб удвоения.';
+  String get variantShortDesc =>
+      'Классический бэкгаммон: бой, бар, куб удвоения.';
 
   @override
-  String get variantLongDesc => 'Все шашки на голове. Бить нельзя, только блокировать.';
+  String get variantLongDesc =>
+      'Все шашки на голове. Бить нельзя, только блокировать.';
 
   @override
   String get variantLearnTitle => 'Хочу научиться';
@@ -146,49 +148,57 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lessonStep1Title => 'Это твоя доска';
 
   @override
-  String get lessonStep1Body => 'Белые шашки — твои. Они идут с 24-го пункта к 1-му, а затем выбрасываются с доски. Коснись любой шашки, чтобы продолжить.';
+  String get lessonStep1Body =>
+      'Белые шашки — твои. Они идут с 24-го пункта к 1-му, а затем выбрасываются с доски. Коснись любой шашки, чтобы продолжить.';
 
   @override
   String get lessonStep2Title => 'Передвинь шашку на 6 пунктов';
 
   @override
-  String get lessonStep2Body => 'На кубике 6. Коснись шашки на 13-м пункте, затем коснись подсвеченного 7-го пункта или перетащи шашку туда.';
+  String get lessonStep2Body =>
+      'На кубике 6. Коснись шашки на 13-м пункте, затем коснись подсвеченного 7-го пункта или перетащи шашку туда.';
 
   @override
   String get lessonStep3Title => 'Сыграй оба кубика';
 
   @override
-  String get lessonStep3Body => 'На кубиках 3 и 1. Передвинь шашки с 8-го и 6-го пунктов на 5-й и закрой пункт.';
+  String get lessonStep3Body =>
+      'На кубиках 3 и 1. Передвинь шашки с 8-го и 6-го пунктов на 5-й и закрой пункт.';
 
   @override
   String get lessonStep4Title => 'Закрытый пункт';
 
   @override
-  String get lessonStep4Body => 'Нельзя ходить на пункт, где стоят две и более шашки соперника. На кубике 5: передвинь шашку с 13-го пункта на 8-й.';
+  String get lessonStep4Body =>
+      'Нельзя ходить на пункт, где стоят две и более шашки соперника. На кубике 5: передвинь шашку с 13-го пункта на 8-й.';
 
   @override
   String get lessonStep5Title => 'Бой';
 
   @override
-  String get lessonStep5Body => 'Если встанешь на одиночную шашку соперника, она уходит на бар. Передвинь шашку с 6-го пункта на 4-й и побей.';
+  String get lessonStep5Body =>
+      'Если встанешь на одиночную шашку соперника, она уходит на бар. Передвинь шашку с 6-го пункта на 4-й и побей.';
 
   @override
   String get lessonStep6Title => 'Ввод с бара';
 
   @override
-  String get lessonStep6Body => 'Если у тебя есть шашка на баре, сначала нужно ввести её в дом соперника. Коснись шашки на баре и передвинь её на 22-й пункт.';
+  String get lessonStep6Body =>
+      'Если у тебя есть шашка на баре, сначала нужно ввести её в дом соперника. Коснись шашки на баре и передвинь её на 22-й пункт.';
 
   @override
   String get lessonStep7Title => 'Выброси шашки';
 
   @override
-  String get lessonStep7Body => 'Все шашки в доме (1–6). На кубике 6: выброси шашку с 6-го пункта.';
+  String get lessonStep7Body =>
+      'Все шашки в доме (1–6). На кубике 6: выброси шашку с 6-го пункта.';
 
   @override
   String get lessonDoneTitle => 'Отлично, можно играть';
 
   @override
-  String get lessonDoneBody => 'Ты знаешь правила. Теперь потренируйся против компьютера.';
+  String get lessonDoneBody =>
+      'Ты знаешь правила. Теперь потренируйся против компьютера.';
 
   @override
   String get lessonFinish => 'Начать игру';
@@ -776,7 +786,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ruleHeadTitle => 'С головы можно взять только одну шашку';
 
   @override
-  String get ruleHeadBody => 'В этот ход с головы сыграно больше одной шашки. Исключение: при первом броске 6-6, 4-4 или 3-3 можно взять две.';
+  String get ruleHeadBody =>
+      'В этот ход с головы сыграно больше одной шашки. Исключение: при первом броске 6-6, 4-4 или 3-3 можно взять две.';
 
   @override
   String get ruleSixBlockTitle => 'Нельзя закрывать 6 пунктов подряд';
@@ -790,46 +801,55 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rulePointClosedTitle => 'Этот пункт закрыт';
 
   @override
-  String get rulePointClosedShort => 'Нельзя ходить на пункт, где стоят две и более шашки соперника.';
+  String get rulePointClosedShort =>
+      'Нельзя ходить на пункт, где стоят две и более шашки соперника.';
 
   @override
-  String get rulePointClosedLong => 'В длинных нардах нельзя ходить на пункт с шашкой соперника.';
+  String get rulePointClosedLong =>
+      'В длинных нардах нельзя ходить на пункт с шашкой соперника.';
 
   @override
   String get ruleBarTitle => 'Сначала введи шашку с бара';
 
   @override
-  String get ruleBarBody => 'Пока у тебя есть шашка на баре, другими шашками ходить нельзя.';
+  String get ruleBarBody =>
+      'Пока у тебя есть шашка на баре, другими шашками ходить нельзя.';
 
   @override
   String get ruleBothDiceTitle => 'Нужно сыграть оба кубика';
 
   @override
-  String get ruleBothDiceBody => 'Этот ход не даёт сыграть второй кубик. Выбери ход, который использует оба кубика.';
+  String get ruleBothDiceBody =>
+      'Этот ход не даёт сыграть второй кубик. Выбери ход, который использует оба кубика.';
 
   @override
   String get ruleLargerDieTitle => 'Сыграй больший кубик';
 
   @override
-  String get ruleLargerDieBody => 'Если можно сыграть только один кубик, нужно сыграть больший.';
+  String get ruleLargerDieBody =>
+      'Если можно сыграть только один кубик, нужно сыграть больший.';
 
   @override
   String get ruleBearOffTitle => 'Выбрасывать ещё нельзя';
 
   @override
-  String get ruleBearOffBody => 'Чтобы выбрасывать шашки, все они должны быть в доме (1–6).';
+  String get ruleBearOffBody =>
+      'Чтобы выбрасывать шашки, все они должны быть в доме (1–6).';
 
   @override
-  String get ruleBearOffHigherTitle => 'Сначала сыграй шашку с более высокого пункта';
+  String get ruleBearOffHigherTitle =>
+      'Сначала сыграй шашку с более высокого пункта';
 
   @override
-  String get ruleBearOffHigherBody => 'Большим кубиком можно выбросить только шашку с самого высокого пункта.';
+  String get ruleBearOffHigherBody =>
+      'Большим кубиком можно выбросить только шашку с самого высокого пункта.';
 
   @override
   String get ruleNoDieTitle => 'Нет кубика на это расстояние';
 
   @override
-  String get ruleNoDieBody => 'Шашку можно передвинуть только на число пунктов, выпавшее на кубиках.';
+  String get ruleNoDieBody =>
+      'Шашку можно передвинуть только на число пунктов, выпавшее на кубиках.';
 
   @override
   String get ruleNoCheckerTitle => 'На этом пункте нет твоей шашки';
@@ -847,7 +867,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get replayEmptyTitle => 'Пока нет игр';
 
   @override
-  String get replayEmptyBody => 'Завершённые игры появятся здесь. В повторе можно заново просмотреть каждый ход.';
+  String get replayEmptyBody =>
+      'Завершённые игры появятся здесь. В повторе можно заново просмотреть каждый ход.';
 
   @override
   String replayTitle(int n) {
@@ -982,14 +1003,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get errorTitle => 'Что-то пошло не так';
 
   @override
-  String get errorBody => 'Попробуй ещё раз. Если проблема не исчезнет, перезапусти приложение.';
+  String get errorBody =>
+      'Попробуй ещё раз. Если проблема не исчезнет, перезапусти приложение.';
 
   @override
   String get playVsComputer => 'Играть с компьютером';
 
   @override
-  String get rulesShortBody => 'У каждого игрока 15 шашек. Шашки ходят по кубикам от 24 к 1. Если встанешь на одиночную шашку соперника, она уходит на бар; пункт с двумя и более шашками закрыт. Когда все шашки в доме (1–6), начинается выброс. Побеждает тот, кто первым выбросит все 15 шашек. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка на баре или в твоём доме — кокс (×3).';
+  String get rulesShortBody =>
+      'У каждого игрока 15 шашек. Шашки ходят по кубикам от 24 к 1. Если встанешь на одиночную шашку соперника, она уходит на бар; пункт с двумя и более шашками закрыт. Когда все шашки в доме (1–6), начинается выброс. Побеждает тот, кто первым выбросит все 15 шашек. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка на баре или в твоём доме — кокс (×3).';
 
   @override
-  String get rulesLongBody => 'Все 15 шашек начинают с головы (24-й пункт). Боя нет: на пункт с шашкой соперника ходить нельзя. За ход с головы можно взять только одну шашку (исключение — 6-6, 4-4, 3-3 при первом броске). Нельзя закрывать 6 пунктов подряд, если впереди нет ни одной шашки соперника. Когда все шашки в доме, начинается выброс. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка ещё не прошла твой дом — кокс (×3).';
+  String get rulesLongBody =>
+      'Все 15 шашек начинают с головы (24-й пункт). Боя нет: на пункт с шашкой соперника ходить нельзя. За ход с головы можно взять только одну шашку (исключение — 6-6, 4-4, 3-3 при первом броске). Нельзя закрывать 6 пунктов подряд, если впереди нет ни одной шашки соперника. Когда все шашки в доме, начинается выброс. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка ещё не прошла твой дом — кокс (×3).';
 }

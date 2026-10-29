@@ -1,8 +1,28 @@
 import 'package:nard_ai/nard_ai.dart';
 import 'package:nard_core/nard_core.dart';
+import 'package:nard_protocol/nard_protocol.dart';
 
 /// Who sits opposite the local player.
-enum OpponentKind { computer, passAndPlay }
+enum OpponentKind { computer, passAndPlay, online }
+
+/// Seats and clock of an online match (from `match.found`).
+class OnlineMatch {
+  const OnlineMatch({
+    required this.matchId,
+    required this.mode,
+    required this.white,
+    required this.black,
+    required this.clock,
+  });
+
+  final String matchId;
+  final QueueMode mode;
+  final PlayerInfo white;
+  final PlayerInfo black;
+  final ClockConfig clock;
+
+  PlayerInfo player(Side side) => side == Side.white ? white : black;
+}
 
 /// Everything chosen on the setup screens before a match starts.
 class MatchSetup {
@@ -17,6 +37,8 @@ class MatchSetup {
     this.hideBetweenTurns = true,
     this.flipBoard = true,
     this.allowUndo = false,
+    this.localSide = Side.white,
+    this.online,
   });
 
   final Variant variant;
@@ -45,13 +67,21 @@ class MatchSetup {
   /// hand-over screen.
   final bool allowUndo;
 
-  /// The local player always plays White against the computer.
-  static const Side humanSide = Side.white;
+  /// The local player's side: White against the computer, either side
+  /// online. Pass & play has no single local side.
+  final Side localSide;
+
+  /// Online matches only.
+  final OnlineMatch? online;
 
   bool get vsComputer => opponent == OpponentKind.computer;
+  bool get isOnline => opponent == OpponentKind.online;
 
-  /// Whether [side] is moved by the bot.
-  bool isBot(Side side) => vsComputer && side != humanSide;
+  /// Whether one side is played by someone else (bot or online opponent).
+  bool get hasRemote => opponent != OpponentKind.passAndPlay;
+
+  /// Whether [side] is moved by the bot or the online opponent.
+  bool isRemote(Side side) => hasRemote && side != localSide;
 
   Map<String, Object?> toJson() => {
     'variant': variant.name,

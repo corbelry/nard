@@ -70,7 +70,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/hotseat', builder: (_, _) => const HotseatSetupScreen()),
       GoRoute(
         path: '/game',
-        pageBuilder: (_, s) => _fade(s, const GameScreen()),
+        pageBuilder:
+            (_, s) => _fade(
+              s,
+              GameScreen(online: s.uri.queryParameters['online'] == '1'),
+            ),
       ),
       GoRoute(path: '/replays', builder: (_, _) => const ReplayListScreen()),
       GoRoute(

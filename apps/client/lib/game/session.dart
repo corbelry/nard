@@ -33,6 +33,26 @@ class Session {
     );
   }
 
+  /// Rebuilds the session from the server's authoritative state
+  /// (`game.state`, ADR-031).
+  factory Session.fromServer({
+    required MatchSetup setup,
+    required MatchState match,
+    required GameRecord record,
+    List<Move> pending = const [],
+  }) {
+    final turns = record.actions.whereType<PlayTurn>();
+    return Session._(
+      setup: setup,
+      match: match,
+      game: record.replay(),
+      record: record,
+      finished: const [],
+      pending: List.unmodifiable(pending),
+      lastTurn: turns.isEmpty ? const [] : turns.last.moves,
+    );
+  }
+
   static GameState _newGame(MatchSetup setup, MatchState match) =>
       GameState.newGame(
         rulesFor(setup.variant),
@@ -89,10 +109,10 @@ class Session {
   bool get isMatchOver => isGameOver && score.isOver;
 
   /// Whether the side to act is driven by the bot.
-  bool get botToAct {
+  bool get remoteToAct {
     if (isGameOver || phase == GamePhase.opening) return false;
     final actor = phase == GamePhase.cubeOffered ? turn.opponent : turn;
-    return setup.isBot(actor);
+    return setup.isRemote(actor);
   }
 
   bool get _moving => phase == GamePhase.awaitingMove;
@@ -182,6 +202,14 @@ class Session {
     return _copy(selected: () => null, rejection: () => explainSource(from));
   }
 
+  /// Records a refusal reported by the server.
+  Session refused(MoveRejection? reason) =>
+      _copy(selected: () => null, rejection: () => reason);
+
+  /// The same session with [selected] (selection is client-side online).
+  Session withSelection(int? slot) =>
+      _copy(selected: () => slot, rejection: () => null);
+
   Session clearSelection() =>
       _copy(selected: () => null, rejection: () => null);
 
@@ -223,6 +251,16 @@ class Session {
       selected: () => null,
       rejection: () => null,
     );
+  }
+
+  /// The single-die steps of moving [from] → [to] (empty if impossible).
+  List<Move> pathTo(int from, int to) {
+    final paths = _paths(from, pending).where((p) => p.last.to == to);
+    if (paths.isEmpty) return const [];
+    return paths.reduce((a, b) {
+      if (a.length != b.length) return a.length < b.length ? a : b;
+      return a.first.die <= b.first.die ? a : b;
+    });
   }
 
   /// Every legal sequence moving the same checker on from [from].

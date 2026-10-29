@@ -112,7 +112,8 @@ class AppLocalizationsAz extends AppLocalizations {
   String get variantShortDesc => 'Klassik backgammon: vurmaq, bar, ikiqat kub.';
 
   @override
-  String get variantLongDesc => 'Bütün daşlar başda. Vurmaq yoxdur, yalnız bloklamaq.';
+  String get variantLongDesc =>
+      'Bütün daşlar başda. Vurmaq yoxdur, yalnız bloklamaq.';
 
   @override
   String get variantLearnTitle => 'Öyrənmək istəyirəm';
@@ -134,49 +135,57 @@ class AppLocalizationsAz extends AppLocalizations {
   String get lessonStep1Title => 'Bu sənin taxtandır';
 
   @override
-  String get lessonStep1Body => 'Ağ daşlar sənindir. Daşlar 24-cü xanadan 1-ci xanaya doğru hərəkət edir, sonra taxtadan çıxarılır. Davam etmək üçün istənilən daşa toxun.';
+  String get lessonStep1Body =>
+      'Ağ daşlar sənindir. Daşlar 24-cü xanadan 1-ci xanaya doğru hərəkət edir, sonra taxtadan çıxarılır. Davam etmək üçün istənilən daşa toxun.';
 
   @override
   String get lessonStep2Title => 'Daşı 6 xana irəli apar';
 
   @override
-  String get lessonStep2Body => 'Zər 6 göstərir. 13-cü xanadakı daşa toxun, sonra işıqlanan 7-ci xanaya toxun və ya sürüşdür.';
+  String get lessonStep2Body =>
+      'Zər 6 göstərir. 13-cü xanadakı daşa toxun, sonra işıqlanan 7-ci xanaya toxun və ya sürüşdür.';
 
   @override
   String get lessonStep3Title => 'İki zəri də oyna';
 
   @override
-  String get lessonStep3Body => 'Zərlər 3 və 1 göstərir. 8-ci və 6-cı xanadan daşları 5-ci xanaya apar və xananı bağla.';
+  String get lessonStep3Body =>
+      'Zərlər 3 və 1 göstərir. 8-ci və 6-cı xanadan daşları 5-ci xanaya apar və xananı bağla.';
 
   @override
   String get lessonStep4Title => 'Bağlı xana';
 
   @override
-  String get lessonStep4Body => 'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz. Zər 5 göstərir: 13-cü xanadakı daşı 8-ci xanaya apar.';
+  String get lessonStep4Body =>
+      'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz. Zər 5 göstərir: 13-cü xanadakı daşı 8-ci xanaya apar.';
 
   @override
   String get lessonStep5Title => 'Vurmaq';
 
   @override
-  String get lessonStep5Body => 'Rəqibin tək daşına düşsən, onu bara göndərirsən. 6-cı xanadakı daşı 4-cü xanaya apar və vur.';
+  String get lessonStep5Body =>
+      'Rəqibin tək daşına düşsən, onu bara göndərirsən. 6-cı xanadakı daşı 4-cü xanaya apar və vur.';
 
   @override
   String get lessonStep6Title => 'Bardan giriş';
 
   @override
-  String get lessonStep6Body => 'Barda daşın varsa, əvvəl onu rəqibin evinə daxil etməlisən. Bardakı daşa toxun və 22-ci xanaya apar.';
+  String get lessonStep6Body =>
+      'Barda daşın varsa, əvvəl onu rəqibin evinə daxil etməlisən. Bardakı daşa toxun və 22-ci xanaya apar.';
 
   @override
   String get lessonStep7Title => 'Daşları çıxar';
 
   @override
-  String get lessonStep7Body => 'Bütün daşlar evdədir (1–6). Zər 6 göstərir: 6-cı xanadakı daşı taxtadan çıxar.';
+  String get lessonStep7Body =>
+      'Bütün daşlar evdədir (1–6). Zər 6 göstərir: 6-cı xanadakı daşı taxtadan çıxar.';
 
   @override
   String get lessonDoneTitle => 'Əla, hazırsan';
 
   @override
-  String get lessonDoneBody => 'Qaydaları bilirsən. İndi kompüterə qarşı oynayıb məşq et.';
+  String get lessonDoneBody =>
+      'Qaydaları bilirsən. İndi kompüterə qarşı oynayıb məşq et.';
 
   @override
   String get lessonFinish => 'Oynamağa başla';
@@ -658,7 +667,8 @@ class AppLocalizationsAz extends AppLocalizations {
   String get ruleHeadTitle => 'Başdan yalnız bir daş götürmək olar';
 
   @override
-  String get ruleHeadBody => 'Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.';
+  String get ruleHeadBody =>
+      'Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.';
 
   @override
   String get ruleSixBlockTitle => 'Ardıcıl 6 xananı bağlamaq olmaz';
@@ -672,10 +682,12 @@ class AppLocalizationsAz extends AppLocalizations {
   String get rulePointClosedTitle => 'Bu xana bağlıdır';
 
   @override
-  String get rulePointClosedShort => 'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz.';
+  String get rulePointClosedShort =>
+      'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz.';
 
   @override
-  String get rulePointClosedLong => 'Uzun nərddə rəqibin daşı olan xanaya getmək olmaz.';
+  String get rulePointClosedLong =>
+      'Uzun nərddə rəqibin daşı olan xanaya getmək olmaz.';
 
   @override
   String get ruleBarTitle => 'Əvvəl bardakı daşı daxil et';
@@ -687,31 +699,36 @@ class AppLocalizationsAz extends AppLocalizations {
   String get ruleBothDiceTitle => 'Hər iki zəri oynamaq lazımdır';
 
   @override
-  String get ruleBothDiceBody => 'Bu gediş digər zəri oynamağa imkan vermir. Hər iki zəri işlədən gediş seç.';
+  String get ruleBothDiceBody =>
+      'Bu gediş digər zəri oynamağa imkan vermir. Hər iki zəri işlədən gediş seç.';
 
   @override
   String get ruleLargerDieTitle => 'Böyük zəri oyna';
 
   @override
-  String get ruleLargerDieBody => 'Yalnız bir zər oynana bilirsə, böyük zəri oynamaq lazımdır.';
+  String get ruleLargerDieBody =>
+      'Yalnız bir zər oynana bilirsə, böyük zəri oynamaq lazımdır.';
 
   @override
   String get ruleBearOffTitle => 'Hələ daş çıxarmaq olmaz';
 
   @override
-  String get ruleBearOffBody => 'Daş çıxarmaq üçün bütün daşlar evdə (1–6) olmalıdır.';
+  String get ruleBearOffBody =>
+      'Daş çıxarmaq üçün bütün daşlar evdə (1–6) olmalıdır.';
 
   @override
   String get ruleBearOffHigherTitle => 'Əvvəl yuxarı xanadakı daşı oyna';
 
   @override
-  String get ruleBearOffHigherBody => 'Böyük zərlə yalnız ən yuxarı xanadakı daşı çıxarmaq olar.';
+  String get ruleBearOffHigherBody =>
+      'Böyük zərlə yalnız ən yuxarı xanadakı daşı çıxarmaq olar.';
 
   @override
   String get ruleNoDieTitle => 'Bu məsafəyə zər yoxdur';
 
   @override
-  String get ruleNoDieBody => 'Daşı yalnız zərlərdəki xana sayı qədər aparmaq olar.';
+  String get ruleNoDieBody =>
+      'Daşı yalnız zərlərdəki xana sayı qədər aparmaq olar.';
 
   @override
   String get ruleNoCheckerTitle => 'Bu xanada sənin daşın yoxdur';
@@ -729,7 +746,8 @@ class AppLocalizationsAz extends AppLocalizations {
   String get replayEmptyTitle => 'Hələ oyun yoxdur';
 
   @override
-  String get replayEmptyBody => 'Bitirdiyin oyunlar burada görünəcək. Replay ilə hər gedişə yenidən baxa bilərsən.';
+  String get replayEmptyBody =>
+      'Bitirdiyin oyunlar burada görünəcək. Replay ilə hər gedişə yenidən baxa bilərsən.';
 
   @override
   String replayTitle(int n) {
@@ -856,14 +874,17 @@ class AppLocalizationsAz extends AppLocalizations {
   String get errorTitle => 'Nəsə alınmadı';
 
   @override
-  String get errorBody => 'Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.';
+  String get errorBody =>
+      'Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.';
 
   @override
   String get playVsComputer => 'Kompüterə qarşı oyna';
 
   @override
-  String get rulesShortBody => 'Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).';
+  String get rulesShortBody =>
+      'Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).';
 
   @override
-  String get rulesLongBody => 'Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).';
+  String get rulesLongBody =>
+      'Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).';
 }

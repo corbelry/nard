@@ -112,7 +112,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get variantShortDesc => 'Klasik tavla: kırma, bar, katlama küpü.';
 
   @override
-  String get variantLongDesc => 'Tüm pullar başta. Pul kırılmaz, sadece bloklanır.';
+  String get variantLongDesc =>
+      'Tüm pullar başta. Pul kırılmaz, sadece bloklanır.';
 
   @override
   String get variantLearnTitle => 'Öğrenmek istiyorum';
@@ -134,49 +135,57 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lessonStep1Title => 'Bu senin tahtan';
 
   @override
-  String get lessonStep1Body => 'Beyaz pullar senin. Pullar 24. haneden 1. haneye doğru ilerler, sonra tahtadan toplanır. Devam etmek için herhangi bir pula dokun.';
+  String get lessonStep1Body =>
+      'Beyaz pullar senin. Pullar 24. haneden 1. haneye doğru ilerler, sonra tahtadan toplanır. Devam etmek için herhangi bir pula dokun.';
 
   @override
   String get lessonStep2Title => 'Pulu 6 hane ilerlet';
 
   @override
-  String get lessonStep2Body => 'Zar 6 gösteriyor. 13. hanedeki pula dokun, sonra parlayan 7. haneye dokun ya da pulu oraya sürükle.';
+  String get lessonStep2Body =>
+      'Zar 6 gösteriyor. 13. hanedeki pula dokun, sonra parlayan 7. haneye dokun ya da pulu oraya sürükle.';
 
   @override
   String get lessonStep3Title => 'İki zarı da oyna';
 
   @override
-  String get lessonStep3Body => 'Zarlar 3 ve 1 gösteriyor. 8. ve 6. hanedeki pulları 5. haneye götür ve haneyi kapat.';
+  String get lessonStep3Body =>
+      'Zarlar 3 ve 1 gösteriyor. 8. ve 6. hanedeki pulları 5. haneye götür ve haneyi kapat.';
 
   @override
   String get lessonStep4Title => 'Kapalı hane';
 
   @override
-  String get lessonStep4Body => 'Rakibin iki veya daha fazla pulu olan haneye gidemezsin. Zar 5 gösteriyor: 13. hanedeki pulu 8. haneye götür.';
+  String get lessonStep4Body =>
+      'Rakibin iki veya daha fazla pulu olan haneye gidemezsin. Zar 5 gösteriyor: 13. hanedeki pulu 8. haneye götür.';
 
   @override
   String get lessonStep5Title => 'Kırmak';
 
   @override
-  String get lessonStep5Body => 'Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin. 6. hanedeki pulu 4. haneye götür ve kır.';
+  String get lessonStep5Body =>
+      'Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin. 6. hanedeki pulu 4. haneye götür ve kır.';
 
   @override
   String get lessonStep6Title => 'Bardan giriş';
 
   @override
-  String get lessonStep6Body => 'Barda pulun varsa, önce onu rakibin evine sokmalısın. Bardaki pula dokun ve 22. haneye götür.';
+  String get lessonStep6Body =>
+      'Barda pulun varsa, önce onu rakibin evine sokmalısın. Bardaki pula dokun ve 22. haneye götür.';
 
   @override
   String get lessonStep7Title => 'Pulları topla';
 
   @override
-  String get lessonStep7Body => 'Tüm pullar evde (1–6). Zar 6 gösteriyor: 6. hanedeki pulu topla.';
+  String get lessonStep7Body =>
+      'Tüm pullar evde (1–6). Zar 6 gösteriyor: 6. hanedeki pulu topla.';
 
   @override
   String get lessonDoneTitle => 'Harika, hazırsın';
 
   @override
-  String get lessonDoneBody => 'Kuralları biliyorsun. Şimdi bilgisayara karşı oynayıp pratik yap.';
+  String get lessonDoneBody =>
+      'Kuralları biliyorsun. Şimdi bilgisayara karşı oynayıp pratik yap.';
 
   @override
   String get lessonFinish => 'Oynamaya başla';
@@ -658,7 +667,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ruleHeadTitle => 'Baştan yalnızca bir pul alınabilir';
 
   @override
-  String get ruleHeadBody => 'Bu sırada baştan birden fazla pul oynadın. İstisna: ilk atışta 6-6, 4-4 veya 3-3 gelirse iki pul alınabilir.';
+  String get ruleHeadBody =>
+      'Bu sırada baştan birden fazla pul oynadın. İstisna: ilk atışta 6-6, 4-4 veya 3-3 gelirse iki pul alınabilir.';
 
   @override
   String get ruleSixBlockTitle => 'Art arda 6 hane kapatılamaz';
@@ -672,10 +682,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rulePointClosedTitle => 'Bu hane kapalı';
 
   @override
-  String get rulePointClosedShort => 'Rakibin iki veya daha fazla pulu olan haneye gidilemez.';
+  String get rulePointClosedShort =>
+      'Rakibin iki veya daha fazla pulu olan haneye gidilemez.';
 
   @override
-  String get rulePointClosedLong => 'Uzun tavlada rakibin pulu olan haneye gidilemez.';
+  String get rulePointClosedLong =>
+      'Uzun tavlada rakibin pulu olan haneye gidilemez.';
 
   @override
   String get ruleBarTitle => 'Önce bardaki pulu sok';
@@ -687,31 +699,36 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ruleBothDiceTitle => 'İki zarı da oynamalısın';
 
   @override
-  String get ruleBothDiceBody => 'Bu hamle diğer zarı oynamana izin vermiyor. İki zarı da kullanan bir hamle seç.';
+  String get ruleBothDiceBody =>
+      'Bu hamle diğer zarı oynamana izin vermiyor. İki zarı da kullanan bir hamle seç.';
 
   @override
   String get ruleLargerDieTitle => 'Büyük zarı oyna';
 
   @override
-  String get ruleLargerDieBody => 'Yalnızca bir zar oynanabiliyorsa büyük zarı oynamalısın.';
+  String get ruleLargerDieBody =>
+      'Yalnızca bir zar oynanabiliyorsa büyük zarı oynamalısın.';
 
   @override
   String get ruleBearOffTitle => 'Henüz pul toplanamaz';
 
   @override
-  String get ruleBearOffBody => 'Pul toplamak için tüm pullar evde (1–6) olmalı.';
+  String get ruleBearOffBody =>
+      'Pul toplamak için tüm pullar evde (1–6) olmalı.';
 
   @override
   String get ruleBearOffHigherTitle => 'Önce üst hanedeki pulu oyna';
 
   @override
-  String get ruleBearOffHigherBody => 'Büyük zarla yalnızca en üst hanedeki pul toplanabilir.';
+  String get ruleBearOffHigherBody =>
+      'Büyük zarla yalnızca en üst hanedeki pul toplanabilir.';
 
   @override
   String get ruleNoDieTitle => 'Bu mesafe için zar yok';
 
   @override
-  String get ruleNoDieBody => 'Pul yalnızca zarlardaki sayı kadar ilerletilebilir.';
+  String get ruleNoDieBody =>
+      'Pul yalnızca zarlardaki sayı kadar ilerletilebilir.';
 
   @override
   String get ruleNoCheckerTitle => 'Bu hanede senin pulun yok';
@@ -729,7 +746,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get replayEmptyTitle => 'Henüz oyun yok';
 
   @override
-  String get replayEmptyBody => 'Bitirdiğin oyunlar burada görünecek. Tekrar izleyerek her hamleye yeniden bakabilirsin.';
+  String get replayEmptyBody =>
+      'Bitirdiğin oyunlar burada görünecek. Tekrar izleyerek her hamleye yeniden bakabilirsin.';
 
   @override
   String replayTitle(int n) {
@@ -856,14 +874,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get errorTitle => 'Bir şeyler ters gitti';
 
   @override
-  String get errorBody => 'Tekrar dene. Sorun devam ederse uygulamayı yeniden aç.';
+  String get errorBody =>
+      'Tekrar dene. Sorun devam ederse uygulamayı yeniden aç.';
 
   @override
   String get playVsComputer => 'Bilgisayara karşı oyna';
 
   @override
-  String get rulesShortBody => 'Her oyuncunun 15 pulu var. Pullar zara göre 24\'ten 1\'e doğru ilerler. Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin; iki veya daha fazla pulu olan hane kapalıdır. Tüm pullar eve (1–6) ulaşınca toplamaya başlarsın. 15 pulun hepsini ilk toplayan kazanır. Rakip hiç pul toplamamışsa — mars (×2), pulu barda veya senin evindeyse — koks (×3).';
+  String get rulesShortBody =>
+      'Her oyuncunun 15 pulu var. Pullar zara göre 24\'ten 1\'e doğru ilerler. Rakibin tek pulunun üstüne gelirsen onu bara gönderirsin; iki veya daha fazla pulu olan hane kapalıdır. Tüm pullar eve (1–6) ulaşınca toplamaya başlarsın. 15 pulun hepsini ilk toplayan kazanır. Rakip hiç pul toplamamışsa — mars (×2), pulu barda veya senin evindeyse — koks (×3).';
 
   @override
-  String get rulesLongBody => '15 pulun hepsi baştan (24. hane) başlar. Kırma yoktur: rakibin pulu olan haneye gidilemez. Her sırada baştan yalnızca bir pul alınabilir (ilk atışta 6-6, 4-4, 3-3 istisnadır). Önünde rakip pulu olmayan art arda 6 hane kapatılamaz. Tüm pullar eve ulaşınca toplamaya başlarsın. Rakip hiç pul toplamamışsa — mars (×2), pulu henüz senin evinden geçmemişse — koks (×3).';
+  String get rulesLongBody =>
+      '15 pulun hepsi baştan (24. hane) başlar. Kırma yoktur: rakibin pulu olan haneye gidilemez. Her sırada baştan yalnızca bir pul alınabilir (ilk atışta 6-6, 4-4, 3-3 istisnadır). Önünde rakip pulu olmayan art arda 6 hane kapatılamaz. Tüm pullar eve ulaşınca toplamaya başlarsın. Rakip hiç pul toplamamışsa — mars (×2), pulu henüz senin evinden geçmemişse — koks (×3).';
 }

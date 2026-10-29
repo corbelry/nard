@@ -200,7 +200,7 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
     _game.show(
       BoardScene(
         rules: s.rules,
-        viewer: MatchSetup.humanSide,
+        viewer: widget.setup.localSide,
         board: s.board,
         dice:
             dice == null

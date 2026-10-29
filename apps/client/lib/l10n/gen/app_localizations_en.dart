@@ -115,10 +115,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get variantQuestionTitle => 'Which nard do you play?';
 
   @override
-  String get variantShortDesc => 'Classic backgammon: hitting, the bar, the doubling cube.';
+  String get variantShortDesc =>
+      'Classic backgammon: hitting, the bar, the doubling cube.';
 
   @override
-  String get variantLongDesc => 'All checkers start on the head. No hitting, only blocking.';
+  String get variantLongDesc =>
+      'All checkers start on the head. No hitting, only blocking.';
 
   @override
   String get variantLearnTitle => 'I want to learn';
@@ -140,49 +142,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lessonStep1Title => 'This is your board';
 
   @override
-  String get lessonStep1Body => 'The white checkers are yours. They move from point 24 towards point 1, then are borne off the board. Tap any checker to continue.';
+  String get lessonStep1Body =>
+      'The white checkers are yours. They move from point 24 towards point 1, then are borne off the board. Tap any checker to continue.';
 
   @override
   String get lessonStep2Title => 'Move a checker 6 points';
 
   @override
-  String get lessonStep2Body => 'The die shows 6. Tap the checker on point 13, then tap or drag it to the highlighted point 7.';
+  String get lessonStep2Body =>
+      'The die shows 6. Tap the checker on point 13, then tap or drag it to the highlighted point 7.';
 
   @override
   String get lessonStep3Title => 'Play both dice';
 
   @override
-  String get lessonStep3Body => 'The dice show 3 and 1. Move checkers from points 8 and 6 to point 5 and make the point.';
+  String get lessonStep3Body =>
+      'The dice show 3 and 1. Move checkers from points 8 and 6 to point 5 and make the point.';
 
   @override
   String get lessonStep4Title => 'Blocked point';
 
   @override
-  String get lessonStep4Body => 'You can\'t move to a point that holds two or more of your opponent\'s checkers. The die shows 5: move the checker from point 13 to point 8.';
+  String get lessonStep4Body =>
+      'You can\'t move to a point that holds two or more of your opponent\'s checkers. The die shows 5: move the checker from point 13 to point 8.';
 
   @override
   String get lessonStep5Title => 'Hitting';
 
   @override
-  String get lessonStep5Body => 'Land on a lone opponent checker and you send it to the bar. Move the checker from point 6 to point 4 and hit.';
+  String get lessonStep5Body =>
+      'Land on a lone opponent checker and you send it to the bar. Move the checker from point 6 to point 4 and hit.';
 
   @override
   String get lessonStep6Title => 'Entering from the bar';
 
   @override
-  String get lessonStep6Body => 'If you have a checker on the bar, you must enter it into your opponent\'s home first. Tap the checker on the bar and move it to point 22.';
+  String get lessonStep6Body =>
+      'If you have a checker on the bar, you must enter it into your opponent\'s home first. Tap the checker on the bar and move it to point 22.';
 
   @override
   String get lessonStep7Title => 'Bear off your checkers';
 
   @override
-  String get lessonStep7Body => 'All your checkers are home (1–6). The die shows 6: bear off the checker on point 6.';
+  String get lessonStep7Body =>
+      'All your checkers are home (1–6). The die shows 6: bear off the checker on point 6.';
 
   @override
   String get lessonDoneTitle => 'Well done, you\'re ready';
 
   @override
-  String get lessonDoneBody => 'You know the rules. Now practice against the computer.';
+  String get lessonDoneBody =>
+      'You know the rules. Now practice against the computer.';
 
   @override
   String get lessonFinish => 'Start playing';
@@ -306,7 +316,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotseatHideBetweenTurns => 'Hide screen between turns';
 
   @override
-  String get hotseatHideBetweenTurnsSub => '“Pass the phone to your opponent” screen';
+  String get hotseatHideBetweenTurnsSub =>
+      '“Pass the phone to your opponent” screen';
 
   @override
   String get hotseatFlipBoard => 'Flip the board';
@@ -696,10 +707,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resignKoks => 'Koks';
 
   @override
-  String get resignKoksDesc => 'A checker on the bar or in the opponent\'s home';
+  String get resignKoksDesc =>
+      'A checker on the bar or in the opponent\'s home';
 
   @override
-  String get resignKoksDescLong => 'A checker hasn\'t left the opponent\'s home yet';
+  String get resignKoksDescLong =>
+      'A checker hasn\'t left the opponent\'s home yet';
 
   @override
   String resignPoints(int points) {
@@ -742,7 +755,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ruleHeadTitle => 'Only one checker may leave the head';
 
   @override
-  String get ruleHeadBody => 'This turn you played more than one checker from the head. Exception: a 6-6, 4-4 or 3-3 on the first roll lets you take two.';
+  String get ruleHeadBody =>
+      'This turn you played more than one checker from the head. Exception: a 6-6, 4-4 or 3-3 on the first roll lets you take two.';
 
   @override
   String get ruleSixBlockTitle => 'You can\'t block 6 points in a row';
@@ -756,46 +770,55 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rulePointClosedTitle => 'This point is blocked';
 
   @override
-  String get rulePointClosedShort => 'You can\'t move to a point with two or more opponent checkers.';
+  String get rulePointClosedShort =>
+      'You can\'t move to a point with two or more opponent checkers.';
 
   @override
-  String get rulePointClosedLong => 'In Long Nard you can\'t move to a point with an opponent checker.';
+  String get rulePointClosedLong =>
+      'In Long Nard you can\'t move to a point with an opponent checker.';
 
   @override
   String get ruleBarTitle => 'Enter the checker from the bar first';
 
   @override
-  String get ruleBarBody => 'While you have a checker on the bar, you can\'t move any other checker.';
+  String get ruleBarBody =>
+      'While you have a checker on the bar, you can\'t move any other checker.';
 
   @override
   String get ruleBothDiceTitle => 'You must play both dice';
 
   @override
-  String get ruleBothDiceBody => 'This move leaves no way to play the other die. Choose a move that uses both dice.';
+  String get ruleBothDiceBody =>
+      'This move leaves no way to play the other die. Choose a move that uses both dice.';
 
   @override
   String get ruleLargerDieTitle => 'Play the larger die';
 
   @override
-  String get ruleLargerDieBody => 'If only one die can be played, you must play the larger one.';
+  String get ruleLargerDieBody =>
+      'If only one die can be played, you must play the larger one.';
 
   @override
   String get ruleBearOffTitle => 'You can\'t bear off yet';
 
   @override
-  String get ruleBearOffBody => 'To bear off, all your checkers must be home (1–6).';
+  String get ruleBearOffBody =>
+      'To bear off, all your checkers must be home (1–6).';
 
   @override
-  String get ruleBearOffHigherTitle => 'Play the checker on the higher point first';
+  String get ruleBearOffHigherTitle =>
+      'Play the checker on the higher point first';
 
   @override
-  String get ruleBearOffHigherBody => 'With a larger die you can only bear off the checker on the highest point.';
+  String get ruleBearOffHigherBody =>
+      'With a larger die you can only bear off the checker on the highest point.';
 
   @override
   String get ruleNoDieTitle => 'No die for this distance';
 
   @override
-  String get ruleNoDieBody => 'You can only move a checker by the number of points shown on the dice.';
+  String get ruleNoDieBody =>
+      'You can only move a checker by the number of points shown on the dice.';
 
   @override
   String get ruleNoCheckerTitle => 'You have no checker on this point';
@@ -813,7 +836,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get replayEmptyTitle => 'No games yet';
 
   @override
-  String get replayEmptyBody => 'Games you finish will appear here. With Replay you can go through every move again.';
+  String get replayEmptyBody =>
+      'Games you finish will appear here. With Replay you can go through every move again.';
 
   @override
   String replayTitle(int n) {
@@ -946,14 +970,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorTitle => 'Something went wrong';
 
   @override
-  String get errorBody => 'Try again. If the problem persists, restart the app.';
+  String get errorBody =>
+      'Try again. If the problem persists, restart the app.';
 
   @override
   String get playVsComputer => 'Play vs computer';
 
   @override
-  String get rulesShortBody => 'Each player has 15 checkers. Checkers move from 24 towards 1 according to the dice. Land on a lone opponent checker and you send it to the bar; a point with two or more checkers is blocked. Once all your checkers are home (1–6), you start bearing off. The first to bear off all 15 checkers wins. If the opponent has borne off none — mars (×2); if they still have a checker on the bar or in your home — koks (×3).';
+  String get rulesShortBody =>
+      'Each player has 15 checkers. Checkers move from 24 towards 1 according to the dice. Land on a lone opponent checker and you send it to the bar; a point with two or more checkers is blocked. Once all your checkers are home (1–6), you start bearing off. The first to bear off all 15 checkers wins. If the opponent has borne off none — mars (×2); if they still have a checker on the bar or in your home — koks (×3).';
 
   @override
-  String get rulesLongBody => 'All 15 checkers start on the head (point 24). There is no hitting: you can\'t move to a point with an opponent checker. Each turn you may take only one checker from the head (except 6-6, 4-4 and 3-3 on the first roll). You can\'t block 6 points in a row unless an opponent checker is ahead of them. Once all your checkers are home, you start bearing off. If the opponent has borne off none — mars (×2); if one of their checkers hasn\'t yet passed your home — koks (×3).';
+  String get rulesLongBody =>
+      'All 15 checkers start on the head (point 24). There is no hitting: you can\'t move to a point with an opponent checker. Each turn you may take only one checker from the head (except 6-6, 4-4 and 3-3 on the first roll). You can\'t block 6 points in a row unless an opponent checker is ahead of them. Once all your checkers are home, you start bearing off. If the opponent has borne off none — mars (×2); if one of their checkers hasn\'t yet passed your home — koks (×3).';
 }

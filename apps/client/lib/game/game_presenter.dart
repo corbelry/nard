@@ -27,7 +27,7 @@ class GamePresenter {
 
   /// The side at the bottom of the board.
   Side get viewer {
-    if (setup.vsComputer || !setup.flipBoard) return MatchSetup.humanSide;
+    if (setup.hasRemote || !setup.flipBoard) return setup.localSide;
     if (s.phase == GamePhase.opening) return Side.white;
     if (s.isGameOver) return s.game.result!.winner;
     return s.turn;
@@ -37,7 +37,7 @@ class GamePresenter {
   bool get humanToMove =>
       !s.isGameOver &&
       s.phase != GamePhase.opening &&
-      !s.botToAct &&
+      !s.remoteToAct &&
       s.phase != GamePhase.cubeOffered;
 
   bool get humanMoving =>
@@ -49,8 +49,10 @@ class GamePresenter {
 
   String name(Side side) {
     if (setup.vsComputer) {
-      return side == MatchSetup.humanSide ? l.you : l.computerName;
+      return side == setup.localSide ? l.you : l.computerName;
     }
+    final online = setup.online;
+    if (online != null) return online.player(side).name;
     final custom = side == Side.white ? setup.whiteName : setup.blackName;
     if (custom.isNotEmpty) return custom;
     return side == Side.white ? l.hotseatDefaultWhite : l.hotseatDefaultBlack;
@@ -167,14 +169,14 @@ class GamePresenter {
       return (title: l.bannerNoMoves, sub: noMovesReason, tone: BannerTone.dim);
     }
     if (s.phase == GamePhase.cubeOffered) {
-      final responderIsBot = s.botToAct;
+      final responderIsBot = s.remoteToAct;
       return (
         title: responderIsBot ? l.bannerCubeWaiting : l.bannerCubeOffer,
         sub: null,
         tone: BannerTone.brass,
       );
     }
-    if (s.botToAct) {
+    if (s.remoteToAct) {
       return (
         title: l.bannerOpponentThinking,
         sub: s.dice == null ? null : _diceText(),
@@ -189,7 +191,7 @@ class GamePresenter {
       );
     }
     final title =
-        setup.vsComputer ? l.bannerYourTurn : l.bannerTurnOf(name(s.turn));
+        setup.hasRemote ? l.bannerYourTurn : l.bannerTurnOf(name(s.turn));
     String? sub;
     if (s.phase == GamePhase.awaitingMove) {
       if (setup.variant == Variant.longNard &&
@@ -251,7 +253,7 @@ class GamePresenter {
             action: PrimaryAction.nextGame,
           );
     }
-    if (view.noMoves && !s.botToAct) {
+    if (view.noMoves && !s.remoteToAct) {
       return (
         label: l.actionPass,
         sub: null,
@@ -290,7 +292,7 @@ class GamePresenter {
 
   /// The local player must answer a double (sheet 6.2).
   bool get mustAnswerDouble =>
-      s.phase == GamePhase.cubeOffered && !s.botToAct && !s.isGameOver;
+      s.phase == GamePhase.cubeOffered && !s.remoteToAct && !s.isGameOver;
 
   /// Title and body for the illegal-move toast.
   ({String title, String? body})? rejectionText() {

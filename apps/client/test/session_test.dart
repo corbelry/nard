@@ -123,7 +123,7 @@ void main() {
       expect(s.record.replay().result!.points, 2);
     });
 
-    test('botToAct follows the bot side and the cube owner', () {
+    test('remoteToAct follows the bot side and the cube owner', () {
       var s = Session.start(
         const MatchSetup(
           variant: Variant.shortNard,
@@ -131,13 +131,13 @@ void main() {
           matchLength: 3,
         ),
       );
-      expect(s.botToAct, isFalse);
+      expect(s.remoteToAct, isFalse);
       s = s.openingRoll(2, 5);
-      expect(s.botToAct, isTrue);
+      expect(s.remoteToAct, isTrue);
       s = s.playTurn(const [Move(13, 8, 5), Move(13, 11, 2)]);
-      expect(s.botToAct, isFalse);
+      expect(s.remoteToAct, isFalse);
       s = s.offerDouble();
-      expect(s.botToAct, isTrue);
+      expect(s.remoteToAct, isTrue);
     });
   });
 

@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:nard_core/nard_core.dart';
@@ -13,23 +14,27 @@ import '../app/sounds.dart';
 import '../board/board_game.dart';
 import '../data/app_settings.dart';
 import '../l10n/gen/app_localizations.dart';
+import '../online/online_game_controller.dart';
 import '../theme/board_theme.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/background.dart';
 import '../ui/buttons.dart';
 import '../ui/layout.dart';
+import 'game_actions.dart';
 import 'game_controller.dart';
 import 'game_overlays.dart';
 import 'game_parts.dart';
 import 'game_presenter.dart';
 import 'game_sheets.dart';
-import 'match_setup.dart';
 import 'session.dart';
 
 /// The in-game screen (game.md §1 portrait, §1L landscape).
 class GameScreen extends ConsumerStatefulWidget {
-  const GameScreen({super.key});
+  const GameScreen({super.key, this.online = false});
+
+  /// Drives the screen from the game server instead of the local match.
+  final bool online;
 
   @override
   ConsumerState<GameScreen> createState() => _GameScreenState();
@@ -49,7 +54,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     super.dispose();
   }
 
-  GameController get _ctrl => ref.read(gameControllerProvider.notifier);
+  ProviderListenable<GameView?> get _provider =>
+      widget.online ? onlineGameProvider : gameControllerProvider;
+
+  GameActions get _ctrl =>
+      widget.online
+          ? ref.read(onlineGameProvider.notifier)
+          : ref.read(gameControllerProvider.notifier);
 
   NardBoardGame _boardFor(double height) {
     final existing = _board;
@@ -62,12 +73,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       onDrop: (from, to) => _ctrl.drop(from, to),
       canDrag:
           (slot) =>
-              ref
-                  .read(gameControllerProvider)
-                  ?.session
-                  .movableFrom
-                  .contains(slot) ??
-              false,
+              ref.read(_provider)?.session.movableFrom.contains(slot) ?? false,
     );
   }
 
@@ -205,11 +211,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<GameView?>(
-      gameControllerProvider,
-      (prev, next) => _onChange(prev, next),
-    );
-    final view = ref.watch(gameControllerProvider);
+    ref.listen<GameView?>(_provider, (prev, next) => _onChange(prev, next));
+    final view = ref.watch(_provider);
     final settings = ref.watch(currentSettingsProvider);
     final l = AppLocalizations.of(context);
     if (view == null) {
@@ -291,10 +294,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   Widget _gameOver(GamePresenter p, AppLocalizations l) {
     final r = p.s.game.result!;
-    final me = p.setup.vsComputer ? MatchSetup.humanSide : r.winner;
+    final me = p.setup.hasRemote ? p.setup.localSide : r.winner;
     final won = r.winner == me;
     final title =
-        p.setup.vsComputer
+        p.setup.hasRemote
             ? (won ? l.gameWonTitle : l.gameLostTitle)
             : l.gameWinnerTitle(p.name(r.winner));
     final target = p.setup.matchLength;
@@ -322,7 +325,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final s = p.s;
     final settings = ref.read(currentSettingsProvider);
     final parts = <String>[
-      if (p.setup.isBot(side)) l.playerBotLevel(p.levelName(p.setup.level)),
+      if (p.setup.isRemote(side)) l.playerBotLevel(p.levelName(p.setup.level)),
       if (settings.showPipCount) l.playerPip(s.board.pipCount(side)),
     ];
     final active =
@@ -648,10 +651,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   Widget _matchResult(GamePresenter p, AppLocalizations l) {
     final s = p.s;
     final winner = s.score.winner!;
-    final me = p.setup.vsComputer ? MatchSetup.humanSide : winner;
+    final me = p.setup.hasRemote ? p.setup.localSide : winner;
     final won = winner == me;
     final title =
-        p.setup.vsComputer
+        p.setup.hasRemote
             ? (won ? l.matchWonTitle : l.matchLostTitle)
             : l.matchWinnerTitle(p.name(winner));
     final meta =
@@ -670,7 +673,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           _matchResultReady = false;
           _resultTimer = null;
         });
-        _ctrl.start(p.setup);
+        _ctrl.rematch();
       },
       homeLabel: l.matchHome,
       onHome: () {

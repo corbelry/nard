@@ -30,8 +30,18 @@ abstract final class NardPalette {
 }
 
 abstract final class NardSpace {
-  static const s1 = 4.0, s2 = 8.0, s3 = 12.0, s4 = 16.0, s5 = 20.0, s6 = 24.0, s8 = 32.0, s12 = 48.0;
-  static const hitMin = 44.0, hitPrimary = 56.0, screenGutter = 16.0, boardGutter = 6.0;
+  static const s1 = 4.0,
+      s2 = 8.0,
+      s3 = 12.0,
+      s4 = 16.0,
+      s5 = 20.0,
+      s6 = 24.0,
+      s8 = 32.0,
+      s12 = 48.0;
+  static const hitMin = 44.0,
+      hitPrimary = 56.0,
+      screenGutter = 16.0,
+      boardGutter = 6.0;
 }
 
 abstract final class NardRadius {
@@ -68,16 +78,77 @@ abstract final class NardFonts {
 
 abstract final class NardType {
   static const _tnum = [FontFeature.tabularFigures()];
-  static const displayXl = TextStyle(fontFamily: NardFonts.display, fontSize: 40, height: 44 / 40, fontWeight: FontWeight.w600);
-  static const displayL = TextStyle(fontFamily: NardFonts.display, fontSize: 28, height: 34 / 28, fontWeight: FontWeight.w600);
-  static const title = TextStyle(fontFamily: NardFonts.display, fontSize: 19, height: 24 / 19, fontWeight: FontWeight.w600);
-  static const score = TextStyle(fontFamily: NardFonts.display, fontSize: 22, height: 24 / 22, fontWeight: FontWeight.w600, fontFeatures: _tnum);
-  static const labelL = TextStyle(fontFamily: NardFonts.ui, fontSize: 17, height: 20 / 17, fontWeight: FontWeight.w600);
-  static const labelM = TextStyle(fontFamily: NardFonts.ui, fontSize: 15, height: 18 / 15, fontWeight: FontWeight.w600);
-  static const body = TextStyle(fontFamily: NardFonts.ui, fontSize: 15, height: 20 / 15, fontWeight: FontWeight.w400);
-  static const bodyS = TextStyle(fontFamily: NardFonts.ui, fontSize: 13, height: 18 / 13, fontWeight: FontWeight.w400);
-  static const caption = TextStyle(fontFamily: NardFonts.ui, fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w500);
-  static const micro = TextStyle(fontFamily: NardFonts.ui, fontSize: 11, height: 13 / 11, fontWeight: FontWeight.w500);
-  static const clock = TextStyle(fontFamily: NardFonts.ui, fontSize: 20, height: 1, fontWeight: FontWeight.w600, fontFeatures: _tnum);
-  static const mono = TextStyle(fontFamily: NardFonts.mono, fontSize: 12, height: 16 / 12);
+  static const displayXl = TextStyle(
+    fontFamily: NardFonts.display,
+    fontSize: 40,
+    height: 44 / 40,
+    fontWeight: FontWeight.w600,
+  );
+  static const displayL = TextStyle(
+    fontFamily: NardFonts.display,
+    fontSize: 28,
+    height: 34 / 28,
+    fontWeight: FontWeight.w600,
+  );
+  static const title = TextStyle(
+    fontFamily: NardFonts.display,
+    fontSize: 19,
+    height: 24 / 19,
+    fontWeight: FontWeight.w600,
+  );
+  static const score = TextStyle(
+    fontFamily: NardFonts.display,
+    fontSize: 22,
+    height: 24 / 22,
+    fontWeight: FontWeight.w600,
+    fontFeatures: _tnum,
+  );
+  static const labelL = TextStyle(
+    fontFamily: NardFonts.ui,
+    fontSize: 17,
+    height: 20 / 17,
+    fontWeight: FontWeight.w600,
+  );
+  static const labelM = TextStyle(
+    fontFamily: NardFonts.ui,
+    fontSize: 15,
+    height: 18 / 15,
+    fontWeight: FontWeight.w600,
+  );
+  static const body = TextStyle(
+    fontFamily: NardFonts.ui,
+    fontSize: 15,
+    height: 20 / 15,
+    fontWeight: FontWeight.w400,
+  );
+  static const bodyS = TextStyle(
+    fontFamily: NardFonts.ui,
+    fontSize: 13,
+    height: 18 / 13,
+    fontWeight: FontWeight.w400,
+  );
+  static const caption = TextStyle(
+    fontFamily: NardFonts.ui,
+    fontSize: 12,
+    height: 16 / 12,
+    fontWeight: FontWeight.w500,
+  );
+  static const micro = TextStyle(
+    fontFamily: NardFonts.ui,
+    fontSize: 11,
+    height: 13 / 11,
+    fontWeight: FontWeight.w500,
+  );
+  static const clock = TextStyle(
+    fontFamily: NardFonts.ui,
+    fontSize: 20,
+    height: 1,
+    fontWeight: FontWeight.w600,
+    fontFeatures: _tnum,
+  );
+  static const mono = TextStyle(
+    fontFamily: NardFonts.mono,
+    fontSize: 12,
+    height: 16 / 12,
+  );
 }
