@@ -49,6 +49,14 @@ void main() {
     expect(SeedPayload.fromJson({'clientSeed': 'xyz'}).clientSeed, 'xyz');
     expect(MovePayload.fromJson(const MovePayload(25, 20).toJson()).to, 20);
     expect(
+      MovePayload.fromJson(const MovePayload(3, 0, die: 6).toJson()).die,
+      6,
+    );
+    expect(
+      () => MovePayload.fromJson({'from': 3, 'to': 0, 'die': 7}),
+      throwsA(isA<ProtocolException>()),
+    );
+    expect(
       ResignPayload.fromJson(const ResignPayload(WinKind.gammon).toJson()).kind,
       WinKind.gammon,
     );

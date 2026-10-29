@@ -40,7 +40,10 @@ next — without waiting for approval (start only after they say "başla").
   (FD-01…05, vectors from an independent Python script).
 - [x] 2. Protocol payloads (`nard_protocol`: messages, `game.seed`,
   `MatchResult` + JSON schema), `docs/PROTOCOL.md`.
-- [ ] 4. game_server rooms (no auth yet) — next.
+- [~] 4. game_server: `MatchRoom` (fair dice, server-side pending moves,
+  clocks, reconnect grace, results) + `BotDriver` done with fake_async
+  tests. Next: tickets + hub (WS connections ↔ rooms) + in-memory
+  matchmaker, wire into `server.dart`.
 
 Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: sound files
 (owner downloads Kenney Casino Audio), lesson content revisit, iOS build.

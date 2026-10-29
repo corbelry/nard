@@ -215,21 +215,33 @@ class SeedPayload {
 
 /// `game.move` (client → server): one checker of the turn being built.
 class MovePayload {
-  const MovePayload(this.from, this.to);
+  const MovePayload(this.from, this.to, {this.die});
 
   /// Mover's own slots (25 = bar, 0 = off).
   final int from;
   final int to;
 
-  Map<String, Object?> toJson() => {'from': from, 'to': to};
+  /// The die to use when several fit (bearing off); the server picks the
+  /// smallest when omitted.
+  final int? die;
+
+  Map<String, Object?> toJson() => {
+    'from': from,
+    'to': to,
+    if (die != null) 'die': die,
+  };
 
   static MovePayload fromJson(Map<String, Object?> j) {
     final from = j.req<int>('from');
     final to = j.req<int>('to');
+    final die = j.opt<int>('die');
     if (from < 1 || from > 25 || to < 0 || to > 24) {
       throw const ProtocolException('Slot out of range');
     }
-    return MovePayload(from, to);
+    if (die != null && (die < 1 || die > 6)) {
+      throw const ProtocolException('Die out of range');
+    }
+    return MovePayload(from, to, die: die);
   }
 }
 
