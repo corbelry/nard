@@ -62,6 +62,7 @@ design is updated and re-exported into the skill.
 - [ ] User-created private tournament (§8.3, P1) — Phase 6
 - [ ] Email sign-in option (§8.1) — Phase 3
 - [ ] Remove the phone-number sign-in option from 9.4 (ADR-020) — Phase 3
+- [ ] Rename the paid currency "almaz" to "yaqut" on every store/price/pass screen; rank tier stays "Almaz" (ADR-023) — Phase 4
 - [ ] Crawford-game indicator on the match game screen (§2) — Phase 2
 - [ ] Long Nard rule feedback: head rule and six-block illegal-move messages (§2) — Phase 2
 - [ ] Locked "Tezliklə" state for AI levels Usta and Qrossmeyster on 2.3 (ADR-019) — Phase 2
@@ -87,6 +88,9 @@ design is updated and re-exported into the skill.
 - Filament admin: Phase 7 (pick a Laravel 13 compatible version, ADR-002).
 - `.mat` match-file import/export: not planned (ADR-021).
 - CI workflow has not yet run on GitHub (verified locally only).
+- App/bundle ID: use placeholder `com.nardarena.app` in Phase 2; the final
+  ID must be fixed before the app is first registered in App Store Connect /
+  Play Console (it cannot change after that).
 
 ## Open questions for the product owner
 
@@ -97,4 +101,5 @@ Resolved 2026-10-30: platforms → mobile only (ADR-016); progression →
 Phase 4, replay viewer → Phase 2 (ADR-017); koks, six-block per move,
 Long Nard opening, no draw rule (ADR-006/008/009); languages az/en/ru/tr
 with English fallback (ADR-018); AI levels 5–6 locked until Phase 6
-(ADR-019); sign-in = guest/Apple/Google/email, no phone (ADR-020); no `.mat` files (ADR-021).
+(ADR-019); sign-in = guest/Apple/Google/email, no phone (ADR-020); no `.mat` files (ADR-021); coins never purchasable (ADR-022);
+paid currency named Yaqut (ADR-023).

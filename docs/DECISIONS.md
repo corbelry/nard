@@ -143,3 +143,21 @@ changes have been requested from Claude Design. Product-owner decision.
 Move notation, GNU BG Position/Match IDs and JSON game records cover the
 product's needs; `.mat` import/export is not planned. Revisit if serious
 players ask for external analysis. Product-owner decision.
+
+## ADR-022 — Coins can never be bought (2026-10-30)
+Coins (soft currency) are **only earned** — playing, missions, achievements,
+the free season-pass track and season-end rewards. Nothing purchasable with
+real money or with the hard currency may grant coins: no coin packs, no
+hard-currency→coin exchange, no coins in bundles or on the premium
+season-pass track. Reason: coin-entry tournaments pay coin prizes; tying
+coins to money would make a dice game look like gambling in several target
+markets (incl. Turkey) and in store review. The hard currency buys only
+cosmetics and the premium pass. Enforce server-side in the ledger
+(Phase 4). Product-owner decision.
+
+## ADR-023 — Hard currency is "Yaqut" (2026-10-30)
+The design used "Almaz" both for the paid currency and for the Diamond rank
+tier. The paid currency is renamed **Yaqut** (az), matching its garnet gem
+icon; localized as Yakut (tr), Рубины (ru), Rubies (en). The rank tier stays
+Almaz / Diamond. Code and DB keep the neutral identifier `gems`
+(`wallets.gems`, `CurrencyPill kind="gem"`). Product-owner decision.
