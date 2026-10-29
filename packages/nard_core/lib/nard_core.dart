@@ -14,6 +14,7 @@ export 'src/move.dart';
 export 'src/notation/gnubg_ids.dart';
 export 'src/notation/move_notation.dart';
 export 'src/rules/long_nard.dart';
+export 'src/rules/move_rejection.dart';
 export 'src/rules/rule_set.dart';
 export 'src/rules/short_nard.dart';
 export 'src/rules/turn_planner.dart';

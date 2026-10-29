@@ -100,6 +100,23 @@ void main() {
           }
         });
       });
+
+      test('explain rejects exactly the moves nextMoves omits', () {
+        final slots = [for (var s = 0; s <= BoardState.bar; s++) s];
+        randomGames(rules, 20, 7, (board, dice, planner) {
+          final legal = {for (final m in planner.nextMoves()) (m.from, m.to)};
+          for (final from in slots.skip(1)) {
+            for (final to in slots.take(BoardState.bar)) {
+              final reason = planner.explain(from, to);
+              expect(
+                reason == null,
+                legal.contains((from, to)),
+                reason: '$from/$to with $dice: $reason',
+              );
+            }
+          }
+        });
+      });
     });
   }
 

@@ -34,6 +34,12 @@ next — without waiting for approval (start only after they say "başla").
   sleep) — resume from this file on "davam et". iOS can't be built on this
   Linux machine; verify with tests + Android.
 
+## Phase 2 progress (update after every step)
+
+- [x] 1. Engine: `TurnPlanner.explain(from, to, played)` → `MoveRejection?`
+  (`move_rejection_test.dart` + property test; coverage 98.6%).
+- [ ] 2. `apps/client` scaffold — next.
+
 ## Where things stand
 
 - Branch `feat/foundation-and-rules-engine` (not pushed; `main` is behind).
