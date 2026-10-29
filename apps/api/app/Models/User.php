@@ -2,24 +2,33 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+/**
+ * @property int $id
+ * @property string $name
+ * @property string|null $email
+ * @property string|null $device_id
+ * @property string|null $country
+ * @property string|null $avatar
+ * @property string $locale
+ * @property bool $is_guest
+ */
+#[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
+#[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -27,6 +36,51 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_guest' => 'boolean',
+        ];
+    }
+
+    /** @return HasMany<Rating, $this> */
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    /** The rating row for [variant], created at the initial rating. */
+    public function ratingFor(string $variant): Rating
+    {
+        return $this->ratings()->firstOrCreate(
+            ['variant' => $variant],
+            [
+                'rating' => config('nard.rating.initial'),
+                'peak' => config('nard.rating.initial'),
+                'experience' => 0,
+                'matches' => 0,
+                'wins' => 0,
+            ],
+        );
+    }
+
+    /** @return array<string, mixed> */
+    public function profile(): array
+    {
+        return [
+            'id' => (string) $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'country' => $this->country,
+            'avatar' => $this->avatar,
+            'locale' => $this->locale,
+            'guest' => $this->is_guest,
+            'ratings' => $this->ratings()->get()->mapWithKeys(fn (Rating $r) => [
+                $r->variant => [
+                    'rating' => $r->rating,
+                    'peak' => $r->peak,
+                    'matches' => $r->matches,
+                    'wins' => $r->wins,
+                    'tier' => Rating::tier($r->rating),
+                ],
+            ])->all(),
         ];
     }
 }

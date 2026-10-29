@@ -28,6 +28,11 @@ services:
       timeout: 3s
       retries: 20
 
+  # Development mail catcher for sign-in codes (ADR-030): UI on :18025.
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports: ["${NARD_MAIL_UI_PORT:-18025}:8025"]
+
   api:
     build: ../apps/api
     environment:
@@ -35,6 +40,10 @@ services:
       GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
       DB_HOST: mysql
       REDIS_HOST: redis
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: "1025"
+      MAIL_FROM_ADDRESS: no-reply@nardarena.local
     command: >
       sh -c "cp -n .env.example .env &&
              php artisan key:generate --force -q &&
@@ -52,6 +61,7 @@ services:
     environment:
       PORT: "8080"
       REDIS_URL: redis://redis:6379
+      API_URL: http://api:8000
       # Shared with the API, which signs game-server tickets. Local default
       # only; production reads it from a secret.
       GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}

@@ -46,7 +46,13 @@ next — without waiting for approval (start only after they say "başla").
   rooms, takeover on reconnect); e2e test over real WebSockets. Results go
   to `MemoryResultSink` until the API endpoint exists. Redis snapshots /
   multi-pod queue: step 5.
-- [ ] 3. API (Laravel): accounts, tickets, results, ratings — next.
+- [x] 3. API (Laravel 13 + Sanctum): guest/device accounts, e-mail codes
+  (Mailpit in compose), Apple/Google endpoints disabled by config (501
+  when enabled — token verification still to do), profile edit, export,
+  delete (15.x), match history, signed game tickets, signed match-result
+  ingestion with FIBS Elo + tiers; 13 feature tests. game_server posts
+  results via `HttpResultSink` (`API_URL`).
+- [ ] 7. End-to-end on docker compose — next; then 5 (Redis) and 6 (client).
 
 Phase 2 is done (see CHANGELOG, ADR-026…030). Leftovers: lesson
 content revisit, iOS build (sounds done: Kenney CC0).

@@ -5,6 +5,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'src/hub.dart';
 
+export 'src/http_result_sink.dart';
 export 'src/hub.dart';
 export 'src/ticket.dart';
 

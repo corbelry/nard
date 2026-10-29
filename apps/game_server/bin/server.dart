@@ -12,8 +12,12 @@ Future<void> main() async {
     exitCode = 64;
     return;
   }
-  // Results go to the API once it is wired (Phase 3 step 3).
-  final hub = Hub(ticketSecret: secret, results: MemoryResultSink());
+  final api = env['API_URL'];
+  final ResultSink results =
+      api == null
+          ? MemoryResultSink()
+          : HttpResultSink(apiUrl: Uri.parse(api), secret: secret);
+  final hub = Hub(ticketSecret: secret, results: results);
   final server = await io.serve(
     buildHandler(hub),
     InternetAddress.anyIPv4,
