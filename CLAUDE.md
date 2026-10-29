@@ -30,17 +30,20 @@ Rules catalogues: `docs/RULES_SHORT.md`, `docs/RULES_LONG.md`.
 
 ## Before finishing a task
 ```
-dart format packages apps/game_server
+dart format packages apps/game_server $(find apps/client/lib apps/client/test -name '*.dart' -not -path '*/theme/*' -not -path '*/gen/*' -not -name '*.g.dart')
 dart analyze --fatal-infos
 (cd packages/nard_core && dart run coverage:test_with_coverage && dart run tool/check_coverage.dart 95)
 (cd packages/nard_ai && dart test); (cd packages/nard_protocol && dart test); (cd apps/game_server && dart test)
+(cd apps/client && flutter gen-l10n && flutter test)   # drift: dart run build_runner build -d
 # API (local PHP lacks extensions; use the dev image):
 docker build -t nard-api:dev apps/api && docker run --rm nard-api:dev sh -c \
   'vendor/bin/pint --test && vendor/bin/phpstan analyse --no-progress --memory-limit=1G && cp .env.example .env && php artisan key:generate -q && php artisan test'
 ```
 
 ## Layout
-- `packages/nard_core` rules engine · `packages/nard_ai` bots ·
+- `apps/client` Flutter app (`lib/theme` vendored from the design skill,
+  excluded from analysis; design specs in `docs/design-notes/`) ·
+  `packages/nard_core` rules engine · `packages/nard_ai` bots ·
   `packages/nard_protocol` WS models · `apps/game_server` Dart server ·
   `apps/api` Laravel · `infra/` compose/helm · `docs/`.
 - Local stack: `docker compose -f infra/docker-compose.yml up --build`

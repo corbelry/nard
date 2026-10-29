@@ -38,11 +38,17 @@ next — without waiting for approval (start only after they say "başla").
 
 - [x] 1. Engine: `TurnPlanner.explain(from, to, played)` → `MoveRejection?`
   (`move_rejection_test.dart` + property test; coverage 98.6%).
-- [~] 2. `apps/client` scaffold: created (`flutter create --empty`), in the
-  workspace, deps resolved (drift 2.28 — newer needs Dart 3.9+), fonts in
-  `assets/fonts` (static instances of Google Fonts variable files), theme
-  copied to `lib/theme/`, `l10n.yaml` (workspaces don't support
-  `generate: true`; run `flutter gen-l10n`). Not committed yet.
+- [x] 2. `apps/client` scaffold (workspace, deps — drift 2.28 since newer
+  needs Dart 3.9+; Flutter uses JDK 17 via `flutter config --jdk-dir`;
+  bundle ID placeholder `com.nardarena.app`).
+- [x] 3. Theme copied unchanged to `lib/theme/` (excluded from analysis);
+  missing tokens in `lib/ui/extra_tokens.dart`; fonts in `assets/fonts`.
+- [~] 4. i18n: `lib/l10n/app_az.arb` (template, ~250 keys); en/ru/tr being
+  translated by a subagent; run `flutter gen-l10n` (no `generate: true` in
+  workspaces).
+- [x] Shared widgets `lib/ui/*`, `Session` (pure match/turn logic,
+  `lib/game/session.dart`), Drift DB + `AppSettings`, `BoardLayout`.
+- [ ] 6. Flame board + game screen — next.
 - [x] 5. `nard_ai`: `HeuristicEvaluator` + `HeuristicBot` (levels, 2-ply for
   hard, cube decisions); hard ≤ 50 ms/move on desktop.
 - Design specs being extracted by subagents → `docs/design-notes/game.md`,

@@ -1,0 +1,696 @@
+{
+  "@@locale": "az",
+  "appName": "NardArena",
+  "@appName": {
+    "description": "Brand name; placeholder, not translated."
+  },
+  "continueAction": "Davam et",
+  "comingSoon": "Tezliklə",
+  "back": "Geri",
+  "@back": {
+    "description": "Accessibility label of back buttons."
+  },
+  "cancel": "Ləğv et",
+  "retry": "Yenidən cəhd et",
+  "valueOn": "Açıq",
+  "valueOff": "Bağlı",
+  "variantShort": "Qısa nərd",
+  "variantLong": "Uzun nərd",
+  "variantShortUpper": "QISA NƏRD",
+  "@variantShortUpper": {
+    "description": "Uppercase overline; stored uppercased (no toUpperCase)."
+  },
+  "variantLongUpper": "UZUN NƏRD",
+  "matchToPointsUpper": "{n} XALA QƏDƏR",
+  "@matchToPointsUpper": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "oneGameUpper": "1 OYUN",
+  "tabHome": "Əsas",
+  "tabProfile": "Profil",
+  "playerWhite": "Ağ",
+  "playerBlack": "Qara",
+  "computerName": "Kompüter",
+  "you": "Sən",
+  "languageTitle": "Dil seçin",
+  "languageSubtitle": "Choose language · Выберите язык · Dil seçin",
+  "@languageSubtitle": {
+    "description": "Same text in every locale."
+  },
+  "languageNameAz": "Azərbaycanca",
+  "languageNameTr": "Türkçe",
+  "languageNameRu": "Русский",
+  "languageNameEn": "English",
+  "languageSubAz": "Azerbaijani",
+  "@languageSubAz": {
+    "description": "English name under the endonym; same in every locale."
+  },
+  "languageSubTr": "Turkish",
+  "languageSubRu": "Russian",
+  "languageSubEn": "English",
+  "onboardingStep": "ADDIM {current} / {total}",
+  "@onboardingStep": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "variantQuestionTitle": "Hansı nərdi oynayırsan?",
+  "variantShortDesc": "Klassik backgammon: vurmaq, bar, ikiqat kub.",
+  "variantLongDesc": "Bütün daşlar başda. Vurmaq yoxdur, yalnız bloklamaq.",
+  "variantLearnTitle": "Öyrənmək istəyirəm",
+  "variantLearnDesc": "{steps} addımlıq interaktiv dərs, 5 dəqiqə.",
+  "@variantLearnDesc": {
+    "placeholders": {
+      "steps": {
+        "type": "int"
+      }
+    }
+  },
+  "lessonSkip": "Keç",
+  "lessonProgress": "{current}/{total}",
+  "@lessonProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "lessonStep1Title": "Bu sənin taxtandır",
+  "lessonStep1Body": "Ağ daşlar sənindir. Daşlar 24-cü xanadan 1-ci xanaya doğru hərəkət edir, sonra taxtadan çıxarılır. Davam etmək üçün istənilən daşa toxun.",
+  "lessonStep2Title": "Daşı 6 xana irəli apar",
+  "lessonStep2Body": "Zər 6 göstərir. 13-cü xanadakı daşa toxun, sonra işıqlanan 7-ci xanaya toxun və ya sürüşdür.",
+  "lessonStep3Title": "İki zəri də oyna",
+  "lessonStep3Body": "Zərlər 3 və 1 göstərir. 8-ci və 6-cı xanadan daşları 5-ci xanaya apar və xananı bağla.",
+  "lessonStep4Title": "Bağlı xana",
+  "lessonStep4Body": "Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz. Zər 5 göstərir: 13-cü xanadakı daşı 8-ci xanaya apar.",
+  "lessonStep5Title": "Vurmaq",
+  "lessonStep5Body": "Rəqibin tək daşına düşsən, onu bara göndərirsən. 6-cı xanadakı daşı 4-cü xanaya apar və vur.",
+  "lessonStep6Title": "Bardan giriş",
+  "lessonStep6Body": "Barda daşın varsa, əvvəl onu rəqibin evinə daxil etməlisən. Bardakı daşa toxun və 22-ci xanaya apar.",
+  "lessonStep7Title": "Daşları çıxar",
+  "lessonStep7Body": "Bütün daşlar evdədir (1–6). Zər 6 göstərir: 6-cı xanadakı daşı taxtadan çıxar.",
+  "lessonDoneTitle": "Əla, hazırsan",
+  "lessonDoneBody": "Qaydaları bilirsən. İndi kompüterə qarşı oynayıb məşq et.",
+  "lessonFinish": "Oynamağa başla",
+  "homePlay": "Oyna",
+  "homeChangeMode": "Rejimi dəyiş",
+  "homeOtherVariant": "{variant} →",
+  "@homeOtherVariant": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      }
+    }
+  },
+  "homeHeroMeta": "{variant} · {format}",
+  "@homeHeroMeta": {
+    "description": "Pieces are already uppercase.",
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "homeHeroMode": "Kompüterə qarşı · {level}",
+  "@homeHeroMode": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "modeComputer": "Kompüter",
+  "modeSameDevice": "Bir cihazda",
+  "modeLesson": "Dərs",
+  "modeReplays": "Oyunlarım",
+  "setupTitle": "Yeni oyun",
+  "setupVariantLabel": "VARİANT",
+  "setupFormatLabel": "FORMAT",
+  "formatOneGame": "1 oyun",
+  "formatPoints": "{n} xal",
+  "@formatPoints": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "setupCube": "İkiqat kub",
+  "aiTitle": "Kompüterə qarşı",
+  "aiLevelBeginner": "Başlanğıc",
+  "aiLevelAmateur": "Həvəskar",
+  "aiLevelMedium": "Orta",
+  "aiLevelStrong": "Güclü",
+  "aiLevelMaster": "Usta",
+  "aiLevelGrandmaster": "Qrossmeyster",
+  "aiLevelBeginnerDesc": "Qaydaları öyrənənlər üçün",
+  "aiLevelAmateurDesc": "Sadə səhvlər edir",
+  "aiLevelMediumDesc": "Əsas strategiyanı bilir",
+  "aiLevelStrongDesc": "Nadir səhv, kubu düzgün işlədir",
+  "aiLevelMasterDesc": "Klub oyunçusu səviyyəsi",
+  "aiLevelGrandmasterDesc": "Ən güclü rejim, səhv etmir",
+  "aiStart": "Başla · {level}",
+  "@aiStart": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "hotseatTitle": "Bir cihazda",
+  "hotseatWhite": "Ağ daşlar",
+  "hotseatBlack": "Qara daşlar",
+  "hotseatGameSection": "OYUN",
+  "hotseatHideBetweenTurns": "Növbələr arası ekranı gizlət",
+  "hotseatHideBetweenTurnsSub": "“Telefonu rəqibə ver” ekranı",
+  "hotseatFlipBoard": "Taxtanı çevir",
+  "hotseatFlipBoardSub": "Hər növbədə növbəti oyunçuya tərəf",
+  "hotseatAllowUndo": "Gedişi geri almaq",
+  "hotseatAllowUndoSub": "Rəqib hazıram deyənə qədər",
+  "hotseatStart": "Oyuna başla",
+  "hotseatEditName": "Adı dəyiş",
+  "hotseatNameHint": "Oyunçunun adı",
+  "hotseatDefaultWhite": "Oyunçu 1",
+  "hotseatDefaultBlack": "Oyunçu 2",
+  "handoffOverline": "NÖVBƏ DƏYİŞDİ",
+  "handoffTitle": "Növbə: {name}",
+  "@handoffTitle": {
+    "description": "Neutral wording avoids Azerbaijani suffix harmony on names.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoffBody": "{side}. {prevName} son gedişi etdi: {moves}.",
+  "@handoffBody": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      },
+      "prevName": {
+        "type": "String"
+      },
+      "moves": {
+        "type": "String"
+      }
+    }
+  },
+  "handoffBodyNoMove": "{side}. {prevName} oynaya bilmədi.",
+  "@handoffBodyNoMove": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      },
+      "prevName": {
+        "type": "String"
+      }
+    }
+  },
+  "handoffFirst": "{side}. Oyunu sən başlayırsan.",
+  "@handoffFirst": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "handoffReady": "{name}, hazıram",
+  "@handoffReady": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoffUndo": "{prevName}: gedişi geri al",
+  "@handoffUndo": {
+    "placeholders": {
+      "prevName": {
+        "type": "String"
+      }
+    }
+  },
+  "gameModeTo": "{variant} · {points} xala qədər",
+  "@gameModeTo": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "gameModeSingle": "{variant} · 1 oyun",
+  "@gameModeSingle": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      }
+    }
+  },
+  "gameScore": "{me} – {opp}",
+  "@gameScore": {
+    "placeholders": {
+      "me": {
+        "type": "int"
+      },
+      "opp": {
+        "type": "int"
+      }
+    }
+  },
+  "bannerYourTurn": "Sənin növbən",
+  "bannerTurnOf": "Növbə: {name}",
+  "@bannerTurnOf": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bannerRollHint": "Zər at və ya ikiqat təklif et",
+  "bannerLegalMoveCount": "{count} mümkün gediş",
+  "@bannerLegalMoveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bannerRolling": "Zərlər atılır",
+  "bannerOpening": "Kim başlayır?",
+  "bannerOpeningTie": "Bərabər · yenidən atılır",
+  "bannerOpeningWinner": "{name} başlayır",
+  "@bannerOpeningWinner": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "bannerOpponentThinking": "Rəqib düşünür",
+  "bannerDice": "Zərlər {a} – {b}",
+  "@bannerDice": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "bannerCubeOffer": "İkiqat təklifi",
+  "bannerCubeWaiting": "Cavab gözlənilir",
+  "bannerNoMoves": "Gediş yoxdur",
+  "bannerGameOver": "Oyun bitdi",
+  "bannerHeadRuleHint": "Başdan yalnız bir daş",
+  "bannerIllegalMove": "Qeyri-qanuni gediş",
+  "bannerOpponentNeedsOne": "Rəqibə 1 xal qalıb",
+  "bannerYouNeedOne": "Sənə 1 xal qalıb",
+  "crawfordChip": "Crawford oyunu · kub yoxdur",
+  "actionRoll": "Zər at",
+  "actionConfirm": "Təsdiqlə",
+  "actionMovesProgress": "{done} / {total}",
+  "@actionMovesProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "actionPass": "Keç",
+  "actionNextGame": "Növbəti oyun",
+  "actionUndo": "Geri al",
+  "actionDouble": "İkiqat",
+  "actionMenu": "Menyu",
+  "@actionMenu": {
+    "description": "Accessibility label."
+  },
+  "playerPip": "Pip {pip}",
+  "@playerPip": {
+    "placeholders": {
+      "pip": {
+        "type": "int"
+      }
+    }
+  },
+  "playerBotLevel": "Kompüter · {level}",
+  "@playerBotLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "noMovesTitle": "Mümkün gediş yoxdur",
+  "noMovesBody": "{a} – {b} · {reason}. Növbə 2 saniyəyə rəqibə keçir.",
+  "@noMovesBody": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "noMovesReasonBar": "bar bağlıdır",
+  "noMovesReasonBlocked": "bütün yollar bağlıdır",
+  "cubeOfferTitle": "{name} ikiqat təklif edir",
+  "@cubeOfferTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "cubeOfferBody": "Oyunun dəyəri {from} → {to} xal. Qəbul etsən, kub sənə keçir.",
+  "@cubeOfferBody": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "cubeDecline": "İmtina et",
+  "cubeDeclineSub": "−{points} xal, oyun bitir",
+  "@cubeDeclineSub": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "cubeAccept": "Qəbul et",
+  "cubeAcceptSub": "Dəyər {points} xal",
+  "@cubeAcceptSub": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "cubeBotTook": "Kompüter ikiqatı qəbul etdi · dəyər {points} xal",
+  "@cubeBotTook": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "gameWonTitle": "QƏLƏBƏ",
+  "@gameWonTitle": {
+    "description": "Stored uppercase."
+  },
+  "gameLostTitle": "MƏĞLUBİYYƏT",
+  "@gameLostTitle": {
+    "description": "Stored uppercase."
+  },
+  "gameWinnerTitle": "{name} QAZANDI",
+  "@gameWinnerTitle": {
+    "description": "Pass & play result; name as typed.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "resultSingle": "+{points} xal",
+  "@resultSingle": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "resultMars": "Mars · +{points} xal",
+  "@resultMars": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "resultKoks": "Koks · +{points} xal",
+  "@resultKoks": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "resultDropped": "İkiqat rədd edildi · +{points} xal",
+  "@resultDropped": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "resultResigned": "Təslim oldu · +{points} xal",
+  "@resultResigned": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "gameMatchProgress": "{target} xala qədər · matça {left} xal qaldı",
+  "@gameMatchProgress": {
+    "placeholders": {
+      "target": {
+        "type": "int"
+      },
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "actionViewReplay": "Replay",
+  "matchWonTitle": "Matç qələbəsi",
+  "matchLostTitle": "Matç məğlubiyyəti",
+  "matchWinnerTitle": "{name} matçı qazandı",
+  "@matchWinnerTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchMeta": "{me} · {opp} · {points} xala qədər",
+  "@matchMeta": {
+    "placeholders": {
+      "me": {
+        "type": "String"
+      },
+      "opp": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "matchMetaSingle": "{me} · {opp} · 1 oyun",
+  "@matchMetaSingle": {
+    "placeholders": {
+      "me": {
+        "type": "String"
+      },
+      "opp": {
+        "type": "String"
+      }
+    }
+  },
+  "matchRematch": "Revanş",
+  "matchHome": "Ana səhifə",
+  "resignTitle": "Təslim ol",
+  "resignBody": "Kubun dəyəri ×{cube}. Rəqibə verəcəyin xalı seç.",
+  "@resignBody": {
+    "placeholders": {
+      "cube": {
+        "type": "int"
+      }
+    }
+  },
+  "resignSingle": "Tək oyun",
+  "resignSingleDesc": "Adi məğlubiyyət",
+  "resignMars": "Mars",
+  "resignMarsDesc": "Heç daş çıxarılmayıb",
+  "resignKoks": "Koks",
+  "resignKoksDesc": "Daş barda və ya rəqib evində",
+  "resignKoksDescLong": "Daş hələ rəqibin evindən keçməyib",
+  "resignPoints": "−{points}",
+  "@resignPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "resignConfirm": "Təslim ol · −{points}",
+  "@resignConfirm": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "menuResume": "Oyuna qayıt",
+  "menuSettings": "Ayarlar",
+  "menuRules": "Qaydalar",
+  "menuSound": "Səs",
+  "menuResign": "Təslim ol",
+  "menuLeave": "Oyundan çıx",
+  "leaveTitle": "Oyundan çıxırsan?",
+  "leaveBody": "Bu oyun yadda saxlanmayacaq.",
+  "leaveConfirm": "Çıx",
+  "ruleHeadTitle": "Başdan yalnız bir daş götürmək olar",
+  "ruleHeadBody": "Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.",
+  "ruleSixBlockTitle": "Ardıcıl 6 xananı bağlamaq olmaz",
+  "ruleSixBlockBody": "{from} → {to} gedişi 6 xanalıq sədd qurur, qabağında isə rəqibin heç bir daşı yoxdur. Başqa gediş seç.",
+  "@ruleSixBlockBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "rulePointClosedTitle": "Bu xana bağlıdır",
+  "rulePointClosedShort": "Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz.",
+  "rulePointClosedLong": "Uzun nərddə rəqibin daşı olan xanaya getmək olmaz.",
+  "ruleBarTitle": "Əvvəl bardakı daşı daxil et",
+  "ruleBarBody": "Barda daşın olduqca başqa daşla oynamaq olmaz.",
+  "ruleBothDiceTitle": "Hər iki zəri oynamaq lazımdır",
+  "ruleBothDiceBody": "Bu gediş digər zəri oynamağa imkan vermir. Hər iki zəri işlədən gediş seç.",
+  "ruleLargerDieTitle": "Böyük zəri oyna",
+  "ruleLargerDieBody": "Yalnız bir zər oynana bilirsə, böyük zəri oynamaq lazımdır.",
+  "ruleBearOffTitle": "Hələ daş çıxarmaq olmaz",
+  "ruleBearOffBody": "Daş çıxarmaq üçün bütün daşlar evdə (1–6) olmalıdır.",
+  "ruleBearOffHigherTitle": "Əvvəl yuxarı xanadakı daşı oyna",
+  "ruleBearOffHigherBody": "Böyük zərlə yalnız ən yuxarı xanadakı daşı çıxarmaq olar.",
+  "ruleNoDieTitle": "Bu məsafəyə zər yoxdur",
+  "ruleNoDieBody": "Daşı yalnız zərlərdəki xana sayı qədər aparmaq olar.",
+  "ruleNoCheckerTitle": "Bu xanada sənin daşın yoxdur",
+  "ruleTurnCompleteTitle": "Bütün zərlər oynanıb",
+  "ruleTurnCompleteBody": "Gedişi təsdiqlə və ya geri al.",
+  "replayListTitle": "Oyunlarım",
+  "replayEmptyTitle": "Hələ oyun yoxdur",
+  "replayEmptyBody": "Bitirdiyin oyunlar burada görünəcək. Replay ilə hər gedişə yenidən baxa bilərsən.",
+  "replayTitle": "Replay · Oyun {n}",
+  "@replayTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "replayPlayers": "{p1} – {p2}",
+  "@replayPlayers": {
+    "placeholders": {
+      "p1": {
+        "type": "String"
+      },
+      "p2": {
+        "type": "String"
+      }
+    }
+  },
+  "replayStart": "Başlanğıc",
+  "replayBack": "Geri",
+  "replayPlay": "Oynat",
+  "replayPause": "Dayandır",
+  "replayForward": "İrəli",
+  "replayEnd": "Son",
+  "replayOpening": "Açılış: {a} – {b}",
+  "@replayOpening": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "replayNoMove": "gediş yoxdur",
+  "replayDouble": "ikiqat təklif",
+  "replayTake": "qəbul",
+  "replayDrop": "rədd",
+  "replayResign": "təslim",
+  "replayWon": "{name} qazandı · {points} xal",
+  "@replayWon": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "replayLoadError": "Oyun açılmadı",
+  "settingsTitle": "Ayarlar",
+  "settingsGroupGame": "OYUN",
+  "settingsGroupAccessibility": "ƏLÇATANLIQ",
+  "settingsGroupGeneral": "ÜMUMİ",
+  "settingsConfirmMove": "Gedişi təsdiqlə",
+  "settingsAutoRoll": "Avtomatik zər at",
+  "settingsShowLegalMoves": "Mümkün gedişləri göstər",
+  "settingsPipCount": "Pip sayı",
+  "settingsAnimationSpeed": "Animasiya sürəti",
+  "animationSpeedSlow": "Yavaş",
+  "animationSpeedNormal": "Normal",
+  "animationSpeedFast": "Sürətli",
+  "settingsColorBlind": "Rəng korluğu rejimi",
+  "settingsLargePips": "Böyük zər xalları",
+  "settingsReduceMotion": "Hərəkəti azalt",
+  "settingsSound": "Səs",
+  "settingsHaptics": "Vibrasiya",
+  "settingsLanguage": "Dil",
+  "settingsReplays": "Oyunlarım",
+  "settingsLesson": "Dərsi təkrarla",
+  "settingsAbout": "Versiya {version}",
+  "@settingsAbout": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "errorTitle": "Nəsə alınmadı",
+  "errorBody": "Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.",
+  "playVsComputer": "Kompüterə qarşı oyna",
+  "rulesShortBody": "Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).",
+  "rulesLongBody": "Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3)."
+}

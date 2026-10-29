@@ -9,6 +9,7 @@ workspace:
   - packages/nard_ai
   - packages/nard_protocol
   - apps/game_server
+  - apps/client
 
 dev_dependencies:
   lints: ^5.1.1
