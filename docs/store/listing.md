@@ -456,9 +456,10 @@ privacy policy or ask for an API change to anonymise names on deletion.
 ## 8. What the owner must provide
 
 - [ ] **Final app name** in all four languages, trademark-checked (§1).
-- [ ] **Developer accounts**: Google Play Console (organisation account
-      needs a D-U-N-S number) and Apple Developer Program (organisation
-      enrolment also needs D-U-N-S).
+- [ ] **Developer accounts**: individual Google Play Console and Apple
+      Developer Program accounts in the owner's name (owner's choice,
+      docs/LAUNCH.md); Google requires a 14-day closed test with 12+
+      testers before production for new personal accounts.
 - [ ] **Final bundle id / application id** (now `com.nardarena.app`);
       it cannot change after the first upload.
 - [ ] **Privacy policy URL** (public, all four languages if possible) that
@@ -489,4 +490,5 @@ privacy policy or ask for an API change to anonymise names on deletion.
       especially coin-entry tournaments.
 - [ ] **Target countries** (Azerbaijan, Turkey, CIS first per SPEC) and
       whether to exclude any market for regulatory reasons.
-- [ ] **Copyright line** ("© 2026 …" legal entity name) for the App Store.
+- [ ] **Copyright line** ("© 2026 …", the owner's name for an individual
+      account) for the App Store.
