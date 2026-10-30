@@ -6,22 +6,23 @@ are unchecked.
 
 ## Decisions
 
-- 2026-10-30 — Store accounts (Google Play, Apple) are opened **in the
-  company's name** (organisation accounts): company name on the store
-  pages, no Google 12-tester / 14-day closed-test rule for new personal
-  accounts. Needs a D-U-N-S number for both stores.
-- 2026-10-30 — The owner has a registered company. Next: look the
-  company up / request its D-U-N-S number on Apple's D-U-N-S page (free;
-  ready at once if D&B already lists it, else ~1–2 weeks), then enrol both
-  stores. Infrastructure and store material go ahead meanwhile.
+- 2026-10-30 — Store accounts (Google Play, Apple) are opened as
+  **individual (personal) accounts** in the owner's name (owner's choice
+  after comparing; first answer was "company", changed the same day).
+  Consequences: no D-U-N-S needed; Apple shows the owner's legal name as
+  the seller; Google may show the owner's address on a monetised listing;
+  income is personal; **new personal Google Play accounts must run a closed
+  test with at least 12 opted-in testers for 14 days before production
+  access** — recruit testers early. Moving the apps to a company account
+  later is possible (app transfer) but takes work.
 
 ## Steps (critical path first)
 
 ### 1. Identity and accounts (start first — longest waits)
-- [ ] Company details ready (legal name, address, website) and D-U-N-S
-      number (free, ~1–2 weeks)
-- [ ] Google Play Console organisation account (one-time $25)
-- [ ] Apple Developer Program organisation enrolment ($99/year)
+- [ ] Google Play Console personal account (one-time $25, ID verification)
+- [ ] Apple Developer Program individual enrolment ($99/year, ID check)
+- [ ] 12+ testers (Gmail accounts, Android phones) lined up for Google's
+      14-day closed test
 - [ ] App name trademark / store availability check ("NardArena")
 - [ ] Final bundle / application id (now `com.nardarena.app`; fixed after
       the first upload)
