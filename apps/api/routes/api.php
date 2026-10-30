@@ -34,7 +34,7 @@ Route::prefix('v1')->group(function (): void {
         Route::get('/me', [MeController::class, 'show']);
         Route::patch('/me', [MeController::class, 'update']);
         Route::delete('/me', [MeController::class, 'destroy']);
-        Route::get('/me/export', [MeController::class, 'export']);
+        Route::post('/me/export', [MeController::class, 'export'])->middleware('throttle:3,60');
         Route::get('/me/matches', [MeController::class, 'matches']);
         Route::get('/me/matches/{id}', [MeController::class, 'match']);
         Route::post('/game/ticket', [MeController::class, 'ticket'])->middleware('throttle:30,1');

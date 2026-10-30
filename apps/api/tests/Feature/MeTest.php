@@ -43,11 +43,9 @@ class MeTest extends TestCase
         $this->assertGreaterThan(time(), $payload['exp']);
     }
 
-    public function test_account_export_and_deletion(): void
+    public function test_account_deletion(): void
     {
         [$token, $id] = $this->guest();
-        $this->withToken($token)->getJson('/api/v1/me/export')->assertOk()
-            ->assertJsonPath('user.id', $id)->assertJsonPath('matches', []);
         $this->withToken($token)->deleteJson('/api/v1/me')->assertOk()->assertJsonStructure(['deletesAt']);
         // 30-day grace: the account still exists, tokens are gone.
         $this->assertNotNull(User::query()->findOrFail((int) $id)->deletion_requested_at);

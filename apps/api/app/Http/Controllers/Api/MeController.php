@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendDataExport;
 use App\Models\GameMatch;
 use App\Models\User;
 use App\Services\AccountBanned;
@@ -45,17 +46,19 @@ class MeController extends Controller
         return response()->json(['ok' => true, 'deletesAt' => $user->requestDeletion()->toIso8601String()]);
     }
 
-    /** 15.2: everything stored about the player. */
+    /**
+     * 15.2: queues the data export as an e-mailed ZIP (QUESTIONS #17);
+     * guests link an e-mail first.
+     */
     public function export(Request $request): JsonResponse
     {
         $user = $this->user($request);
+        if ($user->email === null) {
+            return response()->json(['code' => 'email_required'], 409);
+        }
+        SendDataExport::dispatch($user->id);
 
-        return response()->json([
-            'user' => $user->profile(),
-            'createdAt' => $user->created_at?->toIso8601String(),
-            'matches' => $this->matchesOf($user)->get()
-                ->map(fn (GameMatch $m) => $m->summary($user->id, true))->all(),
-        ]);
+        return response()->json(['email' => $user->email], 202);
     }
 
     public function matches(Request $request): JsonResponse
