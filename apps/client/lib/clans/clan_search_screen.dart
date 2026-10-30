@@ -13,7 +13,6 @@ import '../social/social_gate.dart';
 import '../store/store_providers.dart' show showNote;
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
-import '../ui/extra_tokens.dart';
 import '../ui/layout.dart';
 import '../ui/pressable.dart';
 import '../ui/social.dart';
@@ -29,7 +28,6 @@ class ClanTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final c = context.nard;
     final offline = ref.watch(offlineProvider);
     return SafeArea(
       bottom: false,
@@ -48,15 +46,8 @@ class ClanTab extends ConsumerWidget {
           ),
         ],
       ),
-    ).withBackground(c);
+    );
   }
-}
-
-extension on Widget {
-  Widget withBackground(NardColors c) => DecoratedBox(
-    decoration: BoxDecoration(gradient: c.bgGradient),
-    child: this,
-  );
 }
 
 /// 5.1 Clan search: name/tag search, language / open / min-rating
