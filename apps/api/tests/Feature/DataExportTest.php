@@ -44,6 +44,15 @@ class DataExportTest extends TestCase
             'user_id' => $user->id, 'currency' => 'coins', 'amount' => 300, 'balance_after' => 300,
             'reason' => 'clan_chest', 'idempotency_key' => 'k1', 'created_at' => now(),
         ]);
+        DB::table('wallet_transactions')->insert([
+            'user_id' => $user->id, 'currency' => 'coins', 'amount' => 50, 'balance_after' => 350,
+            'reason' => 'admin_grant', 'reference' => 'admin:77', 'idempotency_key' => 'k2', 'created_at' => now(),
+        ]);
+        $other = User::factory()->create();
+        DB::table('reports')->insert([
+            'reporter_id' => $user->id, 'reported_id' => $other->id, 'reason' => 'cheating', 'status' => 'closed',
+            'action' => 'banned', 'handled_by' => $other->id, 'handled_at' => now(), 'created_at' => now(), 'updated_at' => now(),
+        ]);
         DB::table('device_tokens')->insert([
             'user_id' => $user->id, 'platform' => 'android', 'token' => 'secret-fcm', 'token_hash' => hash('sha256', 'secret-fcm'),
             'created_at' => now(), 'updated_at' => now(),
@@ -75,6 +84,10 @@ class DataExportTest extends TestCase
         $this->assertStringNotContainsString('secret-fcm', $all);
         $this->assertStringNotContainsString('token_hash', $all);
         $this->assertStringNotContainsString('idempotency_key', $all);
+        // Moderation outcomes and admin ids stay internal (security review).
+        $this->assertStringNotContainsString('handled_by', $all);
+        $this->assertStringNotContainsString('"action"', $all);
+        $this->assertStringNotContainsString('admin:77', $all);
     }
 
     public function test_a_deleted_account_gets_no_mail(): void

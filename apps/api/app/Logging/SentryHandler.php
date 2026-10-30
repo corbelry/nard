@@ -21,11 +21,16 @@ class SentryHandler extends AbstractProcessingHandler
 
     private string $key = '';
 
+    private int $window = 0;
+
+    private int $sent = 0;
+
     public function __construct(
         ?string $dsn = null,
         private readonly string $environment = 'production',
         private readonly string $release = 'api',
         int|string|Level $level = Level::Error,
+        private readonly int $perMinute = 30,
     ) {
         parent::__construct($level, true);
         $parts = parse_url(trim((string) $dsn));
@@ -48,7 +53,7 @@ class SentryHandler extends AbstractProcessingHandler
 
     protected function write(LogRecord $record): void
     {
-        if ($this->endpoint === null) {
+        if ($this->endpoint === null || ! $this->allow($record->datetime->getTimestamp())) {
             return;
         }
         $exception = $record->context['exception'] ?? null;
@@ -61,15 +66,18 @@ class SentryHandler extends AbstractProcessingHandler
             'logger' => $record->channel,
             'environment' => $this->environment,
             'release' => $this->release,
-            'message' => ['formatted' => $record->message],
-            'extra' => array_map(fn (mixed $v): mixed => is_scalar($v) || $v === null ? $v : json_encode($v), $extra),
+            'message' => ['formatted' => self::redact($record->message)],
+            'extra' => array_map(
+                fn (mixed $v): mixed => is_string($v) ? self::redact($v) : (is_scalar($v) || $v === null ? $v : self::redact((string) json_encode($v))),
+                $extra,
+            ),
         ];
         if ($exception instanceof Throwable) {
             $event['exception'] = ['values' => [[
                 'type' => $exception::class,
-                'value' => $exception->getMessage(),
+                'value' => self::redact($exception->getMessage()),
             ]]];
-            $event['extra']['trace'] = $exception->getTraceAsString();
+            $event['extra']['trace'] = self::redact($exception->getTraceAsString());
         }
         try {
             Http::timeout(2)->withHeaders([
@@ -78,5 +86,26 @@ class SentryHandler extends AbstractProcessingHandler
         } catch (Throwable) {
             // Reporting must never fail the request.
         }
+    }
+
+    /** At most [perMinute] events per minute from this process. */
+    private function allow(int $now): bool
+    {
+        $minute = intdiv($now, 60);
+        if ($minute !== $this->window) {
+            $this->window = $minute;
+            $this->sent = 0;
+        }
+
+        return ++$this->sent <= $this->perMinute;
+    }
+
+    /** Masks e-mails and IP addresses (e.g. SQL bindings in a QueryException). */
+    private static function redact(string $text): string
+    {
+        $text = (string) preg_replace('/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i', '[email]', $text);
+        $text = (string) preg_replace('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', '[ip]', $text);
+
+        return (string) preg_replace('/\b(?:[0-9a-f]{1,4}:){2,7}[0-9a-f]{0,4}\b/i', '[ip]', $text);
     }
 }

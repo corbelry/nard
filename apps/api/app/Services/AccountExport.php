@@ -45,6 +45,9 @@ class AccountExport
 
     private const SECRET = '/(^|_)(token|hash)$|^idempotency_key$|password|secret/';
 
+    /** Internal columns: moderation outcomes and who handled them. */
+    private const INTERNAL = ['reports' => ['action', 'handled_by', 'handled_at']];
+
     /** @return array<string, mixed> file name (without .json) → content */
     public function collect(User $user): array
     {
@@ -67,14 +70,30 @@ class AccountExport
                     }
                 })
                 ->get()
-                ->map(fn (object $row) => array_filter(
-                    (array) $row,
-                    fn (string $key) => preg_match(self::SECRET, $key) !== 1,
-                    ARRAY_FILTER_USE_KEY,
-                ))->all();
+                ->map(fn (object $row) => self::visible($table, (array) $row))->all();
         }
 
         return $files;
+    }
+
+    /**
+     * @param  array<string, mixed>  $row
+     * @return array<string, mixed>
+     */
+    private static function visible(string $table, array $row): array
+    {
+        $hidden = self::INTERNAL[$table] ?? [];
+        $row = array_filter(
+            $row,
+            fn (string $key) => preg_match(self::SECRET, $key) !== 1 && ! in_array($key, $hidden, true),
+            ARRAY_FILTER_USE_KEY,
+        );
+        // `admin:<id>` grants: keep the kind, not the admin.
+        if (is_string($row['reference'] ?? null) && str_starts_with($row['reference'], 'admin:')) {
+            $row['reference'] = 'admin';
+        }
+
+        return $row;
     }
 
     /** The ZIP bytes. */

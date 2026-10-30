@@ -16,9 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         // Readiness probe without the web middleware (sessions use the
-        // database, which is what this checks).
+        // database, which is what this checks). It is reachable through the
+        // ingress, so it is throttled per IP (security review 2026-10-30).
         then: function (): void {
-            Route::get('/readyz', ReadinessController::class);
+            Route::get('/readyz', ReadinessController::class)->middleware('throttle:60,1,readyz');
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

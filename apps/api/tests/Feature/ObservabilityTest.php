@@ -191,4 +191,25 @@ class ObservabilityTest extends TestCase
         $on->handle($this->record(Level::Critical, 'still fine'));
         $this->assertFalse((new SentryHandler('not a dsn'))->enabled());
     }
+
+    public function test_sentry_events_are_redacted_and_capped(): void
+    {
+        Http::fake(['*' => Http::response('{}')]);
+        $on = new SentryHandler('https://pubkey@o1.ingest.example.com/42', 'staging', 'api', Level::Error, 3);
+        $on->handle($this->record(Level::Error, 'mail to aysel@example.com from 203.0.113.9 failed', [
+            'exception' => new RuntimeException('SQLSTATE[23000] (Connection: mysql, SQL: insert into users (email) values (aysel@example.com))'),
+            'email' => 'aysel@example.com',
+        ]));
+        Http::assertSent(function (ClientRequest $req): bool {
+            $json = (string) json_encode($req->data());
+
+            return ! str_contains($json, 'aysel@example.com') && ! str_contains($json, '203.0.113.9')
+                && str_contains($json, '[email]') && str_contains($json, '[ip]');
+        });
+        for ($i = 0; $i < 5; $i++) {
+            $on->handle($this->record(Level::Error, "error $i"));
+        }
+        // At most 3 events a minute from this process.
+        Http::assertSentCount(3);
+    }
 }
