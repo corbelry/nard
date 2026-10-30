@@ -34,6 +34,15 @@ class _Connection {
   void send(Envelope e) => channel.sink.add(jsonEncode(e.toJson()));
 }
 
+class _PrivateRoom {
+  _PrivateRoom(this.code, this.owner, this.request, this.expires);
+
+  final String code;
+  final Ticket owner;
+  final QueueJoinPayload request;
+  final Timer expires;
+}
+
 class _Seat {
   _Seat(this.room, this.side);
 
@@ -74,6 +83,12 @@ class Hub {
   final _online = <String, _Connection>{};
   final _seats = <String, _Seat>{};
   final _bots = <BotDriver>[];
+  final _privateRooms = <String, _PrivateRoom>{};
+  final _live = <String, MatchRoom>{};
+  final _watching = <_Connection, MatchRoom>{};
+
+  /// How long a private room waits for the second player.
+  static const roomTtl = Duration(minutes: 10);
   int _matches = 0;
 
   int get activeMatches => _seats.values.map((s) => s.room).toSet().length;
@@ -120,6 +135,42 @@ class Hub {
         }
       case MessageType.queueLeave:
         matchmaker.leave(user.userId);
+      case MessageType.roomCreate:
+        _createRoom(conn, user, msg, seat);
+      case MessageType.roomJoin:
+        _joinRoom(conn, user, msg, seat);
+      case MessageType.roomCancel:
+        _cancelRooms(user.userId);
+      case MessageType.spectateJoin:
+        final room = _live[msg.payload['matchId']];
+        if (room == null || room.isOver) {
+          conn.send(_error(msg.id, ErrorCode.notInMatch));
+          return;
+        }
+        _watching.remove(conn)?.removeSpectator(conn);
+        _watching[conn] = room;
+        room.addSpectator(conn, conn.send);
+      case MessageType.spectateLeave:
+        _watching.remove(conn)?.removeSpectator(conn);
+      case MessageType.presenceQuery:
+        final ids = msg.payload['userIds'];
+        final matches = <String, String>{};
+        if (ids is List) {
+          for (final id in ids.take(200)) {
+            final s = _seats[id];
+            if (id is String && s != null && !s.room.isOver) {
+              matches[id] = s.room.matchId;
+            }
+          }
+        }
+        conn.send(
+          Envelope(
+            type: MessageType.presence,
+            id: msg.id,
+            ts: _now(),
+            payload: PresencePayload(matches).toJson(),
+          ),
+        );
       default:
         if (seat == null) {
           conn.send(_error(msg.id, ErrorCode.notInMatch));
@@ -161,12 +212,97 @@ class Hub {
   }
 
   void _onClose(_Connection conn) {
+    _watching.remove(conn)?.removeSpectator(conn);
     final user = conn.user;
     if (user == null || _online[user.userId] != conn) return;
     _online.remove(user.userId);
     matchmaker.leave(user.userId);
+    _cancelRooms(user.userId);
     final seat = _seats[user.userId];
     if (seat != null && !seat.room.isOver) seat.room.disconnected(seat.side);
+  }
+
+  static const _codeAlphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+
+  void _createRoom(_Connection conn, Ticket user, Envelope msg, _Seat? seat) {
+    if (seat != null && !seat.room.isOver) {
+      conn.send(_error(msg.id, ErrorCode.illegalAction, 'In a match'));
+      return;
+    }
+    final RoomCreatePayload req;
+    try {
+      req = RoomCreatePayload.fromJson(msg.payload);
+    } on ProtocolException catch (e) {
+      conn.send(_error(msg.id, ErrorCode.badRequest, e.message));
+      return;
+    }
+    _cancelRooms(user.userId);
+    matchmaker.leave(user.userId);
+    String code;
+    do {
+      code =
+          List.generate(
+            6,
+            (_) => _codeAlphabet[_random.nextInt(_codeAlphabet.length)],
+          ).join();
+    } while (_privateRooms.containsKey(code));
+    final request = QueueJoinPayload(
+      variant: req.variant,
+      matchLength: req.matchLength,
+      mode: QueueMode.casual,
+    );
+    final finalCode = code;
+    _privateRooms[code] = _PrivateRoom(
+      code,
+      user,
+      request,
+      Timer(roomTtl, () => _privateRooms.remove(finalCode)),
+    );
+    conn.send(
+      Envelope(
+        type: MessageType.roomCreated,
+        id: msg.id,
+        ts: _now(),
+        payload:
+            RoomCodePayload(
+              code,
+              expiresAt: _now() + roomTtl.inMilliseconds,
+            ).toJson(),
+      ),
+    );
+  }
+
+  void _joinRoom(_Connection conn, Ticket user, Envelope msg, _Seat? seat) {
+    if (seat != null && !seat.room.isOver) {
+      conn.send(_error(msg.id, ErrorCode.illegalAction, 'In a match'));
+      return;
+    }
+    final String code;
+    try {
+      code = RoomCodePayload.fromJson(msg.payload).code;
+    } on ProtocolException catch (e) {
+      conn.send(_error(msg.id, ErrorCode.badRequest, e.message));
+      return;
+    }
+    final room = _privateRooms[code];
+    if (room == null || room.owner.userId == user.userId) {
+      conn.send(_error(msg.id, ErrorCode.notInMatch, 'No such room'));
+      return;
+    }
+    _privateRooms.remove(code)?.expires.cancel();
+    matchmaker.leave(user.userId);
+    final now = _now();
+    final a = QueueEntry(room.owner, room.request, now);
+    final b = QueueEntry(user, room.request, now);
+    _pair(a, b);
+  }
+
+  void _cancelRooms(String userId) {
+    _privateRooms.removeWhere((_, r) {
+      if (r.owner.userId != userId) return false;
+      r.expires.cancel();
+      return true;
+    });
   }
 
   PlayerInfo _info(QueueEntry e) => PlayerInfo(
@@ -227,6 +363,7 @@ class Hub {
       },
       onEnd: (result) {
         unawaited(results.report(result));
+        _live.remove(id);
         for (final d in drivers.values) {
           d.dispose();
           _bots.remove(d);
@@ -269,6 +406,7 @@ class Hub {
         );
       }
     }
+    _live[id] = room;
     room.start();
     for (final side in Side.values) {
       final p = room.player(side);
@@ -289,6 +427,9 @@ class Hub {
 
   void dispose() {
     matchmaker.dispose();
+    for (final r in _privateRooms.values) {
+      r.expires.cancel();
+    }
     for (final b in _bots) {
       b.dispose();
     }

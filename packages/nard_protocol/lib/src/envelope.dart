@@ -21,6 +21,13 @@ abstract final class MessageType {
   static const gameTimeout = 'game.timeout';
   static const chatEmote = 'chat.emote';
   static const spectateJoin = 'spectate.join';
+  static const spectateLeave = 'spectate.leave';
+  static const roomCreate = 'room.create';
+  static const roomCreated = 'room.created';
+  static const roomJoin = 'room.join';
+  static const roomCancel = 'room.cancel';
+  static const presenceQuery = 'presence.query';
+  static const presence = 'presence';
   static const ping = 'ping';
   static const pong = 'pong';
   static const error = 'error';
@@ -44,6 +51,13 @@ abstract final class MessageType {
     gameTimeout,
     chatEmote,
     spectateJoin,
+    spectateLeave,
+    roomCreate,
+    roomCreated,
+    roomJoin,
+    roomCancel,
+    presenceQuery,
+    presence,
     ping,
     pong,
     error,

@@ -86,4 +86,20 @@ class SocialTest extends TestCase
         $this->actingAs($a)->postJson('/api/v1/reports', ['userId' => (string) $b->id, 'reason' => 'other'])->assertStatus(429);
         $this->actingAs($a)->postJson('/api/v1/reports', ['userId' => (string) $a->id, 'reason' => 'other'])->assertNotFound();
     }
+
+    public function test_friends_can_be_challenged_with_a_room_code(): void
+    {
+        $a = User::factory()->create(['name' => 'Elvin']);
+        $b = User::factory()->create();
+        $body = ['userId' => (string) $b->id, 'code' => 'AB23CD', 'variant' => 'longNard', 'matchLength' => 3];
+        $this->actingAs($a)->postJson('/api/v1/challenges', $body)->assertStatus(422)->assertJsonPath('code', 'not_friends');
+        $this->actingAs($a)->postJson('/api/v1/friends/requests', ['userId' => (string) $b->id]);
+        $this->actingAs($b)->postJson('/api/v1/friends/requests', ['userId' => (string) $a->id]);
+        $this->actingAs($a)->postJson('/api/v1/challenges', $body)->assertCreated();
+        $challenges = $this->actingAs($b)->getJson('/api/v1/friends')->json('challenges');
+        $this->assertSame('AB23CD', $challenges[0]['code']);
+        $this->assertSame('Elvin', $challenges[0]['from']['name']);
+        $this->travel(11)->minutes();
+        $this->assertSame([], $this->actingAs($b)->getJson('/api/v1/friends')->json('challenges'));
+    }
 }

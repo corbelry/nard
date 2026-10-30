@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\SocialService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -22,7 +23,22 @@ class SocialController extends Controller
             $user->forceFill(['friend_code' => User::newFriendCode()])->save();
         }
 
-        return response()->json([...$this->social->overview($user), 'friendCode' => $user->friend_code]);
+        $challenges = DB::table('challenges')->where('to_user_id', $user->id)
+            ->where('expires_at', '>', now())->orderByDesc('id')->get()
+            ->map(fn ($c) => [
+                'id' => (int) $c->id,
+                'from' => User::query()->whereKey((int) $c->from_user_id)->first()?->publicCard(),
+                'code' => $c->code,
+                'variant' => $c->variant,
+                'matchLength' => (int) $c->match_length,
+                'expiresAt' => Carbon::parse($c->expires_at)->toIso8601String(),
+            ])->filter(fn ($c) => $c['from'] !== null)->values()->all();
+
+        return response()->json([
+            ...$this->social->overview($user),
+            'friendCode' => $user->friend_code,
+            'challenges' => $challenges,
+        ]);
     }
 
     public function request(Request $request): JsonResponse
@@ -66,6 +82,35 @@ class SocialController extends Controller
         return $this->social->unfriend($this->user($request), $userId)
             ? response()->json(['ok' => true])
             : response()->json(['code' => 'not_found'], 404);
+    }
+
+    /** Offers a private-room code to a friend (friends only). */
+    public function challenge(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'userId' => ['required', 'string', 'max:20'],
+            'code' => ['required', 'string', 'regex:/^[A-Z2-9]{6}$/'],
+            'variant' => ['required', 'in:shortNard,longNard'],
+            'matchLength' => ['required', 'integer', 'in:1,3,5,7'],
+        ]);
+        $user = $this->user($request);
+        $row = $this->social->between($user->id, (int) $data['userId']);
+        if ($row === null || $row->status !== 'accepted') {
+            return response()->json(['code' => 'not_friends'], 422);
+        }
+        DB::table('challenges')->where(['from_user_id' => $user->id, 'to_user_id' => (int) $data['userId']])->delete();
+        $id = DB::table('challenges')->insertGetId([
+            'from_user_id' => $user->id,
+            'to_user_id' => (int) $data['userId'],
+            'code' => $data['code'],
+            'variant' => $data['variant'],
+            'match_length' => $data['matchLength'],
+            'expires_at' => now()->addMinutes(10),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['id' => $id], 201);
     }
 
     public function search(Request $request): JsonResponse

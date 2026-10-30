@@ -155,6 +155,8 @@ class MatchRoom {
           _apply(TakeDouble(side));
         case MessageType.cubeDrop:
           _apply(DropDouble(side));
+        case MessageType.chatEmote:
+          _emote(side, EmotePayload.fromJson(msg.payload));
         case MessageType.gameResign:
           final kind = ResignPayload.fromJson(msg.payload).kind;
           _game = _game.apply(OfferResignation(side, kind));
@@ -173,6 +175,41 @@ class MatchRoom {
       _error(side, msg, ErrorCode.illegalMove, e.message);
     }
   }
+
+  /// Minimum gap between two emotes of one player.
+  static const emoteGap = Duration(seconds: 2);
+  final _lastEmote = <Side, int>{};
+
+  void _emote(Side side, EmotePayload emote) {
+    final now = _now();
+    final last = _lastEmote[side];
+    if (last != null && now - last < emoteGap.inMilliseconds) return;
+    _lastEmote[side] = now;
+    final out = _envelope(
+      MessageType.chatEmote,
+      EmotePayload(emote.id, from: side).toJson(),
+    );
+    for (final s in Side.values) {
+      send(s, out);
+    }
+    for (final spectator in _spectators.values) {
+      spectator(out);
+    }
+  }
+
+  // ---- Spectators (6.4) ----------------------------------------------------
+
+  final _spectators = <Object, void Function(Envelope)>{};
+
+  int get spectatorCount => _spectators.length;
+
+  /// Adds a read-only viewer keyed by [key] and sends the current state.
+  void addSpectator(Object key, void Function(Envelope) sink) {
+    _spectators[key] = sink;
+    sink(_envelope(MessageType.gameState, stateFor(Side.white).toJson()));
+  }
+
+  void removeSpectator(Object key) => _spectators.remove(key);
 
   void _requireTurn(Side side, Envelope msg, GamePhase phase) {
     if (_game.phase != phase) {
@@ -432,6 +469,15 @@ class MatchRoom {
     _seq++;
     for (final side in Side.values) {
       send(side, _envelope(MessageType.gameState, stateFor(side).toJson()));
+    }
+    if (_spectators.isNotEmpty) {
+      final view = _envelope(
+        MessageType.gameState,
+        stateFor(Side.white).toJson(),
+      );
+      for (final spectator in _spectators.values) {
+        spectator(view);
+      }
     }
   }
 

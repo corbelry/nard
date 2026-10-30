@@ -195,8 +195,10 @@ void main() {
       h.send(mover, MessageType.gameConfirmTurn);
       expect(h.state(mover).state.turn, mover.opponent);
       // Unknown or malformed intents.
-      h.send(mover, MessageType.chatEmote);
+      h.send(mover, MessageType.queueJoin);
       expect(h.last(mover).payload['code'], ErrorCode.notImplemented);
+      h.send(mover, MessageType.chatEmote, const {'id': 'free text'});
+      expect(h.last(mover).payload['code'], ErrorCode.badRequest);
       h.send(mover.opponent, MessageType.gameMove, const {'from': 'x'});
       expect(
         h.last(mover.opponent).payload['code'],

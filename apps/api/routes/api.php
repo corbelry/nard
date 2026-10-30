@@ -36,6 +36,7 @@ Route::prefix('v1')->group(function (): void {
         Route::post('/friends/requests/{id}/accept', [SocialController::class, 'accept'])->whereNumber('id');
         Route::delete('/friends/requests/{id}', [SocialController::class, 'dismiss'])->whereNumber('id');
         Route::delete('/friends/{userId}', [SocialController::class, 'unfriend'])->whereNumber('userId');
+        Route::post('/challenges', [SocialController::class, 'challenge'])->middleware('throttle:20,1');
         Route::get('/users/search', [SocialController::class, 'search'])->middleware('throttle:30,1');
         Route::get('/blocks', [SocialController::class, 'blocks']);
         Route::post('/blocks/{userId}', [SocialController::class, 'block'])->whereNumber('userId');

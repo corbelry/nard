@@ -183,4 +183,75 @@ void main() {
       }
     },
   );
+
+  test('private room by code, spectator, presence and emotes', () async {
+    final a = Client(server.port)..auth('alice');
+    final b = Client(server.port)..auth('bob');
+    final c = Client(server.port)..auth('carol');
+    for (final x in [a, b, c]) {
+      await x.next(MessageType.hello);
+    }
+    a.send(
+      MessageType.roomCreate,
+      const RoomCreatePayload(
+        variant: Variant.longNard,
+        matchLength: 1,
+      ).toJson(),
+    );
+    final code =
+        RoomCodePayload.fromJson(
+          (await a.next(MessageType.roomCreated)).payload,
+        ).code;
+    expect(code, matches(RegExp(r'^[A-Z2-9]{6}$')));
+    b.send(MessageType.roomJoin, {'code': 'ZZZZZZ'});
+    expect(
+      (await b.next(MessageType.error)).payload['code'],
+      ErrorCode.notInMatch,
+    );
+    b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+    final found = MatchFoundPayload.fromJson(
+      (await a.next(MessageType.matchFound)).payload,
+    );
+    expect(found.mode, QueueMode.casual);
+    expect(found.variant, Variant.longNard);
+    await b.next(MessageType.matchFound);
+    // Carol finds Alice's match and watches it.
+    c.send(MessageType.presenceQuery, {
+      'userIds': ['alice', 'bob', 'nobody'],
+    });
+    final presence = PresencePayload.fromJson(
+      (await c.next(MessageType.presence)).payload,
+    );
+    expect(presence.matches, {'alice': found.matchId, 'bob': found.matchId});
+    c.send(MessageType.spectateJoin, {'matchId': found.matchId});
+    final watched = GameStatePayload.fromJson(
+      (await c.next(MessageType.gameState)).payload,
+    );
+    expect(watched.matchId, found.matchId);
+    // Emotes reach the opponent and spectators; free text is refused.
+    a.send(MessageType.chatEmote, const EmotePayload('good_luck').toJson());
+    final heard = EmotePayload.fromJson(
+      (await b.next(MessageType.chatEmote)).payload,
+    );
+    expect((heard.id, heard.from), ('good_luck', found.you));
+    expect(
+      EmotePayload.fromJson((await c.next(MessageType.chatEmote)).payload).id,
+      'good_luck',
+    );
+    a.send(MessageType.chatEmote, {'id': 'some insult'});
+    expect(
+      (await a.next(MessageType.error)).payload['code'],
+      ErrorCode.badRequest,
+    );
+    // Spectators cannot act.
+    c.send(MessageType.gameRoll);
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.notInMatch,
+    );
+    c.send(MessageType.spectateLeave);
+    for (final x in [a, b, c]) {
+      await x.ws.sink.close();
+    }
+  });
 }

@@ -41,8 +41,13 @@ next — without waiting for approval (start only after they say "başla").
   (prefix, hides blocks), blocks (end friendships), reports (reasons from
   config, daily limit, reference R-000001), presence via `TouchLastSeen`
   (online = seen within 120 s). 32 API tests.
-- [ ] 2. Private rooms + friend challenges + spectating + emotes
-  (game server) — next.
+- [x] 2. Game server: private rooms (`room.create` → 6-char code, 10 min,
+  `room.join`, `room.cancel`; casual), spectators (`spectate.join/leave`,
+  white's view), `presence.query` (userId → matchId), emotes/quick phrases
+  by id only (`Emotes` in nard_protocol, 2 s gap). API: friend challenges
+  (`POST /challenges`, shown in `GET /friends` for 10 min). Tests: server 17,
+  API 33.
+- [ ] 3. Clans API — next (needs `docs/design-notes/social.md` numbers).
 
 Phase 4 is done (CHANGELOG, ADR-034/035). Leftovers: texture packs, store
 receipt APIs, Apple/Google keys, iOS build, lesson content, Redis scaling.
