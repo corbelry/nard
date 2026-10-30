@@ -1,5 +1,17 @@
 # Changelog
 
+## Phase 6 — Tournaments & seasons (2026-11-01)
+- Tournaments: knockout, Swiss (Buchholz), round-robin, sit-and-go,
+  scheduled cups/league, private free knockouts; fees/refunds/prizes via the
+  ledger; API ↔ game server pairing push; 60 s no-show → walkover;
+  `tournaments:tick/schedule`; compose scheduler (ADR-038).
+- Seasons (42 days, soft reset, season-end rewards), season pass (free /
+  premium 950 Yaqut), leaderboards (global/friends/country/clan), 30
+  generated practice puzzles (ADR-039).
+- Client: Turnirlər tab — list, detail, bracket, standings, champion,
+  sit-and-go, no-show/walkover, private tournaments; leaderboard; season
+  pass/summary; on-device analysis; puzzles (ADR-040).
+
 ## Phase 5 — Social & clans (2026-11-01)
 - API: friends (codes, requests, search, presence), blocks, reports
   (design reasons, daily limit), friend challenges; clans — membership,

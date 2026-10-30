@@ -2906,4 +2906,940 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get createErrNameTaken => 'Bu ad alınmış';
+
+  @override
+  String get tabTournaments => 'Turnuvalar';
+
+  @override
+  String get tournamentsTitle => 'Turnuvalar';
+
+  @override
+  String get tourTabLive => 'Canlı';
+
+  @override
+  String get tourTabUpcoming => 'Yaklaşan';
+
+  @override
+  String get tourTabMine => 'Benim';
+
+  @override
+  String get tourTabFinished => 'Biten';
+
+  @override
+  String get tourFilterAll => 'Tümü';
+
+  @override
+  String get tourFilterFree => 'Ücretsiz';
+
+  @override
+  String tourStatusLive(int n) {
+    return 'CANLI · TUR $n';
+  }
+
+  @override
+  String get tourStatusOpen => 'KAYIT AÇIK';
+
+  @override
+  String get tourStatusUpcoming => 'YAKLAŞAN';
+
+  @override
+  String get tourStatusFinished => 'BİTTİ';
+
+  @override
+  String get tourStatusCancelled => 'İPTAL EDİLDİ';
+
+  @override
+  String tourInMinutes(int n) {
+    return '$n dk';
+  }
+
+  @override
+  String tourTomorrowAt(String time) {
+    return 'Yarın $time';
+  }
+
+  @override
+  String get tourFormatSwiss => 'İsviçre';
+
+  @override
+  String get tourFormatKnockout => 'Eleme';
+
+  @override
+  String get tourFormatRoundRobin => 'Lig usulü';
+
+  @override
+  String tourRounds(int n) {
+    return '$n tur';
+  }
+
+  @override
+  String tourMeta(String variant, int points) {
+    return '$variant · $points sayı';
+  }
+
+  @override
+  String tourEntrants(int n, int max) {
+    return '$n/$max';
+  }
+
+  @override
+  String get tourRegistered => 'Kayıtlısın';
+
+  @override
+  String tourPlace(String place) {
+    return 'Sıra: $place';
+  }
+
+  @override
+  String tourOut(String round) {
+    return 'Elendin · $round';
+  }
+
+  @override
+  String get tournamentsOfflineTitle => 'Turnuvalar çevrimdışı görünmez';
+
+  @override
+  String get tournamentsOfflineBody => 'Bilgisayara karşı ve tek cihazda oyun çalışır. Bağlantı gelince liste yenilenir.';
+
+  @override
+  String get tournamentsEmptyTitle => 'Henüz turnuvan yok';
+
+  @override
+  String get tournamentsEmptyBody => 'Kaydolduğun turnuvalar burada görünür.';
+
+  @override
+  String get tournamentsEmptyCta => 'Yaklaşan turnuvalara bak';
+
+  @override
+  String get tournamentsNoneTitle => 'Turnuva yok';
+
+  @override
+  String get tournamentsNoneBody => 'Bu listede şimdilik turnuva yok. Biraz sonra yine bak.';
+
+  @override
+  String get listErrorTitle => 'Liste yüklenmedi';
+
+  @override
+  String get listErrorBody => 'Sunucuya ulaşılamadı. Biraz sonra yeniden dene.';
+
+  @override
+  String get sngCardMeta => 'Dolunca başlar';
+
+  @override
+  String get sngJoin => 'Katıl';
+
+  @override
+  String get privateTourCreateChoice => 'Özel turnuva oluştur';
+
+  @override
+  String get privateTourJoinByCode => 'Kodla katıl';
+
+  @override
+  String get leaderboardTitle => 'Liderler';
+
+  @override
+  String tourHeroMeta(String status, String type, int size) {
+    return '$status · $type $size';
+  }
+
+  @override
+  String get tourTypeKnockoutUpper => 'ELEME';
+
+  @override
+  String get tourTypeSwissUpper => 'İSVİÇRE';
+
+  @override
+  String get tourTypeRoundRobinUpper => 'LİG';
+
+  @override
+  String get tourTypeSngUpper => 'SIT-AND-GO';
+
+  @override
+  String get tourStartsIn => 'Başlamaya';
+
+  @override
+  String tourLiveRound(int n, String stage) {
+    return 'Tur $n · $stage';
+  }
+
+  @override
+  String tourNow(int n) {
+    return 'Tur $n';
+  }
+
+  @override
+  String get tourPrizeFund => 'Ödül havuzu';
+
+  @override
+  String get tourParticipants => 'Oyuncular';
+
+  @override
+  String tourParticipantsValue(int n, int max) {
+    return '$n / $max';
+  }
+
+  @override
+  String tourPlaceRange(String from, String to) {
+    return '$from–$to';
+  }
+
+  @override
+  String get tourRuleEntry => 'Giriş';
+
+  @override
+  String get tourRuleFairDice => 'Adil zar';
+
+  @override
+  String get tourRuleRating => 'Puan';
+
+  @override
+  String get tourRuleUnrated => 'Değişmez';
+
+  @override
+  String tourFormatValue(String type, int points) {
+    return '$type · $points sayıya kadar';
+  }
+
+  @override
+  String tourEntryValue(String price, int rating) {
+    return '$price · min. $rating';
+  }
+
+  @override
+  String get tourEntryInvite => 'Davetle';
+
+  @override
+  String get tourFairDiceValue => 'Doğrulanabilir';
+
+  @override
+  String get tourRegister => 'Kayıt ol';
+
+  @override
+  String get tourRegisterFree => 'Kayıt ol · Ücretsiz';
+
+  @override
+  String get tourUnregister => 'Kaydı iptal et';
+
+  @override
+  String get tourUnregisterTitle => 'Kayıt iptal edilsin mi?';
+
+  @override
+  String get tourUnregisterBody => 'Giriş ücreti bakiyene iade edilecek.';
+
+  @override
+  String get tourUnregisterBodyFree => 'Yerini başka bir oyuncu alabilir.';
+
+  @override
+  String get tourRegisteredToast => 'Kaydoldun';
+
+  @override
+  String get tourUnregisteredToast => 'Kayıt iptal edildi';
+
+  @override
+  String tourMinRating(int n) {
+    return 'En düşük puan $n';
+  }
+
+  @override
+  String get tourFull => 'Yer kalmadı';
+
+  @override
+  String get tourClosed => 'Kayıt kapalı';
+
+  @override
+  String get tourInviteOnly => 'Davet koduyla katıl';
+
+  @override
+  String get tourOpenBracket => 'Tabloya bak';
+
+  @override
+  String get tourWatch => 'İzle';
+
+  @override
+  String tourTitlePrize(String name) {
+    return 'Unvan: $name';
+  }
+
+  @override
+  String get tourRatingTooLow => 'Puanın bu turnuvanın alt sınırının altında.';
+
+  @override
+  String get tourInviteRequired => 'Bu turnuvaya yalnızca davet koduyla katılınır.';
+
+  @override
+  String get tourActionFailed => 'Olmadı. Biraz sonra yeniden dene.';
+
+  @override
+  String get tourLive => 'CANLI';
+
+  @override
+  String roundOf(int n) {
+    return '1/$n';
+  }
+
+  @override
+  String get roundFinal => 'Final';
+
+  @override
+  String tourNextMatch(String round) {
+    return 'SIRADAKİ MAÇIN · $round';
+  }
+
+  @override
+  String tourNextMetaOpen(int points) {
+    return 'Tur açık · $points sayıya kadar';
+  }
+
+  @override
+  String tourNextMetaPending(int points) {
+    return 'Tur henüz açılmadı · $points sayıya kadar';
+  }
+
+  @override
+  String get tourOpponentTbd => 'Rakip belli değil';
+
+  @override
+  String get tourReady => 'Hazırım';
+
+  @override
+  String get tourReadyDone => 'Hazırsın';
+
+  @override
+  String get tourWaitingOpponent => 'Rakip bekleniyor';
+
+  @override
+  String tourEliminated(String round) {
+    return 'Elendin · $round';
+  }
+
+  @override
+  String tourFinishedPanel(String place) {
+    return 'Turnuva bitti · $place';
+  }
+
+  @override
+  String get zoomIn => 'Yakınlaştır';
+
+  @override
+  String get zoomOut => 'Uzaklaştır';
+
+  @override
+  String standingsTitle(String name) {
+    return '$name · Puan durumu';
+  }
+
+  @override
+  String get standingsRound => 'Tur';
+
+  @override
+  String get standingsColRank => '#';
+
+  @override
+  String get standingsColPlayer => 'OYUNCU';
+
+  @override
+  String get standingsColWinLoss => 'G–M';
+
+  @override
+  String get standingsColBuchholz => 'BUCH';
+
+  @override
+  String get standingsColPoints => 'PUAN';
+
+  @override
+  String standingsWinLoss(int w, int l) {
+    return '$w–$l';
+  }
+
+  @override
+  String get standingsFootnoteNoPlayoff => 'Eşitlikte Buchholz, sonra puan';
+
+  @override
+  String get standingsEmpty => 'Puan durumu ilk turdan sonra görünür.';
+
+  @override
+  String get championTitle => 'Şampiyon';
+
+  @override
+  String championLine(String name, String tournament) {
+    return '$name · $tournament';
+  }
+
+  @override
+  String championFinal(String score, String opponent) {
+    return 'Final: $score · $opponent';
+  }
+
+  @override
+  String rewardCoins(String amount) {
+    return '+$amount jeton';
+  }
+
+  @override
+  String get championShare => 'Paylaş';
+
+  @override
+  String championShareText(String name, String tournament) {
+    return '$name, $tournament turnuvasının şampiyonu oldu. NardArena';
+  }
+
+  @override
+  String get championShareCopied => 'Metin kopyalandı';
+
+  @override
+  String sngTitle(int size) {
+    return 'Sit-and-go · $size';
+  }
+
+  @override
+  String sngSize(int n) {
+    return '$n oyuncu';
+  }
+
+  @override
+  String get sngStartsWhenFull => 'Dolar dolmaz başlar';
+
+  @override
+  String sngExpires(int n) {
+    return '$n dakikada dolmazsa giriş ücreti iade edilir';
+  }
+
+  @override
+  String sngFormatValue(String variant, int points) {
+    return '$variant · $points sayı';
+  }
+
+  @override
+  String get sngEntryFee => 'Giriş ücreti';
+
+  @override
+  String get sngTimeControl => 'Süre kontrolü';
+
+  @override
+  String sngNoShowRule(int n) {
+    return 'Tur açıldıktan sonra $n saniye içinde katılmayan oyuncu turu hükmen kaybeder.';
+  }
+
+  @override
+  String get sngLeave => 'Çık · giriş ücreti iade edilir';
+
+  @override
+  String noShowOverline(int round, int table) {
+    return 'TUR $round · MASA $table';
+  }
+
+  @override
+  String get noShowTitle => 'Rakibin henüz katılmadı';
+
+  @override
+  String noShowBody(String name) {
+    return '$name süre bitene kadar gelmezse tur hükmen senin olur.';
+  }
+
+  @override
+  String get tourBracket => 'Turnuva tablosu';
+
+  @override
+  String get walkoverTitle => 'Sonraki tura geçtin';
+
+  @override
+  String walkoverBody(String name) {
+    return '$name zamanında katılmadı. Tur hükmen senin. Puanın değişmez.';
+  }
+
+  @override
+  String walkoverNextRound(int n) {
+    return 'Tur $n başlıyor';
+  }
+
+  @override
+  String get walkoverNextRoundWhen => 'diğer maçlar bitince';
+
+  @override
+  String get notFilledTitle => 'Turnuva başlamadı';
+
+  @override
+  String notFilledBody(int minutes, int size, int joined) {
+    return '$minutes dakikada $size oyuncudan yalnızca $joined kişi katıldı. Giriş ücreti bakiyene iade edildi.';
+  }
+
+  @override
+  String get notFilledBodyScheduled => 'Yeterli oyuncu toplanmadı. Giriş ücreti bakiyene iade edildi.';
+
+  @override
+  String refunded(String amount) {
+    return '+$amount iade edildi';
+  }
+
+  @override
+  String notFilledJoinSmaller(int n) {
+    return '$n kişilik masaya katıl';
+  }
+
+  @override
+  String get backToTournaments => 'Turnuvalara dön';
+
+  @override
+  String get privateTourTitle => 'Özel turnuva';
+
+  @override
+  String get privateTourName => 'Ad';
+
+  @override
+  String get privateTourNameHint => 'Turnuva adı';
+
+  @override
+  String get privateTourSize => 'OYUNCU SAYISI';
+
+  @override
+  String get privateTourGame => 'Oyun';
+
+  @override
+  String get privateTourLength => 'Maç uzunluğu';
+
+  @override
+  String get privateTourStart => 'Başlama saati';
+
+  @override
+  String get privateTourStartManual => 'Sen başlatırsın';
+
+  @override
+  String privateTourStartValue(String weekday, String time) {
+    return '$weekday, $time';
+  }
+
+  @override
+  String get privateTourEntry => 'Giriş ücreti';
+
+  @override
+  String get privateTourFree => 'Ücretsiz';
+
+  @override
+  String get privateTourNote => 'Oluşturmak ücretsiz. Özel turnuvalar puanını etkilemez.';
+
+  @override
+  String get privateTourCreate => 'Turnuvayı oluştur';
+
+  @override
+  String get privateTourCodeLabel => 'DAVET KODU';
+
+  @override
+  String privateTourMeta(String when, String variant, int points) {
+    return '$when · $variant, $points sayı';
+  }
+
+  @override
+  String get privateTourCopyInvite => 'Daveti kopyala';
+
+  @override
+  String privateTourShareText(String name, String code) {
+    return 'NardArena\'da \"$name\" turnuvasına katıl. Davet kodu: $code';
+  }
+
+  @override
+  String get privateTourRegistration => 'KAYIT';
+
+  @override
+  String get privateTourOrganizer => 'Organizatör';
+
+  @override
+  String get privateTourJoined => 'Katıldı';
+
+  @override
+  String privateTourStartNowMin(int n) {
+    return 'Şimdi başlat · en az $n oyuncu';
+  }
+
+  @override
+  String get privateTourStartNow => 'Şimdi başlat';
+
+  @override
+  String get privateTourCancel => 'Turnuvayı iptal et';
+
+  @override
+  String get privateTourCancelTitle => 'Turnuva iptal edilsin mi?';
+
+  @override
+  String get privateTourCancelBody => 'Turnuva kaydolan herkes için kapanacak.';
+
+  @override
+  String get privateTourRemove => 'Turnuvadan çıkar';
+
+  @override
+  String get privateTourCodeHint => '6 karakterli kod';
+
+  @override
+  String get privateTourCodeNotFound => 'Bu kodla turnuva bulunamadı.';
+
+  @override
+  String get privateTourTooMany => 'Aynı anda en fazla 3 özel turnuva açabilirsin.';
+
+  @override
+  String get privateTourNotEnough => 'Başlamak için en az 2 oyuncu gerekir.';
+
+  @override
+  String homeTourMeta(String prize) {
+    return 'Ödül havuzu · $prize';
+  }
+
+  @override
+  String homeTourStarts(String time, String prize) {
+    return 'Başlangıç $time · $prize';
+  }
+
+  @override
+  String homeSeason(int n, int days) {
+    return 'SEZON $n · $days GÜN';
+  }
+
+  @override
+  String homeSeasonLevel(int level, int max) {
+    return 'Seviye $level / $max';
+  }
+
+  @override
+  String get homePuzzleOverline => 'GÜNÜN BULMACASI';
+
+  @override
+  String homeSeasonEnded(int n) {
+    return 'SEZON $n BİTTİ';
+  }
+
+  @override
+  String get homeSeasonSummaryCta => 'Sonuçlarına bak';
+
+  @override
+  String get modePuzzles => 'Bulmaca';
+
+  @override
+  String seasonN(int n) {
+    return 'Sezon $n';
+  }
+
+  @override
+  String get lbScopeGlobal => 'Küresel';
+
+  @override
+  String get lbScopeCountry => 'Ülke';
+
+  @override
+  String get lbScopeFriends => 'Arkadaşlar';
+
+  @override
+  String get lbScopeClan => 'Klan';
+
+  @override
+  String lbRank(int n) {
+    return '#$n';
+  }
+
+  @override
+  String get lbEmptyTitle => 'Liste boş';
+
+  @override
+  String get lbEmptyFriends => 'Arkadaşların henüz sıralamada değil.';
+
+  @override
+  String get lbEmptyClan => 'Klanın yok ya da üyeleri henüz sıralamada değil.';
+
+  @override
+  String get lbEmptyCountry => 'Profilinde ülke seçili değil ya da bu ülkeden henüz oyuncu yok.';
+
+  @override
+  String lbUnranked(int n) {
+    return 'Sıralamaya girmek için bu sezon $n dereceli oyun oyna';
+  }
+
+  @override
+  String get lbSeasonPicker => 'Sezon seç';
+
+  @override
+  String get seasonPassTitle => 'Sezon bileti';
+
+  @override
+  String seasonOverline(int n, int days, int hours) {
+    return 'SEZON $n · $days GÜN $hours SAAT';
+  }
+
+  @override
+  String seasonOverlineHours(int n, int hours, int minutes) {
+    return 'SEZON $n · $hours SAAT $minutes DK';
+  }
+
+  @override
+  String seasonLevelNext(int n) {
+    return 'Sonraki seviye: $n';
+  }
+
+  @override
+  String get seasonLevelMax => 'Son seviye';
+
+  @override
+  String get seasonTrackFree => 'ÜCRETSİZ';
+
+  @override
+  String get seasonTrackPremium => 'PREMİUM';
+
+  @override
+  String get seasonRewardItem => 'Eşya';
+
+  @override
+  String seasonEndReward(String tier) {
+    return 'Sezon sonu ödülü · $tier';
+  }
+
+  @override
+  String seasonEndRewardMeta(String reward, int points) {
+    return '$reward · $points puan kaldı';
+  }
+
+  @override
+  String seasonEndRewardReached(String reward) {
+    return '$reward · kazanıldı';
+  }
+
+  @override
+  String seasonRewardWithItem(String item, String coins) {
+    return '$item + $coins';
+  }
+
+  @override
+  String get seasonPremiumUnlock => 'Premium\'u aç';
+
+  @override
+  String seasonClaimAll(int n) {
+    return 'Hepsini al · $n';
+  }
+
+  @override
+  String get seasonPremiumOwned => 'Premium aktif';
+
+  @override
+  String get seasonPremiumSheetTitle => 'Sezon bileti · Premium';
+
+  @override
+  String get seasonPremiumBody => 'Premium bu sezonun premium ödüllerini açar. Ulaştığın seviyelerin ödülleri hemen alınabilir.';
+
+  @override
+  String get seasonPremiumBought => 'Premium açıldı';
+
+  @override
+  String seasonNeedsLevel(int n) {
+    return 'Seviye $n gerekli';
+  }
+
+  @override
+  String get seasonNeedsPremium => 'Bu ödül premium yolda';
+
+  @override
+  String get seasonClaimedToast => 'Ödül alındı';
+
+  @override
+  String get seasonUnavailable => 'Sezon bilgisi yüklenmedi';
+
+  @override
+  String seasonEnded(int n) {
+    return 'SEZON $n BİTTİ';
+  }
+
+  @override
+  String get seasonStatGames => 'Oyun';
+
+  @override
+  String get seasonStatWinRate => 'Galibiyet';
+
+  @override
+  String get seasonStatRank => 'Dünya sırası';
+
+  @override
+  String get seasonStatCountryRank => 'Ülke sırası';
+
+  @override
+  String get seasonStatRatingGain => 'Puan değişimi';
+
+  @override
+  String get seasonStatRating => 'Son puan';
+
+  @override
+  String get seasonClaimRewards => 'Ödülleri al';
+
+  @override
+  String seasonRewardLine(String reward) {
+    return 'Sezon ödülü: $reward';
+  }
+
+  @override
+  String seasonSoftReset(int rating) {
+    return 'Yeni sezonda puanın: $rating';
+  }
+
+  @override
+  String get seasonNoSummaryTitle => 'Henüz biten sezon yok';
+
+  @override
+  String get seasonNoSummaryBody => 'İlk sezon bitince sonuçların burada görünür.';
+
+  @override
+  String get actionAnalysis => 'Analiz';
+
+  @override
+  String analysisTitle(int n) {
+    return 'Analiz · Oyun $n';
+  }
+
+  @override
+  String get analysisEquity => 'Değer';
+
+  @override
+  String get analysisNote => 'Değerleri sezgisel bot hesaplar, kesin kazanma şansı değildir. Sinir ağı yapay zekâsı gelince netleşecek.';
+
+  @override
+  String analysisBest(String moves) {
+    return 'En iyi: $moves';
+  }
+
+  @override
+  String analysisYours(String moves, String loss) {
+    return 'Senin: $moves · $loss';
+  }
+
+  @override
+  String get analysisBestPlayed => 'En iyi hamle';
+
+  @override
+  String get analysisRunning => 'Analiz ediliyor…';
+
+  @override
+  String get analysisMarkGood => 'İyi hamle';
+
+  @override
+  String get analysisMarkMistake => 'Hata';
+
+  @override
+  String get analysisMarkBlunder => 'Büyük hata';
+
+  @override
+  String get analysisNotReady => 'Maç kaydı henüz hazır değil. Biraz sonra yeniden dene.';
+
+  @override
+  String get analysisNoGames => 'Bu maçta oynanmış oyun yok.';
+
+  @override
+  String analysisGameChip(int n) {
+    return 'Oyun $n';
+  }
+
+  @override
+  String puzzleTitle(int n, int total) {
+    return 'Bulmaca $n / $total';
+  }
+
+  @override
+  String get puzzleDailyTitle => 'Günün bulmacası';
+
+  @override
+  String puzzleRating(int n) {
+    return 'Puan $n';
+  }
+
+  @override
+  String get puzzlePhaseOpening => 'Açılış';
+
+  @override
+  String get puzzlePhaseMiddle => 'Oyun ortası';
+
+  @override
+  String get puzzlePhaseBearOff => 'Toplama';
+
+  @override
+  String get puzzleLevelEasy => 'Kolay';
+
+  @override
+  String get puzzleLevelMedium => 'Orta';
+
+  @override
+  String get puzzleLevelHard => 'Zor';
+
+  @override
+  String get puzzlePrompt => 'En iyi hamleyi bul';
+
+  @override
+  String puzzleContext(String side, int d1, int d2) {
+    return '$side oynuyorsun. Zar: $d1 – $d2.';
+  }
+
+  @override
+  String get puzzleSideWhite => 'Beyaz taşlarla';
+
+  @override
+  String get puzzleSideBlack => 'Siyah taşlarla';
+
+  @override
+  String get puzzleHint => 'İpucu';
+
+  @override
+  String get puzzleConfirm => 'Hamleyi onayla';
+
+  @override
+  String get puzzleCorrect => 'Doğru';
+
+  @override
+  String get puzzleCorrectFirstTry => 'En iyi hamle · ilk denemede';
+
+  @override
+  String get puzzleCorrectSecondTry => 'En iyi hamle · ikinci denemede';
+
+  @override
+  String get puzzleYours => 'Senin';
+
+  @override
+  String get puzzleSecondBest => 'İkinci en iyi';
+
+  @override
+  String get puzzleBest => 'En iyi';
+
+  @override
+  String get puzzleHidden => 'gizli';
+
+  @override
+  String get puzzleSeeAnalysis => 'Analize bak';
+
+  @override
+  String get puzzleNext => 'Sonraki bulmaca';
+
+  @override
+  String get puzzleWrong => 'En iyi hamle değil';
+
+  @override
+  String puzzleAttemptsLeft(int n) {
+    return 'Kalan deneme: $n';
+  }
+
+  @override
+  String get puzzleShowSolution => 'Çözümü göster';
+
+  @override
+  String get puzzleOutOfTries => 'Deneme hakkın bitti';
+
+  @override
+  String puzzleAnswer(String move) {
+    return 'Doğru cevap: $move';
+  }
+
+  @override
+  String get puzzleSetDoneTitle => 'Tüm bulmacaları bitirdin';
+
+  @override
+  String get puzzleSetDoneBody => 'Yeni bulmacalar yakında eklenecek.';
+
+  @override
+  String get puzzleDailyDone => 'Bugünün bulmacası bitti. Sonrakilerle devam et.';
+
+  @override
+  String get puzzleOffline => 'Bulmacaları kontrol etmek için bağlantı gerekir.';
+
+  @override
+  String missionPuzzle(int n) {
+    return '$n bulmaca çöz';
+  }
 }

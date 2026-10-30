@@ -69,6 +69,7 @@ String missionName(AppLocalizations l, Mission m) => switch (m.event) {
   'mars' => l.missionMars(m.target),
   'play' => l.missionPlay(m.target),
   'win' => l.missionWin(m.target),
+  'puzzle_solved' => l.missionPuzzle(m.target),
   _ => l.missionGeneric,
 };
 

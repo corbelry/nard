@@ -7,8 +7,11 @@ import 'package:nard_core/nard_core.dart' show Variant;
 import '../clans/clan_models.dart';
 import '../cosmetics/catalog.dart';
 import '../progression/progress_models.dart';
+import '../puzzles/puzzle_models.dart';
+import '../seasons/season_models.dart';
 import '../social/social_models.dart';
 import '../store/store_models.dart';
+import '../tournaments/tournament_models.dart';
 
 /// An API error with its machine code (e.g. `code_invalid`).
 class ApiException implements Exception {
@@ -536,4 +539,198 @@ class ApiClient {
     final war = (await _call('GET', '/clans/$id/war'))['war'];
     return war is Map<String, Object?> ? ClanWar.fromJson(war) : null;
   }
+
+  // ---- Phase 6: tournaments (docs/api/tournaments.md) -----------------
+
+  Future<List<Tournament>> tournaments(
+    TournamentTab tab, {
+    Variant? variant,
+    bool free = false,
+  }) async {
+    final params = {
+      'tab': tab.name,
+      if (variant != null) 'variant': variant.name,
+      if (free) 'free': '1',
+    };
+    return [
+      for (final t
+          in ((await _call(
+                    'GET',
+                    '/tournaments?${Uri(queryParameters: params).query}',
+                  ))['tournaments']
+                  as List?) ??
+              const [])
+        if (t is Map<String, Object?>) Tournament.fromJson(t),
+    ];
+  }
+
+  Future<TournamentDetail> tournament(String id) async =>
+      TournamentDetail.fromJson(
+        (await _call('GET', '/tournaments/$id'))['tournament']!
+            as Map<String, Object?>,
+      );
+
+  (Tournament, Wallet) _withWallet(Map<String, Object?> j) => (
+    Tournament.fromJson(j['tournament']! as Map<String, Object?>),
+    Wallet.fromJson(j['wallet']),
+  );
+
+  /// 422 `closed | already_registered | invite_required | rating_too_low |
+  /// full | insufficient_coins | idempotency_key_required | …`.
+  Future<(Tournament, Wallet)> registerTournament(
+    String id, {
+    String? idempotencyKey,
+    String? code,
+  }) async => _withWallet(
+    await _call('POST', '/tournaments/$id/register', {
+      if (idempotencyKey != null) 'idempotencyKey': idempotencyKey,
+      if (code != null) 'code': code,
+    }),
+  );
+
+  /// Before the start only (full refund); 422 `closed | not_registered`.
+  Future<(Tournament, Wallet)> unregisterTournament(String id) async =>
+      _withWallet(await _call('DELETE', '/tournaments/$id/register'));
+
+  Future<List<SngTable>> sngTables() async => [
+    for (final t
+        in ((await _call('GET', '/tournaments/sng'))['tables'] as List?) ??
+            const [])
+      if (t is Map<String, Object?>) SngTable.fromJson(t),
+  ];
+
+  Future<(Tournament, Wallet)> joinSng(int size, String idempotencyKey) async =>
+      _withWallet(
+        await _call('POST', '/tournaments/sng/$size/join', {
+          'idempotencyKey': idempotencyKey,
+        }),
+      );
+
+  /// 22.1: a free knockout with an invite code; 422 `too_many_open`.
+  Future<TournamentDetail> createPrivateTournament({
+    required String name,
+    required int size,
+    required Variant variant,
+    required int matchLength,
+    DateTime? startsAt,
+  }) async => TournamentDetail.fromJson(
+    (await _call('POST', '/tournaments/private', {
+          'name': name,
+          'size': size,
+          'variant': variant.name,
+          'matchLength': matchLength,
+          if (startsAt != null) 'startsAt': startsAt.toUtc().toIso8601String(),
+        }))['tournament']!
+        as Map<String, Object?>,
+  );
+
+  /// 404 `not_found`; 422 `closed | full`.
+  Future<TournamentDetail> joinTournamentByCode(String code) async =>
+      TournamentDetail.fromJson(
+        (await _call('POST', '/tournaments/join-by-code', {
+              'code': code,
+            }))['tournament']!
+            as Map<String, Object?>,
+      );
+
+  /// Organiser, ≥ 2 entrants; 422 `not_enough_players`.
+  Future<void> startTournament(String id) =>
+      _call('POST', '/tournaments/$id/start');
+
+  Future<void> cancelTournament(String id) =>
+      _call('DELETE', '/tournaments/$id');
+
+  Future<void> removeEntrant(String id, String userId) =>
+      _call('DELETE', '/tournaments/$id/entrants/$userId');
+
+  // ---- Phase 6: seasons, leaderboards, puzzles (docs/api/seasons.md) ---
+
+  Future<SeasonView> season() async =>
+      SeasonView.fromJson(await _call('GET', '/season'));
+
+  Future<List<Season>> seasons() async => [
+    for (final s
+        in ((await _call('GET', '/seasons'))['seasons'] as List?) ?? const [])
+      if (s is Map<String, Object?>) Season.fromJson(s),
+  ];
+
+  (SeasonView, Wallet) _seasonWallet(Map<String, Object?> j) => (
+    SeasonView.fromJson(j),
+    Wallet.fromJson(j['wallet']),
+  );
+
+  /// 422 `insufficient_funds | already_owned`.
+  Future<(SeasonView, Wallet)> buySeasonPremium(String idempotencyKey) async =>
+      _seasonWallet(
+        await _call('POST', '/season/pass/premium', {
+          'idempotencyKey': idempotencyKey,
+        }),
+      );
+
+  /// 422 `no_reward | not_reached | premium_required | already_claimed`.
+  Future<(SeasonView, Wallet)> claimPassReward(
+    int level,
+    PassTrack track,
+  ) async => _seasonWallet(
+    await _call('POST', '/season/pass/claim', {
+      'level': level,
+      'track': track.name,
+    }),
+  );
+
+  Future<(SeasonView, Wallet)> claimAllPassRewards() async =>
+      _seasonWallet(await _call('POST', '/season/pass/claim-all'));
+
+  /// The latest finished season (or [number]); 404 when there is none.
+  Future<SeasonSummary> seasonSummary([int? number]) async =>
+      SeasonSummary.fromJson(
+        await _call(
+          'GET',
+          '/season/summary${number == null ? '' : '/$number'}',
+        ),
+      );
+
+  Future<Leaderboard> leaderboard(
+    Variant variant,
+    LeaderboardScope scope, {
+    int? season,
+  }) async {
+    final params = {
+      'variant': variant.name,
+      'scope': scope.name,
+      if (season != null) 'season': '$season',
+    };
+    return Leaderboard.fromJson(
+      await _call('GET', '/leaderboard?${Uri(queryParameters: params).query}'),
+    );
+  }
+
+  Future<PuzzleBatch> nextPuzzle({Variant? variant}) async =>
+      PuzzleBatch.fromJson(
+        await _call(
+          'GET',
+          '/puzzles/next${variant == null ? '' : '?variant=${variant.name}'}',
+        ),
+      );
+
+  Future<PuzzleBatch> dailyPuzzle() async =>
+      PuzzleBatch.fromJson(await _call('GET', '/puzzles/daily'));
+
+  /// [board] is the position after my moves (PuzzleBoard JSON). 422
+  /// `bad_board | bad_attempt | finished`.
+  Future<AttemptResult> attemptPuzzle(
+    String id,
+    int attempt,
+    Map<String, Object?> board, {
+    String? moves,
+  }) async => AttemptResult.fromJson(
+    await _call('POST', '/puzzles/$id/attempt', {
+      'attempt': attempt,
+      'board': board,
+      if (moves != null) 'moves': moves,
+    }),
+  );
+
+  Future<AttemptResult> revealPuzzle(String id) async =>
+      AttemptResult.fromJson(await _call('POST', '/puzzles/$id/reveal'));
 }

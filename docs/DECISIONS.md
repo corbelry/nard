@@ -413,3 +413,15 @@ attempts, puzzle rating 1500 with +12/+6 correct and −8/−4 wrong (design
 solution is returned only once finished, daily puzzle = one per UTC day,
 mission `daily_puzzle_2` (×2 → 30 coins). Not tracked yet for 7.2: mars
 count and longest win streak per season. Contract: `docs/api/seasons.md`.
+
+## ADR-040 — Competition screens: decisions (2026-11-01)
+A fifth tab, Turnirlər (Əsas · Turnirlər · Klan · Mağaza · Profil, ~75 pt
+each). Leaderboard from the tournament header and Profile; season pass
+from the Home season card, Store and Profile; daily puzzle card on Home.
+Screens poll (bracket/standings 15 s, sit-and-go 5 s) until tournament
+pushes exist. Analysis runs on the device (heuristic 2-ply per position
+in isolates), labelled "Qiymət"/evaluation with a note (QUESTIONS #38),
+marks at 0.04 / 0.10; "Təhlil" replaces "Replay" on result screens.
+Puzzles are online only; hints run on the device. Sharing copies text
+(no share plugin). Not built: trophy showcase, private tournament editing,
+tournament push messages, error-rate stats, season mars/streak stats.

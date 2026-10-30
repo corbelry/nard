@@ -7,6 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:nard_core/nard_core.dart';
 
+import '../analysis/analysis_engine.dart';
+import '../analysis/analysis_providers.dart';
+import '../analysis/analysis_widgets.dart';
 import '../app/providers.dart';
 import '../board/board_game.dart';
 import '../board/board_scene.dart';
@@ -17,6 +20,7 @@ import '../theme/board_theme.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/background.dart';
+import '../ui/extra_tokens.dart';
 import '../ui/layout.dart';
 import '../ui/pressable.dart';
 import 'replay_list_screen.dart';
@@ -29,9 +33,13 @@ class ReplayFrame {
     this.side,
     this.dice,
     this.moves = const [],
+    this.turn,
   });
 
   final GameState state;
+
+  /// Index of this frame's turn among the game's `PlayTurn`s (analysis).
+  final int? turn;
 
   /// Move-list text (notation or event).
   final String label;
@@ -48,6 +56,7 @@ List<ReplayFrame> buildFrames(GameRecord record, AppLocalizations l) {
   );
   final frames = [ReplayFrame(state: state, label: '')];
   DiceRoll? lastRoll;
+  var turns = 0;
   for (final action in record.actions) {
     state = state.apply(action);
     switch (action) {
@@ -67,6 +76,7 @@ List<ReplayFrame> buildFrames(GameRecord record, AppLocalizations l) {
             side: by,
             dice: lastRoll,
             moves: moves,
+            turn: turns++,
             label: moves.isEmpty ? l.replayNoMove : MoveNotation.format(moves),
           ),
         );
@@ -89,11 +99,12 @@ final _gameRowProvider = FutureProvider.autoDispose.family<GameRecordRow?, int>(
   (ref, id) => ref.watch(databaseProvider).gameById(id),
 );
 
-/// 10.1 Replay viewer (analysis is Phase 6).
+/// 10.1 Replay viewer; [analysis] adds the evaluation layer (Phase 6).
 class ReplayScreen extends ConsumerWidget {
-  const ReplayScreen({super.key, required this.id});
+  const ReplayScreen({super.key, required this.id, this.analysis = false});
 
   final int id;
+  final bool analysis;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -114,10 +125,15 @@ class ReplayScreen extends ConsumerWidget {
                 final record = GameRecord.fromJson(
                   jsonDecode(r.recordJson) as Map<String, Object?>,
                 );
-                return _ReplayView(
-                  setup: setup,
+                final (white, black) = playerNames(l, setup);
+                return ReplayView(
+                  viewer: setup.localSide,
+                  white: white,
+                  black: black,
+                  record: record,
                   frames: buildFrames(record, l),
                   gameNumber: r.gameIndex + 1,
+                  analysis: analysis,
                 );
               } on Object {
                 return _error(context, l);
@@ -143,22 +159,38 @@ class ReplayScreen extends ConsumerWidget {
   );
 }
 
-class _ReplayView extends ConsumerStatefulWidget {
-  const _ReplayView({
-    required this.setup,
+/// The replay viewer for one game record; [analysis] runs the heuristic
+/// bot on every turn (one isolate per position) and shows the evaluation
+/// bar, best / played arrows, marks and scrubber dots (tournaments.md §11).
+class ReplayView extends ConsumerStatefulWidget {
+  const ReplayView({
+    super.key,
+    required this.viewer,
+    required this.white,
+    required this.black,
+    required this.record,
     required this.frames,
     required this.gameNumber,
+    this.analysis = false,
+    this.header,
   });
 
-  final MatchSetup setup;
+  final Side viewer;
+  final String white;
+  final String black;
+  final GameRecord record;
   final List<ReplayFrame> frames;
   final int gameNumber;
+  final bool analysis;
+
+  /// Extra row under the header (online games of a match).
+  final Widget? header;
 
   @override
-  ConsumerState<_ReplayView> createState() => _ReplayViewState();
+  ConsumerState<ReplayView> createState() => _ReplayViewState();
 }
 
-class _ReplayViewState extends ConsumerState<_ReplayView> {
+class _ReplayViewState extends ConsumerState<ReplayView> {
   late final NardBoardGame _game = NardBoardGame(
     boardHeight: BoardGeometry.heightPortrait,
   );
@@ -166,18 +198,55 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
   int _index = 0;
   Timer? _play;
 
+  /// Turn index → evaluation (filled in as the isolates finish).
+  final _evals = <int, MoveEval>{};
+  late final List<AnalysisTask> _tasks =
+      widget.analysis ? Analyzer.tasks(widget.record) : const [];
+  bool _disposed = false;
+
   @override
   void initState() {
     super.initState();
     _show();
+    if (widget.analysis) unawaited(_analyse());
   }
 
   @override
   void dispose() {
+    _disposed = true;
     _play?.cancel();
     _scroll.dispose();
     super.dispose();
   }
+
+  /// Runs the turns in order (cached per record for this app session).
+  Future<void> _analyse() async {
+    final key = recordKey(widget.record);
+    final cache = ref.read(analysisCacheProvider);
+    final cached = cache[key];
+    if (cached != null) {
+      setState(() => _evals.addAll(cached.asMap()));
+      _show();
+      return;
+    }
+    final run = ref.read(analysisRunnerProvider);
+    final done = <MoveEval>[];
+    for (var k = 0; k < _tasks.length; k++) {
+      final MoveEval e;
+      try {
+        e = await run(_tasks[k]);
+      } on Object {
+        return;
+      }
+      if (_disposed) return;
+      done.add(e);
+      setState(() => _evals[k] = e);
+      if (_frameTurn(_index) == k) _show();
+    }
+    cache[key] = done;
+  }
+
+  int? _frameTurn(int i) => widget.frames[i].turn;
 
   void _go(int i) {
     setState(() => _index = i.clamp(0, widget.frames.length - 1));
@@ -193,15 +262,27 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
     }
   }
 
+  /// The evaluation of the current frame when it is an analysed turn.
+  MoveEval? get _eval {
+    final turn = _frameTurn(_index);
+    return turn == null ? null : _evals[turn];
+  }
+
   void _show() {
     final f = widget.frames[_index];
+    // Analysis shows the position before the move with its dice.
+    final before =
+        widget.analysis && f.turn != null && _index > 0
+            ? widget.frames[_index - 1].state
+            : f.state;
     final s = f.state;
     final dice = f.dice;
+    final analysing = widget.analysis && f.turn != null;
     _game.show(
       BoardScene(
         rules: s.rules,
-        viewer: widget.setup.localSide,
-        board: s.board,
+        viewer: widget.viewer,
+        board: before.board,
         dice:
             dice == null
                 ? const []
@@ -212,8 +293,8 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
         cubeVisible: s.config.cubeEnabled,
         cubeValue: s.cube.value,
         cubeOwner: s.cube.owner,
-        lastMoves: f.moves,
-        lastMover: f.side,
+        lastMoves: analysing ? const [] : f.moves,
+        lastMover: analysing ? null : f.side,
         colorBlind: ref.read(currentSettingsProvider).colorBlind,
       ),
     );
@@ -238,12 +319,33 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
     });
   }
 
+  /// The latest evaluation at or before the current frame (the bar keeps
+  /// its value on cube / event frames).
+  double? get _barValue {
+    for (var i = _index; i >= 0; i--) {
+      final t = _frameTurn(i);
+      if (t == null) continue;
+      final e = _evals[t];
+      if (e != null) return e.whiteEquity;
+      return null;
+    }
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final c = context.nard;
-    final (white, black) = playerNames(l, widget.setup);
+    final white = widget.white;
+    final black = widget.black;
     final last = widget.frames.length - 1;
+    final analysis = widget.analysis;
+    final eval = _eval;
+    final marks = <int, EvalClass>{
+      for (var i = 0; i <= last; i++)
+        if (_frameTurn(i) case final t?)
+          if (_evals[t] case final e? when e.cls != EvalClass.good) i: e.cls,
+    };
     Widget circle(
       IconData icon,
       String label,
@@ -274,10 +376,14 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
       );
     }
 
+    final bar = _barValue;
     return Column(
       children: [
         ScreenHeader(
-          title: l.replayTitle(widget.gameNumber),
+          title:
+              analysis
+                  ? l.analysisTitle(widget.gameNumber)
+                  : l.replayTitle(widget.gameNumber),
           trailing: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 130),
             child: Text(
@@ -290,16 +396,104 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
             ),
           ),
         ),
+        if (widget.header != null) widget.header!,
+        if (analysis) ...[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 44,
+                  child: Text(
+                    l.analysisEquity,
+                    style: NardType.caption.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: c.text.withValues(alpha: .6),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child:
+                      bar == null
+                          ? Text(
+                            l.analysisRunning,
+                            style: NardType.caption.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: c.text.withValues(alpha: .6),
+                            ),
+                          )
+                          : EvalBar(white: bar),
+                ),
+                const SizedBox(width: 10),
+                SizedBox(
+                  width: 44,
+                  child: Text(
+                    bar == null ? '' : signed(bar),
+                    textAlign: TextAlign.right,
+                    style: NardType.bodyS.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: c.text,
+                      fontFeatures: tabular,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+            child: Text(
+              l.analysisNote,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: NardType.micro.copyWith(
+                color: c.text.withValues(alpha: .5),
+              ),
+            ),
+          ),
+        ],
         LayoutBuilder(
           builder: (_, box) {
             final w = box.maxWidth - 2 * NardSpace.boardGutter;
+            final h = w * BoardGeometry.heightPortrait / BoardGeometry.width;
+            final f = widget.frames[_index];
             return SizedBox(
               width: w,
-              height: w * BoardGeometry.heightPortrait / BoardGeometry.width,
-              child: GameWidget(game: _game),
+              height: h,
+              child: Stack(
+                children: [
+                  Positioned.fill(child: GameWidget(game: _game)),
+                  if (eval != null && !eval.isBest && f.side != null)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: CustomPaint(
+                          painter: MoveArrowsPainter(
+                            rules: f.state.rules,
+                            viewer: widget.viewer,
+                            side: f.side!,
+                            boardHeight: BoardGeometry.heightPortrait,
+                            best: eval.best,
+                            played: eval.played,
+                            bestColor: c.successText,
+                            playedColor: c.dangerText,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             );
           },
         ),
+        if (analysis && eval != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: ArrowsLegend(eval: eval),
+            ),
+          ),
         Expanded(
           child: ListView.builder(
             controller: _scroll,
@@ -310,13 +504,21 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
               final f = widget.frames[i];
               final current = i == _index;
               final dice = f.dice;
+              final turn = f.turn;
+              final e = turn == null ? null : _evals[turn];
+              final blunder = e?.cls == EvalClass.blunder;
               return Pressable(
                 onTap: () => _go(i),
                 child: Container(
                   height: 40,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
-                    color: current ? c.accent.withValues(alpha: .12) : null,
+                    color:
+                        analysis && blunder
+                            ? c.blunderFill
+                            : current
+                            ? c.accent.withValues(alpha: .12)
+                            : null,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
@@ -367,6 +569,24 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
                           style: NardType.mono.copyWith(color: c.text),
                         ),
                       ),
+                      if (analysis && turn != null)
+                        SizedBox(
+                          width: 54,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child:
+                                e == null
+                                    ? SizedBox(
+                                      width: 12,
+                                      height: 12,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.5,
+                                        color: c.accent,
+                                      ),
+                                    )
+                                    : EvalMark(cls: e.cls),
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -401,6 +621,8 @@ class _ReplayViewState extends ConsumerState<_ReplayView> {
                   onChanged: (v) => _go(v.round()),
                 ),
               ),
+              if (analysis && marks.isNotEmpty)
+                ScrubberMarks(marks: marks, count: last + 1, onTap: _go),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

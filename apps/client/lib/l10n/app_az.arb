@@ -2294,5 +2294,908 @@
     }
   },
   "createSubmit": "Klanı yarat",
-  "createErrNameTaken": "Bu ad artıq tutulub"
+  "createErrNameTaken": "Bu ad artıq tutulub",
+  "tabTournaments": "Turnirlər",
+  "@tabTournaments": {
+    "description": "Tab bar label (4.1)."
+  },
+  "tournamentsTitle": "Turnirlər",
+  "tourTabLive": "Canlı",
+  "tourTabUpcoming": "Gələcək",
+  "tourTabMine": "Mənim",
+  "tourTabFinished": "Bitmiş",
+  "tourFilterAll": "Hamısı",
+  "tourFilterFree": "Pulsuz",
+  "tourStatusLive": "CANLI · RAUND {n}",
+  "@tourStatusLive": {
+    "description": "Overline; stored uppercased.",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tourStatusOpen": "QEYDİYYAT AÇIQDIR",
+  "tourStatusUpcoming": "GƏLƏCƏK",
+  "tourStatusFinished": "BİTDİ",
+  "tourStatusCancelled": "LƏĞV EDİLDİ",
+  "tourInMinutes": "{n} dəq",
+  "@tourInMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tourTomorrowAt": "Sabah {time}",
+  "@tourTomorrowAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tourFormatSwiss": "İsveç",
+  "tourFormatKnockout": "Knockout",
+  "tourFormatRoundRobin": "Dairəvi",
+  "tourRounds": "{n} raund",
+  "@tourRounds": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tourMeta": "{variant} · {points} xal",
+  "@tourMeta": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "tourEntrants": "{n}/{max}",
+  "@tourEntrants": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "tourRegistered": "Qeydiyyatdasan",
+  "tourPlace": "Yer: {place}",
+  "@tourPlace": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "tourOut": "Çıxdın · {round}",
+  "@tourOut": {
+    "placeholders": {
+      "round": {
+        "type": "String"
+      }
+    }
+  },
+  "tournamentsOfflineTitle": "Turnirlər oflayn görünmür",
+  "tournamentsOfflineBody": "Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda siyahı yenilənəcək.",
+  "tournamentsEmptyTitle": "Hələ turnirin yoxdur",
+  "tournamentsEmptyBody": "Qeydiyyatdan keçdiyin turnirlər burada görünəcək.",
+  "tournamentsEmptyCta": "Gələcək turnirlərə bax",
+  "tournamentsNoneTitle": "Turnir yoxdur",
+  "tournamentsNoneBody": "Bu siyahıda hələ turnir yoxdur. Bir az sonra yenidən bax.",
+  "listErrorTitle": "Siyahı yüklənmədi",
+  "listErrorBody": "Serverlə əlaqə qurulmadı. Bir az sonra yenidən cəhd et.",
+  "sngCardMeta": "Dolan kimi başlayır",
+  "sngJoin": "Qoşul",
+  "privateTourCreateChoice": "Özəl turnir yarat",
+  "privateTourJoinByCode": "Kodla qoşul",
+  "leaderboardTitle": "Liderlər",
+  "tourHeroMeta": "{status} · {type} {size}",
+  "@tourHeroMeta": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      },
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "tourTypeKnockoutUpper": "KNOCKOUT",
+  "tourTypeSwissUpper": "İSVEÇ",
+  "tourTypeRoundRobinUpper": "DAİRƏVİ",
+  "tourTypeSngUpper": "SIT-AND-GO",
+  "tourStartsIn": "Başlanğıca",
+  "tourLiveRound": "Raund {n} · {stage}",
+  "@tourLiveRound": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "stage": {
+        "type": "String"
+      }
+    }
+  },
+  "tourNow": "Raund {n}",
+  "@tourNow": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tourPrizeFund": "Mükafat fondu",
+  "tourParticipants": "İştirakçılar",
+  "tourParticipantsValue": "{n} / {max}",
+  "@tourParticipantsValue": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "tourPlaceRange": "{from}–{to}",
+  "@tourPlaceRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "tourRuleEntry": "Giriş",
+  "tourRuleFairDice": "Ədalətli zər",
+  "tourRuleRating": "Reytinq",
+  "tourRuleUnrated": "Dəyişmir",
+  "tourFormatValue": "{type} · {points} xala qədər",
+  "@tourFormatValue": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "tourEntryValue": "{price} · min. {rating}",
+  "@tourEntryValue": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "tourEntryInvite": "Dəvətlə",
+  "tourFairDiceValue": "Yoxlanıla bilər",
+  "tourRegister": "Qeydiyyat",
+  "@tourRegister": {
+    "description": "Primary CTA; the coin price is drawn after it."
+  },
+  "tourRegisterFree": "Qeydiyyat · Pulsuz",
+  "tourUnregister": "Qeydiyyatı ləğv et",
+  "tourUnregisterTitle": "Qeydiyyat ləğv edilsin?",
+  "tourUnregisterBody": "Giriş haqqı balansına qaytarılacaq.",
+  "tourUnregisterBodyFree": "Yerini başqa oyunçu tuta bilər.",
+  "tourRegisteredToast": "Qeydiyyatdan keçdin",
+  "tourUnregisteredToast": "Qeydiyyat ləğv edildi",
+  "tourMinRating": "Minimum reytinq {n}",
+  "@tourMinRating": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tourFull": "Yer qalmayıb",
+  "tourClosed": "Qeydiyyat bağlıdır",
+  "tourInviteOnly": "Dəvət kodu ilə qoşul",
+  "tourOpenBracket": "Cədvələ bax",
+  "tourWatch": "İzlə",
+  "tourTitlePrize": "Titul: {name}",
+  "@tourTitlePrize": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tourRatingTooLow": "Bu turnir üçün reytinqin azdır.",
+  "tourInviteRequired": "Bu turnirə yalnız dəvət kodu ilə qoşulmaq olar.",
+  "tourActionFailed": "Alınmadı. Bir az sonra yenidən cəhd et.",
+  "tourLive": "CANLI",
+  "roundOf": "1/{n}",
+  "@roundOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "roundFinal": "Final",
+  "tourNextMatch": "NÖVBƏTİ MATÇIN · {round}",
+  "@tourNextMatch": {
+    "placeholders": {
+      "round": {
+        "type": "String"
+      }
+    }
+  },
+  "tourNextMetaOpen": "Raund açıqdır · {points} xala qədər",
+  "@tourNextMetaOpen": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "tourNextMetaPending": "Raund hələ açılmayıb · {points} xala qədər",
+  "@tourNextMetaPending": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "tourOpponentTbd": "Rəqib bəlli deyil",
+  "tourReady": "Hazıram",
+  "tourReadyDone": "Hazırsan",
+  "tourWaitingOpponent": "Rəqib gözlənilir",
+  "tourEliminated": "Turnirdən çıxdın · {round}",
+  "@tourEliminated": {
+    "placeholders": {
+      "round": {
+        "type": "String"
+      }
+    }
+  },
+  "tourFinishedPanel": "Turnir bitdi · {place}",
+  "@tourFinishedPanel": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "zoomIn": "Böyüt",
+  "zoomOut": "Kiçilt",
+  "standingsTitle": "{name} · Cədvəl",
+  "@standingsTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "standingsRound": "Raund",
+  "standingsColRank": "#",
+  "standingsColPlayer": "OYUNÇU",
+  "standingsColWinLoss": "Q–M",
+  "standingsColBuchholz": "BUCH",
+  "standingsColPoints": "XAL",
+  "standingsWinLoss": "{w}–{l}",
+  "@standingsWinLoss": {
+    "placeholders": {
+      "w": {
+        "type": "int"
+      },
+      "l": {
+        "type": "int"
+      }
+    }
+  },
+  "standingsFootnoteNoPlayoff": "Bərabərlikdə Buchholz, sonra reytinq",
+  "standingsEmpty": "Cədvəl birinci raunddan sonra görünəcək.",
+  "championTitle": "Çempion",
+  "championLine": "{name} · {tournament}",
+  "@championLine": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "tournament": {
+        "type": "String"
+      }
+    }
+  },
+  "championFinal": "Final: {score} · {opponent}",
+  "@championFinal": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      },
+      "opponent": {
+        "type": "String"
+      }
+    }
+  },
+  "rewardCoins": "+{amount} sikkə",
+  "@rewardCoins": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "championShare": "Paylaş",
+  "championShareText": "{name} {tournament} turnirinin çempionu oldu. NardArena",
+  "@championShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "tournament": {
+        "type": "String"
+      }
+    }
+  },
+  "championShareCopied": "Mətn kopyalandı",
+  "sngTitle": "Sit-and-go · {size}",
+  "@sngTitle": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "sngSize": "{n} oyunçu",
+  "@sngSize": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "sngStartsWhenFull": "Dolan kimi başlayır",
+  "sngExpires": "{n} dəqiqəyə dolmasa, giriş haqqı qaytarılır",
+  "@sngExpires": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "sngFormatValue": "{variant} · {points} xal",
+  "@sngFormatValue": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "sngEntryFee": "Giriş haqqı",
+  "sngTimeControl": "Vaxt nəzarəti",
+  "sngNoShowRule": "Raund açılandan sonra {n} saniyə ərzində qoşulmayan oyunçu raundu texniki məğlubiyyətlə verir.",
+  "@sngNoShowRule": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "sngLeave": "Çıx · giriş haqqı qaytarılır",
+  "noShowOverline": "RAUND {round} · MASA {table}",
+  "@noShowOverline": {
+    "placeholders": {
+      "round": {
+        "type": "int"
+      },
+      "table": {
+        "type": "int"
+      }
+    }
+  },
+  "noShowTitle": "Rəqib hələ qoşulmayıb",
+  "noShowBody": "{name} vaxt bitənə qədər gəlməsə, raund sənin xeyrinə texniki qələbə ilə bitəcək.",
+  "@noShowBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tourBracket": "Turnir cədvəli",
+  "walkoverTitle": "Növbəti raunda keçdin",
+  "walkoverBody": "{name} vaxtında qoşulmadı. Raund texniki qələbə ilə sənə verildi. Reytinq dəyişmir.",
+  "@walkoverBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "walkoverNextRound": "Raund {n} başlayır",
+  "@walkoverNextRound": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "walkoverNextRoundWhen": "digər matçlar bitəndə",
+  "notFilledTitle": "Turnir başlamadı",
+  "notFilledBody": "{minutes} dəqiqədə {size} oyunçudan yalnız {joined} nəfər qoşuldu. Giriş haqqı balansına qaytarıldı.",
+  "@notFilledBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "size": {
+        "type": "int"
+      },
+      "joined": {
+        "type": "int"
+      }
+    }
+  },
+  "notFilledBodyScheduled": "Kifayət qədər oyunçu yığılmadı. Giriş haqqı balansına qaytarıldı.",
+  "refunded": "+{amount} qaytarıldı",
+  "@refunded": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notFilledJoinSmaller": "{n} nəfərlik masaya qoşul",
+  "@notFilledJoinSmaller": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "backToTournaments": "Turnirlərə qayıt",
+  "privateTourTitle": "Özəl turnir",
+  "privateTourName": "Ad",
+  "privateTourNameHint": "Turnirin adı",
+  "privateTourSize": "OYUNÇU SAYI",
+  "privateTourGame": "Oyun",
+  "privateTourLength": "Matç uzunluğu",
+  "privateTourStart": "Başlama vaxtı",
+  "privateTourStartManual": "Özün başladırsan",
+  "privateTourStartValue": "{weekday}, {time}",
+  "@privateTourStartValue": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "privateTourEntry": "Giriş haqqı",
+  "privateTourFree": "Pulsuz",
+  "privateTourNote": "Yaratmaq pulsuzdur. Özəl turnirlər reytinqə təsir etmir.",
+  "privateTourCreate": "Turniri yarat",
+  "privateTourCodeLabel": "DƏVƏT KODU",
+  "privateTourMeta": "{when} · {variant}, {points} xal",
+  "@privateTourMeta": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "variant": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "privateTourCopyInvite": "Dəvəti kopyala",
+  "privateTourShareText": "NardArena-da \"{name}\" turnirinə qoşul. Dəvət kodu: {code}",
+  "@privateTourShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "privateTourRegistration": "QEYDİYYAT",
+  "privateTourOrganizer": "Təşkilatçı",
+  "privateTourJoined": "Qoşuldu",
+  "privateTourStartNowMin": "İndi başlat · ən az {n} oyunçu",
+  "@privateTourStartNowMin": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "privateTourStartNow": "İndi başlat",
+  "privateTourCancel": "Turniri ləğv et",
+  "privateTourCancelTitle": "Turnir ləğv edilsin?",
+  "privateTourCancelBody": "Qeydiyyatdan keçən bütün oyunçular üçün turnir bağlanacaq.",
+  "privateTourRemove": "Turnirdən çıxar",
+  "privateTourCodeHint": "6 simvollu kod",
+  "privateTourCodeNotFound": "Bu kodla turnir tapılmadı.",
+  "privateTourTooMany": "Eyni anda ən çox 3 özəl turnir aça bilərsən.",
+  "privateTourNotEnough": "Başlamaq üçün ən az 2 oyunçu lazımdır.",
+  "homeTourMeta": "Mükafat fondu · {prize}",
+  "@homeTourMeta": {
+    "placeholders": {
+      "prize": {
+        "type": "String"
+      }
+    }
+  },
+  "homeTourStarts": "Başlanğıc {time} · {prize}",
+  "@homeTourStarts": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "prize": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSeason": "SEZON {n} · {days} GÜN",
+  "@homeSeason": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "homeSeasonLevel": "Səviyyə {level} / {max}",
+  "@homeSeasonLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "homePuzzleOverline": "GÜNÜN TAPMACASI",
+  "homeSeasonEnded": "SEZON {n} BAŞA ÇATDI",
+  "@homeSeasonEnded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "homeSeasonSummaryCta": "Nəticələrinə bax",
+  "modePuzzles": "Tapmaca",
+  "seasonN": "Sezon {n}",
+  "@seasonN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "lbScopeGlobal": "Qlobal",
+  "lbScopeCountry": "Ölkə",
+  "lbScopeFriends": "Dostlar",
+  "lbScopeClan": "Klan",
+  "lbRank": "#{n}",
+  "@lbRank": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "lbEmptyTitle": "Siyahı boşdur",
+  "lbEmptyFriends": "Dostların hələ reytinq cədvəlində yoxdur.",
+  "lbEmptyClan": "Klanın yoxdur və ya üzvlər hələ reytinqdə deyil.",
+  "lbEmptyCountry": "Profilində ölkə seçilməyib və ya bu ölkədən hələ oyunçu yoxdur.",
+  "lbUnranked": "Reytinqə düşmək üçün bu sezon {n} reytinq oyunu oyna",
+  "@lbUnranked": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "lbSeasonPicker": "Sezon seç",
+  "seasonPassTitle": "Sezon bileti",
+  "seasonOverline": "SEZON {n} · {days} GÜN {hours} SAAT",
+  "@seasonOverline": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonOverlineHours": "SEZON {n} · {hours} SAAT {minutes} DƏQ",
+  "@seasonOverlineHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonLevelNext": "Növbəti səviyyə: {n}",
+  "@seasonLevelNext": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonLevelMax": "Son səviyyə",
+  "seasonTrackFree": "PULSUZ",
+  "seasonTrackPremium": "PREMİUM",
+  "seasonRewardItem": "Əşya",
+  "seasonEndReward": "Sezon sonu mükafatı · {tier}",
+  "@seasonEndReward": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "seasonEndRewardMeta": "{reward} · {points} xal qaldı",
+  "@seasonEndRewardMeta": {
+    "placeholders": {
+      "reward": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonEndRewardReached": "{reward} · əldə edildi",
+  "@seasonEndRewardReached": {
+    "placeholders": {
+      "reward": {
+        "type": "String"
+      }
+    }
+  },
+  "seasonRewardWithItem": "{item} + {coins}",
+  "@seasonRewardWithItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "coins": {
+        "type": "String"
+      }
+    }
+  },
+  "seasonPremiumUnlock": "Premium aç",
+  "seasonClaimAll": "Hamısını al · {n}",
+  "@seasonClaimAll": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonPremiumOwned": "Premium aktivdir",
+  "seasonPremiumSheetTitle": "Sezon bileti · Premium",
+  "seasonPremiumBody": "Premium yol bu sezonun premium mükafatlarını açır. Çatdığın səviyyələrin mükafatları dərhal alına bilər.",
+  "seasonPremiumBought": "Premium açıldı",
+  "seasonNeedsLevel": "Səviyyə {n} lazımdır",
+  "@seasonNeedsLevel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonNeedsPremium": "Bu mükafat premium yoldadır",
+  "seasonClaimedToast": "Mükafat alındı",
+  "seasonUnavailable": "Sezon məlumatı yüklənmədi",
+  "seasonEnded": "SEZON {n} BAŞA ÇATDI",
+  "@seasonEnded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonStatGames": "Oyun",
+  "seasonStatWinRate": "Qələbə",
+  "seasonStatRank": "Dünyada yer",
+  "seasonStatCountryRank": "Ölkədə yer",
+  "seasonStatRatingGain": "Reytinq dəyişimi",
+  "seasonStatRating": "Son reytinq",
+  "seasonClaimRewards": "Mükafatları al",
+  "seasonRewardLine": "Sezon mükafatı: {reward}",
+  "@seasonRewardLine": {
+    "placeholders": {
+      "reward": {
+        "type": "String"
+      }
+    }
+  },
+  "seasonSoftReset": "Yeni sezonda reytinqin: {rating}",
+  "@seasonSoftReset": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "seasonNoSummaryTitle": "Hələ bitmiş sezon yoxdur",
+  "seasonNoSummaryBody": "İlk sezon bitəndə nəticələrin burada görünəcək.",
+  "actionAnalysis": "Təhlil",
+  "@actionAnalysis": {
+    "description": "2.6 button."
+  },
+  "analysisTitle": "Təhlil · Oyun {n}",
+  "@analysisTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "analysisEquity": "Qiymət",
+  "@analysisEquity": {
+    "description": "Label of the evaluation bar (heuristic, not equity; QUESTIONS #38)."
+  },
+  "analysisNote": "Qiymətləri sadə bot hesablayır, dəqiq qələbə şansı deyil. Neyron AI gələndə dəqiqləşəcək.",
+  "analysisBest": "Ən yaxşı: {moves}",
+  "@analysisBest": {
+    "placeholders": {
+      "moves": {
+        "type": "String"
+      }
+    }
+  },
+  "analysisYours": "Sənin: {moves} · {loss}",
+  "@analysisYours": {
+    "placeholders": {
+      "moves": {
+        "type": "String"
+      },
+      "loss": {
+        "type": "String"
+      }
+    }
+  },
+  "analysisBestPlayed": "Ən yaxşı gediş",
+  "analysisRunning": "Təhlil edilir…",
+  "analysisMarkGood": "Yaxşı gediş",
+  "analysisMarkMistake": "Səhv",
+  "analysisMarkBlunder": "Kobud səhv",
+  "analysisNotReady": "Matçın qeydi hələ hazır deyil. Bir az sonra yenidən cəhd et.",
+  "analysisNoGames": "Bu matçda oynanmış oyun yoxdur.",
+  "analysisGameChip": "Oyun {n}",
+  "@analysisGameChip": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "puzzleTitle": "Tapmaca {n} / {total}",
+  "@puzzleTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "puzzleDailyTitle": "Günün tapmacası",
+  "puzzleRating": "Reytinq {n}",
+  "@puzzleRating": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "puzzlePhaseOpening": "Açılış",
+  "puzzlePhaseMiddle": "Ara oyun",
+  "puzzlePhaseBearOff": "Çıxarış",
+  "puzzleLevelEasy": "Asan",
+  "puzzleLevelMedium": "Orta",
+  "puzzleLevelHard": "Çətin",
+  "puzzlePrompt": "Ən yaxşı gedişi tap",
+  "puzzleContext": "{side} oynayırsan. Zər: {d1} – {d2}.",
+  "@puzzleContext": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      },
+      "d1": {
+        "type": "int"
+      },
+      "d2": {
+        "type": "int"
+      }
+    }
+  },
+  "puzzleSideWhite": "Ağ daşlarla",
+  "puzzleSideBlack": "Qara daşlarla",
+  "puzzleHint": "İpucu",
+  "puzzleConfirm": "Gedişi təsdiqlə",
+  "puzzleCorrect": "Doğru",
+  "puzzleCorrectFirstTry": "Ən yaxşı gediş · ilk cəhddə",
+  "puzzleCorrectSecondTry": "Ən yaxşı gediş · ikinci cəhddə",
+  "puzzleYours": "Sənin",
+  "puzzleSecondBest": "İkinci yaxşı",
+  "puzzleBest": "Ən yaxşı",
+  "puzzleHidden": "gizli",
+  "puzzleSeeAnalysis": "Təhlilə bax",
+  "puzzleNext": "Növbəti tapmaca",
+  "puzzleWrong": "Ən yaxşı gediş deyil",
+  "puzzleAttemptsLeft": "Qalan cəhd: {n}",
+  "@puzzleAttemptsLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "puzzleShowSolution": "Həllə bax",
+  "puzzleOutOfTries": "Cəhdlər bitdi",
+  "puzzleAnswer": "Düzgün cavab: {move}",
+  "@puzzleAnswer": {
+    "placeholders": {
+      "move": {
+        "type": "String"
+      }
+    }
+  },
+  "puzzleSetDoneTitle": "Bütün tapmacaları həll etdin",
+  "puzzleSetDoneBody": "Yeni tapmacalar tezliklə əlavə olunacaq.",
+  "puzzleDailyDone": "Bugünkü tapmaca bitib. Növbəti tapmacalarla davam et.",
+  "puzzleOffline": "Tapmacaları yoxlamaq üçün bağlantı lazımdır.",
+  "missionPuzzle": "{n} tapmaca həll et",
+  "@missionPuzzle": {
+    "description": "Daily mission daily_puzzle_2.",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

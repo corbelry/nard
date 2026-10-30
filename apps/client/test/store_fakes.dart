@@ -11,9 +11,12 @@ import 'package:nard_client/l10n/gen/app_localizations.dart';
 import 'package:nard_client/online/account.dart';
 import 'package:nard_client/online/api_client.dart';
 import 'package:nard_client/progression/progress_models.dart';
+import 'package:nard_client/seasons/season_models.dart';
 import 'package:nard_client/store/store_models.dart';
 import 'package:nard_client/theme/nard_colors.dart';
 import 'package:nard_client/theme/nard_theme.dart';
+import 'package:nard_client/tournaments/tournament_models.dart';
+import 'package:nard_core/nard_core.dart' show Variant;
 
 // Mirrors apps/api/database/seeders/ItemCatalogSeeder.php.
 const _ivory = {
@@ -458,6 +461,22 @@ class FakeApi extends ApiClient {
 
   @override
   Future<void> setTitle(String? itemId) async => calls.add('title:$itemId');
+
+  // Phase 6 defaults: no season, no tournaments (Home stays hermetic).
+  @override
+  Future<SeasonView> season() async =>
+      throw const ApiException(404, 'not_found');
+
+  @override
+  Future<SeasonSummary> seasonSummary([int? number]) async =>
+      throw const ApiException(404, 'not_found');
+
+  @override
+  Future<List<Tournament>> tournaments(
+    TournamentTab tab, {
+    Variant? variant,
+    bool free = false,
+  }) async => const [];
 }
 
 List<Override> storeOverrides(FakeApi api) => [

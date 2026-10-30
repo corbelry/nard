@@ -3070,4 +3070,940 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get createErrNameTaken => 'Это название занято';
+
+  @override
+  String get tabTournaments => 'Турниры';
+
+  @override
+  String get tournamentsTitle => 'Турниры';
+
+  @override
+  String get tourTabLive => 'Сейчас';
+
+  @override
+  String get tourTabUpcoming => 'Скоро';
+
+  @override
+  String get tourTabMine => 'Мои';
+
+  @override
+  String get tourTabFinished => 'Завершённые';
+
+  @override
+  String get tourFilterAll => 'Все';
+
+  @override
+  String get tourFilterFree => 'Бесплатные';
+
+  @override
+  String tourStatusLive(int n) {
+    return 'ИДЁТ · РАУНД $n';
+  }
+
+  @override
+  String get tourStatusOpen => 'РЕГИСТРАЦИЯ ОТКРЫТА';
+
+  @override
+  String get tourStatusUpcoming => 'СКОРО';
+
+  @override
+  String get tourStatusFinished => 'ЗАВЕРШЁН';
+
+  @override
+  String get tourStatusCancelled => 'ОТМЕНЁН';
+
+  @override
+  String tourInMinutes(int n) {
+    return '$n мин';
+  }
+
+  @override
+  String tourTomorrowAt(String time) {
+    return 'Завтра $time';
+  }
+
+  @override
+  String get tourFormatSwiss => 'Швейцарка';
+
+  @override
+  String get tourFormatKnockout => 'Олимпийка';
+
+  @override
+  String get tourFormatRoundRobin => 'Круговой';
+
+  @override
+  String tourRounds(int n) {
+    return 'раундов: $n';
+  }
+
+  @override
+  String tourMeta(String variant, int points) {
+    return '$variant · $points оч.';
+  }
+
+  @override
+  String tourEntrants(int n, int max) {
+    return '$n/$max';
+  }
+
+  @override
+  String get tourRegistered => 'Ты записан';
+
+  @override
+  String tourPlace(String place) {
+    return 'Место: $place';
+  }
+
+  @override
+  String tourOut(String round) {
+    return 'Выбыл · $round';
+  }
+
+  @override
+  String get tournamentsOfflineTitle => 'Турниры недоступны офлайн';
+
+  @override
+  String get tournamentsOfflineBody => 'Игра с компьютером и на одном устройстве работает. Список обновится, когда связь вернётся.';
+
+  @override
+  String get tournamentsEmptyTitle => 'Пока нет турниров';
+
+  @override
+  String get tournamentsEmptyBody => 'Здесь появятся турниры, на которые ты записался.';
+
+  @override
+  String get tournamentsEmptyCta => 'Смотреть ближайшие турниры';
+
+  @override
+  String get tournamentsNoneTitle => 'Турниров нет';
+
+  @override
+  String get tournamentsNoneBody => 'В этом списке пока пусто. Загляни чуть позже.';
+
+  @override
+  String get listErrorTitle => 'Список не загрузился';
+
+  @override
+  String get listErrorBody => 'Не удалось связаться с сервером. Попробуй чуть позже.';
+
+  @override
+  String get sngCardMeta => 'Старт, когда все места заняты';
+
+  @override
+  String get sngJoin => 'Войти';
+
+  @override
+  String get privateTourCreateChoice => 'Создать частный турнир';
+
+  @override
+  String get privateTourJoinByCode => 'Войти по коду';
+
+  @override
+  String get leaderboardTitle => 'Лидеры';
+
+  @override
+  String tourHeroMeta(String status, String type, int size) {
+    return '$status · $type $size';
+  }
+
+  @override
+  String get tourTypeKnockoutUpper => 'ОЛИМПИЙКА';
+
+  @override
+  String get tourTypeSwissUpper => 'ШВЕЙЦАРКА';
+
+  @override
+  String get tourTypeRoundRobinUpper => 'КРУГОВОЙ';
+
+  @override
+  String get tourTypeSngUpper => 'SIT-AND-GO';
+
+  @override
+  String get tourStartsIn => 'До старта';
+
+  @override
+  String tourLiveRound(int n, String stage) {
+    return 'Раунд $n · $stage';
+  }
+
+  @override
+  String tourNow(int n) {
+    return 'Раунд $n';
+  }
+
+  @override
+  String get tourPrizeFund => 'Призовой фонд';
+
+  @override
+  String get tourParticipants => 'Участники';
+
+  @override
+  String tourParticipantsValue(int n, int max) {
+    return '$n / $max';
+  }
+
+  @override
+  String tourPlaceRange(String from, String to) {
+    return '$from–$to';
+  }
+
+  @override
+  String get tourRuleEntry => 'Вход';
+
+  @override
+  String get tourRuleFairDice => 'Честные кости';
+
+  @override
+  String get tourRuleRating => 'Рейтинг';
+
+  @override
+  String get tourRuleUnrated => 'Не меняется';
+
+  @override
+  String tourFormatValue(String type, int points) {
+    return '$type · до $points очков';
+  }
+
+  @override
+  String tourEntryValue(String price, int rating) {
+    return '$price · мин. $rating';
+  }
+
+  @override
+  String get tourEntryInvite => 'По приглашению';
+
+  @override
+  String get tourFairDiceValue => 'Проверяемые';
+
+  @override
+  String get tourRegister => 'Записаться';
+
+  @override
+  String get tourRegisterFree => 'Записаться · бесплатно';
+
+  @override
+  String get tourUnregister => 'Отменить запись';
+
+  @override
+  String get tourUnregisterTitle => 'Отменить запись?';
+
+  @override
+  String get tourUnregisterBody => 'Взнос вернётся на баланс.';
+
+  @override
+  String get tourUnregisterBodyFree => 'Твоё место смогут занять.';
+
+  @override
+  String get tourRegisteredToast => 'Ты записан';
+
+  @override
+  String get tourUnregisteredToast => 'Запись отменена';
+
+  @override
+  String tourMinRating(int n) {
+    return 'Минимальный рейтинг $n';
+  }
+
+  @override
+  String get tourFull => 'Мест нет';
+
+  @override
+  String get tourClosed => 'Регистрация закрыта';
+
+  @override
+  String get tourInviteOnly => 'Войти по коду приглашения';
+
+  @override
+  String get tourOpenBracket => 'Открыть сетку';
+
+  @override
+  String get tourWatch => 'Смотреть';
+
+  @override
+  String tourTitlePrize(String name) {
+    return 'Титул: $name';
+  }
+
+  @override
+  String get tourRatingTooLow => 'Твой рейтинг ниже минимума турнира.';
+
+  @override
+  String get tourInviteRequired => 'В этот турнир можно войти только по коду.';
+
+  @override
+  String get tourActionFailed => 'Не получилось. Попробуй чуть позже.';
+
+  @override
+  String get tourLive => 'ИДЁТ';
+
+  @override
+  String roundOf(int n) {
+    return '1/$n';
+  }
+
+  @override
+  String get roundFinal => 'Финал';
+
+  @override
+  String tourNextMatch(String round) {
+    return 'ТВОЙ СЛЕДУЮЩИЙ МАТЧ · $round';
+  }
+
+  @override
+  String tourNextMetaOpen(int points) {
+    return 'Раунд открыт · до $points очков';
+  }
+
+  @override
+  String tourNextMetaPending(int points) {
+    return 'Раунд ещё не открыт · до $points очков';
+  }
+
+  @override
+  String get tourOpponentTbd => 'Соперник определяется';
+
+  @override
+  String get tourReady => 'Я готов';
+
+  @override
+  String get tourReadyDone => 'Ты готов';
+
+  @override
+  String get tourWaitingOpponent => 'Ждём соперника';
+
+  @override
+  String tourEliminated(String round) {
+    return 'Ты выбыл · $round';
+  }
+
+  @override
+  String tourFinishedPanel(String place) {
+    return 'Турнир окончен · $place';
+  }
+
+  @override
+  String get zoomIn => 'Приблизить';
+
+  @override
+  String get zoomOut => 'Отдалить';
+
+  @override
+  String standingsTitle(String name) {
+    return '$name · Таблица';
+  }
+
+  @override
+  String get standingsRound => 'Раунд';
+
+  @override
+  String get standingsColRank => '#';
+
+  @override
+  String get standingsColPlayer => 'ИГРОК';
+
+  @override
+  String get standingsColWinLoss => 'В–П';
+
+  @override
+  String get standingsColBuchholz => 'БУХ';
+
+  @override
+  String get standingsColPoints => 'ОЧК';
+
+  @override
+  String standingsWinLoss(int w, int l) {
+    return '$w–$l';
+  }
+
+  @override
+  String get standingsFootnoteNoPlayoff => 'При равенстве: Бухгольц, затем рейтинг';
+
+  @override
+  String get standingsEmpty => 'Таблица появится после первого раунда.';
+
+  @override
+  String get championTitle => 'Чемпион';
+
+  @override
+  String championLine(String name, String tournament) {
+    return '$name · $tournament';
+  }
+
+  @override
+  String championFinal(String score, String opponent) {
+    return 'Финал: $score · $opponent';
+  }
+
+  @override
+  String rewardCoins(String amount) {
+    return '+$amount монет';
+  }
+
+  @override
+  String get championShare => 'Поделиться';
+
+  @override
+  String championShareText(String name, String tournament) {
+    return '$name стал чемпионом турнира $tournament. NardArena';
+  }
+
+  @override
+  String get championShareCopied => 'Текст скопирован';
+
+  @override
+  String sngTitle(int size) {
+    return 'Sit-and-go · $size';
+  }
+
+  @override
+  String sngSize(int n) {
+    return '$n игроков';
+  }
+
+  @override
+  String get sngStartsWhenFull => 'Старт, как только места заполнятся';
+
+  @override
+  String sngExpires(int n) {
+    return 'Не наберётся за $n мин — взнос вернётся';
+  }
+
+  @override
+  String sngFormatValue(String variant, int points) {
+    return '$variant · $points очк.';
+  }
+
+  @override
+  String get sngEntryFee => 'Взнос';
+
+  @override
+  String get sngTimeControl => 'Контроль времени';
+
+  @override
+  String sngNoShowRule(int n) {
+    return 'Кто не подключится за $n секунд после начала раунда, получает техническое поражение.';
+  }
+
+  @override
+  String get sngLeave => 'Выйти · взнос вернётся';
+
+  @override
+  String noShowOverline(int round, int table) {
+    return 'РАУНД $round · СТОЛ $table';
+  }
+
+  @override
+  String get noShowTitle => 'Соперник ещё не подключился';
+
+  @override
+  String noShowBody(String name) {
+    return 'Если $name не придёт до конца отсчёта, раунд засчитают тебе.';
+  }
+
+  @override
+  String get tourBracket => 'Турнирная сетка';
+
+  @override
+  String get walkoverTitle => 'Ты проходишь дальше';
+
+  @override
+  String walkoverBody(String name) {
+    return '$name не подключился вовремя. Раунд засчитан тебе. Рейтинг не меняется.';
+  }
+
+  @override
+  String walkoverNextRound(int n) {
+    return 'Раунд $n начнётся';
+  }
+
+  @override
+  String get walkoverNextRoundWhen => 'после остальных матчей';
+
+  @override
+  String get notFilledTitle => 'Турнир не начался';
+
+  @override
+  String notFilledBody(int minutes, int size, int joined) {
+    return 'За $minutes минут собралось только $joined из $size игроков. Взнос вернулся на баланс.';
+  }
+
+  @override
+  String get notFilledBodyScheduled => 'Игроков набралось слишком мало. Взнос вернулся на баланс.';
+
+  @override
+  String refunded(String amount) {
+    return '+$amount возвращено';
+  }
+
+  @override
+  String notFilledJoinSmaller(int n) {
+    return 'Сесть за стол на $n';
+  }
+
+  @override
+  String get backToTournaments => 'К турнирам';
+
+  @override
+  String get privateTourTitle => 'Частный турнир';
+
+  @override
+  String get privateTourName => 'Название';
+
+  @override
+  String get privateTourNameHint => 'Название турнира';
+
+  @override
+  String get privateTourSize => 'ИГРОКОВ';
+
+  @override
+  String get privateTourGame => 'Игра';
+
+  @override
+  String get privateTourLength => 'Длина матча';
+
+  @override
+  String get privateTourStart => 'Время старта';
+
+  @override
+  String get privateTourStartManual => 'Запускаешь сам';
+
+  @override
+  String privateTourStartValue(String weekday, String time) {
+    return '$weekday, $time';
+  }
+
+  @override
+  String get privateTourEntry => 'Взнос';
+
+  @override
+  String get privateTourFree => 'Бесплатно';
+
+  @override
+  String get privateTourNote => 'Создание бесплатно. Частные турниры не влияют на рейтинг.';
+
+  @override
+  String get privateTourCreate => 'Создать турнир';
+
+  @override
+  String get privateTourCodeLabel => 'КОД ПРИГЛАШЕНИЯ';
+
+  @override
+  String privateTourMeta(String when, String variant, int points) {
+    return '$when · $variant, $points очк.';
+  }
+
+  @override
+  String get privateTourCopyInvite => 'Копировать приглашение';
+
+  @override
+  String privateTourShareText(String name, String code) {
+    return 'Присоединяйся к турниру «$name» в NardArena. Код: $code';
+  }
+
+  @override
+  String get privateTourRegistration => 'РЕГИСТРАЦИЯ';
+
+  @override
+  String get privateTourOrganizer => 'Организатор';
+
+  @override
+  String get privateTourJoined => 'В списке';
+
+  @override
+  String privateTourStartNowMin(int n) {
+    return 'Начать · нужно минимум $n';
+  }
+
+  @override
+  String get privateTourStartNow => 'Начать сейчас';
+
+  @override
+  String get privateTourCancel => 'Отменить турнир';
+
+  @override
+  String get privateTourCancelTitle => 'Отменить турнир?';
+
+  @override
+  String get privateTourCancelBody => 'Турнир закроется для всех, кто записался.';
+
+  @override
+  String get privateTourRemove => 'Убрать из турнира';
+
+  @override
+  String get privateTourCodeHint => 'Код из 6 символов';
+
+  @override
+  String get privateTourCodeNotFound => 'Турнир с таким кодом не найден.';
+
+  @override
+  String get privateTourTooMany => 'Можно держать открытыми не больше 3 частных турниров.';
+
+  @override
+  String get privateTourNotEnough => 'Для старта нужно минимум 2 игрока.';
+
+  @override
+  String homeTourMeta(String prize) {
+    return 'Призовой фонд · $prize';
+  }
+
+  @override
+  String homeTourStarts(String time, String prize) {
+    return 'Старт $time · $prize';
+  }
+
+  @override
+  String homeSeason(int n, int days) {
+    return 'СЕЗОН $n · $days ДН.';
+  }
+
+  @override
+  String homeSeasonLevel(int level, int max) {
+    return 'Уровень $level / $max';
+  }
+
+  @override
+  String get homePuzzleOverline => 'ЗАДАЧА ДНЯ';
+
+  @override
+  String homeSeasonEnded(int n) {
+    return 'СЕЗОН $n ЗАВЕРШЁН';
+  }
+
+  @override
+  String get homeSeasonSummaryCta => 'Смотреть итоги';
+
+  @override
+  String get modePuzzles => 'Задачи';
+
+  @override
+  String seasonN(int n) {
+    return 'Сезон $n';
+  }
+
+  @override
+  String get lbScopeGlobal => 'Мир';
+
+  @override
+  String get lbScopeCountry => 'Страна';
+
+  @override
+  String get lbScopeFriends => 'Друзья';
+
+  @override
+  String get lbScopeClan => 'Клан';
+
+  @override
+  String lbRank(int n) {
+    return '#$n';
+  }
+
+  @override
+  String get lbEmptyTitle => 'Пока пусто';
+
+  @override
+  String get lbEmptyFriends => 'Твоих друзей пока нет в рейтинге.';
+
+  @override
+  String get lbEmptyClan => 'У тебя нет клана, или его участников ещё нет в рейтинге.';
+
+  @override
+  String get lbEmptyCountry => 'В профиле не выбрана страна или из неё ещё никого нет в рейтинге.';
+
+  @override
+  String lbUnranked(int n) {
+    return 'Сыграй $n рейтинговых игр в этом сезоне, чтобы попасть в таблицу';
+  }
+
+  @override
+  String get lbSeasonPicker => 'Выбери сезон';
+
+  @override
+  String get seasonPassTitle => 'Сезонный пропуск';
+
+  @override
+  String seasonOverline(int n, int days, int hours) {
+    return 'СЕЗОН $n · $days ДН. $hours Ч';
+  }
+
+  @override
+  String seasonOverlineHours(int n, int hours, int minutes) {
+    return 'СЕЗОН $n · $hours Ч $minutes МИН';
+  }
+
+  @override
+  String seasonLevelNext(int n) {
+    return 'Следующий уровень: $n';
+  }
+
+  @override
+  String get seasonLevelMax => 'Последний уровень';
+
+  @override
+  String get seasonTrackFree => 'БЕСПЛАТНО';
+
+  @override
+  String get seasonTrackPremium => 'ПРЕМИУМ';
+
+  @override
+  String get seasonRewardItem => 'Предмет';
+
+  @override
+  String seasonEndReward(String tier) {
+    return 'Награда за сезон · $tier';
+  }
+
+  @override
+  String seasonEndRewardMeta(String reward, int points) {
+    return '$reward · осталось $points очк.';
+  }
+
+  @override
+  String seasonEndRewardReached(String reward) {
+    return '$reward · получено';
+  }
+
+  @override
+  String seasonRewardWithItem(String item, String coins) {
+    return '$item + $coins';
+  }
+
+  @override
+  String get seasonPremiumUnlock => 'Открыть премиум';
+
+  @override
+  String seasonClaimAll(int n) {
+    return 'Забрать всё · $n';
+  }
+
+  @override
+  String get seasonPremiumOwned => 'Премиум активен';
+
+  @override
+  String get seasonPremiumSheetTitle => 'Сезонный пропуск · Премиум';
+
+  @override
+  String get seasonPremiumBody => 'Премиум открывает премиум-награды сезона. Награды уже пройденных уровней можно забрать сразу.';
+
+  @override
+  String get seasonPremiumBought => 'Премиум открыт';
+
+  @override
+  String seasonNeedsLevel(int n) {
+    return 'Нужен уровень $n';
+  }
+
+  @override
+  String get seasonNeedsPremium => 'Эта награда на премиум-дорожке';
+
+  @override
+  String get seasonClaimedToast => 'Награда получена';
+
+  @override
+  String get seasonUnavailable => 'Данные сезона не загрузились';
+
+  @override
+  String seasonEnded(int n) {
+    return 'СЕЗОН $n ЗАВЕРШЁН';
+  }
+
+  @override
+  String get seasonStatGames => 'Игр';
+
+  @override
+  String get seasonStatWinRate => 'Побед';
+
+  @override
+  String get seasonStatRank => 'Место в мире';
+
+  @override
+  String get seasonStatCountryRank => 'Место в стране';
+
+  @override
+  String get seasonStatRatingGain => 'Изменение рейтинга';
+
+  @override
+  String get seasonStatRating => 'Итоговый рейтинг';
+
+  @override
+  String get seasonClaimRewards => 'Забрать награды';
+
+  @override
+  String seasonRewardLine(String reward) {
+    return 'Награда сезона: $reward';
+  }
+
+  @override
+  String seasonSoftReset(int rating) {
+    return 'Рейтинг в новом сезоне: $rating';
+  }
+
+  @override
+  String get seasonNoSummaryTitle => 'Завершённых сезонов пока нет';
+
+  @override
+  String get seasonNoSummaryBody => 'Итоги появятся здесь после первого сезона.';
+
+  @override
+  String get actionAnalysis => 'Анализ';
+
+  @override
+  String analysisTitle(int n) {
+    return 'Анализ · Партия $n';
+  }
+
+  @override
+  String get analysisEquity => 'Оценка';
+
+  @override
+  String get analysisNote => 'Оценки считает эвристический бот, это не точные шансы на победу. С нейросетевым ИИ станут точнее.';
+
+  @override
+  String analysisBest(String moves) {
+    return 'Лучший: $moves';
+  }
+
+  @override
+  String analysisYours(String moves, String loss) {
+    return 'Твой: $moves · $loss';
+  }
+
+  @override
+  String get analysisBestPlayed => 'Лучший ход';
+
+  @override
+  String get analysisRunning => 'Идёт анализ…';
+
+  @override
+  String get analysisMarkGood => 'Хороший ход';
+
+  @override
+  String get analysisMarkMistake => 'Ошибка';
+
+  @override
+  String get analysisMarkBlunder => 'Грубая ошибка';
+
+  @override
+  String get analysisNotReady => 'Запись матча ещё не готова. Попробуй чуть позже.';
+
+  @override
+  String get analysisNoGames => 'В этом матче не было сыгранных партий.';
+
+  @override
+  String analysisGameChip(int n) {
+    return 'Партия $n';
+  }
+
+  @override
+  String puzzleTitle(int n, int total) {
+    return 'Задача $n / $total';
+  }
+
+  @override
+  String get puzzleDailyTitle => 'Задача дня';
+
+  @override
+  String puzzleRating(int n) {
+    return 'Рейтинг $n';
+  }
+
+  @override
+  String get puzzlePhaseOpening => 'Дебют';
+
+  @override
+  String get puzzlePhaseMiddle => 'Середина игры';
+
+  @override
+  String get puzzlePhaseBearOff => 'Выброс';
+
+  @override
+  String get puzzleLevelEasy => 'Лёгкая';
+
+  @override
+  String get puzzleLevelMedium => 'Средняя';
+
+  @override
+  String get puzzleLevelHard => 'Сложная';
+
+  @override
+  String get puzzlePrompt => 'Найди лучший ход';
+
+  @override
+  String puzzleContext(String side, int d1, int d2) {
+    return 'Ты играешь $side. Кости: $d1 – $d2.';
+  }
+
+  @override
+  String get puzzleSideWhite => 'белыми';
+
+  @override
+  String get puzzleSideBlack => 'чёрными';
+
+  @override
+  String get puzzleHint => 'Подсказка';
+
+  @override
+  String get puzzleConfirm => 'Подтвердить ход';
+
+  @override
+  String get puzzleCorrect => 'Верно';
+
+  @override
+  String get puzzleCorrectFirstTry => 'Лучший ход · с первой попытки';
+
+  @override
+  String get puzzleCorrectSecondTry => 'Лучший ход · со второй попытки';
+
+  @override
+  String get puzzleYours => 'Твой';
+
+  @override
+  String get puzzleSecondBest => 'Второй по силе';
+
+  @override
+  String get puzzleBest => 'Лучший';
+
+  @override
+  String get puzzleHidden => 'скрыт';
+
+  @override
+  String get puzzleSeeAnalysis => 'Смотреть анализ';
+
+  @override
+  String get puzzleNext => 'Следующая задача';
+
+  @override
+  String get puzzleWrong => 'Это не лучший ход';
+
+  @override
+  String puzzleAttemptsLeft(int n) {
+    return 'Осталось попыток: $n';
+  }
+
+  @override
+  String get puzzleShowSolution => 'Показать решение';
+
+  @override
+  String get puzzleOutOfTries => 'Попытки закончились';
+
+  @override
+  String puzzleAnswer(String move) {
+    return 'Ответ: $move';
+  }
+
+  @override
+  String get puzzleSetDoneTitle => 'Ты прошёл все задачи';
+
+  @override
+  String get puzzleSetDoneBody => 'Скоро появятся новые задачи.';
+
+  @override
+  String get puzzleDailyDone => 'Задача дня решена. Продолжай со следующими.';
+
+  @override
+  String get puzzleOffline => 'Для проверки задач нужна связь.';
+
+  @override
+  String missionPuzzle(int n) {
+    return 'Реши задач: $n';
+  }
 }

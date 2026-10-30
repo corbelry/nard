@@ -5180,6 +5180,1578 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Bu ad artıq tutulub'**
   String get createErrNameTaken;
+
+  /// Tab bar label (4.1).
+  ///
+  /// In az, this message translates to:
+  /// **'Turnirlər'**
+  String get tabTournaments;
+
+  /// No description provided for @tournamentsTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnirlər'**
+  String get tournamentsTitle;
+
+  /// No description provided for @tourTabLive.
+  ///
+  /// In az, this message translates to:
+  /// **'Canlı'**
+  String get tourTabLive;
+
+  /// No description provided for @tourTabUpcoming.
+  ///
+  /// In az, this message translates to:
+  /// **'Gələcək'**
+  String get tourTabUpcoming;
+
+  /// No description provided for @tourTabMine.
+  ///
+  /// In az, this message translates to:
+  /// **'Mənim'**
+  String get tourTabMine;
+
+  /// No description provided for @tourTabFinished.
+  ///
+  /// In az, this message translates to:
+  /// **'Bitmiş'**
+  String get tourTabFinished;
+
+  /// No description provided for @tourFilterAll.
+  ///
+  /// In az, this message translates to:
+  /// **'Hamısı'**
+  String get tourFilterAll;
+
+  /// No description provided for @tourFilterFree.
+  ///
+  /// In az, this message translates to:
+  /// **'Pulsuz'**
+  String get tourFilterFree;
+
+  /// Overline; stored uppercased.
+  ///
+  /// In az, this message translates to:
+  /// **'CANLI · RAUND {n}'**
+  String tourStatusLive(int n);
+
+  /// No description provided for @tourStatusOpen.
+  ///
+  /// In az, this message translates to:
+  /// **'QEYDİYYAT AÇIQDIR'**
+  String get tourStatusOpen;
+
+  /// No description provided for @tourStatusUpcoming.
+  ///
+  /// In az, this message translates to:
+  /// **'GƏLƏCƏK'**
+  String get tourStatusUpcoming;
+
+  /// No description provided for @tourStatusFinished.
+  ///
+  /// In az, this message translates to:
+  /// **'BİTDİ'**
+  String get tourStatusFinished;
+
+  /// No description provided for @tourStatusCancelled.
+  ///
+  /// In az, this message translates to:
+  /// **'LƏĞV EDİLDİ'**
+  String get tourStatusCancelled;
+
+  /// No description provided for @tourInMinutes.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} dəq'**
+  String tourInMinutes(int n);
+
+  /// No description provided for @tourTomorrowAt.
+  ///
+  /// In az, this message translates to:
+  /// **'Sabah {time}'**
+  String tourTomorrowAt(String time);
+
+  /// No description provided for @tourFormatSwiss.
+  ///
+  /// In az, this message translates to:
+  /// **'İsveç'**
+  String get tourFormatSwiss;
+
+  /// No description provided for @tourFormatKnockout.
+  ///
+  /// In az, this message translates to:
+  /// **'Knockout'**
+  String get tourFormatKnockout;
+
+  /// No description provided for @tourFormatRoundRobin.
+  ///
+  /// In az, this message translates to:
+  /// **'Dairəvi'**
+  String get tourFormatRoundRobin;
+
+  /// No description provided for @tourRounds.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} raund'**
+  String tourRounds(int n);
+
+  /// No description provided for @tourMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{variant} · {points} xal'**
+  String tourMeta(String variant, int points);
+
+  /// No description provided for @tourEntrants.
+  ///
+  /// In az, this message translates to:
+  /// **'{n}/{max}'**
+  String tourEntrants(int n, int max);
+
+  /// No description provided for @tourRegistered.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyatdasan'**
+  String get tourRegistered;
+
+  /// No description provided for @tourPlace.
+  ///
+  /// In az, this message translates to:
+  /// **'Yer: {place}'**
+  String tourPlace(String place);
+
+  /// No description provided for @tourOut.
+  ///
+  /// In az, this message translates to:
+  /// **'Çıxdın · {round}'**
+  String tourOut(String round);
+
+  /// No description provided for @tournamentsOfflineTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnirlər oflayn görünmür'**
+  String get tournamentsOfflineTitle;
+
+  /// No description provided for @tournamentsOfflineBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda siyahı yenilənəcək.'**
+  String get tournamentsOfflineBody;
+
+  /// No description provided for @tournamentsEmptyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ turnirin yoxdur'**
+  String get tournamentsEmptyTitle;
+
+  /// No description provided for @tournamentsEmptyBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyatdan keçdiyin turnirlər burada görünəcək.'**
+  String get tournamentsEmptyBody;
+
+  /// No description provided for @tournamentsEmptyCta.
+  ///
+  /// In az, this message translates to:
+  /// **'Gələcək turnirlərə bax'**
+  String get tournamentsEmptyCta;
+
+  /// No description provided for @tournamentsNoneTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir yoxdur'**
+  String get tournamentsNoneTitle;
+
+  /// No description provided for @tournamentsNoneBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu siyahıda hələ turnir yoxdur. Bir az sonra yenidən bax.'**
+  String get tournamentsNoneBody;
+
+  /// No description provided for @listErrorTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Siyahı yüklənmədi'**
+  String get listErrorTitle;
+
+  /// No description provided for @listErrorBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Serverlə əlaqə qurulmadı. Bir az sonra yenidən cəhd et.'**
+  String get listErrorBody;
+
+  /// No description provided for @sngCardMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'Dolan kimi başlayır'**
+  String get sngCardMeta;
+
+  /// No description provided for @sngJoin.
+  ///
+  /// In az, this message translates to:
+  /// **'Qoşul'**
+  String get sngJoin;
+
+  /// No description provided for @privateTourCreateChoice.
+  ///
+  /// In az, this message translates to:
+  /// **'Özəl turnir yarat'**
+  String get privateTourCreateChoice;
+
+  /// No description provided for @privateTourJoinByCode.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodla qoşul'**
+  String get privateTourJoinByCode;
+
+  /// No description provided for @leaderboardTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Liderlər'**
+  String get leaderboardTitle;
+
+  /// No description provided for @tourHeroMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{status} · {type} {size}'**
+  String tourHeroMeta(String status, String type, int size);
+
+  /// No description provided for @tourTypeKnockoutUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'KNOCKOUT'**
+  String get tourTypeKnockoutUpper;
+
+  /// No description provided for @tourTypeSwissUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'İSVEÇ'**
+  String get tourTypeSwissUpper;
+
+  /// No description provided for @tourTypeRoundRobinUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'DAİRƏVİ'**
+  String get tourTypeRoundRobinUpper;
+
+  /// No description provided for @tourTypeSngUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'SIT-AND-GO'**
+  String get tourTypeSngUpper;
+
+  /// No description provided for @tourStartsIn.
+  ///
+  /// In az, this message translates to:
+  /// **'Başlanğıca'**
+  String get tourStartsIn;
+
+  /// No description provided for @tourLiveRound.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund {n} · {stage}'**
+  String tourLiveRound(int n, String stage);
+
+  /// No description provided for @tourNow.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund {n}'**
+  String tourNow(int n);
+
+  /// No description provided for @tourPrizeFund.
+  ///
+  /// In az, this message translates to:
+  /// **'Mükafat fondu'**
+  String get tourPrizeFund;
+
+  /// No description provided for @tourParticipants.
+  ///
+  /// In az, this message translates to:
+  /// **'İştirakçılar'**
+  String get tourParticipants;
+
+  /// No description provided for @tourParticipantsValue.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} / {max}'**
+  String tourParticipantsValue(int n, int max);
+
+  /// No description provided for @tourPlaceRange.
+  ///
+  /// In az, this message translates to:
+  /// **'{from}–{to}'**
+  String tourPlaceRange(String from, String to);
+
+  /// No description provided for @tourRuleEntry.
+  ///
+  /// In az, this message translates to:
+  /// **'Giriş'**
+  String get tourRuleEntry;
+
+  /// No description provided for @tourRuleFairDice.
+  ///
+  /// In az, this message translates to:
+  /// **'Ədalətli zər'**
+  String get tourRuleFairDice;
+
+  /// No description provided for @tourRuleRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq'**
+  String get tourRuleRating;
+
+  /// No description provided for @tourRuleUnrated.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəyişmir'**
+  String get tourRuleUnrated;
+
+  /// No description provided for @tourFormatValue.
+  ///
+  /// In az, this message translates to:
+  /// **'{type} · {points} xala qədər'**
+  String tourFormatValue(String type, int points);
+
+  /// No description provided for @tourEntryValue.
+  ///
+  /// In az, this message translates to:
+  /// **'{price} · min. {rating}'**
+  String tourEntryValue(String price, int rating);
+
+  /// No description provided for @tourEntryInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvətlə'**
+  String get tourEntryInvite;
+
+  /// No description provided for @tourFairDiceValue.
+  ///
+  /// In az, this message translates to:
+  /// **'Yoxlanıla bilər'**
+  String get tourFairDiceValue;
+
+  /// Primary CTA; the coin price is drawn after it.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyat'**
+  String get tourRegister;
+
+  /// No description provided for @tourRegisterFree.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyat · Pulsuz'**
+  String get tourRegisterFree;
+
+  /// No description provided for @tourUnregister.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyatı ləğv et'**
+  String get tourUnregister;
+
+  /// No description provided for @tourUnregisterTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyat ləğv edilsin?'**
+  String get tourUnregisterTitle;
+
+  /// No description provided for @tourUnregisterBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Giriş haqqı balansına qaytarılacaq.'**
+  String get tourUnregisterBody;
+
+  /// No description provided for @tourUnregisterBodyFree.
+  ///
+  /// In az, this message translates to:
+  /// **'Yerini başqa oyunçu tuta bilər.'**
+  String get tourUnregisterBodyFree;
+
+  /// No description provided for @tourRegisteredToast.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyatdan keçdin'**
+  String get tourRegisteredToast;
+
+  /// No description provided for @tourUnregisteredToast.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyat ləğv edildi'**
+  String get tourUnregisteredToast;
+
+  /// No description provided for @tourMinRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Minimum reytinq {n}'**
+  String tourMinRating(int n);
+
+  /// No description provided for @tourFull.
+  ///
+  /// In az, this message translates to:
+  /// **'Yer qalmayıb'**
+  String get tourFull;
+
+  /// No description provided for @tourClosed.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyat bağlıdır'**
+  String get tourClosed;
+
+  /// No description provided for @tourInviteOnly.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvət kodu ilə qoşul'**
+  String get tourInviteOnly;
+
+  /// No description provided for @tourOpenBracket.
+  ///
+  /// In az, this message translates to:
+  /// **'Cədvələ bax'**
+  String get tourOpenBracket;
+
+  /// No description provided for @tourWatch.
+  ///
+  /// In az, this message translates to:
+  /// **'İzlə'**
+  String get tourWatch;
+
+  /// No description provided for @tourTitlePrize.
+  ///
+  /// In az, this message translates to:
+  /// **'Titul: {name}'**
+  String tourTitlePrize(String name);
+
+  /// No description provided for @tourRatingTooLow.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu turnir üçün reytinqin azdır.'**
+  String get tourRatingTooLow;
+
+  /// No description provided for @tourInviteRequired.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu turnirə yalnız dəvət kodu ilə qoşulmaq olar.'**
+  String get tourInviteRequired;
+
+  /// No description provided for @tourActionFailed.
+  ///
+  /// In az, this message translates to:
+  /// **'Alınmadı. Bir az sonra yenidən cəhd et.'**
+  String get tourActionFailed;
+
+  /// No description provided for @tourLive.
+  ///
+  /// In az, this message translates to:
+  /// **'CANLI'**
+  String get tourLive;
+
+  /// No description provided for @roundOf.
+  ///
+  /// In az, this message translates to:
+  /// **'1/{n}'**
+  String roundOf(int n);
+
+  /// No description provided for @roundFinal.
+  ///
+  /// In az, this message translates to:
+  /// **'Final'**
+  String get roundFinal;
+
+  /// No description provided for @tourNextMatch.
+  ///
+  /// In az, this message translates to:
+  /// **'NÖVBƏTİ MATÇIN · {round}'**
+  String tourNextMatch(String round);
+
+  /// No description provided for @tourNextMetaOpen.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund açıqdır · {points} xala qədər'**
+  String tourNextMetaOpen(int points);
+
+  /// No description provided for @tourNextMetaPending.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund hələ açılmayıb · {points} xala qədər'**
+  String tourNextMetaPending(int points);
+
+  /// No description provided for @tourOpponentTbd.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqib bəlli deyil'**
+  String get tourOpponentTbd;
+
+  /// No description provided for @tourReady.
+  ///
+  /// In az, this message translates to:
+  /// **'Hazıram'**
+  String get tourReady;
+
+  /// No description provided for @tourReadyDone.
+  ///
+  /// In az, this message translates to:
+  /// **'Hazırsan'**
+  String get tourReadyDone;
+
+  /// No description provided for @tourWaitingOpponent.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqib gözlənilir'**
+  String get tourWaitingOpponent;
+
+  /// No description provided for @tourEliminated.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnirdən çıxdın · {round}'**
+  String tourEliminated(String round);
+
+  /// No description provided for @tourFinishedPanel.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir bitdi · {place}'**
+  String tourFinishedPanel(String place);
+
+  /// No description provided for @zoomIn.
+  ///
+  /// In az, this message translates to:
+  /// **'Böyüt'**
+  String get zoomIn;
+
+  /// No description provided for @zoomOut.
+  ///
+  /// In az, this message translates to:
+  /// **'Kiçilt'**
+  String get zoomOut;
+
+  /// No description provided for @standingsTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} · Cədvəl'**
+  String standingsTitle(String name);
+
+  /// No description provided for @standingsRound.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund'**
+  String get standingsRound;
+
+  /// No description provided for @standingsColRank.
+  ///
+  /// In az, this message translates to:
+  /// **'#'**
+  String get standingsColRank;
+
+  /// No description provided for @standingsColPlayer.
+  ///
+  /// In az, this message translates to:
+  /// **'OYUNÇU'**
+  String get standingsColPlayer;
+
+  /// No description provided for @standingsColWinLoss.
+  ///
+  /// In az, this message translates to:
+  /// **'Q–M'**
+  String get standingsColWinLoss;
+
+  /// No description provided for @standingsColBuchholz.
+  ///
+  /// In az, this message translates to:
+  /// **'BUCH'**
+  String get standingsColBuchholz;
+
+  /// No description provided for @standingsColPoints.
+  ///
+  /// In az, this message translates to:
+  /// **'XAL'**
+  String get standingsColPoints;
+
+  /// No description provided for @standingsWinLoss.
+  ///
+  /// In az, this message translates to:
+  /// **'{w}–{l}'**
+  String standingsWinLoss(int w, int l);
+
+  /// No description provided for @standingsFootnoteNoPlayoff.
+  ///
+  /// In az, this message translates to:
+  /// **'Bərabərlikdə Buchholz, sonra reytinq'**
+  String get standingsFootnoteNoPlayoff;
+
+  /// No description provided for @standingsEmpty.
+  ///
+  /// In az, this message translates to:
+  /// **'Cədvəl birinci raunddan sonra görünəcək.'**
+  String get standingsEmpty;
+
+  /// No description provided for @championTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Çempion'**
+  String get championTitle;
+
+  /// No description provided for @championLine.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} · {tournament}'**
+  String championLine(String name, String tournament);
+
+  /// No description provided for @championFinal.
+  ///
+  /// In az, this message translates to:
+  /// **'Final: {score} · {opponent}'**
+  String championFinal(String score, String opponent);
+
+  /// No description provided for @rewardCoins.
+  ///
+  /// In az, this message translates to:
+  /// **'+{amount} sikkə'**
+  String rewardCoins(String amount);
+
+  /// No description provided for @championShare.
+  ///
+  /// In az, this message translates to:
+  /// **'Paylaş'**
+  String get championShare;
+
+  /// No description provided for @championShareText.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} {tournament} turnirinin çempionu oldu. NardArena'**
+  String championShareText(String name, String tournament);
+
+  /// No description provided for @championShareCopied.
+  ///
+  /// In az, this message translates to:
+  /// **'Mətn kopyalandı'**
+  String get championShareCopied;
+
+  /// No description provided for @sngTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Sit-and-go · {size}'**
+  String sngTitle(int size);
+
+  /// No description provided for @sngSize.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} oyunçu'**
+  String sngSize(int n);
+
+  /// No description provided for @sngStartsWhenFull.
+  ///
+  /// In az, this message translates to:
+  /// **'Dolan kimi başlayır'**
+  String get sngStartsWhenFull;
+
+  /// No description provided for @sngExpires.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} dəqiqəyə dolmasa, giriş haqqı qaytarılır'**
+  String sngExpires(int n);
+
+  /// No description provided for @sngFormatValue.
+  ///
+  /// In az, this message translates to:
+  /// **'{variant} · {points} xal'**
+  String sngFormatValue(String variant, int points);
+
+  /// No description provided for @sngEntryFee.
+  ///
+  /// In az, this message translates to:
+  /// **'Giriş haqqı'**
+  String get sngEntryFee;
+
+  /// No description provided for @sngTimeControl.
+  ///
+  /// In az, this message translates to:
+  /// **'Vaxt nəzarəti'**
+  String get sngTimeControl;
+
+  /// No description provided for @sngNoShowRule.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund açılandan sonra {n} saniyə ərzində qoşulmayan oyunçu raundu texniki məğlubiyyətlə verir.'**
+  String sngNoShowRule(int n);
+
+  /// No description provided for @sngLeave.
+  ///
+  /// In az, this message translates to:
+  /// **'Çıx · giriş haqqı qaytarılır'**
+  String get sngLeave;
+
+  /// No description provided for @noShowOverline.
+  ///
+  /// In az, this message translates to:
+  /// **'RAUND {round} · MASA {table}'**
+  String noShowOverline(int round, int table);
+
+  /// No description provided for @noShowTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqib hələ qoşulmayıb'**
+  String get noShowTitle;
+
+  /// No description provided for @noShowBody.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} vaxt bitənə qədər gəlməsə, raund sənin xeyrinə texniki qələbə ilə bitəcək.'**
+  String noShowBody(String name);
+
+  /// No description provided for @tourBracket.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir cədvəli'**
+  String get tourBracket;
+
+  /// No description provided for @walkoverTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Növbəti raunda keçdin'**
+  String get walkoverTitle;
+
+  /// No description provided for @walkoverBody.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} vaxtında qoşulmadı. Raund texniki qələbə ilə sənə verildi. Reytinq dəyişmir.'**
+  String walkoverBody(String name);
+
+  /// No description provided for @walkoverNextRound.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund {n} başlayır'**
+  String walkoverNextRound(int n);
+
+  /// No description provided for @walkoverNextRoundWhen.
+  ///
+  /// In az, this message translates to:
+  /// **'digər matçlar bitəndə'**
+  String get walkoverNextRoundWhen;
+
+  /// No description provided for @notFilledTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir başlamadı'**
+  String get notFilledTitle;
+
+  /// No description provided for @notFilledBody.
+  ///
+  /// In az, this message translates to:
+  /// **'{minutes} dəqiqədə {size} oyunçudan yalnız {joined} nəfər qoşuldu. Giriş haqqı balansına qaytarıldı.'**
+  String notFilledBody(int minutes, int size, int joined);
+
+  /// No description provided for @notFilledBodyScheduled.
+  ///
+  /// In az, this message translates to:
+  /// **'Kifayət qədər oyunçu yığılmadı. Giriş haqqı balansına qaytarıldı.'**
+  String get notFilledBodyScheduled;
+
+  /// No description provided for @refunded.
+  ///
+  /// In az, this message translates to:
+  /// **'+{amount} qaytarıldı'**
+  String refunded(String amount);
+
+  /// No description provided for @notFilledJoinSmaller.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} nəfərlik masaya qoşul'**
+  String notFilledJoinSmaller(int n);
+
+  /// No description provided for @backToTournaments.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnirlərə qayıt'**
+  String get backToTournaments;
+
+  /// No description provided for @privateTourTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Özəl turnir'**
+  String get privateTourTitle;
+
+  /// No description provided for @privateTourName.
+  ///
+  /// In az, this message translates to:
+  /// **'Ad'**
+  String get privateTourName;
+
+  /// No description provided for @privateTourNameHint.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnirin adı'**
+  String get privateTourNameHint;
+
+  /// No description provided for @privateTourSize.
+  ///
+  /// In az, this message translates to:
+  /// **'OYUNÇU SAYI'**
+  String get privateTourSize;
+
+  /// No description provided for @privateTourGame.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyun'**
+  String get privateTourGame;
+
+  /// No description provided for @privateTourLength.
+  ///
+  /// In az, this message translates to:
+  /// **'Matç uzunluğu'**
+  String get privateTourLength;
+
+  /// No description provided for @privateTourStart.
+  ///
+  /// In az, this message translates to:
+  /// **'Başlama vaxtı'**
+  String get privateTourStart;
+
+  /// No description provided for @privateTourStartManual.
+  ///
+  /// In az, this message translates to:
+  /// **'Özün başladırsan'**
+  String get privateTourStartManual;
+
+  /// No description provided for @privateTourStartValue.
+  ///
+  /// In az, this message translates to:
+  /// **'{weekday}, {time}'**
+  String privateTourStartValue(String weekday, String time);
+
+  /// No description provided for @privateTourEntry.
+  ///
+  /// In az, this message translates to:
+  /// **'Giriş haqqı'**
+  String get privateTourEntry;
+
+  /// No description provided for @privateTourFree.
+  ///
+  /// In az, this message translates to:
+  /// **'Pulsuz'**
+  String get privateTourFree;
+
+  /// No description provided for @privateTourNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Yaratmaq pulsuzdur. Özəl turnirlər reytinqə təsir etmir.'**
+  String get privateTourNote;
+
+  /// No description provided for @privateTourCreate.
+  ///
+  /// In az, this message translates to:
+  /// **'Turniri yarat'**
+  String get privateTourCreate;
+
+  /// No description provided for @privateTourCodeLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'DƏVƏT KODU'**
+  String get privateTourCodeLabel;
+
+  /// No description provided for @privateTourMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{when} · {variant}, {points} xal'**
+  String privateTourMeta(String when, String variant, int points);
+
+  /// No description provided for @privateTourCopyInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvəti kopyala'**
+  String get privateTourCopyInvite;
+
+  /// No description provided for @privateTourShareText.
+  ///
+  /// In az, this message translates to:
+  /// **'NardArena-da \"{name}\" turnirinə qoşul. Dəvət kodu: {code}'**
+  String privateTourShareText(String name, String code);
+
+  /// No description provided for @privateTourRegistration.
+  ///
+  /// In az, this message translates to:
+  /// **'QEYDİYYAT'**
+  String get privateTourRegistration;
+
+  /// No description provided for @privateTourOrganizer.
+  ///
+  /// In az, this message translates to:
+  /// **'Təşkilatçı'**
+  String get privateTourOrganizer;
+
+  /// No description provided for @privateTourJoined.
+  ///
+  /// In az, this message translates to:
+  /// **'Qoşuldu'**
+  String get privateTourJoined;
+
+  /// No description provided for @privateTourStartNowMin.
+  ///
+  /// In az, this message translates to:
+  /// **'İndi başlat · ən az {n} oyunçu'**
+  String privateTourStartNowMin(int n);
+
+  /// No description provided for @privateTourStartNow.
+  ///
+  /// In az, this message translates to:
+  /// **'İndi başlat'**
+  String get privateTourStartNow;
+
+  /// No description provided for @privateTourCancel.
+  ///
+  /// In az, this message translates to:
+  /// **'Turniri ləğv et'**
+  String get privateTourCancel;
+
+  /// No description provided for @privateTourCancelTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir ləğv edilsin?'**
+  String get privateTourCancelTitle;
+
+  /// No description provided for @privateTourCancelBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeydiyyatdan keçən bütün oyunçular üçün turnir bağlanacaq.'**
+  String get privateTourCancelBody;
+
+  /// No description provided for @privateTourRemove.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnirdən çıxar'**
+  String get privateTourRemove;
+
+  /// No description provided for @privateTourCodeHint.
+  ///
+  /// In az, this message translates to:
+  /// **'6 simvollu kod'**
+  String get privateTourCodeHint;
+
+  /// No description provided for @privateTourCodeNotFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu kodla turnir tapılmadı.'**
+  String get privateTourCodeNotFound;
+
+  /// No description provided for @privateTourTooMany.
+  ///
+  /// In az, this message translates to:
+  /// **'Eyni anda ən çox 3 özəl turnir aça bilərsən.'**
+  String get privateTourTooMany;
+
+  /// No description provided for @privateTourNotEnough.
+  ///
+  /// In az, this message translates to:
+  /// **'Başlamaq üçün ən az 2 oyunçu lazımdır.'**
+  String get privateTourNotEnough;
+
+  /// No description provided for @homeTourMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'Mükafat fondu · {prize}'**
+  String homeTourMeta(String prize);
+
+  /// No description provided for @homeTourStarts.
+  ///
+  /// In az, this message translates to:
+  /// **'Başlanğıc {time} · {prize}'**
+  String homeTourStarts(String time, String prize);
+
+  /// No description provided for @homeSeason.
+  ///
+  /// In az, this message translates to:
+  /// **'SEZON {n} · {days} GÜN'**
+  String homeSeason(int n, int days);
+
+  /// No description provided for @homeSeasonLevel.
+  ///
+  /// In az, this message translates to:
+  /// **'Səviyyə {level} / {max}'**
+  String homeSeasonLevel(int level, int max);
+
+  /// No description provided for @homePuzzleOverline.
+  ///
+  /// In az, this message translates to:
+  /// **'GÜNÜN TAPMACASI'**
+  String get homePuzzleOverline;
+
+  /// No description provided for @homeSeasonEnded.
+  ///
+  /// In az, this message translates to:
+  /// **'SEZON {n} BAŞA ÇATDI'**
+  String homeSeasonEnded(int n);
+
+  /// No description provided for @homeSeasonSummaryCta.
+  ///
+  /// In az, this message translates to:
+  /// **'Nəticələrinə bax'**
+  String get homeSeasonSummaryCta;
+
+  /// No description provided for @modePuzzles.
+  ///
+  /// In az, this message translates to:
+  /// **'Tapmaca'**
+  String get modePuzzles;
+
+  /// No description provided for @seasonN.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon {n}'**
+  String seasonN(int n);
+
+  /// No description provided for @lbScopeGlobal.
+  ///
+  /// In az, this message translates to:
+  /// **'Qlobal'**
+  String get lbScopeGlobal;
+
+  /// No description provided for @lbScopeCountry.
+  ///
+  /// In az, this message translates to:
+  /// **'Ölkə'**
+  String get lbScopeCountry;
+
+  /// No description provided for @lbScopeFriends.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostlar'**
+  String get lbScopeFriends;
+
+  /// No description provided for @lbScopeClan.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan'**
+  String get lbScopeClan;
+
+  /// No description provided for @lbRank.
+  ///
+  /// In az, this message translates to:
+  /// **'#{n}'**
+  String lbRank(int n);
+
+  /// No description provided for @lbEmptyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Siyahı boşdur'**
+  String get lbEmptyTitle;
+
+  /// No description provided for @lbEmptyFriends.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostların hələ reytinq cədvəlində yoxdur.'**
+  String get lbEmptyFriends;
+
+  /// No description provided for @lbEmptyClan.
+  ///
+  /// In az, this message translates to:
+  /// **'Klanın yoxdur və ya üzvlər hələ reytinqdə deyil.'**
+  String get lbEmptyClan;
+
+  /// No description provided for @lbEmptyCountry.
+  ///
+  /// In az, this message translates to:
+  /// **'Profilində ölkə seçilməyib və ya bu ölkədən hələ oyunçu yoxdur.'**
+  String get lbEmptyCountry;
+
+  /// No description provided for @lbUnranked.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinqə düşmək üçün bu sezon {n} reytinq oyunu oyna'**
+  String lbUnranked(int n);
+
+  /// No description provided for @lbSeasonPicker.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon seç'**
+  String get lbSeasonPicker;
+
+  /// No description provided for @seasonPassTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon bileti'**
+  String get seasonPassTitle;
+
+  /// No description provided for @seasonOverline.
+  ///
+  /// In az, this message translates to:
+  /// **'SEZON {n} · {days} GÜN {hours} SAAT'**
+  String seasonOverline(int n, int days, int hours);
+
+  /// No description provided for @seasonOverlineHours.
+  ///
+  /// In az, this message translates to:
+  /// **'SEZON {n} · {hours} SAAT {minutes} DƏQ'**
+  String seasonOverlineHours(int n, int hours, int minutes);
+
+  /// No description provided for @seasonLevelNext.
+  ///
+  /// In az, this message translates to:
+  /// **'Növbəti səviyyə: {n}'**
+  String seasonLevelNext(int n);
+
+  /// No description provided for @seasonLevelMax.
+  ///
+  /// In az, this message translates to:
+  /// **'Son səviyyə'**
+  String get seasonLevelMax;
+
+  /// No description provided for @seasonTrackFree.
+  ///
+  /// In az, this message translates to:
+  /// **'PULSUZ'**
+  String get seasonTrackFree;
+
+  /// No description provided for @seasonTrackPremium.
+  ///
+  /// In az, this message translates to:
+  /// **'PREMİUM'**
+  String get seasonTrackPremium;
+
+  /// No description provided for @seasonRewardItem.
+  ///
+  /// In az, this message translates to:
+  /// **'Əşya'**
+  String get seasonRewardItem;
+
+  /// No description provided for @seasonEndReward.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon sonu mükafatı · {tier}'**
+  String seasonEndReward(String tier);
+
+  /// No description provided for @seasonEndRewardMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{reward} · {points} xal qaldı'**
+  String seasonEndRewardMeta(String reward, int points);
+
+  /// No description provided for @seasonEndRewardReached.
+  ///
+  /// In az, this message translates to:
+  /// **'{reward} · əldə edildi'**
+  String seasonEndRewardReached(String reward);
+
+  /// No description provided for @seasonRewardWithItem.
+  ///
+  /// In az, this message translates to:
+  /// **'{item} + {coins}'**
+  String seasonRewardWithItem(String item, String coins);
+
+  /// No description provided for @seasonPremiumUnlock.
+  ///
+  /// In az, this message translates to:
+  /// **'Premium aç'**
+  String get seasonPremiumUnlock;
+
+  /// No description provided for @seasonClaimAll.
+  ///
+  /// In az, this message translates to:
+  /// **'Hamısını al · {n}'**
+  String seasonClaimAll(int n);
+
+  /// No description provided for @seasonPremiumOwned.
+  ///
+  /// In az, this message translates to:
+  /// **'Premium aktivdir'**
+  String get seasonPremiumOwned;
+
+  /// No description provided for @seasonPremiumSheetTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon bileti · Premium'**
+  String get seasonPremiumSheetTitle;
+
+  /// No description provided for @seasonPremiumBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Premium yol bu sezonun premium mükafatlarını açır. Çatdığın səviyyələrin mükafatları dərhal alına bilər.'**
+  String get seasonPremiumBody;
+
+  /// No description provided for @seasonPremiumBought.
+  ///
+  /// In az, this message translates to:
+  /// **'Premium açıldı'**
+  String get seasonPremiumBought;
+
+  /// No description provided for @seasonNeedsLevel.
+  ///
+  /// In az, this message translates to:
+  /// **'Səviyyə {n} lazımdır'**
+  String seasonNeedsLevel(int n);
+
+  /// No description provided for @seasonNeedsPremium.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu mükafat premium yoldadır'**
+  String get seasonNeedsPremium;
+
+  /// No description provided for @seasonClaimedToast.
+  ///
+  /// In az, this message translates to:
+  /// **'Mükafat alındı'**
+  String get seasonClaimedToast;
+
+  /// No description provided for @seasonUnavailable.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon məlumatı yüklənmədi'**
+  String get seasonUnavailable;
+
+  /// No description provided for @seasonEnded.
+  ///
+  /// In az, this message translates to:
+  /// **'SEZON {n} BAŞA ÇATDI'**
+  String seasonEnded(int n);
+
+  /// No description provided for @seasonStatGames.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyun'**
+  String get seasonStatGames;
+
+  /// No description provided for @seasonStatWinRate.
+  ///
+  /// In az, this message translates to:
+  /// **'Qələbə'**
+  String get seasonStatWinRate;
+
+  /// No description provided for @seasonStatRank.
+  ///
+  /// In az, this message translates to:
+  /// **'Dünyada yer'**
+  String get seasonStatRank;
+
+  /// No description provided for @seasonStatCountryRank.
+  ///
+  /// In az, this message translates to:
+  /// **'Ölkədə yer'**
+  String get seasonStatCountryRank;
+
+  /// No description provided for @seasonStatRatingGain.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq dəyişimi'**
+  String get seasonStatRatingGain;
+
+  /// No description provided for @seasonStatRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Son reytinq'**
+  String get seasonStatRating;
+
+  /// No description provided for @seasonClaimRewards.
+  ///
+  /// In az, this message translates to:
+  /// **'Mükafatları al'**
+  String get seasonClaimRewards;
+
+  /// No description provided for @seasonRewardLine.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon mükafatı: {reward}'**
+  String seasonRewardLine(String reward);
+
+  /// No description provided for @seasonSoftReset.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni sezonda reytinqin: {rating}'**
+  String seasonSoftReset(int rating);
+
+  /// No description provided for @seasonNoSummaryTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ bitmiş sezon yoxdur'**
+  String get seasonNoSummaryTitle;
+
+  /// No description provided for @seasonNoSummaryBody.
+  ///
+  /// In az, this message translates to:
+  /// **'İlk sezon bitəndə nəticələrin burada görünəcək.'**
+  String get seasonNoSummaryBody;
+
+  /// 2.6 button.
+  ///
+  /// In az, this message translates to:
+  /// **'Təhlil'**
+  String get actionAnalysis;
+
+  /// No description provided for @analysisTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Təhlil · Oyun {n}'**
+  String analysisTitle(int n);
+
+  /// Label of the evaluation bar (heuristic, not equity; QUESTIONS #38).
+  ///
+  /// In az, this message translates to:
+  /// **'Qiymət'**
+  String get analysisEquity;
+
+  /// No description provided for @analysisNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Qiymətləri sadə bot hesablayır, dəqiq qələbə şansı deyil. Neyron AI gələndə dəqiqləşəcək.'**
+  String get analysisNote;
+
+  /// No description provided for @analysisBest.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən yaxşı: {moves}'**
+  String analysisBest(String moves);
+
+  /// No description provided for @analysisYours.
+  ///
+  /// In az, this message translates to:
+  /// **'Sənin: {moves} · {loss}'**
+  String analysisYours(String moves, String loss);
+
+  /// No description provided for @analysisBestPlayed.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən yaxşı gediş'**
+  String get analysisBestPlayed;
+
+  /// No description provided for @analysisRunning.
+  ///
+  /// In az, this message translates to:
+  /// **'Təhlil edilir…'**
+  String get analysisRunning;
+
+  /// No description provided for @analysisMarkGood.
+  ///
+  /// In az, this message translates to:
+  /// **'Yaxşı gediş'**
+  String get analysisMarkGood;
+
+  /// No description provided for @analysisMarkMistake.
+  ///
+  /// In az, this message translates to:
+  /// **'Səhv'**
+  String get analysisMarkMistake;
+
+  /// No description provided for @analysisMarkBlunder.
+  ///
+  /// In az, this message translates to:
+  /// **'Kobud səhv'**
+  String get analysisMarkBlunder;
+
+  /// No description provided for @analysisNotReady.
+  ///
+  /// In az, this message translates to:
+  /// **'Matçın qeydi hələ hazır deyil. Bir az sonra yenidən cəhd et.'**
+  String get analysisNotReady;
+
+  /// No description provided for @analysisNoGames.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu matçda oynanmış oyun yoxdur.'**
+  String get analysisNoGames;
+
+  /// No description provided for @analysisGameChip.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyun {n}'**
+  String analysisGameChip(int n);
+
+  /// No description provided for @puzzleTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Tapmaca {n} / {total}'**
+  String puzzleTitle(int n, int total);
+
+  /// No description provided for @puzzleDailyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Günün tapmacası'**
+  String get puzzleDailyTitle;
+
+  /// No description provided for @puzzleRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq {n}'**
+  String puzzleRating(int n);
+
+  /// No description provided for @puzzlePhaseOpening.
+  ///
+  /// In az, this message translates to:
+  /// **'Açılış'**
+  String get puzzlePhaseOpening;
+
+  /// No description provided for @puzzlePhaseMiddle.
+  ///
+  /// In az, this message translates to:
+  /// **'Ara oyun'**
+  String get puzzlePhaseMiddle;
+
+  /// No description provided for @puzzlePhaseBearOff.
+  ///
+  /// In az, this message translates to:
+  /// **'Çıxarış'**
+  String get puzzlePhaseBearOff;
+
+  /// No description provided for @puzzleLevelEasy.
+  ///
+  /// In az, this message translates to:
+  /// **'Asan'**
+  String get puzzleLevelEasy;
+
+  /// No description provided for @puzzleLevelMedium.
+  ///
+  /// In az, this message translates to:
+  /// **'Orta'**
+  String get puzzleLevelMedium;
+
+  /// No description provided for @puzzleLevelHard.
+  ///
+  /// In az, this message translates to:
+  /// **'Çətin'**
+  String get puzzleLevelHard;
+
+  /// No description provided for @puzzlePrompt.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən yaxşı gedişi tap'**
+  String get puzzlePrompt;
+
+  /// No description provided for @puzzleContext.
+  ///
+  /// In az, this message translates to:
+  /// **'{side} oynayırsan. Zər: {d1} – {d2}.'**
+  String puzzleContext(String side, int d1, int d2);
+
+  /// No description provided for @puzzleSideWhite.
+  ///
+  /// In az, this message translates to:
+  /// **'Ağ daşlarla'**
+  String get puzzleSideWhite;
+
+  /// No description provided for @puzzleSideBlack.
+  ///
+  /// In az, this message translates to:
+  /// **'Qara daşlarla'**
+  String get puzzleSideBlack;
+
+  /// No description provided for @puzzleHint.
+  ///
+  /// In az, this message translates to:
+  /// **'İpucu'**
+  String get puzzleHint;
+
+  /// No description provided for @puzzleConfirm.
+  ///
+  /// In az, this message translates to:
+  /// **'Gedişi təsdiqlə'**
+  String get puzzleConfirm;
+
+  /// No description provided for @puzzleCorrect.
+  ///
+  /// In az, this message translates to:
+  /// **'Doğru'**
+  String get puzzleCorrect;
+
+  /// No description provided for @puzzleCorrectFirstTry.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən yaxşı gediş · ilk cəhddə'**
+  String get puzzleCorrectFirstTry;
+
+  /// No description provided for @puzzleCorrectSecondTry.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən yaxşı gediş · ikinci cəhddə'**
+  String get puzzleCorrectSecondTry;
+
+  /// No description provided for @puzzleYours.
+  ///
+  /// In az, this message translates to:
+  /// **'Sənin'**
+  String get puzzleYours;
+
+  /// No description provided for @puzzleSecondBest.
+  ///
+  /// In az, this message translates to:
+  /// **'İkinci yaxşı'**
+  String get puzzleSecondBest;
+
+  /// No description provided for @puzzleBest.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən yaxşı'**
+  String get puzzleBest;
+
+  /// No description provided for @puzzleHidden.
+  ///
+  /// In az, this message translates to:
+  /// **'gizli'**
+  String get puzzleHidden;
+
+  /// No description provided for @puzzleSeeAnalysis.
+  ///
+  /// In az, this message translates to:
+  /// **'Təhlilə bax'**
+  String get puzzleSeeAnalysis;
+
+  /// No description provided for @puzzleNext.
+  ///
+  /// In az, this message translates to:
+  /// **'Növbəti tapmaca'**
+  String get puzzleNext;
+
+  /// No description provided for @puzzleWrong.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən yaxşı gediş deyil'**
+  String get puzzleWrong;
+
+  /// No description provided for @puzzleAttemptsLeft.
+  ///
+  /// In az, this message translates to:
+  /// **'Qalan cəhd: {n}'**
+  String puzzleAttemptsLeft(int n);
+
+  /// No description provided for @puzzleShowSolution.
+  ///
+  /// In az, this message translates to:
+  /// **'Həllə bax'**
+  String get puzzleShowSolution;
+
+  /// No description provided for @puzzleOutOfTries.
+  ///
+  /// In az, this message translates to:
+  /// **'Cəhdlər bitdi'**
+  String get puzzleOutOfTries;
+
+  /// No description provided for @puzzleAnswer.
+  ///
+  /// In az, this message translates to:
+  /// **'Düzgün cavab: {move}'**
+  String puzzleAnswer(String move);
+
+  /// No description provided for @puzzleSetDoneTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Bütün tapmacaları həll etdin'**
+  String get puzzleSetDoneTitle;
+
+  /// No description provided for @puzzleSetDoneBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni tapmacalar tezliklə əlavə olunacaq.'**
+  String get puzzleSetDoneBody;
+
+  /// No description provided for @puzzleDailyDone.
+  ///
+  /// In az, this message translates to:
+  /// **'Bugünkü tapmaca bitib. Növbəti tapmacalarla davam et.'**
+  String get puzzleDailyDone;
+
+  /// No description provided for @puzzleOffline.
+  ///
+  /// In az, this message translates to:
+  /// **'Tapmacaları yoxlamaq üçün bağlantı lazımdır.'**
+  String get puzzleOffline;
+
+  /// Daily mission daily_puzzle_2.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} tapmaca həll et'**
+  String missionPuzzle(int n);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

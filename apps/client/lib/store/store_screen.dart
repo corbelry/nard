@@ -9,6 +9,7 @@ import '../cosmetics/set_preview.dart';
 import '../game/online_overlays.dart' show PeriodicBuilder;
 import '../l10n/gen/app_localizations.dart';
 import '../online/reachability.dart';
+import '../seasons/home_season.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/buttons.dart';
@@ -129,6 +130,9 @@ class _StoreBody extends ConsumerWidget {
             _FeaturedCard(offer: featured, onTap: () => open(featured.item)),
             const SizedBox(height: 14),
           ],
+          // 7.3 season-pass card → 7.1 (store.md §3.1 note 3).
+          const HomeSeasonCard(),
+          const SizedBox(height: 14),
           if (value.daily.isNotEmpty) ...[
             Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,

@@ -380,6 +380,29 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ],
             ),
           ),
+          // Phase 6 entries (tournaments.md §14: rating → 6.5).
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _LinkTile(
+                    icon: LucideIcons.barChart2,
+                    label: l.leaderboardTitle,
+                    onTap: () => context.push('/leaderboard'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _LinkTile(
+                    icon: LucideIcons.ticket,
+                    label: l.seasonPassTitle,
+                    onTap: () => context.push('/season'),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
             child: Overline(l.profileHistory),
@@ -454,7 +477,7 @@ class _HistoryRow extends StatelessWidget {
     final unrated = !e.ranked || e.opponentBot;
     final color = unrated ? c.accent : (e.won ? c.successText : c.dangerText);
     final delta = e.ratingDelta;
-    return Container(
+    final row = Container(
       height: 54,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -529,6 +552,11 @@ class _HistoryRow extends StatelessWidget {
           ),
         ],
       ),
+    );
+    return Pressable(
+      onTap: () => context.push('/analysis/match/${e.id}'),
+      semanticLabel: l.actionAnalysis,
+      child: row,
     );
   }
 }

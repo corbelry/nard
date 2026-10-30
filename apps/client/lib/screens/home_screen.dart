@@ -16,9 +16,12 @@ import '../online/online_text.dart';
 import '../online/rank.dart';
 import '../online/reachability.dart';
 import '../progression/home_progress.dart';
+import '../puzzles/home_puzzle_card.dart';
+import '../seasons/home_season.dart';
 import '../social/room_screen.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
+import '../tournaments/home_tournament_banner.dart';
 import '../ui/background.dart';
 import '../ui/buttons.dart';
 import '../ui/extra_tokens.dart';
@@ -327,8 +330,12 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
                 if (account != null) ...[
+                  const HomeTournamentBanner(),
                   const SizedBox(height: 8),
-                  const HomeMissionCard(),
+                  const HomeSeasonPrompt(),
+                  const HomeProgressRow(),
+                  const SizedBox(height: 8),
+                  HomePuzzleCard(enabled: !offline),
                 ],
               ],
             ),

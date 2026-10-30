@@ -8,14 +8,17 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../online/account.dart';
 import '../online/api_client.dart' show Account;
+import '../online/online_game_controller.dart';
 import '../progression/progress.dart';
 import '../progression/streak_modal.dart';
+import '../tournaments/tournament_providers.dart';
 import '../ui/background.dart';
 import '../ui/layout.dart';
 
-/// Tab roots: Əsas, Klan, Mağaza and Profil (Turnirlər stays hidden until
-/// Phase 6, social.md §8). Runs the daily check-in once per app open while signed in and
-/// shows the 12.2 streak modal when coins were credited.
+/// Tab roots: Əsas, Turnirlər, Klan, Mağaza and Profil (tournaments.md
+/// §13). Runs the daily check-in once per app open while signed in and
+/// shows the 12.2 streak modal when coins were credited. Assigned
+/// tournament matches open VS (2.5) and walkovers 21.3 from any screen.
 class TabShell extends ConsumerStatefulWidget {
   const TabShell({super.key, required this.shell});
 
@@ -34,6 +37,30 @@ class _TabShellState extends ConsumerState<TabShell> {
       (_, next) => _maybeCheckIn(next.value),
       fireImmediately: true,
     );
+    ref.listenManual<Lobby>(lobbyProvider, (prev, next) {
+      final found = next.phase == LobbyPhase.found;
+      final tournament = next.match?.tournamentId != null;
+      if (found && tournament && prev?.phase != LobbyPhase.found && mounted) {
+        unawaited(GoRouter.of(context).push('/online/vs'));
+      }
+    });
+    ref.listenManual<TournamentLive>(tournamentSocketProvider, (_, next) {
+      if (next.walkovers.isEmpty) return;
+      // A screen showing the match (21.2) may take it in this frame.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final pending = ref.read(tournamentSocketProvider).walkovers;
+        if (pending.isEmpty) return;
+        final w = pending.first;
+        ref.read(tournamentSocketProvider.notifier).consumeWalkover(w.matchId);
+        final r = ref.read(tournamentSocketProvider).ready[w.matchId];
+        if (w.winner != null && (r == null || r.you == w.winner)) {
+          unawaited(
+            GoRouter.of(context).push('/tournament/walkover', extra: w),
+          );
+        }
+      });
+    });
   }
 
   void _maybeCheckIn(Account? account) {
@@ -63,6 +90,7 @@ class _TabShellState extends ConsumerState<TabShell> {
       bottomNavigationBar: NardTabBar(
         tabs: [
           NardTab(LucideIcons.home, l.tabHome),
+          NardTab(LucideIcons.trophy, l.tabTournaments),
           NardTab(LucideIcons.shield, l.tabClan),
           NardTab(LucideIcons.shoppingBag, l.tabStore),
           NardTab(LucideIcons.user, l.tabProfile),

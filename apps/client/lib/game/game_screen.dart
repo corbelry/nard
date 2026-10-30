@@ -1169,6 +1169,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   Widget _matchResult(GamePresenter p, AppLocalizations l) {
     final s = p.s;
+    final tournamentId =
+        widget.online ? ref.read(lobbyProvider).match?.tournamentId : null;
     final winner = s.score.winner!;
     final me = p.setup.hasRemote ? p.setup.localSide : winner;
     final won = winner == me;
@@ -1187,8 +1189,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       oppScore: p.score(me.opponent),
       meta: meta,
       extra: _resultExtras(p, me),
-      rematchLabel: l.matchRematch,
+      rematchLabel: tournamentId != null ? l.tourOpenBracket : l.matchRematch,
       onRematch: () {
+        // Tournament matches have no rematch: back to the bracket.
+        if (tournamentId != null) {
+          _ctrl.leave();
+          context.go('/tournaments/$tournamentId/bracket');
+          return;
+        }
         setState(() {
           _matchResultReady = false;
           _resultTimer = null;
@@ -1214,10 +1222,27 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         _ctrl.leave();
         context.go('/home');
       },
-      replayLabel: l.actionViewReplay,
-      // Online matches are not saved locally (history lives in 8.1).
-      onReplay: widget.online ? null : () => context.push('/replays'),
+      replayLabel: l.actionAnalysis,
+      // 10.1 analysis: the last saved local game, or the online match's
+      // records from the API.
+      onReplay: () => _openAnalysis(p),
     );
+  }
+
+  Future<void> _openAnalysis(GamePresenter p) async {
+    final online = p.setup.online;
+    if (widget.online || online != null) {
+      final id = online?.matchId;
+      if (id != null) await context.push('/analysis/match/$id');
+      return;
+    }
+    final rows = await ref.read(databaseProvider).recentGames(limit: 1);
+    if (!mounted) return;
+    if (rows.isEmpty) {
+      await context.push('/replays');
+    } else {
+      await context.push('/replay/${rows.first.id}?analysis=1');
+    }
   }
 
   /// 2.6 parts under the score: rating card (ranked) and the rewards row

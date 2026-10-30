@@ -11,8 +11,8 @@ end of every phase (together with `CHANGELOG.md`).
 | 3 – Accounts & online core | Laravel auth, profiles, game_server, provably fair dice (`docs/FAIRNESS.md`), casual + ranked matchmaking, clocks, reconnection, rating | ✅ Done (2026-10-30) — single game-server pod (ADR-032); Apple/Google keys pending |
 | 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation; progression: level/XP, missions, achievements, titles, login streak (ADR-017) | ✅ Done (2026-10-31) — data-driven sets (ADR-034); texture packs + store receipt APIs pending |
 | 5 – Social & clans | Friends, private rooms, spectating, emotes, clans, clan chat, clan wars | ✅ Done (2026-11-01) — ADR-036/037 |
-| 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | 🚧 In progress — tournament backend done (API + game server + protocol, ADR-038, `docs/api/tournaments.md`); seasons / pass / leaderboards / puzzles API done (ADR-039, `docs/api/seasons.md`); client screens, analysis next |
-| 7 – Polish & launch | Admin completeness, anti-cheat, notifications, observability, load tests, store listings | Planned |
+| 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | ✅ Done (2026-11-01) — heuristic analysis; neural AI later (ADR-038–040) |
+| 7 – Polish & launch | Admin completeness, anti-cheat, notifications, observability, load tests, store listings | ⏭ Next |
 
 ## Design coverage (nardarena-design skill)
 
@@ -134,6 +134,11 @@ No design requests are open.
   run (auto-increment ids / JSON key order assumed by tests, state leaking
   between tests). Production paths are covered by the compose e2e on MySQL.
   Add a MySQL test job and make those tests id/order-independent.
+
+- Neural AI (spec §6 v2) — training pipeline, on-device model, unlocks
+  Usta/Qrossmeyster, real equity in analysis (QUESTIONS #39).
+- Tournament pushes (eliminated/champion/cancelled), trophy showcase,
+  private tournament editing, Swiss playoff, season mars/streak stats.
 
 ## Open questions for the product owner
 

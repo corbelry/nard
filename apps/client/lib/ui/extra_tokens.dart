@@ -319,6 +319,104 @@ extension NardExtras on NardColors {
 
   /// Spectator / war "live" pill.
   Color get liveFill => dangerText.withValues(alpha: .16);
+
+  // ---- Tournaments, seasons, analysis, puzzles (tournaments.md §0) ------
+
+  /// Tournament poster fallback (4.2 hero, 2.1 / 4.1 thumbs).
+  Gradient get posterFallback => const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFF4A321F), Color(0xFF1B120C)],
+  );
+
+  /// Placeholder stripes over poster / trophy slots.
+  Color get stripes => text.withValues(alpha: .06);
+
+  /// 4.3 bracket canvas dot grid.
+  Color get bracketDot => accent.withValues(alpha: .12);
+
+  /// Bracket connector (my path uses [accentHi]).
+  Color get bracketLine => accent.withValues(alpha: .35);
+
+  /// 4.5 champion background.
+  Gradient get championBg => RadialGradient(
+    center: const Alignment(0, -.24),
+    radius: .8,
+    colors: [
+      accentHi.withValues(alpha: .35),
+      const Color(0xFF2B1D14),
+      const Color(0xFF120C08),
+    ],
+    stops: const [0, .6, 1],
+  );
+
+  /// 4.5 title reward pill text (oklch .85 .12 85).
+  Color get titlePrizeText => const Color(0xFFF2C86C);
+
+  /// 21.3 walkover background (success-tinted twin of [levelUpBg]).
+  Gradient get walkoverBg => const RadialGradient(
+    center: Alignment(0, -.3),
+    radius: .85,
+    colors: [Color(0xFF24402F), Color(0xFF17121A), Color(0xFF120C0E)],
+    stops: [0, .6, 1],
+  );
+
+  /// 22.2 disabled primary (garnet @ .35, faded label).
+  Color get disabledPrimaryFill => danger.withValues(alpha: .35);
+
+  /// 7.1 season pass header: season colour fading into the screen. The
+  /// colour is season data ("Xəzər" teal until the API sends a theme).
+  Gradient seasonPassBg(Color season) => LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [season, const Color(0xFF1B120C)],
+    stops: const [0, .45],
+  );
+  Color get seasonDefaultColor => const Color(0xFF123844);
+  Color get seasonDefaultInk => const Color(0xFF8FD0DC);
+
+  /// 7.2 season summary background tinted by the tier.
+  Gradient seasonSummaryBg(Color tierDark) => RadialGradient(
+    center: const Alignment(0, -.48),
+    radius: .9,
+    colors: [tierDark.withValues(alpha: .35), const Color(0xFF1B120C)],
+    stops: const [0, .7],
+  );
+
+  /// Pass premium tile fill.
+  Gradient get premiumTileFill => LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [accent.withValues(alpha: .16), accent.withValues(alpha: .04)],
+  );
+
+  /// 6.5 leaderboard background.
+  Gradient get leaderboardBg => RadialGradient(
+    center: const Alignment(0, -.56),
+    radius: .9,
+    colors: [accent.withValues(alpha: .2), const Color(0xFF1B120C)],
+    stops: const [0, .7],
+  );
+
+  /// Podium place digit colours (6.5): 1st brass, 2nd silver, 3rd bronze.
+  Color podiumDigit(int place) => switch (place) {
+    1 => accentHi,
+    2 => const Color(0xFFD8DCE0),
+    _ => const Color(0xFFE0A77A),
+  };
+
+  /// 10.1 evaluation bar: White share (ivory) and Black share.
+  Gradient get evalWhite =>
+      const LinearGradient(colors: [Color(0xFFD6C5A0), Color(0xFFF3EBDD)]);
+  Color get evalBlack => const Color(0xFF151312);
+
+  /// Blunder row fill (10.1).
+  Color get blunderFill => dangerText.withValues(alpha: .14);
+
+  /// Puzzle result panel shadow (13.2 / 13.3).
+  List<BoxShadow> get panelShadow => const [
+    BoxShadow(color: Color(0x66000000), offset: Offset(0, -10), blurRadius: 30),
+  ];
 }
 
 /// Rarity colour of an item (`tokens/colors.css`); tournament items use
