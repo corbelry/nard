@@ -38,7 +38,7 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 30 | 5 | Clan roles: who may accept requests, kick and promote (design is inconsistent, e.g. an Ağsaqqal kicking an Ağsaqqal). | a) Leader all; co-leader below co-leader; elder: requests, invites, kick members, moderate chat · b) Other | a | assumed |
 | 31 | 5 | Weekly clan chest (target 10 000 coins): what do members get when it is reached? Donation limits? | a) Clan XP only for now; decide rewards later · b) Coins back to donors · c) An exclusive item | a | answered 2026-11-01: fixed reward — 300 coins to each donor of the week + clan XP (implemented) |
 | 32 | 5 | Clan creation 3 000 coins, rename 1 000, member cap 50, tag 3–5 letters (design numbers). | a) Keep · b) Change | a | assumed |
-| 33 | 6 | Do public tournament matches change rating? | a) No — tournaments pay prizes; rating only from ranked queue · b) Yes | a | assumed |
+| 33 | 6 | Do public tournament matches change rating? | a) No — tournaments pay prizes; rating only from ranked queue · b) Yes | a | answered 2026-11-01: a — tournaments stay unrated (as built) |
 | 34 | 6 | Private tournaments with coin entry fees let friends stake coins against each other. | a) Private tournaments are free entry only · b) Allow coin entry | a | assumed |
 | 35 | 6 | No-show timer: 30 s in one mock, 60 s in another. | a) 60 s (same as the reconnect grace) · b) 30 s | a | assumed |
 | 36 | 6 | Prize pools from the design (64-player KO 50 000 → 25 000 / 12 000 / 6 500 + 6 500; sit-and-go keeps 10 % of entries; unfilled sit-and-go cancels with full refund after 10 min). | a) Keep · b) Change | a | assumed |
