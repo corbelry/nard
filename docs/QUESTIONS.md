@@ -38,5 +38,12 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 30 | 5 | Clan roles: who may accept requests, kick and promote (design is inconsistent, e.g. an Ağsaqqal kicking an Ağsaqqal). | a) Leader all; co-leader below co-leader; elder: requests, invites, kick members, moderate chat · b) Other | a | assumed |
 | 31 | 5 | Weekly clan chest (target 10 000 coins): what do members get when it is reached? Donation limits? | a) Clan XP only for now; decide rewards later · b) Coins back to donors · c) An exclusive item | a | open |
 | 32 | 5 | Clan creation 3 000 coins, rename 1 000, member cap 50, tag 3–5 letters (design numbers). | a) Keep · b) Change | a | assumed |
+| 33 | 6 | Do public tournament matches change rating? | a) No — tournaments pay prizes; rating only from ranked queue · b) Yes | a | assumed |
+| 34 | 6 | Private tournaments with coin entry fees let friends stake coins against each other. | a) Private tournaments are free entry only · b) Allow coin entry | a | assumed |
+| 35 | 6 | No-show timer: 30 s in one mock, 60 s in another. | a) 60 s (same as the reconnect grace) · b) 30 s | a | assumed |
+| 36 | 6 | Prize pools from the design (64-player KO 50 000 → 25 000 / 12 000 / 6 500 + 6 500; sit-and-go keeps 10 % of entries; unfilled sit-and-go cancels with full refund after 10 min). | a) Keep · b) Change | a | assumed |
+| 37 | 6 | Season pass: 50 levels × 1 000 XP, premium 950 Yaqut, premium track gives some Yaqut back. | a) Keep · b) Change | a | assumed |
+| 38 | 6 | Analysis numbers come from the heuristic bot, not a trained equity model. | a) Show them as "evaluation" with a note until the neural AI (later) · b) Hide analysis until then | a | assumed |
+| 39 | 6 | Neural AI (spec §6 v2, Python training, on-device model) — Usta/Qrossmeyster stay locked until it exists. | a) Later phase, after launch data · b) Now | a | assumed |
 
 Earlier questions are tracked in `ROADMAP.md` → "Open questions".
