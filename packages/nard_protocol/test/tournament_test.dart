@@ -26,7 +26,7 @@ void main() {
     expect(back.matchId, 't7-1-0');
     expect(back.tournamentId, '7');
     expect(back.round, 1);
-    expect(back.noShowSeconds, 60);
+    expect(back.noShowSeconds, 180);
     expect(back.white.country, 'AZ');
     expect(back.black.name, 'Nigar');
     Map<String, Object?> bad(String key, Object? value) => {
@@ -66,11 +66,16 @@ void main() {
         black: black,
         ready: {Side.white: true},
         deadline: 60000,
+        noShowSeconds: 180,
       ).toJson(),
     );
+    expect(state.noShowSeconds, 180);
     expect(state.you, Side.black);
     expect(state.ready, {Side.white: true, Side.black: false});
     expect(state.deadline, 60000);
+    // Older servers did not send it: the default no-show wait (#35).
+    final legacy = state.toJson()..remove('noShowSeconds');
+    expect(TournamentReadyStatePayload.fromJson(legacy).noShowSeconds, 180);
     final walkover = TournamentWalkoverPayload.fromJson(
       const TournamentWalkoverPayload(
         matchId: 'm1',

@@ -1,4 +1,5 @@
 import 'package:nard_core/nard_core.dart' show Variant;
+import 'package:nard_protocol/nard_protocol.dart' show defaultNoShowSeconds;
 
 /// Tournament shapes of `docs/api/tournaments.md`.
 
@@ -363,7 +364,7 @@ class NextMatch {
     required this.round,
     this.status = PairingStatus.pending,
     this.opponent,
-    this.noShowSeconds = 60,
+    this.noShowSeconds = defaultNoShowSeconds,
   });
 
   final String matchId;
@@ -383,7 +384,7 @@ class NextMatch {
         PairingStatus.pending,
       ),
       opponent: UserLite.maybe(json['opponent']),
-      noShowSeconds: _int(json['noShowSeconds'], 60),
+      noShowSeconds: _int(json['noShowSeconds'], defaultNoShowSeconds),
     );
   }
 }

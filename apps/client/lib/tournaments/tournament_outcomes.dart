@@ -209,7 +209,7 @@ class ChampionView extends ConsumerWidget {
 }
 
 /// 21.2 Opponent no-show: my avatar, the empty seat and the countdown to
-/// the walkover (60 s, ADR-038). A walkover replaces it with 21.3.
+/// the walkover (3 min by default, QUESTIONS #35). A walkover replaces it with 21.3.
 class NoShowScreen extends ConsumerStatefulWidget {
   const NoShowScreen({super.key, required this.state});
 
@@ -270,7 +270,7 @@ class _NoShowScreenState extends ConsumerState<NoShowScreen> {
     final me = s.you == Side.white ? s.white : s.black;
     final opp = s.you == Side.white ? s.black : s.white;
     final left = max(0, s.deadline - DateTime.now().millisecondsSinceEpoch);
-    const total = 60000;
+    final total = s.noShowSeconds * 1000;
     final seconds = (left / 1000).ceil();
     final label =
         '${seconds ~/ 60}:${(seconds % 60).toString().padLeft(2, '0')}';

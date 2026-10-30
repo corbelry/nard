@@ -3,7 +3,7 @@
 All under `/api/v1`, bearer token. Errors: `{code}` — 422 refused, 403
 `forbidden`, 404 `not_found`, 429 `rate_limited`; bad input 422
 `{message, errors}`. Numbers: `apps/api/config/tournaments.php`. Rules:
-ADR-038 (tournament matches are unrated, private ones free, 60 s no-show,
+ADR-038 (tournament matches are unrated, private ones free, 3 min no-show (#35),
 house-funded scheduled prizes, sit-and-go 10 % rake and 10 min fill time).
 
 Shapes
@@ -67,7 +67,7 @@ Scheduler (`routes/console.php`)
 
 Game server (internal, signed both ways: `X-Nard-Signature = hex(HMAC-SHA256(GAME_TICKET_SECRET, body))`)
 - API → game server `POST {GAME_SERVER_URL}/internal/tournament-matches` TournamentMatch
-  `{matchId "t{tournament}-{round}-{slot}", tournamentId, round, variant, matchLength, white: Player, black: Player, noShowSeconds: 60}`
+  `{matchId "t{tournament}-{round}-{slot}", tournamentId, round, variant, matchLength, white: Player, black: Player, noShowSeconds: 180}`
   (`packages/nard_protocol/schema/tournament_match.schema.json`; Player has no rating) → 201 `assigned` | 200 `known` | 401 | 400.
 - The game server starts the match once both players are connected (or sent `tournament.ready`), mode `tournament`, casual clock.
   One player present at the deadline → MatchResult `reason: walkover` (winner = present player, full length, no games);
@@ -77,7 +77,7 @@ Game server (internal, signed both ways: `X-Nard-Signature = hex(HMAC-SHA256(GAM
   (`tournament` coin credit keyed per tournament and user, items into `user_items` with `source: tournament`).
 
 WebSocket (docs/PROTOCOL.md)
-- S→C `tournament.readyState {matchId, tournamentId, round, you, white, black, ready{white, black}, deadline}` when assigned, on connect, on changes.
+- S→C `tournament.readyState {matchId, tournamentId, round, you, white, black, ready{white, black}, deadline, noShowSeconds}` when assigned, on connect, on changes.
 - C→S `tournament.ready {matchId}` (Hazıram); `error not_in_match` if it is not your assigned match.
 - S→C `match.found` gains `tournamentId, round` (mode `tournament`); S→C `tournament.walkover {matchId, tournamentId, winner?}` (21.3).
 - While a tournament match waits, `queue.join` / `room.*` are refused (`illegal_action`).

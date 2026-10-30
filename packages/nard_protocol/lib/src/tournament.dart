@@ -3,6 +3,10 @@ import 'package:nard_core/nard_core.dart';
 import 'messages.dart';
 import 'read.dart';
 
+/// Wait before an absent tournament player loses by walkover (owner,
+/// QUESTIONS #35). The API sends its configured value with each pairing.
+const defaultNoShowSeconds = 180;
+
 /// API → game server, `POST /internal/tournament-matches` (signed like
 /// results, `X-Nard-Signature`): a pairing to play. The game server starts
 /// the match once both players are present and reports a walkover (or a
@@ -17,7 +21,7 @@ class TournamentMatchPayload {
     required this.matchLength,
     required this.white,
     required this.black,
-    this.noShowSeconds = 60,
+    this.noShowSeconds = defaultNoShowSeconds,
   });
 
   final String matchId;
@@ -94,6 +98,7 @@ class TournamentReadyStatePayload {
     required this.black,
     required this.ready,
     required this.deadline,
+    this.noShowSeconds = defaultNoShowSeconds,
   });
 
   final String matchId;
@@ -111,6 +116,9 @@ class TournamentReadyStatePayload {
   /// When an absent player loses by walkover (ms since epoch).
   final int deadline;
 
+  /// The whole wait before a walkover, for the countdown ring.
+  final int noShowSeconds;
+
   Map<String, Object?> toJson() => {
     'matchId': matchId,
     'tournamentId': tournamentId,
@@ -120,6 +128,7 @@ class TournamentReadyStatePayload {
     'black': black.toJson(),
     'ready': {for (final s in Side.values) s.name: ready[s] ?? false},
     'deadline': deadline,
+    'noShowSeconds': noShowSeconds,
   };
 
   static TournamentReadyStatePayload fromJson(Map<String, Object?> j) {
@@ -133,6 +142,7 @@ class TournamentReadyStatePayload {
       black: PlayerInfo.fromJson(j.obj('black')),
       ready: {for (final s in Side.values) s: ready[s.name] == true},
       deadline: j.req<int>('deadline'),
+      noShowSeconds: j.opt<int>('noShowSeconds') ?? defaultNoShowSeconds,
     );
   }
 }

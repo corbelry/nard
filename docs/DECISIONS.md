@@ -353,7 +353,7 @@ links (Phase 7 with push).
 Product answers assumed (QUESTIONS #33–36): tournament matches are
 **unrated** (queue mode `tournament`, no ratings in seats or results);
 private tournaments are **free** knockouts with an invite code (sizes
-4/8/16/32, start with ≥ 2); the no-show timer is **60 s** from the moment
+4/8/16/32, start with ≥ 2); the no-show timer is **3 min** (owner, #35; was 60 s) from the moment
 the game server receives the pairing; scheduled prizes are fixed,
 house-funded coin credits (reason `tournament`, ADR-022 keeps coins
 earn-only), sit-and-go withholds **10 %** of the entries and an unfilled

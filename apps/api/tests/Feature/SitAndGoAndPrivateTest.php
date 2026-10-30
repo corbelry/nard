@@ -41,7 +41,7 @@ class SitAndGoAndPrivateTest extends TournamentTestCase
         // Seed 1 (highest rating) meets seed 8.
         $first = $round->firstOrFail();
         $this->assertSame([$players[7]->id, $players[0]->id], [$first->white_user_id, $first->black_user_id]);
-        Http::assertSent(fn ($r) => $r['noShowSeconds'] === 60 && $r['matchLength'] === 3 && ! isset($r['white']['rating']));
+        Http::assertSent(fn ($r) => $r['noShowSeconds'] === 180 && $r['matchLength'] === 3 && ! isset($r['white']['rating']));
         $this->actingAs($players[0])->postJson('/api/v1/tournaments/sng/16/join')->assertUnprocessable();
         $this->actingAs($players[0])->postJson('/api/v1/tournaments/sng/12/join', ['idempotencyKey' => 'sng-key-12'])->assertNotFound();
     }

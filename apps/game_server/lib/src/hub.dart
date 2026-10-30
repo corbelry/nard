@@ -494,6 +494,7 @@ class Hub {
                 black: m.black,
                 ready: {for (final s in Side.values) s: a.present.contains(s)},
                 deadline: a.deadline,
+                noShowSeconds: m.noShowSeconds,
               ).toJson(),
         ),
       );

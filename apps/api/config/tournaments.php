@@ -6,8 +6,9 @@
 return [
     'formats' => ['knockout', 'swiss', 'round_robin'],
 
-    // An absent player loses by walkover after this many seconds (#35).
-    'no_show_seconds' => 60,
+    // An absent player loses by walkover after this many seconds (owner,
+    // QUESTIONS #35: 3 minutes).
+    'no_show_seconds' => 180,
     // Pairings the game server has not reported on are pushed again (the
     // game server ignores matches it already knows).
     'repush_after_minutes' => 10,

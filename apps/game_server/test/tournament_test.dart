@@ -118,6 +118,7 @@ void main() {
       expect(waiting.you, Side.white);
       expect(waiting.ready, {Side.white: true, Side.black: false});
       expect(waiting.deadline, base + 60000);
+      expect(waiting.noShowSeconds, 60);
       // Alice may not queue for another match meanwhile.
       alice.send(MessageType.queueJoin, {
         'variant': 'shortNard',
