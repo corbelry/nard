@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nard_ai/nard_ai.dart';
 import 'package:nard_client/analysis/analysis_engine.dart';
+import 'package:nard_client/analysis/analysis_providers.dart';
 import 'package:nard_client/analysis/analysis_widgets.dart';
 import 'package:nard_client/app/router.dart';
 import 'package:nard_client/l10n/gen/app_localizations.dart';
@@ -361,6 +362,37 @@ void main() {
   });
 
   group('analysis (10.1)', () {
+    test('match records read the API games (record + seeds per game)', () {
+      final record = GameRecord(
+        variant: Variant.shortNard,
+      ).add(OpeningRoll(5, 2));
+      final m = MatchRecords.fromJson({
+        'variant': 'shortNard',
+        'white': {'name': 'Elvin'},
+        'black': {'name': 'Bot'},
+        'you': 'black',
+        'games': [
+          // What `GET /me/matches/{id}` returns: the MatchResult games.
+          {
+            'record': record.toJson(),
+            'serverSeed': 's',
+            'commitment': 'c',
+            'clientSeeds': {'white': 'a', 'black': 'b'},
+            'winner': 'white',
+            'kind': 'single',
+            'points': 1,
+          },
+          // A bare record is read too.
+          record.toJson(),
+        ],
+      });
+      expect(m.you, Side.black);
+      expect(m.games, hasLength(2));
+      for (final g in m.games) {
+        expect(g.toJson(), record.toJson());
+      }
+    });
+
     test('a recorded game is analysed deterministically', () {
       final record = shortGame();
       final tasks = Analyzer.tasks(record);

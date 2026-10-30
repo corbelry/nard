@@ -46,8 +46,15 @@ class MatchRecords {
       black: name(j['black']),
       you: j['you'] == 'black' ? Side.black : Side.white,
       games: [
+        // Each game is the MatchResult entry `{record, serverSeed, …}`; a
+        // bare record is accepted too.
         for (final g in (j['games'] as List?) ?? const [])
-          if (g is Map<String, Object?>) GameRecord.fromJson(g),
+          if (g is Map<String, Object?>)
+            GameRecord.fromJson(
+              g['record'] is Map<String, Object?>
+                  ? g['record']! as Map<String, Object?>
+                  : g,
+            ),
       ],
     );
   }
