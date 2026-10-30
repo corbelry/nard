@@ -38,6 +38,8 @@ spec:
         - name: game-server
           image: {{ .Values.images.gameServer.repository }}:{{ .Values.images.gameServer.tag }}
           imagePullPolicy: {{ .Values.images.gameServer.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.containerSecurityContext.gameServer | nindent 12 }}
           env:
             - name: PORT
               value: "8080"

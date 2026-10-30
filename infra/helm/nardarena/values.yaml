@@ -47,9 +47,13 @@ api:
     CACHE_STORE: redis
     QUEUE_CONNECTION: database
     SESSION_DRIVER: database
-    # Only the ingress reaches the pods: trust it for X-Forwarded-For so
-    # per-IP rate limits see the player's address.
+    # Only the ingress reaches the pods (networkPolicy below): trust it for
+    # X-Forwarded-For so per-IP rate limits see the player's address. With
+    # networkPolicy disabled, set the ingress pod CIDR instead of "*", and
+    # keep ingress-nginx `use-forwarded-headers` off (its default).
     TRUSTED_PROXIES: "*"
+    # Session cookies (Filament admin) only over HTTPS.
+    SESSION_SECURE_COOKIE: "true"
     READINESS_CHECKS: database,redis
     MAIL_MAILER: smtp
     MAIL_FROM_ADDRESS: no-reply@nardarena.example
@@ -131,6 +135,10 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
   apiAnnotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 2m
+  # Filament admin (/admin): comma-separated CIDRs allowed to reach it, e.g.
+  # the office or VPN. Empty = public (password + Filament's login limit
+  # only); set it before launch (security review 2026-10-30).
+  adminAllowlist: ""
 
 metrics:
   # prometheus.io/* annotations on the game-server pods (no auth needed;
@@ -142,7 +150,35 @@ metrics:
     interval: 30s
     labels: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  seccompProfile: { type: RuntimeDefault }
+
+# Security review 2026-10-30. The game-server image is `FROM scratch` (a
+# static binary), so it runs as an unprivileged user on a read-only root.
+# The interim API image (php:cli-alpine) still runs as root because Laravel
+# writes storage/ and bootstrap/cache/ owned by root; the production image
+# (php-fpm/Octane, ADR-043) should switch to runAsNonRoot +
+# readOnlyRootFilesystem with an emptyDir for storage/framework.
+containerSecurityContext:
+  api:
+    allowPrivilegeEscalation: false
+    capabilities: { drop: [ALL] }
+  gameServer:
+    allowPrivilegeEscalation: false
+    capabilities: { drop: [ALL] }
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    readOnlyRootFilesystem: true
+
+# Only the ingress controller, the other NardArena pods and the monitoring
+# namespace may open connections to the pods; scheduler, queue and migrate
+# pods accept none. This is what makes TRUSTED_PROXIES="*" safe: nothing but
+# the ingress can reach the API with a forged X-Forwarded-For.
+networkPolicy:
+  enabled: true
+  ingressNamespace: ingress-nginx
+  monitoringNamespace: monitoring
 nodeSelector: {}
 tolerations: []
 affinity: {}

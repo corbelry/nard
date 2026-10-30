@@ -26,6 +26,8 @@ spec:
         - name: migrate
           image: {{ include "nardarena.apiImage" . }}
           imagePullPolicy: {{ .Values.images.api.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.containerSecurityContext.api | nindent 12 }}
           command: ["php", "artisan", "migrate", "--force"]
           env:
             {{- range $line := splitList "\n" (include "nardarena.apiConfig" .) }}

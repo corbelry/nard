@@ -24,6 +24,8 @@ spec:
         - name: api
           image: {{ include "nardarena.apiImage" . }}
           imagePullPolicy: {{ .Values.images.api.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.containerSecurityContext.api | nindent 12 }}
           command:
             {{- toYaml .Values.api.command | nindent 12 }}
           envFrom:
