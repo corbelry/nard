@@ -48,6 +48,8 @@ void main() {
       );
     }
     expect(ErrorCode.banned, 'banned');
+    // Servers may only send 1000 or 3000-4999 (package:web_socket).
+    expect((CloseCode.policy, CloseCode.tooLarge), (4008, 4009));
   });
 
   test('the moderation schema matches the model and the committed file', () {

@@ -467,8 +467,20 @@ abstract final class ErrorCode {
   static const queueCooldown = 'queue_cooldown';
 
   /// Banned by a moderator while connected: sent just before the server
-  /// closes the socket (close code 1008, ADR-045).
+  /// closes the socket ([CloseCode.policy], ADR-045).
   static const banned = 'banned';
+}
+
+/// WebSocket close codes the server uses (ADR-045). Application range
+/// (4000 + the RFC 6455 code it stands for): servers may only send 1000 or
+/// 3000-4999 through `package:web_socket`.
+abstract final class CloseCode {
+  /// Policy violation; the close reason says which: `banned`,
+  /// `auth_timeout` or `rate_limited`.
+  static const policy = 4008;
+
+  /// A frame over the size limit (reason `frame_too_large`).
+  static const tooLarge = 4009;
 }
 
 /// `error` (server → client), echoing the request id.
