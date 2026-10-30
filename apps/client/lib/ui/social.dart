@@ -726,6 +726,7 @@ class ChatComposer extends StatefulWidget {
     required this.onSend,
     this.maxLength = 300,
     this.busy = false,
+    this.notice,
   });
 
   final String hint;
@@ -733,6 +734,9 @@ class ChatComposer extends StatefulWidget {
   final Future<bool> Function(String text) onSend;
   final int maxLength;
   final bool busy;
+
+  /// An inline line above the field (e.g. "muted until …").
+  final String? notice;
 
   @override
   State<ChatComposer> createState() => _ChatComposerState();
@@ -773,62 +777,90 @@ class _ChatComposerState extends State<ChatComposer> {
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: c.accent.withValues(alpha: .12))),
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            child: Container(
-              height: 44,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: c.surfaceSunken,
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: c.accent.withValues(alpha: .2)),
-              ),
-              child: TextField(
-                controller: _text,
-                maxLength: widget.maxLength,
-                textInputAction: TextInputAction.send,
-                onSubmitted: (_) => _send(),
-                cursorColor: c.accentHi,
-                style: NardType.body.copyWith(fontSize: 14, color: c.text),
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  border: InputBorder.none,
-                  counterText: '',
-                  hintText: widget.hint,
-                  hintStyle: NardType.body.copyWith(
-                    fontSize: 14,
-                    color: c.text.withValues(alpha: .45),
-                  ),
+          if (widget.notice case final notice?)
+            Semantics(
+              liveRegion: true,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(4, 0, 4, 8),
+                child: Row(
+                  children: [
+                    Icon(LucideIcons.volumeX, size: 14, color: c.dangerText),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        notice,
+                        style: NardType.caption.copyWith(
+                          fontWeight: FontWeight.w400,
+                          color: c.dangerText,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 8),
-          Pressable(
-            onTap: empty || widget.busy ? null : _send,
-            semanticLabel: widget.sendLabel,
-            child: AnimatedOpacity(
-              duration: NardMotion.fast,
-              opacity: empty ? .4 : 1,
-              child: Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: c.accent,
-                ),
-                child: Icon(
-                  LucideIcons.arrowRight,
-                  size: 18,
-                  color: c.onAccent,
-                ),
-              ),
-            ),
-          ),
+          _field(c, empty),
         ],
       ),
+    );
+  }
+
+  Widget _field(NardColors c, bool empty) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 44,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: c.surfaceSunken,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: c.accent.withValues(alpha: .2)),
+            ),
+            child: TextField(
+              controller: _text,
+              maxLength: widget.maxLength,
+              textInputAction: TextInputAction.send,
+              onSubmitted: (_) => _send(),
+              cursorColor: c.accentHi,
+              style: NardType.body.copyWith(fontSize: 14, color: c.text),
+              decoration: InputDecoration(
+                isCollapsed: true,
+                border: InputBorder.none,
+                counterText: '',
+                hintText: widget.hint,
+                hintStyle: NardType.body.copyWith(
+                  fontSize: 14,
+                  color: c.text.withValues(alpha: .45),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Pressable(
+          onTap: empty || widget.busy ? null : _send,
+          semanticLabel: widget.sendLabel,
+          child: AnimatedOpacity(
+            duration: NardMotion.fast,
+            opacity: empty ? .4 : 1,
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: c.accent,
+              ),
+              child: Icon(LucideIcons.arrowRight, size: 18, color: c.onAccent),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

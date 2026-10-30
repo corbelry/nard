@@ -8,6 +8,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../cosmetics/catalog.dart' show Currency;
 import '../cosmetics/cosmetics_text.dart' show formatAmount;
 import '../l10n/gen/app_localizations.dart';
+import '../moderation/moderation.dart' show formatModerationTime;
 import '../online/account.dart';
 import '../social/player_menu.dart';
 import '../social/social_gate.dart';
@@ -541,6 +542,7 @@ class ClanChatView extends ConsumerWidget {
           sendLabel: l.send,
           maxLength: ClanRules.chatMax,
           busy: chat.sending,
+          notice: _mutedNotice(l, chat),
           onSend: (text) async {
             try {
               return await ref
@@ -554,6 +556,15 @@ class ClanChatView extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  /// Inline composer notice after a `403 muted` send (ADR-042).
+  String? _mutedNotice(AppLocalizations l, ClanChatState chat) {
+    if (!chat.mutedAt(DateTime.now())) return null;
+    final until = chat.mutedUntil;
+    return until == null
+        ? l.clanChatMutedNoTime
+        : l.clanChatMuted(formatModerationTime(until, l.localeName));
   }
 
   Future<void> _messageMenu(

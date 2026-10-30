@@ -49,5 +49,8 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 41 | 7 | Banned / muted players: the client has no "banned" screen for `403 {code: banned, until}`, no appeal contact, and does not render the `moderation_warning` inbox type or the `queue_cooldown` error yet. | a) Add a banned screen (until + support e-mail), warning row and cooldown message in the client · b) Generic error for now | a (client work; needs a support e-mail) | open |
 | 42 | 7 | Sign-in IP / device sightings for multi-account detection (hashed, 90 days; raw last IP on the user). | a) Keep, mention in the privacy policy · b) Do not store IPs | a | assumed |
 | 43 | 7 | Admin panel language. | a) English only (staff tool) · b) Azerbaijani too | a | assumed |
+| 44 | 7 | Deleting an account keeps the player's name in opponents' match history. | a) Anonymise names on deletion (API change) · b) Disclose it in the privacy policy | a | open |
+| 45 | 7 | Google Play requires an account-deletion web page besides in-app deletion. | a) Simple page on the marketing site calling the API (needs hosting) · b) Support e-mail process | a | open — needs hosting |
+| 46 | 7 | Coin-entry tournaments may be read as simulated gambling in store rating questionnaires. | a) Answer "no real money, earned coins only" and keep · b) Make all public tournaments free | a | open |
 
 Earlier questions are tracked in `ROADMAP.md` → "Open questions".

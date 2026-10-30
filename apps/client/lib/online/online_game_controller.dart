@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nard_core/nard_core.dart';
 import 'package:nard_protocol/nard_protocol.dart';
@@ -26,6 +27,7 @@ class Lobby {
     this.searchStartedAt,
     this.connected = false,
     this.error,
+    this.cooldownUntil,
   });
 
   final LobbyPhase phase;
@@ -37,6 +39,14 @@ class Lobby {
   /// An API/connection failure code (e.g. `offline`).
   final String? error;
 
+  /// The public queue is closed until then (abandonment penalty, ADR-042):
+  /// set instead of searching; private rooms and tournaments still work.
+  final DateTime? cooldownUntil;
+
+  /// Whether [cooldownUntil] is still ahead of [now].
+  bool coolingDown(DateTime now) =>
+      cooldownUntil != null && cooldownUntil!.isAfter(now);
+
   Lobby copyWith({
     LobbyPhase? phase,
     QueueJoinPayload? request,
@@ -44,6 +54,7 @@ class Lobby {
     DateTime? Function()? searchStartedAt,
     bool? connected,
     String? Function()? error,
+    DateTime? Function()? cooldownUntil,
   }) => Lobby(
     phase: phase ?? this.phase,
     request: request ?? this.request,
@@ -52,6 +63,7 @@ class Lobby {
         searchStartedAt != null ? searchStartedAt() : this.searchStartedAt,
     connected: connected ?? this.connected,
     error: error != null ? error() : this.error,
+    cooldownUntil: cooldownUntil != null ? cooldownUntil() : this.cooldownUntil,
   );
 }
 
@@ -68,6 +80,10 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
 
   /// Index of the last game we sent a client seed for (FD-02: one per game).
   int _seededGame = -1;
+
+  /// The matchmaking cooldown from the latest ticket or `queue_cooldown`
+  /// error (ADR-042).
+  DateTime? _queueCooldownUntil;
 
   @override
   GameView? build() {
@@ -87,11 +103,21 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
   Lobby get _lobby => ref.read(lobbyProvider);
   set _lobby(Lobby value) => ref.read(lobbyProvider.notifier).set(value);
 
-  /// Connects (if needed) and joins the queue.
+  /// Connects (if needed) and joins the queue. While a matchmaking
+  /// cooldown is known the lobby shows it instead of searching.
   Future<void> search(QueueJoinPayload request) async {
     state = null;
     _lastSeq = -1;
     _setup = null;
+    final cooldown = _queueCooldownUntil;
+    if (cooldown != null && cooldown.isAfter(DateTime.now())) {
+      _lobby = Lobby(
+        request: request,
+        connected: _lobby.connected,
+        cooldownUntil: cooldown,
+      );
+      return;
+    }
     _lobby = Lobby(
       phase: LobbyPhase.connecting,
       request: request,
@@ -122,7 +148,14 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
 
   GameSocket _createSocket() {
     final api = ref.read(apiClientProvider);
-    final socket = GameSocket(url: OnlineConfig.wsUrl, ticket: api.ticket);
+    final socket = GameSocket(
+      url: OnlineConfig.wsUrl,
+      ticket: () async {
+        final t = await api.gameTicket();
+        _queueCooldownUntil = t.queueCooldownUntil;
+        return t.ticket;
+      },
+    );
     _sub = socket.messages.listen(_onMessage);
     _statusSub = socket.status.listen((s) {
       final online = s == SocketStatus.online;
@@ -155,6 +188,10 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
     _lobby = const Lobby();
   }
 
+  /// Feeds a server message as if it came over the socket (tests).
+  @visibleForTesting
+  void receive(Envelope msg) => _onMessage(msg);
+
   void _onMessage(Envelope msg) {
     switch (msg.type) {
       case MessageType.hello:
@@ -162,7 +199,13 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
         final playing =
             _lobby.phase == LobbyPhase.playing ||
             _lobby.phase == LobbyPhase.found;
-        if (request != null && !playing) {
+        // A lobby showing a cooldown never re-joins by itself.
+        if (request != null && !playing && _lobby.cooldownUntil == null) {
+          final cooldown = _queueCooldownUntil;
+          if (cooldown != null && cooldown.isAfter(DateTime.now())) {
+            _coolDown(cooldown);
+            return;
+          }
           _send(MessageType.queueJoin, request.toJson());
           _lobby = _lobby.copyWith(phase: LobbyPhase.searching);
         }
@@ -189,6 +232,17 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
         _onState(GameStatePayload.fromJson(msg.payload));
       case MessageType.error:
         final err = ErrorPayload.fromJson(msg.payload);
+        if (err.code == ErrorCode.queueCooldown) {
+          // The message carries the end as epoch seconds.
+          final seconds = int.tryParse(err.message.trim());
+          _coolDown(
+            seconds != null
+                ? DateTime.fromMillisecondsSinceEpoch(seconds * 1000)
+                : _queueCooldownUntil ??
+                    DateTime.now().add(const Duration(minutes: 1)),
+          );
+          return;
+        }
         final v = state;
         if (err.code == ErrorCode.illegalMove && v != null) {
           state = v.copyWith(session: v.session.refused(err.rejection));
@@ -196,6 +250,20 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
       default:
         break;
     }
+  }
+
+  /// Leaves the search for the cooldown view (only while searching).
+  void _coolDown(DateTime until) {
+    _queueCooldownUntil = until;
+    final phase = _lobby.phase;
+    if (phase != LobbyPhase.connecting && phase != LobbyPhase.searching) {
+      return;
+    }
+    _lobby = Lobby(
+      request: _lobby.request,
+      connected: _lobby.connected,
+      cooldownUntil: until,
+    );
   }
 
   String _seed() {

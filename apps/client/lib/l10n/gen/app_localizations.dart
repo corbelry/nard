@@ -7148,6 +7148,114 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'İndi yox'**
   String get notifPromptLater;
+
+  /// No description provided for @bannedTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesab dayandırılıb'**
+  String get bannedTitle;
+
+  /// No description provided for @bannedBodyUntil.
+  ///
+  /// In az, this message translates to:
+  /// **'Ədalətli oyun qaydalarının pozulmasına görə hesabın {date} tarixinədək dayandırılıb.'**
+  String bannedBodyUntil(String date);
+
+  /// No description provided for @bannedBodyPermanent.
+  ///
+  /// In az, this message translates to:
+  /// **'Ədalətli oyun qaydalarının pozulmasına görə hesabın müddətsiz dayandırılıb.'**
+  String get bannedBodyPermanent;
+
+  /// No description provided for @bannedContact.
+  ///
+  /// In az, this message translates to:
+  /// **'Bunun səhv olduğunu düşünürsənsə, {email} ünvanına yaz.'**
+  String bannedContact(String email);
+
+  /// No description provided for @bannedOffline.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabdan çıxıb kompüterə qarşı və dostla oflayn oynamağa davam edə bilərsən.'**
+  String get bannedOffline;
+
+  /// No description provided for @bannedOverTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Məhdudiyyət bitdi'**
+  String get bannedOverTitle;
+
+  /// No description provided for @bannedOverBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabın yenidən aktivdir. Ədalətli oyun qaydalarına əməl etdiyin üçün təşəkkür edirik.'**
+  String get bannedOverBody;
+
+  /// No description provided for @bannedContinue.
+  ///
+  /// In az, this message translates to:
+  /// **'Davam et'**
+  String get bannedContinue;
+
+  /// No description provided for @authBanned.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu hesab dayandırılıb'**
+  String get authBanned;
+
+  /// No description provided for @clanChatMuted.
+  ///
+  /// In az, this message translates to:
+  /// **'Söhbətdə {time} tarixinədək yaza bilməzsən.'**
+  String clanChatMuted(String time);
+
+  /// No description provided for @clanChatMutedNoTime.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələlik söhbətdə yaza bilməzsən.'**
+  String get clanChatMutedNoTime;
+
+  /// No description provided for @queueCooldownTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Axtarış müvəqqəti bağlıdır'**
+  String get queueCooldownTitle;
+
+  /// No description provided for @queueCooldownBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Bir neçə yarımçıq qalmış matça görə ümumi növbə {time} sonra açılacaq. Şəxsi otaqlar və turnirlər açıqdır.'**
+  String queueCooldownBody(String time);
+
+  /// No description provided for @queueCooldownOverBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Növbə yenidən açıqdır.'**
+  String get queueCooldownOverBody;
+
+  /// No description provided for @queueCooldownSearch.
+  ///
+  /// In az, this message translates to:
+  /// **'Yenidən axtar'**
+  String get queueCooldownSearch;
+
+  /// No description provided for @notifModerationWarningWho.
+  ///
+  /// In az, this message translates to:
+  /// **'Moderatorlardan xəbərdarlıq:'**
+  String get notifModerationWarningWho;
+
+  /// No description provided for @notifModerationWarning.
+  ///
+  /// In az, this message translates to:
+  /// **'zəhmət olmasa ədalətli oyun qaydalarına əməl et. Səbəb: {reason}'**
+  String notifModerationWarning(String reason);
+
+  /// No description provided for @notifModerationWarningPlain.
+  ///
+  /// In az, this message translates to:
+  /// **'zəhmət olmasa ədalətli oyun qaydalarına əməl et'**
+  String get notifModerationWarningPlain;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

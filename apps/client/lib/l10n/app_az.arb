@@ -3397,5 +3397,58 @@
   "notifPromptSample1": "Nigar səni oyuna çağırır · Qısa nərd, 5 xal",
   "notifPromptSample2": "Bakı Cümə Kuboku 15 dəqiqəyə başlayır.",
   "notifPromptAllow": "Bildirişləri aç",
-  "notifPromptLater": "İndi yox"
+  "notifPromptLater": "İndi yox",
+  "bannedTitle": "Hesab dayandırılıb",
+  "bannedBodyUntil": "Ədalətli oyun qaydalarının pozulmasına görə hesabın {date} tarixinədək dayandırılıb.",
+  "@bannedBodyUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "bannedBodyPermanent": "Ədalətli oyun qaydalarının pozulmasına görə hesabın müddətsiz dayandırılıb.",
+  "bannedContact": "Bunun səhv olduğunu düşünürsənsə, {email} ünvanına yaz.",
+  "@bannedContact": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "bannedOffline": "Hesabdan çıxıb kompüterə qarşı və dostla oflayn oynamağa davam edə bilərsən.",
+  "bannedOverTitle": "Məhdudiyyət bitdi",
+  "bannedOverBody": "Hesabın yenidən aktivdir. Ədalətli oyun qaydalarına əməl etdiyin üçün təşəkkür edirik.",
+  "bannedContinue": "Davam et",
+  "authBanned": "Bu hesab dayandırılıb",
+  "clanChatMuted": "Söhbətdə {time} tarixinədək yaza bilməzsən.",
+  "@clanChatMuted": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "clanChatMutedNoTime": "Hələlik söhbətdə yaza bilməzsən.",
+  "queueCooldownTitle": "Axtarış müvəqqəti bağlıdır",
+  "queueCooldownBody": "Bir neçə yarımçıq qalmış matça görə ümumi növbə {time} sonra açılacaq. Şəxsi otaqlar və turnirlər açıqdır.",
+  "@queueCooldownBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "queueCooldownOverBody": "Növbə yenidən açıqdır.",
+  "queueCooldownSearch": "Yenidən axtar",
+  "notifModerationWarningWho": "Moderatorlardan xəbərdarlıq:",
+  "notifModerationWarning": "zəhmət olmasa ədalətli oyun qaydalarına əməl et. Səbəb: {reason}",
+  "@notifModerationWarning": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "notifModerationWarningPlain": "zəhmət olmasa ədalətli oyun qaydalarına əməl et"
 }

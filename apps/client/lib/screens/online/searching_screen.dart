@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nard_core/nard_core.dart';
 import 'package:nard_protocol/nard_protocol.dart';
 
+import '../../cosmetics/cosmetics_text.dart' show formatCountdown;
 import '../../l10n/gen/app_localizations.dart';
 import '../../online/account.dart';
 import '../../online/online_game_controller.dart';
@@ -119,6 +120,10 @@ class _SearchingScreenState extends ConsumerState<SearchingScreen>
                   : l.searchTipPip,
             );
     final bottom = MediaQuery.paddingOf(context).bottom;
+    final cooldown = lobby.cooldownUntil;
+    if (cooldown != null) {
+      return _cooldown(l, c, request, cooldown, bottom, offline);
+    }
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -192,6 +197,76 @@ class _SearchingScreenState extends ConsumerState<SearchingScreen>
                       const SizedBox(height: 12),
                       NardButton(
                         label: l.cancel,
+                        variant: NardButtonVariant.outline,
+                        onPressed: _cancel,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// The public queue is closed (abandonment penalty, ADR-042): the time
+  /// left instead of the radar; "Search again" once it ran out.
+  Widget _cooldown(
+    AppLocalizations l,
+    NardColors c,
+    QueueJoinPayload request,
+    DateTime until,
+    double bottom,
+    bool offline,
+  ) {
+    final left = until.difference(DateTime.now());
+    final over = left <= Duration.zero;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _cancel();
+      },
+      child: Scaffold(
+        body: DecoratedBox(
+          decoration: BoxDecoration(gradient: c.searchBg),
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                OfflineBanner(text: l.offlineBanner, visible: offline),
+                Expanded(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: MessageState(
+                        title: l.queueCooldownTitle,
+                        body:
+                            over
+                                ? l.queueCooldownOverBody
+                                : l.queueCooldownBody(formatCountdown(left)),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, max(40, bottom + 6)),
+                  child: Column(
+                    children: [
+                      if (over) ...[
+                        NardButton(
+                          label: l.queueCooldownSearch,
+                          onPressed:
+                              () => unawaited(
+                                ref
+                                    .read(onlineGameProvider.notifier)
+                                    .search(request),
+                              ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      NardButton(
+                        label: l.back,
                         variant: NardButtonVariant.outline,
                         onPressed: _cancel,
                       ),

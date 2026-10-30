@@ -74,6 +74,13 @@ NotificationLine notificationLine(
       who: l.notifLevelUpWho(n.number('level')),
       text: l.notifLevelUp(n.number('coins')),
     ),
+    NotificationType.moderationWarning => (
+      who: l.notifModerationWarningWho,
+      text:
+          n.text('reason').trim().isEmpty
+              ? l.notifModerationWarningPlain
+              : l.notifModerationWarning(n.text('reason').trim()),
+    ),
     NotificationType.unknown => (who: '', text: l.notifUnknown),
   };
 }
@@ -93,6 +100,7 @@ IconData notificationIcon(NotificationType t) => switch (t) {
   NotificationType.tournamentFinished => LucideIcons.trophy,
   NotificationType.seasonEnd => LucideIcons.award,
   NotificationType.levelUp => LucideIcons.sparkles,
+  NotificationType.moderationWarning => LucideIcons.shieldAlert,
   NotificationType.unknown => LucideIcons.bell,
 };
 
@@ -103,5 +111,6 @@ Color notificationIconColor(NardColors c, NotificationType t) => switch (t) {
   NotificationType.clanInvite ||
   NotificationType.clanJoined ||
   NotificationType.unknown => c.text,
+  NotificationType.moderationWarning => c.dangerText,
   _ => c.accent,
 };

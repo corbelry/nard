@@ -4074,4 +4074,68 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notifPromptLater => 'Şimdi değil';
+
+  @override
+  String get bannedTitle => 'Hesap askıya alındı';
+
+  @override
+  String bannedBodyUntil(String date) {
+    return 'Adil oyun kurallarını ihlal ettiğin için hesabın $date tarihine kadar askıya alındı.';
+  }
+
+  @override
+  String get bannedBodyPermanent => 'Adil oyun kurallarını ihlal ettiğin için hesabın süresiz olarak askıya alındı.';
+
+  @override
+  String bannedContact(String email) {
+    return 'Bunun bir hata olduğunu düşünüyorsan $email adresine yaz.';
+  }
+
+  @override
+  String get bannedOffline => 'Çıkış yapıp bilgisayara karşı veya bir arkadaşınla çevrimdışı oynamaya devam edebilirsin.';
+
+  @override
+  String get bannedOverTitle => 'Askı sona erdi';
+
+  @override
+  String get bannedOverBody => 'Hesabın yeniden aktif. Adil oynadığın için teşekkürler.';
+
+  @override
+  String get bannedContinue => 'Devam et';
+
+  @override
+  String get authBanned => 'Bu hesap askıya alındı';
+
+  @override
+  String clanChatMuted(String time) {
+    return '$time tarihine kadar sohbete yazamazsın.';
+  }
+
+  @override
+  String get clanChatMutedNoTime => 'Şimdilik sohbete yazamazsın.';
+
+  @override
+  String get queueCooldownTitle => 'Eşleştirme duraklatıldı';
+
+  @override
+  String queueCooldownBody(String time) {
+    return 'Yarım bırakılan birkaç maç nedeniyle genel sıra $time sonra açılacak. Özel odalar ve turnuvalar açık.';
+  }
+
+  @override
+  String get queueCooldownOverBody => 'Sıra yeniden açık.';
+
+  @override
+  String get queueCooldownSearch => 'Yeniden ara';
+
+  @override
+  String get notifModerationWarningWho => 'Moderatörlerden uyarı:';
+
+  @override
+  String notifModerationWarning(String reason) {
+    return 'lütfen adil oyun kurallarına uy. Sebep: $reason';
+  }
+
+  @override
+  String get notifModerationWarningPlain => 'lütfen adil oyun kurallarına uy';
 }

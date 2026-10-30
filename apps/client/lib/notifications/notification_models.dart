@@ -16,6 +16,7 @@ enum NotificationType {
   tournamentFinished('tournament_finished'),
   seasonEnd('season_end'),
   levelUp('level_up'),
+  moderationWarning('moderation_warning'),
   unknown('');
 
   const NotificationType(this.api);

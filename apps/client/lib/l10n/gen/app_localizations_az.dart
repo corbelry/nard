@@ -4074,4 +4074,68 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get notifPromptLater => 'İndi yox';
+
+  @override
+  String get bannedTitle => 'Hesab dayandırılıb';
+
+  @override
+  String bannedBodyUntil(String date) {
+    return 'Ədalətli oyun qaydalarının pozulmasına görə hesabın $date tarixinədək dayandırılıb.';
+  }
+
+  @override
+  String get bannedBodyPermanent => 'Ədalətli oyun qaydalarının pozulmasına görə hesabın müddətsiz dayandırılıb.';
+
+  @override
+  String bannedContact(String email) {
+    return 'Bunun səhv olduğunu düşünürsənsə, $email ünvanına yaz.';
+  }
+
+  @override
+  String get bannedOffline => 'Hesabdan çıxıb kompüterə qarşı və dostla oflayn oynamağa davam edə bilərsən.';
+
+  @override
+  String get bannedOverTitle => 'Məhdudiyyət bitdi';
+
+  @override
+  String get bannedOverBody => 'Hesabın yenidən aktivdir. Ədalətli oyun qaydalarına əməl etdiyin üçün təşəkkür edirik.';
+
+  @override
+  String get bannedContinue => 'Davam et';
+
+  @override
+  String get authBanned => 'Bu hesab dayandırılıb';
+
+  @override
+  String clanChatMuted(String time) {
+    return 'Söhbətdə $time tarixinədək yaza bilməzsən.';
+  }
+
+  @override
+  String get clanChatMutedNoTime => 'Hələlik söhbətdə yaza bilməzsən.';
+
+  @override
+  String get queueCooldownTitle => 'Axtarış müvəqqəti bağlıdır';
+
+  @override
+  String queueCooldownBody(String time) {
+    return 'Bir neçə yarımçıq qalmış matça görə ümumi növbə $time sonra açılacaq. Şəxsi otaqlar və turnirlər açıqdır.';
+  }
+
+  @override
+  String get queueCooldownOverBody => 'Növbə yenidən açıqdır.';
+
+  @override
+  String get queueCooldownSearch => 'Yenidən axtar';
+
+  @override
+  String get notifModerationWarningWho => 'Moderatorlardan xəbərdarlıq:';
+
+  @override
+  String notifModerationWarning(String reason) {
+    return 'zəhmət olmasa ədalətli oyun qaydalarına əməl et. Səbəb: $reason';
+  }
+
+  @override
+  String get notifModerationWarningPlain => 'zəhmət olmasa ədalətli oyun qaydalarına əməl et';
 }

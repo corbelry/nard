@@ -244,8 +244,19 @@ class SocialFakeApi extends FakeApi {
     ];
   }
 
+  /// Set to answer chat posts with `403 muted` (ADR-042).
+  DateTime? mutedUntil;
+
   @override
   Future<ClanMessage> postClanMessage(String id, String text) async {
+    final muted = mutedUntil;
+    if (muted != null) {
+      calls.add('muted:$text');
+      throw ApiException(403, 'muted', '', {
+        'code': 'muted',
+        'until': muted.toUtc().toIso8601String(),
+      });
+    }
     calls.add('post:$text');
     return ClanMessage(
       id: 4,
@@ -665,6 +676,30 @@ void main() {
       await tester.tap(find.text('Sandıq'));
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('Aysel_A'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await closeScreen(tester);
+    });
+
+    testWidgets('clan chat: a muted send shows the inline notice', (
+      tester,
+    ) async {
+      final api = SocialFakeApi()..mutedUntil = DateTime(2030, 1, 2, 15, 30);
+      await _pump(tester, const ClanHome(clanId: '7'), api, inClan: true);
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.textContaining('yaza bilməzsən'), findsNothing);
+      await tester.enterText(find.byType(TextField), 'Salam');
+      await tester.pump();
+      final semantics = tester.ensureSemantics();
+      await tester.tap(find.bySemanticsLabel('Göndər'));
+      semantics.dispose();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(api.calls, contains('muted:Salam'));
+      expect(
+        find.text('Söhbətdə 2 yanvar 2030 15:30 tarixinədək yaza bilməzsən.'),
+        findsOneWidget,
+      );
+      // The draft stays; no error toast on top of the notice.
+      expect(find.text('Salam'), findsOneWidget);
       expect(tester.takeException(), isNull);
       await closeScreen(tester);
     });

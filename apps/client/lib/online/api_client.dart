@@ -16,17 +16,50 @@ import '../tournaments/tournament_models.dart';
 
 /// An API error with its machine code (e.g. `code_invalid`).
 class ApiException implements Exception {
-  const ApiException(this.status, this.code, [this.message = '']);
+  const ApiException(
+    this.status,
+    this.code, [
+    this.message = '',
+    this.data = const {},
+  ]);
 
   final int status;
   final String code;
   final String message;
 
+  /// The whole error body (e.g. `until` of `banned` / `muted`).
+  final Map<String, Object?> data;
+
   /// No connection (status 0).
   bool get offline => status == 0;
 
+  /// `until` of a `banned` / `muted` answer, local time; null = permanent
+  /// or absent.
+  DateTime? get until => DateTime.tryParse('${data['until'] ?? ''}')?.toLocal();
+
   @override
   String toString() => 'ApiException($status, $code)';
+}
+
+/// A `403 {code: banned, until}` answer (ADR-042).
+class AccountBan {
+  const AccountBan({this.until});
+
+  /// Local time the ban ends; null = permanent.
+  final DateTime? until;
+
+  bool get permanent => until == null;
+}
+
+/// `POST /game/ticket`: the ticket and the matchmaking cooldown it carries
+/// (abandonment penalty, ADR-042).
+class GameTicket {
+  const GameTicket(this.ticket, {this.queueCooldownUntil});
+
+  final String ticket;
+
+  /// Local time the public queue reopens; null = no cooldown.
+  final DateTime? queueCooldownUntil;
 }
 
 /// The player's account as returned by the API.
@@ -124,6 +157,19 @@ class ApiClient {
   /// Emits when [reachable] changes (offline banner, 11.1).
   Stream<bool> get reachability => _reachability.stream;
 
+  final _bans = StreamController<AccountBan>.broadcast();
+  AccountBan? _ban;
+
+  /// The last `banned` answer for the current credentials (or a refused
+  /// sign-in); cleared by [clearBan].
+  AccountBan? get ban => _ban;
+
+  /// Emits every `banned` answer (the full-screen banned state listens).
+  Stream<AccountBan> get bans => _bans.stream;
+
+  /// Forgets the ban (after signing out, or once it ran out).
+  void clearBan() => _ban = null;
+
   void _reached(bool value) {
     if (value == _reachable) return;
     _reachable = value;
@@ -142,6 +188,7 @@ class ApiClient {
         if (token != null) 'Authorization': 'Bearer $token',
       });
     if (body != null) req.body = jsonEncode(body);
+    final sentToken = token;
     final http.Response res;
     try {
       res = await http.Response.fromStream(
@@ -156,12 +203,21 @@ class ApiClient {
     final json =
         decoded is Map<String, Object?> ? decoded : <String, Object?>{};
     if (res.statusCode >= 300) {
-      throw ApiException(
+      final error = ApiException(
         res.statusCode,
         json['code'] as String? ??
             (res.statusCode == 422 ? 'validation' : 'http_${res.statusCode}'),
         json['message'] as String? ?? '',
+        json,
       );
+      // Ignore late answers to requests made with credentials since
+      // dropped (e.g. a poll that returns after signing out).
+      if (error.status == 403 && error.code == 'banned' && token == sentToken) {
+        final ban = AccountBan(until: error.until);
+        _ban = ban;
+        _bans.add(ban);
+      }
+      throw error;
     }
     return json;
   }
@@ -227,8 +283,17 @@ class ApiClient {
       (await _call('GET', '/me/matches/$id'))['match']! as Map<String, Object?>;
 
   /// A short-lived game-server ticket.
-  Future<String> ticket() async =>
-      (await _call('POST', '/game/ticket'))['ticket']! as String;
+  Future<String> ticket() async => (await gameTicket()).ticket;
+
+  /// The ticket with its matchmaking cooldown (`queueCooldownUntil`).
+  Future<GameTicket> gameTicket() async {
+    final j = await _call('POST', '/game/ticket');
+    return GameTicket(
+      j['ticket']! as String,
+      queueCooldownUntil:
+          DateTime.tryParse('${j['queueCooldownUntil'] ?? ''}')?.toLocal(),
+    );
+  }
 
   // ---- Phase 4: cosmetics, store, progression ------------------------
 

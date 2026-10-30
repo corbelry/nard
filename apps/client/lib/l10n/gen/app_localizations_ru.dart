@@ -4238,4 +4238,68 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get notifPromptLater => 'Не сейчас';
+
+  @override
+  String get bannedTitle => 'Аккаунт заблокирован';
+
+  @override
+  String bannedBodyUntil(String date) {
+    return 'Ваш аккаунт заблокирован до $date за нарушение правил честной игры.';
+  }
+
+  @override
+  String get bannedBodyPermanent => 'Ваш аккаунт заблокирован бессрочно за нарушение правил честной игры.';
+
+  @override
+  String bannedContact(String email) {
+    return 'Если вы считаете, что это ошибка, напишите на $email.';
+  }
+
+  @override
+  String get bannedOffline => 'Вы можете выйти из аккаунта и продолжить играть офлайн с компьютером или с другом.';
+
+  @override
+  String get bannedOverTitle => 'Блокировка снята';
+
+  @override
+  String get bannedOverBody => 'Ваш аккаунт снова активен. Спасибо за честную игру.';
+
+  @override
+  String get bannedContinue => 'Продолжить';
+
+  @override
+  String get authBanned => 'Этот аккаунт заблокирован';
+
+  @override
+  String clanChatMuted(String time) {
+    return 'Вы не можете писать в чат до $time.';
+  }
+
+  @override
+  String get clanChatMutedNoTime => 'Пока вы не можете писать в чат.';
+
+  @override
+  String get queueCooldownTitle => 'Поиск приостановлен';
+
+  @override
+  String queueCooldownBody(String time) {
+    return 'Из-за нескольких незавершённых матчей общая очередь откроется через $time. Приватные комнаты и турниры доступны.';
+  }
+
+  @override
+  String get queueCooldownOverBody => 'Очередь снова открыта.';
+
+  @override
+  String get queueCooldownSearch => 'Искать снова';
+
+  @override
+  String get notifModerationWarningWho => 'Предупреждение модераторов:';
+
+  @override
+  String notifModerationWarning(String reason) {
+    return 'пожалуйста, соблюдайте правила честной игры. Причина: $reason';
+  }
+
+  @override
+  String get notifModerationWarningPlain => 'пожалуйста, соблюдайте правила честной игры';
 }

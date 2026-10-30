@@ -4190,4 +4190,68 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifPromptLater => 'Not now';
+
+  @override
+  String get bannedTitle => 'Account suspended';
+
+  @override
+  String bannedBodyUntil(String date) {
+    return 'Your account is suspended until $date for breaking the fair-play rules.';
+  }
+
+  @override
+  String get bannedBodyPermanent => 'Your account is suspended permanently for breaking the fair-play rules.';
+
+  @override
+  String bannedContact(String email) {
+    return 'If you think this is a mistake, write to $email.';
+  }
+
+  @override
+  String get bannedOffline => 'You can sign out and keep playing offline against the computer or with a friend.';
+
+  @override
+  String get bannedOverTitle => 'Suspension over';
+
+  @override
+  String get bannedOverBody => 'Your account is active again. Thank you for playing fair.';
+
+  @override
+  String get bannedContinue => 'Continue';
+
+  @override
+  String get authBanned => 'This account is suspended';
+
+  @override
+  String clanChatMuted(String time) {
+    return 'You cannot post in chat until $time.';
+  }
+
+  @override
+  String get clanChatMutedNoTime => 'You cannot post in chat for now.';
+
+  @override
+  String get queueCooldownTitle => 'Matchmaking paused';
+
+  @override
+  String queueCooldownBody(String time) {
+    return 'After several unfinished matches, the public queue reopens in $time. Private rooms and tournaments are open.';
+  }
+
+  @override
+  String get queueCooldownOverBody => 'The queue is open again.';
+
+  @override
+  String get queueCooldownSearch => 'Search again';
+
+  @override
+  String get notifModerationWarningWho => 'Warning from the moderators:';
+
+  @override
+  String notifModerationWarning(String reason) {
+    return 'please follow the fair-play rules. Reason: $reason';
+  }
+
+  @override
+  String get notifModerationWarningPlain => 'please follow the fair-play rules';
 }

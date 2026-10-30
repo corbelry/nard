@@ -23,6 +23,7 @@ String authErrorText(AppLocalizations l, Object error) {
     'code_expired' => l.codeExpired,
     'provider_disabled' || 'not_implemented' => l.authProviderUnavailable,
     'validation' => l.emailInvalid,
+    'banned' => l.authBanned,
     _ when error.status == 429 => l.authTooManyTries,
     _ => l.errorTitle,
   };

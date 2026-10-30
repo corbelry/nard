@@ -91,6 +91,8 @@ class ClanChatState {
     this.loading = true,
     this.error,
     this.sending = false,
+    this.muted = false,
+    this.mutedUntil,
   });
 
   final List<ClanMessage> messages;
@@ -98,16 +100,30 @@ class ClanChatState {
   final Object? error;
   final bool sending;
 
+  /// The last send was refused with `403 muted` (ADR-042).
+  final bool muted;
+
+  /// When the mute ends (local time), if the API said.
+  final DateTime? mutedUntil;
+
+  /// Muted and the mute has not visibly run out yet.
+  bool mutedAt(DateTime now) =>
+      muted && (mutedUntil == null || mutedUntil!.isAfter(now));
+
   ClanChatState copyWith({
     List<ClanMessage>? messages,
     bool? loading,
     Object? Function()? error,
     bool? sending,
+    bool? muted,
+    DateTime? Function()? mutedUntil,
   }) => ClanChatState(
     messages: messages ?? this.messages,
     loading: loading ?? this.loading,
     error: error != null ? error() : this.error,
     sending: sending ?? this.sending,
+    muted: muted ?? this.muted,
+    mutedUntil: mutedUntil != null ? mutedUntil() : this.mutedUntil,
   );
 }
 
@@ -165,13 +181,23 @@ class ClanChat extends Notifier<ClanChatState> {
     );
   }
 
-  /// Returns true once posted; errors (429, 422) are rethrown.
+  /// Returns true once posted; false when muted (the composer shows the
+  /// notice); other errors (429, 422) are rethrown.
   Future<bool> send(String text) async {
     state = state.copyWith(sending: true);
     try {
       final m = await _api.postClanMessage(clanId, text);
-      if (ref.mounted) _merge([m]);
+      if (ref.mounted) {
+        _merge([m]);
+        state = state.copyWith(muted: false, mutedUntil: () => null);
+      }
       return true;
+    } on ApiException catch (e) {
+      if (e.status != 403 || e.code != 'muted') rethrow;
+      if (ref.mounted) {
+        state = state.copyWith(muted: true, mutedUntil: () => e.until);
+      }
+      return false;
     } finally {
       if (ref.mounted) state = state.copyWith(sending: false);
     }

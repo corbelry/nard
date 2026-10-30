@@ -199,7 +199,8 @@ Future<void> syncPushDevice(
       go: false,
     ),
     NotificationType.levelUp => (path: '/profile', go: true),
-    NotificationType.unknown => null,
+    // The row itself is the whole message.
+    NotificationType.moderationWarning || NotificationType.unknown => null,
   };
 }
 
