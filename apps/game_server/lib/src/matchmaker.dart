@@ -48,6 +48,15 @@ class Matchmaker {
 
   bool isQueued(String userId) => _entries.containsKey(userId);
 
+  /// Waiting players per queue key (`variant/length/mode`), for metrics.
+  Map<String, int> queueSizes() {
+    final sizes = <String, int>{};
+    for (final e in _entries.values) {
+      sizes[e.key] = (sizes[e.key] ?? 0) + 1;
+    }
+    return sizes;
+  }
+
   void start() => _timer ??= Timer.periodic(tick, (_) => match());
 
   void join(Ticket ticket, QueueJoinPayload request) {

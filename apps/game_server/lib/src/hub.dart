@@ -8,8 +8,11 @@ import 'package:nard_protocol/nard_protocol.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'bot_driver.dart';
+import 'error_reporter.dart';
+import 'log.dart';
 import 'match_room.dart';
 import 'matchmaker.dart';
+import 'metrics.dart';
 import 'ticket.dart';
 
 /// Receives finished matches (the API in production, ADR-031).
@@ -34,12 +37,16 @@ class MemoryResultSink implements ResultSink {
 }
 
 class _Connection {
-  _Connection(this.channel);
+  _Connection(this.channel, this.onSend);
 
   final WebSocketChannel channel;
+  final void Function(Envelope) onSend;
   Ticket? user;
 
-  void send(Envelope e) => channel.sink.add(jsonEncode(e.toJson()));
+  void send(Envelope e) {
+    onSend(e);
+    channel.sink.add(jsonEncode(e.toJson()));
+  }
 }
 
 class _PrivateRoom {
@@ -95,14 +102,20 @@ class Hub {
     this.botLevel = BotLevel.medium,
     Random? random,
     int Function()? now,
+    Metrics? metrics,
+    Logger? log,
+    this.errors = const NoopErrorReporter(),
   }) : _random = random ?? Random.secure(),
-       _now = now ?? (() => DateTime.now().millisecondsSinceEpoch) {
+       _now = now ?? (() => DateTime.now().millisecondsSinceEpoch),
+       metrics = metrics ?? Metrics(),
+       log = log ?? Logger.silent() {
     matchmaker = Matchmaker(
       onMatch: _pair,
       onBot: _pairWithBot,
       botAfter: botAfter,
       now: _now,
     )..start();
+    _registerMetrics();
   }
 
   final String ticketSecret;
@@ -114,6 +127,14 @@ class Hub {
   final int Function() _now;
   late final Matchmaker matchmaker;
 
+  /// Prometheus registry served at `/metrics` (ADR-043).
+  final Metrics metrics;
+  final Logger log;
+
+  /// Unexpected errors (a bug, not a refused intent) go here and to [log].
+  final ErrorReporter errors;
+
+  final _connections = <_Connection>{};
   final _online = <String, _Connection>{};
   final _seats = <String, _Seat>{};
   final _bots = <BotDriver>[];
@@ -135,16 +156,146 @@ class Hub {
   /// Tournament matches waiting for their players.
   int get pendingTournamentMatches => _assignments.length;
 
+  // ---- Metrics ----------------------------------------------------------
+
+  late final Counter _connectionsOpened;
+  late final Counter _authFailures;
+  late final Counter _messagesIn;
+  late final Counter _messagesOut;
+  late final Counter _errorsOut;
+  late final Counter _matchesStarted;
+  late final Counter _matchesFinished;
+  late final Counter _internalErrors;
+  late final Histogram _handleSeconds;
+
+  /// Client intents a room handles; other types share the `other` label so
+  /// a client cannot create new time series.
+  static const _roomIntents = {
+    MessageType.gameSeed,
+    MessageType.gameRoll,
+    MessageType.gameMove,
+    MessageType.gameUndo,
+    MessageType.gameConfirmTurn,
+    MessageType.gameResign,
+    MessageType.cubeOffer,
+    MessageType.cubeTake,
+    MessageType.cubeDrop,
+    MessageType.chatEmote,
+  };
+
+  void _registerMetrics() {
+    final m = metrics;
+    m
+      ..gauge(
+        'nard_ws_connections',
+        'Open WebSocket connections.',
+        () => _connections.length,
+      )
+      ..gauge(
+        'nard_ws_authenticated_users',
+        'Users with an authenticated connection.',
+        () => _online.length,
+      )
+      ..gauge(
+        'nard_rooms_active',
+        'Match rooms in progress (including bot matches).',
+        () => _live.length,
+      )
+      ..gauge('nard_bots_active', 'Bot seats in progress.', () => _bots.length)
+      ..gauge(
+        'nard_spectators',
+        'Connections watching a match.',
+        () => _watching.length,
+      )
+      ..gauge(
+        'nard_private_rooms',
+        'Private rooms waiting for the second player.',
+        () => _privateRooms.length,
+      )
+      ..gauge(
+        'nard_tournament_matches_pending',
+        'Tournament pairings waiting for their players.',
+        () => _assignments.length,
+      )
+      ..gauges(
+        'nard_queue_size',
+        'Players waiting in each matchmaking queue (variant/length/mode).',
+        () => {
+          for (final e in matchmaker.queueSizes().entries)
+            {'queue': e.key}: e.value,
+        },
+      );
+    _connectionsOpened = m.counter(
+      'nard_ws_connections_opened_total',
+      'WebSocket connections accepted.',
+    );
+    _authFailures = m.counter(
+      'nard_ws_auth_failures_total',
+      'Rejected auth messages (bad or expired ticket).',
+    );
+    _messagesIn = m.counter(
+      'nard_ws_messages_received_total',
+      'WebSocket frames received from clients.',
+    );
+    _messagesOut = m.counter(
+      'nard_ws_messages_sent_total',
+      'WebSocket messages sent to clients.',
+    );
+    _errorsOut = m.counter(
+      'nard_ws_errors_sent_total',
+      'Error messages sent to clients, by code.',
+    );
+    _matchesStarted = m.counter(
+      'nard_matches_started_total',
+      'Matches started, by mode.',
+    );
+    _matchesFinished = m.counter(
+      'nard_matches_finished_total',
+      'Matches finished, by mode and reason.',
+    );
+    _internalErrors = m.counter(
+      'nard_internal_errors_total',
+      'Unexpected errors while handling a client message.',
+    );
+    _handleSeconds = m.histogram(
+      'nard_room_handle_seconds',
+      'Time to apply one client intent in its match room.',
+      const [0.0001, 0.00025, 0.0005, 0.001, 0.0025, 0.005, 0.01, 0.025],
+    );
+  }
+
+  void _counted(Envelope e) {
+    _messagesOut.inc();
+    if (e.type == MessageType.error) {
+      final code = e.payload['code'];
+      _errorsOut.inc({'code': code is String ? code : 'unknown'});
+    }
+  }
+
   void attach(WebSocketChannel channel) {
-    final conn = _Connection(channel);
+    final conn = _Connection(channel, _counted);
+    _connections.add(conn);
+    _connectionsOpened.inc();
     channel.stream.listen(
-      (frame) => _onFrame(conn, frame),
+      (frame) {
+        try {
+          _onFrame(conn, frame);
+        } on Object catch (e, stack) {
+          _internalErrors.inc();
+          log.error('message handling failed', {
+            'userId': conn.user?.userId,
+            'error': '$e',
+          });
+          errors.capture(e, stack, context: {'userId': conn.user?.userId});
+        }
+      },
       onDone: () => _onClose(conn),
       onError: (_) => _onClose(conn),
     );
   }
 
   void _onFrame(_Connection conn, Object? frame) {
+    _messagesIn.inc();
     Envelope msg;
     try {
       if (frame is! String) throw const FormatException('Text frames only');
@@ -246,7 +397,11 @@ class Hub {
         if (seat == null) {
           conn.send(_error(msg.id, ErrorCode.notInMatch));
         } else {
+          final watch = Stopwatch()..start();
           seat.room.handle(seat.side, msg);
+          _handleSeconds.observe(watch.elapsedMicroseconds / 1e6, {
+            'type': _roomIntents.contains(msg.type) ? msg.type : 'other',
+          });
         }
     }
   }
@@ -258,6 +413,7 @@ class Hub {
             ? Ticket.verify(token, ticketSecret, nowSeconds: _now() ~/ 1000)
             : null;
     if (ticket == null) {
+      _authFailures.inc();
       conn.send(_error(msg.id, ErrorCode.unauthorized));
       return;
     }
@@ -384,6 +540,11 @@ class Hub {
     final m = a.match;
     final now = _now();
     final winner = a.present.isEmpty ? null : a.present.single;
+    log.info('tournament no-show', {
+      'matchId': m.matchId,
+      'tournamentId': m.tournamentId,
+      'winner': winner?.name,
+    });
     if (winner == null) {
       unawaited(
         results.reportNoShow(
@@ -442,6 +603,7 @@ class Hub {
   );
 
   void _onClose(_Connection conn) {
+    _connections.remove(conn);
     _watching.remove(conn)?.removeSpectator(conn);
     final user = conn.user;
     if (user == null || _online[user.userId] != conn) return;
@@ -597,6 +759,18 @@ class Hub {
         }
       },
       onEnd: (result) {
+        _matchesFinished.inc({
+          'mode': request.mode.name,
+          'reason': result.reason.name,
+        });
+        log.info('match ended', {
+          'matchId': id,
+          'mode': request.mode.name,
+          'reason': result.reason.name,
+          'winner': result.winner.name,
+          'score': '${result.whiteScore}-${result.blackScore}',
+          'durationMs': result.endedAt - result.startedAt,
+        });
         unawaited(results.report(result));
         _live.remove(id);
         for (final d in drivers.values) {
@@ -654,6 +828,16 @@ class Hub {
       }
     }
     _live[id] = room;
+    _matchesStarted.inc({'mode': request.mode.name});
+    log.info('match started', {
+      'matchId': id,
+      'mode': request.mode.name,
+      'variant': request.variant.name,
+      'matchLength': request.matchLength,
+      'white': white.userId,
+      'black': black.userId,
+      if (tournamentId != null) 'tournamentId': tournamentId,
+    });
     room.start();
     for (final side in Side.values) {
       final p = room.player(side);

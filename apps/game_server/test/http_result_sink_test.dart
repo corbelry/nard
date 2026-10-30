@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:game_server/src/http_result_sink.dart';
+import 'package:game_server/server.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:nard_core/nard_core.dart';
@@ -27,11 +27,13 @@ void main() {
   test('posts a signed result and retries server errors', () async {
     final seen = <http.Request>[];
     var calls = 0;
+    final metrics = Metrics();
     final sink = HttpResultSink(
       apiUrl: Uri.parse('http://api:8000'),
       secret: 's' * 32,
       backoff: Duration.zero,
-      log: (_) {},
+      log: Logger.silent(),
+      metrics: metrics,
       client: MockClient((req) async {
         seen.add(req);
         return http.Response('', ++calls < 3 ? 503 : 201);
@@ -39,6 +41,12 @@ void main() {
     );
     await sink.report(result);
     expect(calls, 3);
+    expect(
+      metrics.counter('nard_results_reported_total', '').value({
+        'kind': 'result',
+      }),
+      1,
+    );
     final req = seen.last;
     expect(req.url.path, '/api/v1/internal/match-results');
     expect(
@@ -51,11 +59,14 @@ void main() {
   test('client errors are not retried; network errors are', () async {
     var calls = 0;
     final logs = <String>[];
+    final metrics = Metrics();
+    final lost = <Object>[];
     await HttpResultSink(
       apiUrl: Uri.parse('http://api:8000'),
       secret: 's' * 32,
       backoff: Duration.zero,
-      log: logs.add,
+      log: Logger(write: logs.add),
+      metrics: metrics,
       client: MockClient((_) async {
         calls++;
         return http.Response('{"code":"bad"}', 422);
@@ -68,14 +79,26 @@ void main() {
       secret: 's' * 32,
       attempts: 2,
       backoff: Duration.zero,
-      log: logs.add,
+      log: Logger(write: logs.add),
+      metrics: metrics,
+      errors: _Errors(lost),
       client: MockClient((_) async {
         calls++;
         throw http.ClientException('down');
       }),
     ).report(result);
     expect(calls, 2);
-    expect(logs.last, contains('lost'));
+    expect(logs.last, contains('result lost'));
+    expect(lost.single, isA<StateError>());
+    final failed = metrics.counter('nard_results_failed_total', '');
+    expect(failed.value({'kind': 'result', 'reason': 'rejected'}), 1);
+    expect(failed.value({'kind': 'result', 'reason': 'lost'}), 1);
+    expect(
+      metrics.counter('nard_results_retries_total', '').value({
+        'kind': 'result',
+      }),
+      1,
+    );
   });
 
   test('tournament no-shows go to their own endpoint', () async {
@@ -84,7 +107,7 @@ void main() {
       apiUrl: Uri.parse('http://api:8000'),
       secret: 's' * 32,
       backoff: Duration.zero,
-      log: (_) {},
+      log: Logger.silent(),
       client: MockClient((req) async {
         seen.add(req);
         return http.Response('{}', 200);
@@ -100,4 +123,17 @@ void main() {
     );
     expect((jsonDecode(req.body) as Map<String, Object?>)['tournamentId'], '7');
   });
+}
+
+class _Errors implements ErrorReporter {
+  _Errors(this.seen);
+
+  final List<Object> seen;
+
+  @override
+  void capture(
+    Object error,
+    StackTrace? stack, {
+    Map<String, Object?> context = const {},
+  }) => seen.add(error);
 }
