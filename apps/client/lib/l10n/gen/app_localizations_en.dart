@@ -115,12 +115,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get variantQuestionTitle => 'Which nard do you play?';
 
   @override
-  String get variantShortDesc =>
-      'Classic backgammon: hitting, the bar, the doubling cube.';
+  String get variantShortDesc => 'Classic backgammon: hitting, the bar, the doubling cube.';
 
   @override
-  String get variantLongDesc =>
-      'All checkers start on the head. No hitting, only blocking.';
+  String get variantLongDesc => 'All checkers start on the head. No hitting, only blocking.';
 
   @override
   String get variantLearnTitle => 'I want to learn';
@@ -142,57 +140,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lessonStep1Title => 'This is your board';
 
   @override
-  String get lessonStep1Body =>
-      'The white checkers are yours. They move from point 24 towards point 1, then are borne off the board. Tap any checker to continue.';
+  String get lessonStep1Body => 'The white checkers are yours. They move from point 24 towards point 1, then are borne off the board. Tap any checker to continue.';
 
   @override
   String get lessonStep2Title => 'Move a checker 6 points';
 
   @override
-  String get lessonStep2Body =>
-      'The die shows 6. Tap the checker on point 13, then tap or drag it to the highlighted point 7.';
+  String get lessonStep2Body => 'The die shows 6. Tap the checker on point 13, then tap or drag it to the highlighted point 7.';
 
   @override
   String get lessonStep3Title => 'Play both dice';
 
   @override
-  String get lessonStep3Body =>
-      'The dice show 3 and 1. Move checkers from points 8 and 6 to point 5 and make the point.';
+  String get lessonStep3Body => 'The dice show 3 and 1. Move checkers from points 8 and 6 to point 5 and make the point.';
 
   @override
   String get lessonStep4Title => 'Blocked point';
 
   @override
-  String get lessonStep4Body =>
-      'You can\'t move to a point that holds two or more of your opponent\'s checkers. The die shows 5: move the checker from point 13 to point 8.';
+  String get lessonStep4Body => 'You can\'t move to a point that holds two or more of your opponent\'s checkers. The die shows 5: move the checker from point 13 to point 8.';
 
   @override
   String get lessonStep5Title => 'Hitting';
 
   @override
-  String get lessonStep5Body =>
-      'Land on a lone opponent checker and you send it to the bar. Move the checker from point 6 to point 4 and hit.';
+  String get lessonStep5Body => 'Land on a lone opponent checker and you send it to the bar. Move the checker from point 6 to point 4 and hit.';
 
   @override
   String get lessonStep6Title => 'Entering from the bar';
 
   @override
-  String get lessonStep6Body =>
-      'If you have a checker on the bar, you must enter it into your opponent\'s home first. Tap the checker on the bar and move it to point 22.';
+  String get lessonStep6Body => 'If you have a checker on the bar, you must enter it into your opponent\'s home first. Tap the checker on the bar and move it to point 22.';
 
   @override
   String get lessonStep7Title => 'Bear off your checkers';
 
   @override
-  String get lessonStep7Body =>
-      'All your checkers are home (1–6). The die shows 6: bear off the checker on point 6.';
+  String get lessonStep7Body => 'All your checkers are home (1–6). The die shows 6: bear off the checker on point 6.';
 
   @override
   String get lessonDoneTitle => 'Well done, you\'re ready';
 
   @override
-  String get lessonDoneBody =>
-      'You know the rules. Now practice against the computer.';
+  String get lessonDoneBody => 'You know the rules. Now practice against the computer.';
 
   @override
   String get lessonFinish => 'Start playing';
@@ -316,8 +306,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotseatHideBetweenTurns => 'Hide screen between turns';
 
   @override
-  String get hotseatHideBetweenTurnsSub =>
-      '“Pass the phone to your opponent” screen';
+  String get hotseatHideBetweenTurnsSub => '“Pass the phone to your opponent” screen';
 
   @override
   String get hotseatFlipBoard => 'Flip the board';
@@ -707,12 +696,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resignKoks => 'Koks';
 
   @override
-  String get resignKoksDesc =>
-      'A checker on the bar or in the opponent\'s home';
+  String get resignKoksDesc => 'A checker on the bar or in the opponent\'s home';
 
   @override
-  String get resignKoksDescLong =>
-      'A checker hasn\'t left the opponent\'s home yet';
+  String get resignKoksDescLong => 'A checker hasn\'t left the opponent\'s home yet';
 
   @override
   String resignPoints(int points) {
@@ -755,8 +742,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ruleHeadTitle => 'Only one checker may leave the head';
 
   @override
-  String get ruleHeadBody =>
-      'This turn you played more than one checker from the head. Exception: a 6-6, 4-4 or 3-3 on the first roll lets you take two.';
+  String get ruleHeadBody => 'This turn you played more than one checker from the head. Exception: a 6-6, 4-4 or 3-3 on the first roll lets you take two.';
 
   @override
   String get ruleSixBlockTitle => 'You can\'t block 6 points in a row';
@@ -770,55 +756,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rulePointClosedTitle => 'This point is blocked';
 
   @override
-  String get rulePointClosedShort =>
-      'You can\'t move to a point with two or more opponent checkers.';
+  String get rulePointClosedShort => 'You can\'t move to a point with two or more opponent checkers.';
 
   @override
-  String get rulePointClosedLong =>
-      'In Long Nard you can\'t move to a point with an opponent checker.';
+  String get rulePointClosedLong => 'In Long Nard you can\'t move to a point with an opponent checker.';
 
   @override
   String get ruleBarTitle => 'Enter the checker from the bar first';
 
   @override
-  String get ruleBarBody =>
-      'While you have a checker on the bar, you can\'t move any other checker.';
+  String get ruleBarBody => 'While you have a checker on the bar, you can\'t move any other checker.';
 
   @override
   String get ruleBothDiceTitle => 'You must play both dice';
 
   @override
-  String get ruleBothDiceBody =>
-      'This move leaves no way to play the other die. Choose a move that uses both dice.';
+  String get ruleBothDiceBody => 'This move leaves no way to play the other die. Choose a move that uses both dice.';
 
   @override
   String get ruleLargerDieTitle => 'Play the larger die';
 
   @override
-  String get ruleLargerDieBody =>
-      'If only one die can be played, you must play the larger one.';
+  String get ruleLargerDieBody => 'If only one die can be played, you must play the larger one.';
 
   @override
   String get ruleBearOffTitle => 'You can\'t bear off yet';
 
   @override
-  String get ruleBearOffBody =>
-      'To bear off, all your checkers must be home (1–6).';
+  String get ruleBearOffBody => 'To bear off, all your checkers must be home (1–6).';
 
   @override
-  String get ruleBearOffHigherTitle =>
-      'Play the checker on the higher point first';
+  String get ruleBearOffHigherTitle => 'Play the checker on the higher point first';
 
   @override
-  String get ruleBearOffHigherBody =>
-      'With a larger die you can only bear off the checker on the highest point.';
+  String get ruleBearOffHigherBody => 'With a larger die you can only bear off the checker on the highest point.';
 
   @override
   String get ruleNoDieTitle => 'No die for this distance';
 
   @override
-  String get ruleNoDieBody =>
-      'You can only move a checker by the number of points shown on the dice.';
+  String get ruleNoDieBody => 'You can only move a checker by the number of points shown on the dice.';
 
   @override
   String get ruleNoCheckerTitle => 'You have no checker on this point';
@@ -836,8 +813,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get replayEmptyTitle => 'No games yet';
 
   @override
-  String get replayEmptyBody =>
-      'Games you finish will appear here. With Replay you can go through every move again.';
+  String get replayEmptyBody => 'Games you finish will appear here. With Replay you can go through every move again.';
 
   @override
   String replayTitle(int n) {
@@ -970,19 +946,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorTitle => 'Something went wrong';
 
   @override
-  String get errorBody =>
-      'Try again. If the problem persists, restart the app.';
+  String get errorBody => 'Try again. If the problem persists, restart the app.';
 
   @override
   String get playVsComputer => 'Play vs computer';
 
   @override
-  String get rulesShortBody =>
-      'Each player has 15 checkers. Checkers move from 24 towards 1 according to the dice. Land on a lone opponent checker and you send it to the bar; a point with two or more checkers is blocked. Once all your checkers are home (1–6), you start bearing off. The first to bear off all 15 checkers wins. If the opponent has borne off none — mars (×2); if they still have a checker on the bar or in your home — koks (×3).';
+  String get rulesShortBody => 'Each player has 15 checkers. Checkers move from 24 towards 1 according to the dice. Land on a lone opponent checker and you send it to the bar; a point with two or more checkers is blocked. Once all your checkers are home (1–6), you start bearing off. The first to bear off all 15 checkers wins. If the opponent has borne off none — mars (×2); if they still have a checker on the bar or in your home — koks (×3).';
 
   @override
-  String get rulesLongBody =>
-      'All 15 checkers start on the head (point 24). There is no hitting: you can\'t move to a point with an opponent checker. Each turn you may take only one checker from the head (except 6-6, 4-4 and 3-3 on the first roll). You can\'t block 6 points in a row unless an opponent checker is ahead of them. Once all your checkers are home, you start bearing off. If the opponent has borne off none — mars (×2); if one of their checkers hasn\'t yet passed your home — koks (×3).';
+  String get rulesLongBody => 'All 15 checkers start on the head (point 24). There is no hitting: you can\'t move to a point with an opponent checker. Each turn you may take only one checker from the head (except 6-6, 4-4 and 3-3 on the first roll). You can\'t block 6 points in a row unless an opponent checker is ahead of them. Once all your checkers are home, you start bearing off. If the opponent has borne off none — mars (×2); if one of their checkers hasn\'t yet passed your home — koks (×3).';
 
   @override
   String get actionSave => 'Save';
@@ -997,8 +970,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authWelcomeTitle => 'Welcome';
 
   @override
-  String get authWelcomeBody =>
-      'With an account your rating and match history follow you to every device.';
+  String get authWelcomeBody => 'With an account your rating and match history follow you to every device.';
 
   @override
   String get authApple => 'Continue with Apple';
@@ -1024,16 +996,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPrivacy => 'Privacy Policy';
 
   @override
-  String get authProviderUnavailable =>
-      'This sign-in option isn\'t available yet. Continue with e-mail or as a guest.';
+  String get authProviderUnavailable => 'This sign-in option isn\'t available yet. Continue with e-mail or as a guest.';
 
   @override
-  String get authOffline =>
-      'Can\'t reach the server. Check your connection and try again.';
+  String get authOffline => 'Can\'t reach the server. Check your connection and try again.';
 
   @override
-  String get authTooManyTries =>
-      'Too many attempts. Try again in a little while.';
+  String get authTooManyTries => 'Too many attempts. Try again in a little while.';
 
   @override
   String get authSignIn => 'Sign in';
@@ -1042,8 +1011,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailTitle => 'Enter your e-mail';
 
   @override
-  String get emailBody =>
-      'No password needed. We\'ll send you a 6-digit sign-in code.';
+  String get emailBody => 'No password needed. We\'ll send you a 6-digit sign-in code.';
 
   @override
   String get emailLabel => 'E-mail';
@@ -1102,15 +1070,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get searchTipHeadRule =>
-      'In Long Nard you may take only one checker from the head per turn.';
+  String get searchTipHeadRule => 'In Long Nard you may take only one checker from the head per turn.';
 
   @override
   String get searchTipPip => 'The pip count shows who is ahead in the race.';
 
   @override
-  String get searchBotSoon =>
-      'If no live opponent turns up within 30 seconds, you\'ll play a bot.';
+  String get searchBotSoon => 'If no live opponent turns up within 30 seconds, you\'ll play a bot.';
 
   @override
   String timeControlShort(int minutes, int delay) {
@@ -1170,8 +1136,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get botNoRating => 'Doesn\'t affect rating';
 
   @override
-  String get botFallbackNotice =>
-      'No live opponent turned up within 30 seconds, so you\'re playing a bot. The result doesn\'t affect your rating.';
+  String get botFallbackNotice => 'No live opponent turned up within 30 seconds, so you\'re playing a bot. The result doesn\'t affect your rating.';
 
   @override
   String get gameModeCasual => 'Casual · unranked';
@@ -1250,8 +1215,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fairTitle => 'Fair dice';
 
   @override
-  String get fairIntro =>
-      'Every roll is computed from a server key locked before the game, your key and the roll\'s number. After the game you can check every roll yourself.';
+  String get fairIntro => 'Every roll is computed from a server key locked before the game, your key and the roll\'s number. After the game you can check every roll yourself.';
 
   @override
   String get fairCommitment => 'Server key hash (before the game)';
@@ -1305,8 +1269,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fairPending => 'Revealed after the game';
 
   @override
-  String get fairPendingNote =>
-      'The server key is revealed when the game ends. Then you can check every roll here.';
+  String get fairPendingNote => 'The server key is revealed when the game ends. Then you can check every roll here.';
 
   @override
   String get fairNoRolls => 'No rolls yet';
@@ -1414,8 +1377,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSignedOutTitle => 'Sign in to your account';
 
   @override
-  String get profileSignedOutBody =>
-      'Your rating, stats and match history will live here.';
+  String get profileSignedOutBody => 'Your rating, stats and match history will live here.';
 
   @override
   String get nameInvalid => 'Use 3–20 letters, digits or _';
@@ -1427,8 +1389,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onlineOfflineTitle => 'Online play isn\'t available';
 
   @override
-  String get onlineOfflineBody =>
-      'Games against the computer and on one device still work. Try again when the connection is back.';
+  String get onlineOfflineBody => 'Games against the computer and on one device still work. Try again when the connection is back.';
 
   @override
   String get settingsAccountPrivacy => 'Account & privacy';
@@ -1466,8 +1427,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get exportNeedsEmail =>
-      'To receive your data, link an e-mail to your account first. Your progress stays as it is.';
+  String get exportNeedsEmail => 'To receive your data, link an e-mail to your account first. Your progress stays as it is.';
 
   @override
   String get exportLinkEmail => 'Link e-mail';
@@ -1510,8 +1470,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteItemHistory => 'Your profile and full match history';
 
   @override
-  String get deleteIrreversible =>
-      'Your account is deleted for good after 30 days. Sign in before then to cancel.';
+  String get deleteIrreversible => 'Your account is deleted for good after 30 days. Sign in before then to cancel.';
 
   @override
   String deleteConfirmLabel(String word) {
@@ -1762,8 +1721,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get storeGemsTitle => 'RUBIES';
 
   @override
-  String get storePackUnavailable =>
-      'Buying rubies isn\'t available yet. It opens once the store accounts are connected.';
+  String get storePackUnavailable => 'Buying rubies isn\'t available yet. It opens once the store accounts are connected.';
 
   @override
   String storePackAdded(String amount) {
@@ -1774,8 +1732,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountNeededTitle => 'Sign in to your account';
 
   @override
-  String get accountNeededBody =>
-      'You need an account to earn coins, buy sets and see your missions.';
+  String get accountNeededBody => 'You need an account to earn coins, buy sets and see your missions.';
 
   @override
   String get purchasePrice => 'Price';
@@ -1794,8 +1751,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get purchaseNotEnoughCoins =>
-      'Not enough coins. Coins are only earned: play and finish missions.';
+  String get purchaseNotEnoughCoins => 'Not enough coins. Coins are only earned: play and finish missions.';
 
   @override
   String purchaseBuyPack(String amount) {
@@ -1959,8 +1915,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get streakResetNote =>
-      'Miss a day and the streak starts again from day 1.';
+  String get streakResetNote => 'Miss a day and the streak starts again from day 1.';
 
   @override
   String levelUpOverline(int from, int to) {
@@ -2115,8 +2070,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get modeFriends => 'Friends';
 
   @override
-  String get socialAccountBody =>
-      'Friends, clans and private rooms need an account.';
+  String get socialAccountBody => 'Friends, clans and private rooms need an account.';
 
   @override
   String get send => 'Send';
@@ -2303,15 +2257,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get roomCreate => 'Create a room';
 
   @override
-  String get roomCreateSub =>
-      'Send the code; the game starts when your friend joins';
+  String get roomCreateSub => 'Send the code; the game starts when your friend joins';
 
   @override
   String get roomJoinByCode => 'Join by code';
 
   @override
-  String get roomJoinByCodeSub =>
-      'Enter a friend\'s room with a 6-character code';
+  String get roomJoinByCodeSub => 'Enter a friend\'s room with a 6-character code';
 
   @override
   String get roomJoin => 'Join';
@@ -2434,8 +2386,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportSend => 'Send report';
 
   @override
-  String get reportLimit =>
-      'You\'ve sent many reports today. Try again tomorrow.';
+  String get reportLimit => 'You\'ve sent many reports today. Try again tomorrow.';
 
   @override
   String blockTitle(String name) {
@@ -2443,12 +2394,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get blockInfoMatchmaking =>
-      'They won\'t be matched with you in casual games.';
+  String get blockInfoMatchmaking => 'They won\'t be matched with you in casual games.';
 
   @override
-  String get blockInfoContact =>
-      'They can\'t send you messages, friend requests or game invites.';
+  String get blockInfoContact => 'They can\'t send you messages, friend requests or game invites.';
 
   @override
   String blockInfoUndo(String path) {
@@ -2476,8 +2425,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportSentTitle => 'Report sent';
 
   @override
-  String get reportSentBody =>
-      'A moderator will review it within 24 hours. You\'ll be notified of the outcome.';
+  String get reportSentBody => 'A moderator will review it within 24 hours. You\'ll be notified of the outcome.';
 
   @override
   String get mutedNote => 'Muted';
@@ -2865,8 +2813,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clanLeaveBody => 'You\'ll lose access to the clan chat and chest.';
 
   @override
-  String get clanLeaveLastBody =>
-      'You\'re the last member: the clan will be disbanded.';
+  String get clanLeaveLastBody => 'You\'re the last member: the clan will be disbanded.';
 
   @override
   String get clanTransferFirst => 'Hand over leadership before leaving.';
@@ -2993,8 +2940,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get warNoneTitle => 'No war this week';
 
   @override
-  String get warNoneBody =>
-      'Clans are paired every Monday. A war needs at least 2 active members.';
+  String get warNoneBody => 'Clans are paired every Monday. A war needs at least 2 active members.';
 
   @override
   String get warNoOpponent => 'No opponent found';
@@ -3183,15 +3129,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tournamentsOfflineTitle => 'Tournaments need a connection';
 
   @override
-  String get tournamentsOfflineBody =>
-      'Games against the computer and on one device still work. The list updates when you are back online.';
+  String get tournamentsOfflineBody => 'Games against the computer and on one device still work. The list updates when you are back online.';
 
   @override
   String get tournamentsEmptyTitle => 'No tournaments yet';
 
   @override
-  String get tournamentsEmptyBody =>
-      'Tournaments you register for show up here.';
+  String get tournamentsEmptyBody => 'Tournaments you register for show up here.';
 
   @override
   String get tournamentsEmptyCta => 'See upcoming tournaments';
@@ -3200,15 +3144,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tournamentsNoneTitle => 'No tournaments';
 
   @override
-  String get tournamentsNoneBody =>
-      'Nothing in this list right now. Check back a little later.';
+  String get tournamentsNoneBody => 'Nothing in this list right now. Check back a little later.';
 
   @override
   String get listErrorTitle => 'The list didn\'t load';
 
   @override
-  String get listErrorBody =>
-      'Couldn\'t reach the server. Try again in a moment.';
+  String get listErrorBody => 'Couldn\'t reach the server. Try again in a moment.';
 
   @override
   String get sngCardMeta => 'Starts when full';
@@ -3349,8 +3291,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get tourRatingTooLow =>
-      'Your rating is below this tournament\'s minimum.';
+  String get tourRatingTooLow => 'Your rating is below this tournament\'s minimum.';
 
   @override
   String get tourInviteRequired => 'This tournament needs an invite code.';
@@ -3553,8 +3494,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get notFilledBodyScheduled =>
-      'Not enough players joined. Your entry fee is back on your balance.';
+  String get notFilledBodyScheduled => 'Not enough players joined. Your entry fee is back on your balance.';
 
   @override
   String refunded(String amount) {
@@ -3605,8 +3545,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privateTourFree => 'Free';
 
   @override
-  String get privateTourNote =>
-      'Creating is free. Private tournaments don\'t affect your rating.';
+  String get privateTourNote => 'Creating is free. Private tournaments don\'t affect your rating.';
 
   @override
   String get privateTourCreate => 'Create tournament';
@@ -3651,8 +3590,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privateTourCancelTitle => 'Cancel the tournament?';
 
   @override
-  String get privateTourCancelBody =>
-      'The tournament closes for everyone who registered.';
+  String get privateTourCancelBody => 'The tournament closes for everyone who registered.';
 
   @override
   String get privateTourRemove => 'Remove from tournament';
@@ -3664,8 +3602,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privateTourCodeNotFound => 'No tournament with this code.';
 
   @override
-  String get privateTourTooMany =>
-      'You can have at most 3 open private tournaments.';
+  String get privateTourTooMany => 'You can have at most 3 open private tournaments.';
 
   @override
   String get privateTourNotEnough => 'You need at least 2 players to start.';
@@ -3733,12 +3670,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lbEmptyFriends => 'None of your friends are ranked yet.';
 
   @override
-  String get lbEmptyClan =>
-      'You have no clan, or its members aren\'t ranked yet.';
+  String get lbEmptyClan => 'You have no clan, or its members aren\'t ranked yet.';
 
   @override
-  String get lbEmptyCountry =>
-      'No country on your profile, or nobody from it is ranked yet.';
+  String get lbEmptyCountry => 'No country on your profile, or nobody from it is ranked yet.';
 
   @override
   String lbUnranked(int n) {
@@ -3813,8 +3748,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seasonPremiumSheetTitle => 'Season pass · Premium';
 
   @override
-  String get seasonPremiumBody =>
-      'Premium opens this season\'s premium track. Rewards for levels you\'ve reached can be claimed right away.';
+  String get seasonPremiumBody => 'Premium opens this season\'s premium track. Rewards for levels you\'ve reached can be claimed right away.';
 
   @override
   String get seasonPremiumBought => 'Premium unlocked';
@@ -3873,8 +3807,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seasonNoSummaryTitle => 'No finished season yet';
 
   @override
-  String get seasonNoSummaryBody =>
-      'Your results show up here when the first season ends.';
+  String get seasonNoSummaryBody => 'Your results show up here when the first season ends.';
 
   @override
   String get actionAnalysis => 'Analysis';
@@ -3888,8 +3821,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get analysisEquity => 'Eval';
 
   @override
-  String get analysisNote =>
-      'Evaluations come from the heuristic bot, not exact winning chances. They get sharper when the neural AI arrives.';
+  String get analysisNote => 'Evaluations come from the heuristic bot, not exact winning chances. They get sharper when the neural AI arrives.';
 
   @override
   String analysisBest(String moves) {
@@ -3917,8 +3849,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get analysisMarkBlunder => 'Blunder';
 
   @override
-  String get analysisNotReady =>
-      'The match record isn\'t ready yet. Try again in a moment.';
+  String get analysisNotReady => 'The match record isn\'t ready yet. Try again in a moment.';
 
   @override
   String get analysisNoGames => 'No games were played in this match.';
@@ -4032,8 +3963,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get puzzleSetDoneBody => 'New puzzles are on the way.';
 
   @override
-  String get puzzleDailyDone =>
-      'Today\'s puzzle is done. Carry on with the next ones.';
+  String get puzzleDailyDone => 'Today\'s puzzle is done. Carry on with the next ones.';
 
   @override
   String get puzzleOffline => 'Checking puzzles needs a connection.';
@@ -4092,8 +4022,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifEmptyTitle => 'No notifications';
 
   @override
-  String get notifEmptyBody =>
-      'Friend requests, game invites and tournament news will show up here.';
+  String get notifEmptyBody => 'Friend requests, game invites and tournament news will show up here.';
 
   @override
   String get notifDelete => 'Delete';
@@ -4152,8 +4081,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get notifTournamentWon =>
-      '· You are the champion! The prize is in your account';
+  String get notifTournamentWon => '· You are the champion! The prize is in your account';
 
   @override
   String notifTournamentFinished(int place) {
@@ -4199,8 +4127,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get notifSeasonStarted =>
-      'has begun. A new season pass and new rewards are waiting';
+  String get notifSeasonStarted => 'has begun. A new season pass and new rewards are waiting';
 
   @override
   String get notifUnknown => 'New notification';
@@ -4221,8 +4148,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifPush => 'Push notifications';
 
   @override
-  String get notifPushUnavailable =>
-      'Push is not live in this version yet; everything shows in the inbox';
+  String get notifPushUnavailable => 'Push is not live in this version yet; everything shows in the inbox';
 
   @override
   String get notifQuietHours => 'Quiet hours';
@@ -4236,8 +4162,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifQuietOff => 'Off';
 
   @override
-  String get notifQuietBody =>
-      'No pushes during these hours; notifications stay in the inbox.';
+  String get notifQuietBody => 'No pushes during these hours; notifications stay in the inbox.';
 
   @override
   String get notifQuietFrom => 'From';
@@ -4287,12 +4212,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifPromptTitle => 'Never miss your turn';
 
   @override
-  String get notifPromptBody =>
-      'We will let you know when a tournament starts, your round is ready or a friend invites you. You can turn off each category in settings.';
+  String get notifPromptBody => 'We will let you know when a tournament starts, your round is ready or a friend invites you. You can turn off each category in settings.';
 
   @override
-  String get notifPromptSample1 =>
-      'Nigar invites you to play · Short Nard, 5 points';
+  String get notifPromptSample1 => 'Nigar invites you to play · Short Nard, 5 points';
 
   @override
   String get notifPromptSample2 => 'Baku Friday Cup starts in 15 minutes.';
@@ -4312,8 +4235,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get bannedBodyPermanent =>
-      'Your account is suspended permanently for breaking the fair-play rules.';
+  String get bannedBodyPermanent => 'Your account is suspended permanently for breaking the fair-play rules.';
 
   @override
   String bannedContact(String email) {
@@ -4321,15 +4243,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get bannedOffline =>
-      'You can sign out and keep playing offline against the computer or with a friend.';
+  String get bannedOffline => 'You can sign out and keep playing offline against the computer or with a friend.';
 
   @override
   String get bannedOverTitle => 'Suspension over';
 
   @override
-  String get bannedOverBody =>
-      'Your account is active again. Thank you for playing fair.';
+  String get bannedOverBody => 'Your account is active again. Thank you for playing fair.';
 
   @override
   String get bannedContinue => 'Continue';

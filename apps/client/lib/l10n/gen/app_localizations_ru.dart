@@ -115,12 +115,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get variantQuestionTitle => 'В какие нарды ты играешь?';
 
   @override
-  String get variantShortDesc =>
-      'Классический бэкгаммон: бой, бар, куб удвоения.';
+  String get variantShortDesc => 'Классический бэкгаммон: бой, бар, куб удвоения.';
 
   @override
-  String get variantLongDesc =>
-      'Все шашки на голове. Бить нельзя, только блокировать.';
+  String get variantLongDesc => 'Все шашки на голове. Бить нельзя, только блокировать.';
 
   @override
   String get variantLearnTitle => 'Хочу научиться';
@@ -148,57 +146,49 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lessonStep1Title => 'Это твоя доска';
 
   @override
-  String get lessonStep1Body =>
-      'Белые шашки — твои. Они идут с 24-го пункта к 1-му, а затем выбрасываются с доски. Коснись любой шашки, чтобы продолжить.';
+  String get lessonStep1Body => 'Белые шашки — твои. Они идут с 24-го пункта к 1-му, а затем выбрасываются с доски. Коснись любой шашки, чтобы продолжить.';
 
   @override
   String get lessonStep2Title => 'Передвинь шашку на 6 пунктов';
 
   @override
-  String get lessonStep2Body =>
-      'На кубике 6. Коснись шашки на 13-м пункте, затем коснись подсвеченного 7-го пункта или перетащи шашку туда.';
+  String get lessonStep2Body => 'На кубике 6. Коснись шашки на 13-м пункте, затем коснись подсвеченного 7-го пункта или перетащи шашку туда.';
 
   @override
   String get lessonStep3Title => 'Сыграй оба кубика';
 
   @override
-  String get lessonStep3Body =>
-      'На кубиках 3 и 1. Передвинь шашки с 8-го и 6-го пунктов на 5-й и закрой пункт.';
+  String get lessonStep3Body => 'На кубиках 3 и 1. Передвинь шашки с 8-го и 6-го пунктов на 5-й и закрой пункт.';
 
   @override
   String get lessonStep4Title => 'Закрытый пункт';
 
   @override
-  String get lessonStep4Body =>
-      'Нельзя ходить на пункт, где стоят две и более шашки соперника. На кубике 5: передвинь шашку с 13-го пункта на 8-й.';
+  String get lessonStep4Body => 'Нельзя ходить на пункт, где стоят две и более шашки соперника. На кубике 5: передвинь шашку с 13-го пункта на 8-й.';
 
   @override
   String get lessonStep5Title => 'Бой';
 
   @override
-  String get lessonStep5Body =>
-      'Если встанешь на одиночную шашку соперника, она уходит на бар. Передвинь шашку с 6-го пункта на 4-й и побей.';
+  String get lessonStep5Body => 'Если встанешь на одиночную шашку соперника, она уходит на бар. Передвинь шашку с 6-го пункта на 4-й и побей.';
 
   @override
   String get lessonStep6Title => 'Ввод с бара';
 
   @override
-  String get lessonStep6Body =>
-      'Если у тебя есть шашка на баре, сначала нужно ввести её в дом соперника. Коснись шашки на баре и передвинь её на 22-й пункт.';
+  String get lessonStep6Body => 'Если у тебя есть шашка на баре, сначала нужно ввести её в дом соперника. Коснись шашки на баре и передвинь её на 22-й пункт.';
 
   @override
   String get lessonStep7Title => 'Выброси шашки';
 
   @override
-  String get lessonStep7Body =>
-      'Все шашки в доме (1–6). На кубике 6: выброси шашку с 6-го пункта.';
+  String get lessonStep7Body => 'Все шашки в доме (1–6). На кубике 6: выброси шашку с 6-го пункта.';
 
   @override
   String get lessonDoneTitle => 'Отлично, можно играть';
 
   @override
-  String get lessonDoneBody =>
-      'Ты знаешь правила. Теперь потренируйся против компьютера.';
+  String get lessonDoneBody => 'Ты знаешь правила. Теперь потренируйся против компьютера.';
 
   @override
   String get lessonFinish => 'Начать игру';
@@ -786,8 +776,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ruleHeadTitle => 'С головы можно взять только одну шашку';
 
   @override
-  String get ruleHeadBody =>
-      'В этот ход с головы сыграно больше одной шашки. Исключение: при первом броске 6-6, 4-4 или 3-3 можно взять две.';
+  String get ruleHeadBody => 'В этот ход с головы сыграно больше одной шашки. Исключение: при первом броске 6-6, 4-4 или 3-3 можно взять две.';
 
   @override
   String get ruleSixBlockTitle => 'Нельзя закрывать 6 пунктов подряд';
@@ -801,55 +790,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rulePointClosedTitle => 'Этот пункт закрыт';
 
   @override
-  String get rulePointClosedShort =>
-      'Нельзя ходить на пункт, где стоят две и более шашки соперника.';
+  String get rulePointClosedShort => 'Нельзя ходить на пункт, где стоят две и более шашки соперника.';
 
   @override
-  String get rulePointClosedLong =>
-      'В длинных нардах нельзя ходить на пункт с шашкой соперника.';
+  String get rulePointClosedLong => 'В длинных нардах нельзя ходить на пункт с шашкой соперника.';
 
   @override
   String get ruleBarTitle => 'Сначала введи шашку с бара';
 
   @override
-  String get ruleBarBody =>
-      'Пока у тебя есть шашка на баре, другими шашками ходить нельзя.';
+  String get ruleBarBody => 'Пока у тебя есть шашка на баре, другими шашками ходить нельзя.';
 
   @override
   String get ruleBothDiceTitle => 'Нужно сыграть оба кубика';
 
   @override
-  String get ruleBothDiceBody =>
-      'Этот ход не даёт сыграть второй кубик. Выбери ход, который использует оба кубика.';
+  String get ruleBothDiceBody => 'Этот ход не даёт сыграть второй кубик. Выбери ход, который использует оба кубика.';
 
   @override
   String get ruleLargerDieTitle => 'Сыграй больший кубик';
 
   @override
-  String get ruleLargerDieBody =>
-      'Если можно сыграть только один кубик, нужно сыграть больший.';
+  String get ruleLargerDieBody => 'Если можно сыграть только один кубик, нужно сыграть больший.';
 
   @override
   String get ruleBearOffTitle => 'Выбрасывать ещё нельзя';
 
   @override
-  String get ruleBearOffBody =>
-      'Чтобы выбрасывать шашки, все они должны быть в доме (1–6).';
+  String get ruleBearOffBody => 'Чтобы выбрасывать шашки, все они должны быть в доме (1–6).';
 
   @override
-  String get ruleBearOffHigherTitle =>
-      'Сначала сыграй шашку с более высокого пункта';
+  String get ruleBearOffHigherTitle => 'Сначала сыграй шашку с более высокого пункта';
 
   @override
-  String get ruleBearOffHigherBody =>
-      'Большим кубиком можно выбросить только шашку с самого высокого пункта.';
+  String get ruleBearOffHigherBody => 'Большим кубиком можно выбросить только шашку с самого высокого пункта.';
 
   @override
   String get ruleNoDieTitle => 'Нет кубика на это расстояние';
 
   @override
-  String get ruleNoDieBody =>
-      'Шашку можно передвинуть только на число пунктов, выпавшее на кубиках.';
+  String get ruleNoDieBody => 'Шашку можно передвинуть только на число пунктов, выпавшее на кубиках.';
 
   @override
   String get ruleNoCheckerTitle => 'На этом пункте нет твоей шашки';
@@ -867,8 +847,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get replayEmptyTitle => 'Пока нет игр';
 
   @override
-  String get replayEmptyBody =>
-      'Завершённые игры появятся здесь. В повторе можно заново просмотреть каждый ход.';
+  String get replayEmptyBody => 'Завершённые игры появятся здесь. В повторе можно заново просмотреть каждый ход.';
 
   @override
   String replayTitle(int n) {
@@ -1003,19 +982,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get errorTitle => 'Что-то пошло не так';
 
   @override
-  String get errorBody =>
-      'Попробуй ещё раз. Если проблема не исчезнет, перезапусти приложение.';
+  String get errorBody => 'Попробуй ещё раз. Если проблема не исчезнет, перезапусти приложение.';
 
   @override
   String get playVsComputer => 'Играть с компьютером';
 
   @override
-  String get rulesShortBody =>
-      'У каждого игрока 15 шашек. Шашки ходят по кубикам от 24 к 1. Если встанешь на одиночную шашку соперника, она уходит на бар; пункт с двумя и более шашками закрыт. Когда все шашки в доме (1–6), начинается выброс. Побеждает тот, кто первым выбросит все 15 шашек. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка на баре или в твоём доме — кокс (×3).';
+  String get rulesShortBody => 'У каждого игрока 15 шашек. Шашки ходят по кубикам от 24 к 1. Если встанешь на одиночную шашку соперника, она уходит на бар; пункт с двумя и более шашками закрыт. Когда все шашки в доме (1–6), начинается выброс. Побеждает тот, кто первым выбросит все 15 шашек. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка на баре или в твоём доме — кокс (×3).';
 
   @override
-  String get rulesLongBody =>
-      'Все 15 шашек начинают с головы (24-й пункт). Боя нет: на пункт с шашкой соперника ходить нельзя. За ход с головы можно взять только одну шашку (исключение — 6-6, 4-4, 3-3 при первом броске). Нельзя закрывать 6 пунктов подряд, если впереди нет ни одной шашки соперника. Когда все шашки в доме, начинается выброс. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка ещё не прошла твой дом — кокс (×3).';
+  String get rulesLongBody => 'Все 15 шашек начинают с головы (24-й пункт). Боя нет: на пункт с шашкой соперника ходить нельзя. За ход с головы можно взять только одну шашку (исключение — 6-6, 4-4, 3-3 при первом броске). Нельзя закрывать 6 пунктов подряд, если впереди нет ни одной шашки соперника. Когда все шашки в доме, начинается выброс. Если соперник не выбросил ни одной шашки — марс (×2), если его шашка ещё не прошла твой дом — кокс (×3).';
 
   @override
   String get actionSave => 'Сохранить';
@@ -1030,8 +1006,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authWelcomeTitle => 'Добро пожаловать';
 
   @override
-  String get authWelcomeBody =>
-      'С аккаунтом твой рейтинг и история матчей сохранятся на всех устройствах.';
+  String get authWelcomeBody => 'С аккаунтом твой рейтинг и история матчей сохранятся на всех устройствах.';
 
   @override
   String get authApple => 'Продолжить с Apple';
@@ -1057,12 +1032,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authPrivacy => 'Политику конфиденциальности';
 
   @override
-  String get authProviderUnavailable =>
-      'Этот способ входа пока недоступен. Продолжи через e-mail или как гость.';
+  String get authProviderUnavailable => 'Этот способ входа пока недоступен. Продолжи через e-mail или как гость.';
 
   @override
-  String get authOffline =>
-      'Нет связи с сервером. Проверь интернет и попробуй снова.';
+  String get authOffline => 'Нет связи с сервером. Проверь интернет и попробуй снова.';
 
   @override
   String get authTooManyTries => 'Слишком много попыток. Попробуй чуть позже.';
@@ -1074,8 +1047,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailTitle => 'Введи свой e-mail';
 
   @override
-  String get emailBody =>
-      'Пароль не нужен. Мы пришлём 6-значный код для входа.';
+  String get emailBody => 'Пароль не нужен. Мы пришлём 6-значный код для входа.';
 
   @override
   String get emailLabel => 'E-mail';
@@ -1134,15 +1106,13 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get searchTipHeadRule =>
-      'В длинных нардах с головы за ход снимают только одну шашку.';
+  String get searchTipHeadRule => 'В длинных нардах с головы за ход снимают только одну шашку.';
 
   @override
   String get searchTipPip => 'Счёт пипов показывает, кто впереди в гонке.';
 
   @override
-  String get searchBotSoon =>
-      'Если за 30 секунд живой соперник не найдётся, сыграешь с ботом.';
+  String get searchBotSoon => 'Если за 30 секунд живой соперник не найдётся, сыграешь с ботом.';
 
   @override
   String timeControlShort(int minutes, int delay) {
@@ -1206,8 +1176,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get botNoRating => 'Не влияет на рейтинг';
 
   @override
-  String get botFallbackNotice =>
-      'За 30 секунд живой соперник не нашёлся, поэтому ты играешь с ботом. Результат не влияет на рейтинг.';
+  String get botFallbackNotice => 'За 30 секунд живой соперник не нашёлся, поэтому ты играешь с ботом. Результат не влияет на рейтинг.';
 
   @override
   String get gameModeCasual => 'Обычная · без рейтинга';
@@ -1288,8 +1257,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get fairTitle => 'Честные кости';
 
   @override
-  String get fairIntro =>
-      'Каждый бросок вычисляется из серверного ключа, зафиксированного до игры, твоего ключа и номера броска. После игры ты можешь сам проверить любой бросок.';
+  String get fairIntro => 'Каждый бросок вычисляется из серверного ключа, зафиксированного до игры, твоего ключа и номера броска. После игры ты можешь сам проверить любой бросок.';
 
   @override
   String get fairCommitment => 'Хеш серверного ключа (до игры)';
@@ -1343,8 +1311,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get fairPending => 'Откроется после игры';
 
   @override
-  String get fairPendingNote =>
-      'Серверный ключ откроется после окончания игры. Тогда здесь можно будет проверить каждый бросок.';
+  String get fairPendingNote => 'Серверный ключ откроется после окончания игры. Тогда здесь можно будет проверить каждый бросок.';
 
   @override
   String get fairNoRolls => 'Бросков пока нет';
@@ -1452,8 +1419,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileSignedOutTitle => 'Войди в аккаунт';
 
   @override
-  String get profileSignedOutBody =>
-      'Здесь будут твой рейтинг, статистика и история матчей.';
+  String get profileSignedOutBody => 'Здесь будут твой рейтинг, статистика и история матчей.';
 
   @override
   String get nameInvalid => 'Имя: 3–20 букв, цифр или _';
@@ -1465,8 +1431,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onlineOfflineTitle => 'Онлайн-игра недоступна';
 
   @override
-  String get onlineOfflineBody =>
-      'Игра с компьютером и на одном устройстве работает. Попробуй снова, когда связь вернётся.';
+  String get onlineOfflineBody => 'Игра с компьютером и на одном устройстве работает. Попробуй снова, когда связь вернётся.';
 
   @override
   String get settingsAccountPrivacy => 'Аккаунт и конфиденциальность';
@@ -1504,8 +1469,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get exportNeedsEmail =>
-      'Чтобы получить данные, сначала привяжите e-mail к аккаунту. Прогресс сохранится.';
+  String get exportNeedsEmail => 'Чтобы получить данные, сначала привяжите e-mail к аккаунту. Прогресс сохранится.';
 
   @override
   String get exportLinkEmail => 'Привязать e-mail';
@@ -1548,8 +1512,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get deleteItemHistory => 'Профиль и вся история матчей';
 
   @override
-  String get deleteIrreversible =>
-      'Аккаунт будет удалён навсегда через 30 дней. Войди раньше, чтобы отменить удаление.';
+  String get deleteIrreversible => 'Аккаунт будет удалён навсегда через 30 дней. Войди раньше, чтобы отменить удаление.';
 
   @override
   String deleteConfirmLabel(String word) {
@@ -1636,8 +1599,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lockerEmptyTitle => 'Здесь пока пусто';
 
   @override
-  String get lockerEmptyBody =>
-      'Новые предметы для этого раздела скоро появятся.';
+  String get lockerEmptyBody => 'Новые предметы для этого раздела скоро появятся.';
 
   @override
   String get lockerShowOpponentCosmetics => 'Показывать косметику соперника';
@@ -1805,8 +1767,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get storeGemsTitle => 'РУБИНЫ';
 
   @override
-  String get storePackUnavailable =>
-      'Покупка рубинов пока недоступна. Она откроется после подключения магазинов.';
+  String get storePackUnavailable => 'Покупка рубинов пока недоступна. Она откроется после подключения магазинов.';
 
   @override
   String storePackAdded(String amount) {
@@ -1817,8 +1778,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accountNeededTitle => 'Войди в аккаунт';
 
   @override
-  String get accountNeededBody =>
-      'Чтобы зарабатывать монеты, покупать наборы и видеть задания, нужен аккаунт.';
+  String get accountNeededBody => 'Чтобы зарабатывать монеты, покупать наборы и видеть задания, нужен аккаунт.';
 
   @override
   String get purchasePrice => 'Цена';
@@ -1837,8 +1797,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get purchaseNotEnoughCoins =>
-      'Не хватает монет. Монеты только зарабатываются: играй и выполняй задания.';
+  String get purchaseNotEnoughCoins => 'Не хватает монет. Монеты только зарабатываются: играй и выполняй задания.';
 
   @override
   String purchaseBuyPack(String amount) {
@@ -1994,8 +1953,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get streakDay7 => 'День 7';
 
   @override
-  String get streakBody =>
-      'Заходи каждый день и забери большой бонус седьмого дня.';
+  String get streakBody => 'Заходи каждый день и забери большой бонус седьмого дня.';
 
   @override
   String streakClaim(int coins) {
@@ -2003,8 +1961,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get streakResetNote =>
-      'Пропустишь день, и серия начнётся с первого дня.';
+  String get streakResetNote => 'Пропустишь день, и серия начнётся с первого дня.';
 
   @override
   String levelUpOverline(int from, int to) {
@@ -2159,8 +2116,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get modeFriends => 'Друзья';
 
   @override
-  String get socialAccountBody =>
-      'Для друзей, кланов и своих комнат нужен аккаунт.';
+  String get socialAccountBody => 'Для друзей, кланов и своих комнат нужен аккаунт.';
 
   @override
   String get send => 'Отправить';
@@ -2487,8 +2443,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get blockInfoMatchmaking => 'Вы не встретитесь в случайных играх.';
 
   @override
-  String get blockInfoContact =>
-      'Не сможет отправлять тебе сообщения, запросы в друзья и приглашения.';
+  String get blockInfoContact => 'Не сможет отправлять тебе сообщения, запросы в друзья и приглашения.';
 
   @override
   String blockInfoUndo(String path) {
@@ -2516,8 +2471,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get reportSentTitle => 'Жалоба отправлена';
 
   @override
-  String get reportSentBody =>
-      'Модератор рассмотрит её в течение 24 часов. Ты получишь уведомление о решении.';
+  String get reportSentBody => 'Модератор рассмотрит её в течение 24 часов. Ты получишь уведомление о решении.';
 
   @override
   String get mutedNote => 'Чат отключён';
@@ -2675,8 +2629,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get policyInvite => 'Только приглашение';
 
   @override
-  String get policyInviteSub =>
-      'Виден в списке, но вступить можно только по приглашению';
+  String get policyInviteSub => 'Виден в списке, но вступить можно только по приглашению';
 
   @override
   String get roleLeader => 'Лидер';
@@ -3033,8 +2986,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get warNoneTitle => 'На этой неделе войны нет';
 
   @override
-  String get warNoneBody =>
-      'Кланы подбираются каждый понедельник. Для войны нужно минимум 2 активных участника.';
+  String get warNoneBody => 'Кланы подбираются каждый понедельник. Для войны нужно минимум 2 активных участника.';
 
   @override
   String get warNoOpponent => 'Соперник не найден';
@@ -3223,15 +3175,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tournamentsOfflineTitle => 'Турниры недоступны офлайн';
 
   @override
-  String get tournamentsOfflineBody =>
-      'Игра с компьютером и на одном устройстве работает. Список обновится, когда связь вернётся.';
+  String get tournamentsOfflineBody => 'Игра с компьютером и на одном устройстве работает. Список обновится, когда связь вернётся.';
 
   @override
   String get tournamentsEmptyTitle => 'Пока нет турниров';
 
   @override
-  String get tournamentsEmptyBody =>
-      'Здесь появятся турниры, на которые ты записался.';
+  String get tournamentsEmptyBody => 'Здесь появятся турниры, на которые ты записался.';
 
   @override
   String get tournamentsEmptyCta => 'Смотреть ближайшие турниры';
@@ -3240,15 +3190,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tournamentsNoneTitle => 'Турниров нет';
 
   @override
-  String get tournamentsNoneBody =>
-      'В этом списке пока пусто. Загляни чуть позже.';
+  String get tournamentsNoneBody => 'В этом списке пока пусто. Загляни чуть позже.';
 
   @override
   String get listErrorTitle => 'Список не загрузился';
 
   @override
-  String get listErrorBody =>
-      'Не удалось связаться с сервером. Попробуй чуть позже.';
+  String get listErrorBody => 'Не удалось связаться с сервером. Попробуй чуть позже.';
 
   @override
   String get sngCardMeta => 'Старт, когда все места заняты';
@@ -3480,8 +3428,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get standingsFootnoteNoPlayoff =>
-      'При равенстве: Бухгольц, затем рейтинг';
+  String get standingsFootnoteNoPlayoff => 'При равенстве: Бухгольц, затем рейтинг';
 
   @override
   String get standingsEmpty => 'Таблица появится после первого раунда.';
@@ -3593,8 +3540,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get notFilledBodyScheduled =>
-      'Игроков набралось слишком мало. Взнос вернулся на баланс.';
+  String get notFilledBodyScheduled => 'Игроков набралось слишком мало. Взнос вернулся на баланс.';
 
   @override
   String refunded(String amount) {
@@ -3645,8 +3591,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get privateTourFree => 'Бесплатно';
 
   @override
-  String get privateTourNote =>
-      'Создание бесплатно. Частные турниры не влияют на рейтинг.';
+  String get privateTourNote => 'Создание бесплатно. Частные турниры не влияют на рейтинг.';
 
   @override
   String get privateTourCreate => 'Создать турнир';
@@ -3691,8 +3636,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get privateTourCancelTitle => 'Отменить турнир?';
 
   @override
-  String get privateTourCancelBody =>
-      'Турнир закроется для всех, кто записался.';
+  String get privateTourCancelBody => 'Турнир закроется для всех, кто записался.';
 
   @override
   String get privateTourRemove => 'Убрать из турнира';
@@ -3704,8 +3648,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get privateTourCodeNotFound => 'Турнир с таким кодом не найден.';
 
   @override
-  String get privateTourTooMany =>
-      'Можно держать открытыми не больше 3 частных турниров.';
+  String get privateTourTooMany => 'Можно держать открытыми не больше 3 частных турниров.';
 
   @override
   String get privateTourNotEnough => 'Для старта нужно минимум 2 игрока.';
@@ -3773,12 +3716,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lbEmptyFriends => 'Твоих друзей пока нет в рейтинге.';
 
   @override
-  String get lbEmptyClan =>
-      'У тебя нет клана, или его участников ещё нет в рейтинге.';
+  String get lbEmptyClan => 'У тебя нет клана, или его участников ещё нет в рейтинге.';
 
   @override
-  String get lbEmptyCountry =>
-      'В профиле не выбрана страна или из неё ещё никого нет в рейтинге.';
+  String get lbEmptyCountry => 'В профиле не выбрана страна или из неё ещё никого нет в рейтинге.';
 
   @override
   String lbUnranked(int n) {
@@ -3853,8 +3794,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get seasonPremiumSheetTitle => 'Сезонный пропуск · Премиум';
 
   @override
-  String get seasonPremiumBody =>
-      'Премиум открывает премиум-награды сезона. Награды уже пройденных уровней можно забрать сразу.';
+  String get seasonPremiumBody => 'Премиум открывает премиум-награды сезона. Награды уже пройденных уровней можно забрать сразу.';
 
   @override
   String get seasonPremiumBought => 'Премиум открыт';
@@ -3913,8 +3853,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get seasonNoSummaryTitle => 'Завершённых сезонов пока нет';
 
   @override
-  String get seasonNoSummaryBody =>
-      'Итоги появятся здесь после первого сезона.';
+  String get seasonNoSummaryBody => 'Итоги появятся здесь после первого сезона.';
 
   @override
   String get actionAnalysis => 'Анализ';
@@ -3928,8 +3867,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get analysisEquity => 'Оценка';
 
   @override
-  String get analysisNote =>
-      'Оценки считает эвристический бот, это не точные шансы на победу. С нейросетевым ИИ станут точнее.';
+  String get analysisNote => 'Оценки считает эвристический бот, это не точные шансы на победу. С нейросетевым ИИ станут точнее.';
 
   @override
   String analysisBest(String moves) {
@@ -3957,8 +3895,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get analysisMarkBlunder => 'Грубая ошибка';
 
   @override
-  String get analysisNotReady =>
-      'Запись матча ещё не готова. Попробуй чуть позже.';
+  String get analysisNotReady => 'Запись матча ещё не готова. Попробуй чуть позже.';
 
   @override
   String get analysisNoGames => 'В этом матче не было сыгранных партий.';
@@ -4131,8 +4068,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notifEmptyTitle => 'Уведомлений нет';
 
   @override
-  String get notifEmptyBody =>
-      'Здесь появятся заявки в друзья, приглашения в игру и новости турниров.';
+  String get notifEmptyBody => 'Здесь появятся заявки в друзья, приглашения в игру и новости турниров.';
 
   @override
   String get notifDelete => 'Удалить';
@@ -4237,8 +4173,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get notifSeasonStarted =>
-      'начался. Новый сезонный пропуск и награды уже ждут';
+  String get notifSeasonStarted => 'начался. Новый сезонный пропуск и награды уже ждут';
 
   @override
   String get notifUnknown => 'Новое уведомление';
@@ -4259,8 +4194,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notifPush => 'Push-уведомления';
 
   @override
-  String get notifPushUnavailable =>
-      'В этой версии push пока не работает; всё видно во входящих';
+  String get notifPushUnavailable => 'В этой версии push пока не работает; всё видно во входящих';
 
   @override
   String get notifQuietHours => 'Тихие часы';
@@ -4274,8 +4208,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notifQuietOff => 'Выкл.';
 
   @override
-  String get notifQuietBody =>
-      'В эти часы push не приходят, уведомления остаются во входящих.';
+  String get notifQuietBody => 'В эти часы push не приходят, уведомления остаются во входящих.';
 
   @override
   String get notifQuietFrom => 'С';
@@ -4325,16 +4258,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notifPromptTitle => 'Не пропустите свой ход';
 
   @override
-  String get notifPromptBody =>
-      'Мы сообщим, когда начнётся турнир, будет готов ваш раунд или друг пригласит вас в игру. Каждую категорию можно отключить в настройках.';
+  String get notifPromptBody => 'Мы сообщим, когда начнётся турнир, будет готов ваш раунд или друг пригласит вас в игру. Каждую категорию можно отключить в настройках.';
 
   @override
-  String get notifPromptSample1 =>
-      'Нигяр зовёт вас сыграть · Короткие нарды, до 5 очков';
+  String get notifPromptSample1 => 'Нигяр зовёт вас сыграть · Короткие нарды, до 5 очков';
 
   @override
-  String get notifPromptSample2 =>
-      'Бакинский кубок пятницы начнётся через 15 мин.';
+  String get notifPromptSample2 => 'Бакинский кубок пятницы начнётся через 15 мин.';
 
   @override
   String get notifPromptAllow => 'Включить уведомления';
@@ -4351,8 +4281,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get bannedBodyPermanent =>
-      'Ваш аккаунт заблокирован бессрочно за нарушение правил честной игры.';
+  String get bannedBodyPermanent => 'Ваш аккаунт заблокирован бессрочно за нарушение правил честной игры.';
 
   @override
   String bannedContact(String email) {
@@ -4360,15 +4289,13 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get bannedOffline =>
-      'Вы можете выйти из аккаунта и продолжить играть офлайн с компьютером или с другом.';
+  String get bannedOffline => 'Вы можете выйти из аккаунта и продолжить играть офлайн с компьютером или с другом.';
 
   @override
   String get bannedOverTitle => 'Блокировка снята';
 
   @override
-  String get bannedOverBody =>
-      'Ваш аккаунт снова активен. Спасибо за честную игру.';
+  String get bannedOverBody => 'Ваш аккаунт снова активен. Спасибо за честную игру.';
 
   @override
   String get bannedContinue => 'Продолжить';
@@ -4407,6 +4334,5 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get notifModerationWarningPlain =>
-      'пожалуйста, соблюдайте правила честной игры';
+  String get notifModerationWarningPlain => 'пожалуйста, соблюдайте правила честной игры';
 }

@@ -5,6 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
+import 'background.dart';
 import 'extra_tokens.dart';
 import 'pressable.dart';
 
@@ -397,7 +398,9 @@ class NardTab {
   final String label;
 }
 
-/// Bottom tab bar (tab roots only).
+/// Bottom tab bar (tab roots only): a floating rounded bar with a warm
+/// glow, lifted off the screen edge; the selected tab sits on a soft brass
+/// pill that slides between tabs.
 class NardTabBar extends StatelessWidget {
   const NardTabBar({
     super.key,
@@ -410,60 +413,134 @@ class NardTabBar extends StatelessWidget {
   final int index;
   final ValueChanged<int> onTap;
 
+  static const double _height = 64;
+
   @override
   Widget build(BuildContext context) {
     final c = context.nard;
     final bottom = MediaQuery.paddingOf(context).bottom;
-    return Container(
-      padding: EdgeInsets.fromLTRB(8, 8, 8, max(8, bottom - 8)),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [c.bgDeep.withValues(alpha: 0), c.bgDeep],
-          stops: const [0, .3],
-        ),
-        border: Border(top: BorderSide(color: c.lineSoft)),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        NardSpace.s4,
+        NardSpace.s2,
+        NardSpace.s4,
+        bottom + NardSpace.s3,
       ),
-      child: Row(
-        children: [
-          for (var i = 0; i < tabs.length; i++)
-            Expanded(
-              child: Semantics(
-                selected: i == index,
-                button: true,
-                label: tabs[i].label,
-                excludeSemantics: true,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => onTap(i),
-                  child: SizedBox(
-                    height: 52,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          tabs[i].icon,
-                          size: 22,
-                          color: i == index ? c.accentHi : c.textDim,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          tabs[i].label,
-                          style: NardType.micro.copyWith(
-                            height: 12 / 11,
-                            color: i == index ? c.accentHi : c.textDim,
-                            fontWeight:
-                                i == index ? FontWeight.w600 : FontWeight.w500,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(NardRadius.xl),
+          border: Border.all(color: c.accent.withValues(alpha: .28)),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.alphaBlend(
+                c.accent.withValues(alpha: .14),
+                c.surfaceRaised,
+              ),
+              Color.alphaBlend(c.accent.withValues(alpha: .04), c.bgDeep),
+            ],
+          ),
+          image: grainImage,
+          boxShadow: [
+            BoxShadow(
+              color: c.bgDeep.withValues(alpha: .55),
+              offset: const Offset(0, 10),
+              blurRadius: 28,
+            ),
+            BoxShadow(
+              color: c.accent.withValues(alpha: .10),
+              blurRadius: 22,
+              spreadRadius: -4,
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(NardSpace.s1),
+          child: SizedBox(
+            height: _height - 2 * NardSpace.s1,
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final w = box.maxWidth / tabs.length;
+                return Stack(
+                  children: [
+                    AnimatedPositioned(
+                      duration: NardMotion.sheetIn,
+                      curve: NardMotion.standard,
+                      left: w * index,
+                      top: 0,
+                      bottom: 0,
+                      width: w,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          // Concentric with the bar: outer radius minus
+                          // the inset.
+                          borderRadius: BorderRadius.circular(
+                            NardRadius.xl - NardSpace.s1,
+                          ),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              c.accent.withValues(alpha: .24),
+                              c.accent.withValues(alpha: .08),
+                            ],
+                          ),
+                          border: Border.all(
+                            color: c.accentHi.withValues(alpha: .35),
                           ),
                         ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        for (var i = 0; i < tabs.length; i++)
+                          Expanded(child: _item(context, i)),
                       ],
                     ),
-                  ),
-                ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _item(BuildContext context, int i) {
+    final c = context.nard;
+    final on = i == index;
+    final color = on ? c.accentHi : c.text.withValues(alpha: .62);
+    return Semantics(
+      selected: on,
+      button: true,
+      label: tabs[i].label,
+      excludeSemantics: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => onTap(i),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedScale(
+              scale: on ? 1.08 : 1,
+              duration: NardMotion.fast,
+              child: Icon(tabs[i].icon, size: 21, color: color),
+            ),
+            const SizedBox(height: 3),
+            Text(
+              tabs[i].label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: NardType.micro.copyWith(
+                height: 12 / 11,
+                color: color,
+                fontWeight: on ? FontWeight.w600 : FontWeight.w500,
               ),
             ),
-        ],
+          ],
+        ),
       ),
     );
   }

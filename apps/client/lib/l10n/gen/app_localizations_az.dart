@@ -112,8 +112,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get variantShortDesc => 'Klassik backgammon: vurmaq, bar, ikiqat kub.';
 
   @override
-  String get variantLongDesc =>
-      'Bütün daşlar başda. Vurmaq yoxdur, yalnız bloklamaq.';
+  String get variantLongDesc => 'Bütün daşlar başda. Vurmaq yoxdur, yalnız bloklamaq.';
 
   @override
   String get variantLearnTitle => 'Öyrənmək istəyirəm';
@@ -135,57 +134,49 @@ class AppLocalizationsAz extends AppLocalizations {
   String get lessonStep1Title => 'Bu sənin taxtandır';
 
   @override
-  String get lessonStep1Body =>
-      'Ağ daşlar sənindir. Daşlar 24-cü xanadan 1-ci xanaya doğru hərəkət edir, sonra taxtadan çıxarılır. Davam etmək üçün istənilən daşa toxun.';
+  String get lessonStep1Body => 'Ağ daşlar sənindir. Daşlar 24-cü xanadan 1-ci xanaya doğru hərəkət edir, sonra taxtadan çıxarılır. Davam etmək üçün istənilən daşa toxun.';
 
   @override
   String get lessonStep2Title => 'Daşı 6 xana irəli apar';
 
   @override
-  String get lessonStep2Body =>
-      'Zər 6 göstərir. 13-cü xanadakı daşa toxun, sonra işıqlanan 7-ci xanaya toxun və ya sürüşdür.';
+  String get lessonStep2Body => 'Zər 6 göstərir. 13-cü xanadakı daşa toxun, sonra işıqlanan 7-ci xanaya toxun və ya sürüşdür.';
 
   @override
   String get lessonStep3Title => 'İki zəri də oyna';
 
   @override
-  String get lessonStep3Body =>
-      'Zərlər 3 və 1 göstərir. 8-ci və 6-cı xanadan daşları 5-ci xanaya apar və xananı bağla.';
+  String get lessonStep3Body => 'Zərlər 3 və 1 göstərir. 8-ci və 6-cı xanadan daşları 5-ci xanaya apar və xananı bağla.';
 
   @override
   String get lessonStep4Title => 'Bağlı xana';
 
   @override
-  String get lessonStep4Body =>
-      'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz. Zər 5 göstərir: 13-cü xanadakı daşı 8-ci xanaya apar.';
+  String get lessonStep4Body => 'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz. Zər 5 göstərir: 13-cü xanadakı daşı 8-ci xanaya apar.';
 
   @override
   String get lessonStep5Title => 'Vurmaq';
 
   @override
-  String get lessonStep5Body =>
-      'Rəqibin tək daşına düşsən, onu bara göndərirsən. 6-cı xanadakı daşı 4-cü xanaya apar və vur.';
+  String get lessonStep5Body => 'Rəqibin tək daşına düşsən, onu bara göndərirsən. 6-cı xanadakı daşı 4-cü xanaya apar və vur.';
 
   @override
   String get lessonStep6Title => 'Bardan giriş';
 
   @override
-  String get lessonStep6Body =>
-      'Barda daşın varsa, əvvəl onu rəqibin evinə daxil etməlisən. Bardakı daşa toxun və 22-ci xanaya apar.';
+  String get lessonStep6Body => 'Barda daşın varsa, əvvəl onu rəqibin evinə daxil etməlisən. Bardakı daşa toxun və 22-ci xanaya apar.';
 
   @override
   String get lessonStep7Title => 'Daşları çıxar';
 
   @override
-  String get lessonStep7Body =>
-      'Bütün daşlar evdədir (1–6). Zər 6 göstərir: 6-cı xanadakı daşı taxtadan çıxar.';
+  String get lessonStep7Body => 'Bütün daşlar evdədir (1–6). Zər 6 göstərir: 6-cı xanadakı daşı taxtadan çıxar.';
 
   @override
   String get lessonDoneTitle => 'Əla, hazırsan';
 
   @override
-  String get lessonDoneBody =>
-      'Qaydaları bilirsən. İndi kompüterə qarşı oynayıb məşq et.';
+  String get lessonDoneBody => 'Qaydaları bilirsən. İndi kompüterə qarşı oynayıb məşq et.';
 
   @override
   String get lessonFinish => 'Oynamağa başla';
@@ -667,8 +658,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get ruleHeadTitle => 'Başdan yalnız bir daş götürmək olar';
 
   @override
-  String get ruleHeadBody =>
-      'Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.';
+  String get ruleHeadBody => 'Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.';
 
   @override
   String get ruleSixBlockTitle => 'Ardıcıl 6 xananı bağlamaq olmaz';
@@ -682,12 +672,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String get rulePointClosedTitle => 'Bu xana bağlıdır';
 
   @override
-  String get rulePointClosedShort =>
-      'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz.';
+  String get rulePointClosedShort => 'Rəqibin iki və ya daha çox daşı olan xanaya getmək olmaz.';
 
   @override
-  String get rulePointClosedLong =>
-      'Uzun nərddə rəqibin daşı olan xanaya getmək olmaz.';
+  String get rulePointClosedLong => 'Uzun nərddə rəqibin daşı olan xanaya getmək olmaz.';
 
   @override
   String get ruleBarTitle => 'Əvvəl bardakı daşı daxil et';
@@ -699,36 +687,31 @@ class AppLocalizationsAz extends AppLocalizations {
   String get ruleBothDiceTitle => 'Hər iki zəri oynamaq lazımdır';
 
   @override
-  String get ruleBothDiceBody =>
-      'Bu gediş digər zəri oynamağa imkan vermir. Hər iki zəri işlədən gediş seç.';
+  String get ruleBothDiceBody => 'Bu gediş digər zəri oynamağa imkan vermir. Hər iki zəri işlədən gediş seç.';
 
   @override
   String get ruleLargerDieTitle => 'Böyük zəri oyna';
 
   @override
-  String get ruleLargerDieBody =>
-      'Yalnız bir zər oynana bilirsə, böyük zəri oynamaq lazımdır.';
+  String get ruleLargerDieBody => 'Yalnız bir zər oynana bilirsə, böyük zəri oynamaq lazımdır.';
 
   @override
   String get ruleBearOffTitle => 'Hələ daş çıxarmaq olmaz';
 
   @override
-  String get ruleBearOffBody =>
-      'Daş çıxarmaq üçün bütün daşlar evdə (1–6) olmalıdır.';
+  String get ruleBearOffBody => 'Daş çıxarmaq üçün bütün daşlar evdə (1–6) olmalıdır.';
 
   @override
   String get ruleBearOffHigherTitle => 'Əvvəl yuxarı xanadakı daşı oyna';
 
   @override
-  String get ruleBearOffHigherBody =>
-      'Böyük zərlə yalnız ən yuxarı xanadakı daşı çıxarmaq olar.';
+  String get ruleBearOffHigherBody => 'Böyük zərlə yalnız ən yuxarı xanadakı daşı çıxarmaq olar.';
 
   @override
   String get ruleNoDieTitle => 'Bu məsafəyə zər yoxdur';
 
   @override
-  String get ruleNoDieBody =>
-      'Daşı yalnız zərlərdəki xana sayı qədər aparmaq olar.';
+  String get ruleNoDieBody => 'Daşı yalnız zərlərdəki xana sayı qədər aparmaq olar.';
 
   @override
   String get ruleNoCheckerTitle => 'Bu xanada sənin daşın yoxdur';
@@ -746,8 +729,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get replayEmptyTitle => 'Hələ oyun yoxdur';
 
   @override
-  String get replayEmptyBody =>
-      'Bitirdiyin oyunlar burada görünəcək. Replay ilə hər gedişə yenidən baxa bilərsən.';
+  String get replayEmptyBody => 'Bitirdiyin oyunlar burada görünəcək. Replay ilə hər gedişə yenidən baxa bilərsən.';
 
   @override
   String replayTitle(int n) {
@@ -874,19 +856,16 @@ class AppLocalizationsAz extends AppLocalizations {
   String get errorTitle => 'Nəsə alınmadı';
 
   @override
-  String get errorBody =>
-      'Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.';
+  String get errorBody => 'Yenidən cəhd et. Problem davam edərsə, tətbiqi yenidən aç.';
 
   @override
   String get playVsComputer => 'Kompüterə qarşı oyna';
 
   @override
-  String get rulesShortBody =>
-      'Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).';
+  String get rulesShortBody => 'Hər oyunçunun 15 daşı var. Daşlar zərə görə 24-dən 1-ə doğru hərəkət edir. Rəqibin tək daşına düşsən, onu bara göndərirsən; iki və daha çox daşı olan xana bağlıdır. Bütün daşlar evə (1–6) çatanda çıxarmağa başlayırsan. İlk 15 daşı çıxaran qalib gəlir. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı barda və ya sənin evindədirsə — koks (×3).';
 
   @override
-  String get rulesLongBody =>
-      'Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).';
+  String get rulesLongBody => 'Bütün 15 daş başda (24-cü xana) başlayır. Vurmaq yoxdur: rəqibin daşı olan xanaya getmək olmaz. Hər növbədə başdan yalnız bir daş götürmək olar (ilk atışda 6-6, 4-4, 3-3 istisnadır). Qabağında rəqib daşı olmayan ardıcıl 6 xananı bağlamaq olmaz. Bütün daşlar evə çatanda çıxarmağa başlayırsan. Rəqib heç daş çıxarmayıbsa — mars (×2), daşı hələ sənin evindən keçməyibsə — koks (×3).';
 
   @override
   String get actionSave => 'Yadda saxla';
@@ -901,8 +880,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get authWelcomeTitle => 'Xoş gəldin';
 
   @override
-  String get authWelcomeBody =>
-      'Hesab yaratsan reytinqin və matç tarixçən bütün cihazlarda saxlanacaq.';
+  String get authWelcomeBody => 'Hesab yaratsan reytinqin və matç tarixçən bütün cihazlarda saxlanacaq.';
 
   @override
   String get authApple => 'Apple ilə davam et';
@@ -928,12 +906,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String get authPrivacy => 'Məxfilik siyasəti';
 
   @override
-  String get authProviderUnavailable =>
-      'Bu giriş üsulu hələ hazır deyil. E-poçt ilə və ya qonaq kimi davam et.';
+  String get authProviderUnavailable => 'Bu giriş üsulu hələ hazır deyil. E-poçt ilə və ya qonaq kimi davam et.';
 
   @override
-  String get authOffline =>
-      'Serverlə əlaqə yoxdur. İnterneti yoxla və yenidən cəhd et.';
+  String get authOffline => 'Serverlə əlaqə yoxdur. İnterneti yoxla və yenidən cəhd et.';
 
   @override
   String get authTooManyTries => 'Çox cəhd etdin. Bir az sonra yenidən yoxla.';
@@ -945,8 +921,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get emailTitle => 'E-poçtunu yaz';
 
   @override
-  String get emailBody =>
-      'Şifrə lazım deyil. 6 rəqəmli giriş kodu göndərəcəyik.';
+  String get emailBody => 'Şifrə lazım deyil. 6 rəqəmli giriş kodu göndərəcəyik.';
 
   @override
   String get emailLabel => 'E-poçt';
@@ -1005,15 +980,13 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get searchTipHeadRule =>
-      'Uzun nərddə başdan yalnız bir daş götürülür.';
+  String get searchTipHeadRule => 'Uzun nərddə başdan yalnız bir daş götürülür.';
 
   @override
   String get searchTipPip => 'Pip sayı yarışda kimin öndə olduğunu göstərir.';
 
   @override
-  String get searchBotSoon =>
-      '30 saniyədə canlı rəqib tapılmasa, bot ilə oynayacaqsan.';
+  String get searchBotSoon => '30 saniyədə canlı rəqib tapılmasa, bot ilə oynayacaqsan.';
 
   @override
   String timeControlShort(int minutes, int delay) {
@@ -1061,8 +1034,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get botNoRating => 'Reytinqə təsir etmir';
 
   @override
-  String get botFallbackNotice =>
-      '30 saniyədə canlı rəqib tapılmadı, ona görə bot ilə oynayırsan. Nəticə reytinqə təsir etmir.';
+  String get botFallbackNotice => '30 saniyədə canlı rəqib tapılmadı, ona görə bot ilə oynayırsan. Nəticə reytinqə təsir etmir.';
 
   @override
   String get gameModeCasual => 'Adi · reytinqsiz';
@@ -1135,8 +1107,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get fairTitle => 'Ədalətli zər';
 
   @override
-  String get fairIntro =>
-      'Hər zər atışı oyundan əvvəl kilidlənən server açarından, sənin açarından və atışın sırasından hesablanır. Oyundan sonra hər atışı özün yoxlaya bilərsən.';
+  String get fairIntro => 'Hər zər atışı oyundan əvvəl kilidlənən server açarından, sənin açarından və atışın sırasından hesablanır. Oyundan sonra hər atışı özün yoxlaya bilərsən.';
 
   @override
   String get fairCommitment => 'Server açarının heşi (oyundan əvvəl)';
@@ -1190,8 +1161,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get fairPending => 'Oyundan sonra açılacaq';
 
   @override
-  String get fairPendingNote =>
-      'Server açarı oyun bitəndə açılacaq. Sonra hər atışı burada yoxlaya bilərsən.';
+  String get fairPendingNote => 'Server açarı oyun bitəndə açılacaq. Sonra hər atışı burada yoxlaya bilərsən.';
 
   @override
   String get fairNoRolls => 'Hələ atış yoxdur';
@@ -1299,8 +1269,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get profileSignedOutTitle => 'Hesabına daxil ol';
 
   @override
-  String get profileSignedOutBody =>
-      'Reytinqin, statistikan və matç tarixçən burada olacaq.';
+  String get profileSignedOutBody => 'Reytinqin, statistikan və matç tarixçən burada olacaq.';
 
   @override
   String get nameInvalid => 'Ad 3–20 hərf, rəqəm və ya _ olmalıdır';
@@ -1312,8 +1281,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get onlineOfflineTitle => 'Onlayn oyun əlçatan deyil';
 
   @override
-  String get onlineOfflineBody =>
-      'Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda yenidən cəhd et.';
+  String get onlineOfflineBody => 'Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda yenidən cəhd et.';
 
   @override
   String get settingsAccountPrivacy => 'Hesab və məxfilik';
@@ -1351,8 +1319,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get exportNeedsEmail =>
-      'Məlumatlarını almaq üçün əvvəlcə hesabına e-poçt bağla. İrəliləyişin olduğu kimi qalır.';
+  String get exportNeedsEmail => 'Məlumatlarını almaq üçün əvvəlcə hesabına e-poçt bağla. İrəliləyişin olduğu kimi qalır.';
 
   @override
   String get exportLinkEmail => 'E-poçt bağla';
@@ -1395,8 +1362,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get deleteItemHistory => 'Profil və bütün matç tarixçəsi';
 
   @override
-  String get deleteIrreversible =>
-      'Hesab 30 gün sonra tamamilə silinir. Bu müddətdə daxil olsan, silinmə ləğv olunur.';
+  String get deleteIrreversible => 'Hesab 30 gün sonra tamamilə silinir. Bu müddətdə daxil olsan, silinmə ləğv olunur.';
 
   @override
   String deleteConfirmLabel(String word) {
@@ -1645,8 +1611,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get storeGemsTitle => 'YAQUT';
 
   @override
-  String get storePackUnavailable =>
-      'Yaqut almaq hələ mümkün deyil. Mağaza hesabları qoşulanda açılacaq.';
+  String get storePackUnavailable => 'Yaqut almaq hələ mümkün deyil. Mağaza hesabları qoşulanda açılacaq.';
 
   @override
   String storePackAdded(String amount) {
@@ -1657,8 +1622,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get accountNeededTitle => 'Hesabına daxil ol';
 
   @override
-  String get accountNeededBody =>
-      'Sikkə qazanmaq, dəst almaq və tapşırıqları görmək üçün hesab lazımdır.';
+  String get accountNeededBody => 'Sikkə qazanmaq, dəst almaq və tapşırıqları görmək üçün hesab lazımdır.';
 
   @override
   String get purchasePrice => 'Qiymət';
@@ -1677,8 +1641,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get purchaseNotEnoughCoins =>
-      'Sikkən kifayət etmir. Sikkə yalnız qazanılır: oyna və tapşırıqları bitir.';
+  String get purchaseNotEnoughCoins => 'Sikkən kifayət etmir. Sikkə yalnız qazanılır: oyna və tapşırıqları bitir.';
 
   @override
   String purchaseBuyPack(String amount) {
@@ -1842,8 +1805,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get streakResetNote =>
-      'Bir gün buraxsan, seriya 1-ci gündən başlayır.';
+  String get streakResetNote => 'Bir gün buraxsan, seriya 1-ci gündən başlayır.';
 
   @override
   String levelUpOverline(int from, int to) {
@@ -1998,8 +1960,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get modeFriends => 'Dostlar';
 
   @override
-  String get socialAccountBody =>
-      'Dostlar, klanlar və şəxsi otaqlar üçün hesab lazımdır.';
+  String get socialAccountBody => 'Dostlar, klanlar və şəxsi otaqlar üçün hesab lazımdır.';
 
   @override
   String get send => 'Göndər';
@@ -2315,8 +2276,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get reportSend => 'Şikayəti göndər';
 
   @override
-  String get reportLimit =>
-      'Bu gün çox şikayət göndərdin. Sabah yenidən yoxla.';
+  String get reportLimit => 'Bu gün çox şikayət göndərdin. Sabah yenidən yoxla.';
 
   @override
   String blockTitle(String name) {
@@ -2324,12 +2284,10 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get blockInfoMatchmaking =>
-      'Təsadüfi oyunlarda səninlə qarşılaşmayacaq.';
+  String get blockInfoMatchmaking => 'Təsadüfi oyunlarda səninlə qarşılaşmayacaq.';
 
   @override
-  String get blockInfoContact =>
-      'Sənə mesaj, dostluq və oyun dəvəti göndərə bilməyəcək.';
+  String get blockInfoContact => 'Sənə mesaj, dostluq və oyun dəvəti göndərə bilməyəcək.';
 
   @override
   String blockInfoUndo(String path) {
@@ -2357,8 +2315,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get reportSentTitle => 'Şikayət göndərildi';
 
   @override
-  String get reportSentBody =>
-      'Moderator 24 saat ərzində baxacaq. Nəticə barədə bildiriş alacaqsan.';
+  String get reportSentBody => 'Moderator 24 saat ərzində baxacaq. Nəticə barədə bildiriş alacaqsan.';
 
   @override
   String get mutedNote => 'Səssizə alındı';
@@ -2516,8 +2473,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get policyInvite => 'Yalnız dəvət';
 
   @override
-  String get policyInviteSub =>
-      'Siyahıda görünür, amma qoşulmaq üçün dəvət lazımdır';
+  String get policyInviteSub => 'Siyahıda görünür, amma qoşulmaq üçün dəvət lazımdır';
 
   @override
   String get roleLeader => 'Lider';
@@ -2874,8 +2830,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get warNoneTitle => 'Bu həftə döyüş yoxdur';
 
   @override
-  String get warNoneBody =>
-      'Klanlar hər bazar ertəsi cütləşdirilir. Döyüş üçün ən azı 2 aktiv üzv lazımdır.';
+  String get warNoneBody => 'Klanlar hər bazar ertəsi cütləşdirilir. Döyüş üçün ən azı 2 aktiv üzv lazımdır.';
 
   @override
   String get warNoOpponent => 'Rəqib tapılmadı';
@@ -3064,15 +3019,13 @@ class AppLocalizationsAz extends AppLocalizations {
   String get tournamentsOfflineTitle => 'Turnirlər oflayn görünmür';
 
   @override
-  String get tournamentsOfflineBody =>
-      'Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda siyahı yenilənəcək.';
+  String get tournamentsOfflineBody => 'Kompüterə qarşı və bir cihazda oyun işləyir. Bağlantı qayıdanda siyahı yenilənəcək.';
 
   @override
   String get tournamentsEmptyTitle => 'Hələ turnirin yoxdur';
 
   @override
-  String get tournamentsEmptyBody =>
-      'Qeydiyyatdan keçdiyin turnirlər burada görünəcək.';
+  String get tournamentsEmptyBody => 'Qeydiyyatdan keçdiyin turnirlər burada görünəcək.';
 
   @override
   String get tournamentsEmptyCta => 'Gələcək turnirlərə bax';
@@ -3081,15 +3034,13 @@ class AppLocalizationsAz extends AppLocalizations {
   String get tournamentsNoneTitle => 'Turnir yoxdur';
 
   @override
-  String get tournamentsNoneBody =>
-      'Bu siyahıda hələ turnir yoxdur. Bir az sonra yenidən bax.';
+  String get tournamentsNoneBody => 'Bu siyahıda hələ turnir yoxdur. Bir az sonra yenidən bax.';
 
   @override
   String get listErrorTitle => 'Siyahı yüklənmədi';
 
   @override
-  String get listErrorBody =>
-      'Serverlə əlaqə qurulmadı. Bir az sonra yenidən cəhd et.';
+  String get listErrorBody => 'Serverlə əlaqə qurulmadı. Bir az sonra yenidən cəhd et.';
 
   @override
   String get sngCardMeta => 'Dolan kimi başlayır';
@@ -3233,8 +3184,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get tourRatingTooLow => 'Bu turnir üçün reytinqin azdır.';
 
   @override
-  String get tourInviteRequired =>
-      'Bu turnirə yalnız dəvət kodu ilə qoşulmaq olar.';
+  String get tourInviteRequired => 'Bu turnirə yalnız dəvət kodu ilə qoşulmaq olar.';
 
   @override
   String get tourActionFailed => 'Alınmadı. Bir az sonra yenidən cəhd et.';
@@ -3322,8 +3272,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get standingsFootnoteNoPlayoff =>
-      'Bərabərlikdə Buchholz, sonra reytinq';
+  String get standingsFootnoteNoPlayoff => 'Bərabərlikdə Buchholz, sonra reytinq';
 
   @override
   String get standingsEmpty => 'Cədvəl birinci raunddan sonra görünəcək.';
@@ -3435,8 +3384,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get notFilledBodyScheduled =>
-      'Kifayət qədər oyunçu yığılmadı. Giriş haqqı balansına qaytarıldı.';
+  String get notFilledBodyScheduled => 'Kifayət qədər oyunçu yığılmadı. Giriş haqqı balansına qaytarıldı.';
 
   @override
   String refunded(String amount) {
@@ -3487,8 +3435,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get privateTourFree => 'Pulsuz';
 
   @override
-  String get privateTourNote =>
-      'Yaratmaq pulsuzdur. Özəl turnirlər reytinqə təsir etmir.';
+  String get privateTourNote => 'Yaratmaq pulsuzdur. Özəl turnirlər reytinqə təsir etmir.';
 
   @override
   String get privateTourCreate => 'Turniri yarat';
@@ -3533,8 +3480,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get privateTourCancelTitle => 'Turnir ləğv edilsin?';
 
   @override
-  String get privateTourCancelBody =>
-      'Qeydiyyatdan keçən bütün oyunçular üçün turnir bağlanacaq.';
+  String get privateTourCancelBody => 'Qeydiyyatdan keçən bütün oyunçular üçün turnir bağlanacaq.';
 
   @override
   String get privateTourRemove => 'Turnirdən çıxar';
@@ -3546,8 +3492,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get privateTourCodeNotFound => 'Bu kodla turnir tapılmadı.';
 
   @override
-  String get privateTourTooMany =>
-      'Eyni anda ən çox 3 özəl turnir aça bilərsən.';
+  String get privateTourTooMany => 'Eyni anda ən çox 3 özəl turnir aça bilərsən.';
 
   @override
   String get privateTourNotEnough => 'Başlamaq üçün ən az 2 oyunçu lazımdır.';
@@ -3618,8 +3563,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get lbEmptyClan => 'Klanın yoxdur və ya üzvlər hələ reytinqdə deyil.';
 
   @override
-  String get lbEmptyCountry =>
-      'Profilində ölkə seçilməyib və ya bu ölkədən hələ oyunçu yoxdur.';
+  String get lbEmptyCountry => 'Profilində ölkə seçilməyib və ya bu ölkədən hələ oyunçu yoxdur.';
 
   @override
   String lbUnranked(int n) {
@@ -3694,8 +3638,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get seasonPremiumSheetTitle => 'Sezon bileti · Premium';
 
   @override
-  String get seasonPremiumBody =>
-      'Premium yol bu sezonun premium mükafatlarını açır. Çatdığın səviyyələrin mükafatları dərhal alına bilər.';
+  String get seasonPremiumBody => 'Premium yol bu sezonun premium mükafatlarını açır. Çatdığın səviyyələrin mükafatları dərhal alına bilər.';
 
   @override
   String get seasonPremiumBought => 'Premium açıldı';
@@ -3754,8 +3697,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get seasonNoSummaryTitle => 'Hələ bitmiş sezon yoxdur';
 
   @override
-  String get seasonNoSummaryBody =>
-      'İlk sezon bitəndə nəticələrin burada görünəcək.';
+  String get seasonNoSummaryBody => 'İlk sezon bitəndə nəticələrin burada görünəcək.';
 
   @override
   String get actionAnalysis => 'Təhlil';
@@ -3769,8 +3711,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get analysisEquity => 'Qiymət';
 
   @override
-  String get analysisNote =>
-      'Qiymətləri sadə bot hesablayır, dəqiq qələbə şansı deyil. Neyron AI gələndə dəqiqləşəcək.';
+  String get analysisNote => 'Qiymətləri sadə bot hesablayır, dəqiq qələbə şansı deyil. Neyron AI gələndə dəqiqləşəcək.';
 
   @override
   String analysisBest(String moves) {
@@ -3798,8 +3739,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get analysisMarkBlunder => 'Kobud səhv';
 
   @override
-  String get analysisNotReady =>
-      'Matçın qeydi hələ hazır deyil. Bir az sonra yenidən cəhd et.';
+  String get analysisNotReady => 'Matçın qeydi hələ hazır deyil. Bir az sonra yenidən cəhd et.';
 
   @override
   String get analysisNoGames => 'Bu matçda oynanmış oyun yoxdur.';
@@ -3913,8 +3853,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get puzzleSetDoneBody => 'Yeni tapmacalar tezliklə əlavə olunacaq.';
 
   @override
-  String get puzzleDailyDone =>
-      'Bugünkü tapmaca bitib. Növbəti tapmacalarla davam et.';
+  String get puzzleDailyDone => 'Bugünkü tapmaca bitib. Növbəti tapmacalarla davam et.';
 
   @override
   String get puzzleOffline => 'Tapmacaları yoxlamaq üçün bağlantı lazımdır.';
@@ -3973,8 +3912,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get notifEmptyTitle => 'Bildiriş yoxdur';
 
   @override
-  String get notifEmptyBody =>
-      'Dostluq sorğuları, oyun dəvətləri və turnir xəbərləri burada görünəcək.';
+  String get notifEmptyBody => 'Dostluq sorğuları, oyun dəvətləri və turnir xəbərləri burada görünəcək.';
 
   @override
   String get notifDelete => 'Sil';
@@ -4079,8 +4017,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get notifSeasonStarted =>
-      'başladı. Yeni sezon keçidi və mükafatlar səni gözləyir';
+  String get notifSeasonStarted => 'başladı. Yeni sezon keçidi və mükafatlar səni gözləyir';
 
   @override
   String get notifUnknown => 'Yeni bildiriş';
@@ -4101,8 +4038,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get notifPush => 'Push bildirişləri';
 
   @override
-  String get notifPushUnavailable =>
-      'Bu versiyada push hələ işləmir; hamısı qutuda görünür';
+  String get notifPushUnavailable => 'Bu versiyada push hələ işləmir; hamısı qutuda görünür';
 
   @override
   String get notifQuietHours => 'Sakit saatlar';
@@ -4116,8 +4052,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get notifQuietOff => 'Söndürülüb';
 
   @override
-  String get notifQuietBody =>
-      'Bu saatlarda push gəlmir, bildirişlər qutuda qalır.';
+  String get notifQuietBody => 'Bu saatlarda push gəlmir, bildirişlər qutuda qalır.';
 
   @override
   String get notifQuietFrom => 'Başlanğıc';
@@ -4167,12 +4102,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String get notifPromptTitle => 'Növbəni qaçırma';
 
   @override
-  String get notifPromptBody =>
-      'Turnir başlayanda, raundun hazır olanda və dost dəvət göndərəndə xəbər verək. Hər kateqoriyanı ayarlardan söndürə bilərsən.';
+  String get notifPromptBody => 'Turnir başlayanda, raundun hazır olanda və dost dəvət göndərəndə xəbər verək. Hər kateqoriyanı ayarlardan söndürə bilərsən.';
 
   @override
-  String get notifPromptSample1 =>
-      'Nigar səni oyuna çağırır · Qısa nərd, 5 xal';
+  String get notifPromptSample1 => 'Nigar səni oyuna çağırır · Qısa nərd, 5 xal';
 
   @override
   String get notifPromptSample2 => 'Bakı Cümə Kuboku 15 dəqiqəyə başlayır.';
@@ -4192,8 +4125,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get bannedBodyPermanent =>
-      'Ədalətli oyun qaydalarının pozulmasına görə hesabın müddətsiz dayandırılıb.';
+  String get bannedBodyPermanent => 'Ədalətli oyun qaydalarının pozulmasına görə hesabın müddətsiz dayandırılıb.';
 
   @override
   String bannedContact(String email) {
@@ -4201,15 +4133,13 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get bannedOffline =>
-      'Hesabdan çıxıb kompüterə qarşı və dostla oflayn oynamağa davam edə bilərsən.';
+  String get bannedOffline => 'Hesabdan çıxıb kompüterə qarşı və dostla oflayn oynamağa davam edə bilərsən.';
 
   @override
   String get bannedOverTitle => 'Məhdudiyyət bitdi';
 
   @override
-  String get bannedOverBody =>
-      'Hesabın yenidən aktivdir. Ədalətli oyun qaydalarına əməl etdiyin üçün təşəkkür edirik.';
+  String get bannedOverBody => 'Hesabın yenidən aktivdir. Ədalətli oyun qaydalarına əməl etdiyin üçün təşəkkür edirik.';
 
   @override
   String get bannedContinue => 'Davam et';
@@ -4248,6 +4178,5 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get notifModerationWarningPlain =>
-      'zəhmət olmasa ədalətli oyun qaydalarına əməl et';
+  String get notifModerationWarningPlain => 'zəhmət olmasa ədalətli oyun qaydalarına əməl et';
 }

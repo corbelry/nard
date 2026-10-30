@@ -123,19 +123,25 @@ class _TabShellState extends ConsumerState<TabShell> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final shell = widget.shell;
-    return Scaffold(
-      body: NardBackground(child: shell),
-      bottomNavigationBar: NardTabBar(
-        tabs: [
-          NardTab(LucideIcons.home, l.tabHome),
-          NardTab(LucideIcons.trophy, l.tabTournaments),
-          NardTab(LucideIcons.shield, l.tabClan),
-          NardTab(LucideIcons.shoppingBag, l.tabStore),
-          NardTab(LucideIcons.user, l.tabProfile),
-        ],
-        index: shell.currentIndex,
-        onTap:
-            (i) => shell.goBranch(i, initialLocation: i == shell.currentIndex),
+    // The background spans the whole screen so it shows around the
+    // floating tab bar.
+    return NardBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: shell,
+        bottomNavigationBar: NardTabBar(
+          tabs: [
+            NardTab(LucideIcons.home, l.tabHome),
+            NardTab(LucideIcons.trophy, l.tabTournaments),
+            NardTab(LucideIcons.shield, l.tabClan),
+            NardTab(LucideIcons.shoppingBag, l.tabStore),
+            NardTab(LucideIcons.user, l.tabProfile),
+          ],
+          index: shell.currentIndex,
+          onTap:
+              (i) =>
+                  shell.goBranch(i, initialLocation: i == shell.currentIndex),
+        ),
       ),
     );
   }
