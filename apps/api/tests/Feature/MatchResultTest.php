@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\GameMatch;
 use App\Models\User;
 use App\Services\RatingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -90,6 +91,18 @@ class MatchResultTest extends TestCase
         $this->report($this->payload($a, null, 'ranked', 'c2'))->assertCreated();
         $this->assertSame(1500, $a->ratingFor('shortNard')->rating);
         $this->assertSame(0, $a->ratingFor('shortNard')->matches);
+    }
+
+    public function test_the_time_control_is_recorded(): void
+    {
+        $a = User::factory()->create();
+        $b = User::factory()->create();
+        $this->report([...$this->payload($a, $b, 'casual', 't1'), 'timeControl' => 'blitz'])->assertCreated();
+        // Older game servers send none.
+        $this->report($this->payload($a, $b, 'casual', 't2'))->assertCreated();
+        $this->report([...$this->payload($a, $b, 'casual', 't3'), 'timeControl' => 'daily'])->assertUnprocessable();
+        $this->assertSame('blitz', GameMatch::query()->findOrFail('t1')->summary($a->id)['timeControl']);
+        $this->assertNull(GameMatch::query()->findOrFail('t2')->summary($a->id)['timeControl']);
     }
 
     public function test_fibs_probability_and_experience(): void

@@ -23,6 +23,7 @@ class MatchResultController extends Controller
             'variant' => ['required', 'in:shortNard,longNard'],
             'matchLength' => ['required', 'integer', 'in:1,3,5,7'],
             'mode' => ['required', 'in:casual,ranked,tournament'],
+            'timeControl' => ['nullable', 'in:blitz,rapid,classic'],
             'tournamentId' => ['required_if:mode,tournament', 'nullable', 'string', 'max:64'],
             'white' => $player,
             'white.userId' => ['required', 'string', 'max:64'],

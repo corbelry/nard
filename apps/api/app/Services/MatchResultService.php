@@ -43,6 +43,7 @@ class MatchResultService
                 'variant' => $r['variant'],
                 'match_length' => $r['matchLength'],
                 'mode' => $r['mode'],
+                'time_control' => $r['timeControl'] ?? null,
                 'tournament_id' => self::tournamentId($r),
                 'white_user_id' => $whiteUser?->id,
                 'black_user_id' => $blackUser?->id,

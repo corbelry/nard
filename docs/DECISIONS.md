@@ -615,10 +615,9 @@ yet.
 
 **Ratings and results.** Ratings stay shared across controls (one rating
 per variant). `MatchResult` gets an optional `timeControl` (the game server
-always sends it; optional in `match_result.schema.json`). The API does not
-store it yet — Laravel's validated data drops the unknown key, so the
-contract is unchanged; storing it (a `game_matches.time_control` column)
-is a follow-up if per-control statistics are wanted.
+always sends it; optional in `match_result.schema.json`). The API stores
+it in `game_matches.time_control` (null for older matches) and returns it
+as `timeControl` in match summaries.
 
 **Client.** 2.2 shows the design's 2×2 time tiles (`TimeTile`, screens.md
 "Time tile"): Blits / Sürətli / Klassik selectable, Gündəlik disabled with
