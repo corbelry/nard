@@ -24,6 +24,7 @@ class ModerationService
         private WalletService $wallet,
         private Notifier $notifier,
         private ClanService $clans,
+        private GameServerClient $gameServer,
     ) {}
 
     /** [until] null = permanent. */
@@ -31,30 +32,46 @@ class ModerationService
     {
         $user->forceFill(['banned_at' => now(), 'banned_until' => $until, 'ban_reason' => $reason])->save();
         $this->audit($admin, 'ban', $user, $reason, ['until' => $until?->toIso8601String()]);
+        $this->syncLive($user);
     }
 
     public function unban(User $user, ?string $note, ?User $admin): void
     {
         $user->forceFill(['banned_at' => null, 'banned_until' => null, 'ban_reason' => null])->save();
         $this->audit($admin, 'unban', $user, $note);
+        $this->syncLive($user);
     }
 
     public function mute(User $user, Carbon $until, string $reason, ?User $admin): void
     {
         $user->forceFill(['muted_until' => $until])->save();
         $this->audit($admin, 'mute', $user, $reason, ['until' => $until->toIso8601String()]);
+        $this->syncLive($user);
     }
 
     public function unmute(User $user, ?User $admin): void
     {
         $user->forceFill(['muted_until' => null])->save();
         $this->audit($admin, 'unmute', $user, null);
+        $this->syncLive($user);
     }
 
     public function clearCooldown(User $user, ?User $admin): void
     {
         $user->forceFill(['queue_cooldown_until' => null])->save();
         $this->audit($admin, 'clear_cooldown', $user, null);
+        $this->syncLive($user);
+    }
+
+    /**
+     * Pushes the player's ban, mute and cooldown to a live game-server
+     * session (ADR-045), after the surrounding transaction commits (now
+     * when there is none). Best effort: the ticket carries the same state
+     * on the next connection.
+     */
+    public function syncLive(User $user): void
+    {
+        DB::afterCommit(fn () => $this->gameServer->pushModeration($user));
     }
 
     /** An inbox message to the player (no push). */

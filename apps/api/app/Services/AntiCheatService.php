@@ -215,6 +215,7 @@ class AntiCheatService
                 if ($user !== null) {
                     $user->forceFill(['queue_cooldown_until' => $until])->saveQuietly();
                     $this->moderation->audit(null, 'auto_cooldown', $user, 'abandonment', ['until' => $until->toIso8601String()]);
+                    $this->moderation->syncLive($user);
                 }
                 $flagged++;
             }
