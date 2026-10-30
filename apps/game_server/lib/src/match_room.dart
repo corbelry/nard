@@ -64,6 +64,9 @@ class MatchRoom {
   static bool _noDeltas(Side _) => false;
 
   MatchState _match;
+
+  /// The score including the last game once the match is decided.
+  MatchState? _finalScore;
   late GameState _game;
   late GameRecord _record;
   final _pending = <Move>[];
@@ -359,7 +362,9 @@ class MatchRoom {
     _broadcast();
     final next = _match.withResult(result);
     if (next.isOver) {
-      _match = next;
+      // `match` in game.state stays the score before this game; clients
+      // add the result themselves.
+      _finalScore = next;
       _endMatch(
         next.winner!,
         result.reason == GameEndReason.resignation
@@ -387,8 +392,9 @@ class MatchRoom {
       t?.cancel();
     }
     _running = null;
-    var whiteScore = _match.whiteScore;
-    var blackScore = _match.blackScore;
+    final score = _finalScore ?? _match;
+    var whiteScore = score.whiteScore;
+    var blackScore = score.blackScore;
     if (reason == MatchEndReason.timeout ||
         reason == MatchEndReason.abandoned) {
       // The match is forfeited: the winner is credited the full length.

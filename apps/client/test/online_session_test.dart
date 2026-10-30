@@ -45,6 +45,22 @@ void main() {
     expect(setup.hasRemote, isTrue);
   });
 
+  test('a score that already counts the finished game is not counted '
+      'twice (older servers)', () {
+    var record = GameRecord(variant: Variant.shortNard);
+    record = record
+        .add(OpeningRoll(5, 2))
+        .add(const OfferResignation(Side.white, WinKind.single))
+        .add(const AcceptResignation(Side.black));
+    final before = MatchState.start(length: 1);
+    final after = before.withResult(record.replay().result!);
+    for (final match in [before, after]) {
+      final s = Session.fromServer(setup: setup, match: match, record: record);
+      expect(s.isMatchOver, isTrue);
+      expect(s.score.blackScore, 1);
+    }
+  });
+
   test('pathTo splits multi-die moves; refusals come from the server', () {
     var record = GameRecord(variant: Variant.shortNard);
     record = record.add(OpeningRoll(5, 2));

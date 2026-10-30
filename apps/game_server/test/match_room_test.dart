@@ -225,6 +225,14 @@ void main() {
       expect(r.winner, Side.black);
       expect(r.reason, MatchEndReason.resigned);
       expect(r.blackScore, 2);
+      // Every state keeps `match` as the score before the game: the last
+      // one adds the finished game to it once (clients crashed on a score
+      // that already counted it).
+      final last = h.state(Side.white);
+      expect(last.state.isOver, isTrue);
+      expect(last.match.isOver, isFalse);
+      final score = last.match.withResult(last.state.result!);
+      expect((score.isOver, score.blackScore), (true, 2));
       h.send(Side.white, MessageType.gameRoll);
       expect(h.last(Side.white).payload['code'], ErrorCode.notInMatch);
     });

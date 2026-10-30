@@ -102,9 +102,13 @@ class Session {
   DiceRoll? get dice => game.dice;
   bool get isGameOver => game.isOver;
 
-  /// The match score including the current game once it is over.
+  /// The match score including the current game once it is over. A score
+  /// that is already decided counts it (older servers sent the final score
+  /// with the last game).
   MatchState get score =>
-      game.result == null ? match : match.withResult(game.result!);
+      game.result == null || match.isOver
+          ? match
+          : match.withResult(game.result!);
 
   bool get isMatchOver => isGameOver && score.isOver;
 
