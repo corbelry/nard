@@ -51,6 +51,6 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 43 | 7 | Admin panel language. | a) English only (staff tool) · b) Azerbaijani too | a | assumed |
 | 44 | 7 | Deleting an account keeps the player's name in opponents' match history. | a) Anonymise names on deletion (API change) · b) Disclose it in the privacy policy | a | answered 2026-11-01: a — implemented (names blanked on deletion, shown as \"Silinmiş oyunçu\") |
 | 45 | 7 | Google Play requires an account-deletion web page besides in-app deletion. | a) Simple page on the marketing site calling the API (needs hosting) · b) Support e-mail process | a | open — needs hosting |
-| 46 | 7 | Coin-entry tournaments may be read as simulated gambling in store rating questionnaires. | a) Answer "no real money, earned coins only" and keep · b) Make all public tournaments free | a | open |
+| 46 | 7 | Coin-entry tournaments may be read as simulated gambling in store rating questionnaires. | a) Answer "no real money, earned coins only" and keep · b) Make all public tournaments free | a | answered 2026-11-01: a — keep coin-entry tournaments, explain in the questionnaire; make them free if a store objects |
 
 Earlier questions are tracked in `ROADMAP.md` → "Open questions".
