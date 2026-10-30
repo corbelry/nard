@@ -107,10 +107,15 @@ game_server, rebuild their compose containers before emulator tests.
 - gnu.org rate-limits fetches; the gnubg source mirror on GitHub
   (`mormegil-cz/gnubg`) worked.
 
-### Queued owner decisions to implement (after the running infra agent)
+### Queued owner decisions to implement (all questions answered 2026-10-30)
+Infra agent work is committed (ADR-043). #35 (3 min no-show) is done.
 - #20 Time controls: `QueueJoinPayload.timeControl` blitz|rapid|classic
   (1+8, 3+12, 5+15), separate queues, room clock from it; private rooms and
   tournaments keep rapid unless set; client 2.2 time tiles enabled.
+- #45 Account-deletion web page (Google Play): static page using the
+  e-mail code sign-in + `DELETE /me`; hosting is the owner's.
+- #17 Data export: async e-mailed ZIP (queued job, Mailpit locally);
+  guests are asked to link an e-mail first; 15.2 copy matches.
 
 ## Phase 7 plan (spec §12 phase 7, §8.11, §8.13, §8.14, §11, design 16.x)
 
