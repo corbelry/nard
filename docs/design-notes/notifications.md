@@ -136,10 +136,12 @@ Time: "indi" (< 1 min) · "{n} dəq" · "{n} saat" (today) · "Dünən HH:mm" ·
 | tournament_reminder | trophy | {tournament} | {n} dəqiqəyə başlayır | — |
 | tournament_started | trophy | {tournament} | başladı. İlk oyunun hazırdır | — |
 | tournament_round | trophy | {tournament} | · Raund {round} hazırdır. Rəqib: {opponent} | — |
-| tournament_eliminated | trophy | {tournament} | · Raund {round}: mübarizə bitdi | — |
+| tournament_eliminated | trophy | {tournament} | · Raund {round}: mübarizə bitdi (with `place`: ". Yerin: {place}") | — |
 | tournament_won | trophy | {tournament} | · Çempionsan! Mükafat hesabındadır | — |
 | tournament_finished | trophy | {tournament} | bitdi · Yerin: {place} | — |
-| season_end | award | Sezon {n} | bitdi · Dərəcən: {tier}. Nəticələrə bax | — |
+| tournament_cancelled *(proposal, ADR-049)* | trophy | {tournament} | ləğv edildi (refund > 0: "· {coins} sikkə geri qaytarıldı") | — |
+| season_end | award | Sezon {n} | bitdi · Dərəcən: {tier}. Nəticələrə bax (with `rank`: "bitdi · Dərəcən: {tier}, yerin: #{rank}. Mükafat: {coins} sikkə") | — |
+| season_started *(proposal, ADR-049)* | award | Sezon {n} | başladı. Yeni sezon keçidi və mükafatlar səni gözləyir | — |
 | level_up | sparkles | Səviyyə {level}! | +{coins} sikkə qazandın | — |
 | *unknown* | bell | — | Yeni bildiriş | — |
 
@@ -162,7 +164,7 @@ The mock's "Kerem_TR gediş etdi. Növbə səndədir" (no async games) and
 friend_* → `/friends` · challenge → `/room/join?code=` · clan_invite,
 clan_joined → `/clans/{clanId}` · clan_war → Klan tab (`go('/clan')`) ·
 tournament_* → `/tournaments/{id}` · season_end → `/season/summary?n=` ·
-level_up → Profil tab.
+season_started → `/season` (pass) · level_up → Profil tab.
 
 Empty: `MessageState` "Bildiriş yoxdur" / "Dostluq sorğuları, oyun
 dəvətləri və turnir xəbərləri burada görünəcək." Load error: `errorTitle`
@@ -219,7 +221,9 @@ account locale):
 | tournament_eliminated | Turnirdə mübarizə bitdi | :tournament · Raund :round. Növbəti turnirdə uğurlar! |
 | tournament_won | Çempion! | :tournament qalibisən. Mükafatın hesabındadır. |
 | tournament_finished | Turnir bitdi | :tournament · Yerin: :place. |
-| season_end | Sezon :season bitdi | Dərəcən: :tier. Nəticələrə və mükafata bax. |
+| tournament_cancelled | Turnir ləğv edildi | :tournament ləğv edildi. (+ " :refund sikkə geri qaytarıldı." when refunded) |
+| season_end | Sezon :season bitdi | Dərəcən: :tier, yerin: #:rank. Mükafat: :coins sikkə. |
+| season_started | Sezon :season başladı | Yeni sezon keçidi və mükafatlar səni gözləyir. |
 | level_up | (inbox only) | — |
 
 Neutral phrasing avoids Azerbaijani suffix harmony after names (ADR-033).
@@ -240,6 +244,7 @@ Neutral phrasing avoids Azerbaijani suffix harmony after names (ADR-033).
 | notifBellLabel | Bildirişlər, {n} oxunmamış |
 | notifGone | Bu dəvət artıq keçərli deyil |
 | notifFriendRequest … notifLevelUp | §3.1 texts |
+| notifTournamentEliminatedPlace, notifTournamentCancelled(+Refund), notifSeasonEndRank, notifSeasonStarted | §3.1 texts added by ADR-049 |
 | notifGroupGame / Tournament / Social / Rewards | OYUN / TURNİR / SOSİAL / MÜKAFATLAR (ÜMUMİ = `settingsGroupGeneral`) |
 | notifPush / notifPushUnavailable | Push bildirişləri / Bu versiyada push hələ işləmir; hamısı qutuda görünür |
 | notifQuietHours / notifQuietRange / notifQuietOff | Sakit saatlar / {start} – {end} / Söndürülüb |
@@ -255,3 +260,25 @@ Your-turn pushes with correspondence games; "Rəqib tapıldı" (needs the
 game server to report queue matches to the API); clan chat pushes (rate
 limited, default off); streak reminder (local evening, scheduled); store
 offers (marketing consent); moderation results (admin, Phase 7.1).
+
+## 8. Live banner *(proposal; ADR-049 — the design has no in-app toast)*
+
+Rows that arrive over the socket while the app is open pop up over any
+screen (`LiveBannerHost` in the app builder, above the navigator):
+
+- Position: top, under the status bar (`SafeArea`), margin `8 16 0`
+  (`NardSpace.s2` / `screenGutter`); slides down + fades in
+  (`NardMotion.sheetIn`, `standard`), out with `sheetOut`.
+- Card: fill `c.surfaceRaised`, radius `c.cardRadius`, ring 1px
+  `accent@.3`, shadow `c.elevation2` (floating layer, readme: shadows only
+  on sheets/toasts/dialogs). Padding `12 0 12 14`.
+- Content = the 16.2 row: icon disc 36 (`c.pillFill`, ring `accent@.3`,
+  Lucide 18 with the 16.2 icon colour), gap 12, text 14/19 `text` with
+  **who** w600 (max 3 lines); trailing × (Lucide `x` 16 `text@.6`, 44×44
+  hit, label "Bağla").
+- Tap → mark read + the §3.3 deep link (challenge: join as in 16.2);
+  swipe up or × → dismiss; auto-hide after 5 s; a newer row replaces it.
+- Not shown on `/game`, `/online/vs`, `/online/fair`, onboarding /
+  language / splash / lesson, `/push-prompt`, `/levelup` and the inbox
+  itself; level-up and unknown types never pop up. The row is in the
+  inbox and the bell badge either way.

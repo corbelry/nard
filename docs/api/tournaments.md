@@ -83,5 +83,9 @@ WebSocket (docs/PROTOCOL.md)
 - While a tournament match waits, `queue.join` / `room.*` are refused (`illegal_action`).
 
 Elsewhere: `/me/matches` items gain `tournamentId|null`; game_matches `mode` may be `tournament`, `reason` may be `walkover`.
-Not yet: WS pushes for bracket updates / eliminated / champion / cancelled (clients poll `GET /tournaments/{id}`), Swiss top-8 playoff,
-longer finals, per-tournament clocks, trophies showcase, clan championships.
+Live (ADR-049): entrants' sockets get S→C `tournament.updated {tournamentId}` after entries, leaving, the start, a cancellation
+and every result (new rounds and the end included), and the inbox rows (started / round / eliminated with place / won /
+finished / cancelled with refund) as `notification`; screens still poll `GET /tournaments/{id}` as the fallback and for
+non-entrants. Cancellation (too few players, unfilled sit-and-go, expired, organiser) refunds every fee and sends
+`tournament_cancelled {reason, refund}` (not to an organiser who cancelled their own tournament).
+Not yet: Swiss top-8 playoff, longer finals, per-tournament clocks, trophies showcase, clan championships.

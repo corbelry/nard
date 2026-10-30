@@ -64,11 +64,13 @@ drafts, and every owner answer in `docs/QUESTIONS.md` (all answered
    crashed after a decided match (the last `game.state` already counted
    the game in `match`), and online-match analysis could not read the
    API's `games` entries (`{record, serverSeed, …}`).
-5. WAITING FOR THE OWNER (2026-11-08): items 1–4 are done; the rest of
-   `docs/ROADMAP.md` "Carried over" is product work whose order the owner
-   picks (e.g. tournament/season WS pushes, ru/tr item names, achievement
-   progress, QR friend codes, remote texture packs, neural AI). Watchdog
-   "davam et" prompts: do nothing until the owner answers.
+5. Owner chose live tournament/season notifications (2026-11-08): DONE —
+   inbox rows go live over the game socket (`notification`) plus
+   `tournament.updated` for entrants, new `tournament_cancelled` /
+   `season_started` rows, places and ranks, an in-app banner, socket open
+   while foregrounded (ADR-049). Next: the owner picks the next
+   "Carried over" item (ru/tr item names, achievement progress, QR friend
+   codes, remote texture packs, neural AI, …).
 Owner-only before launch: store accounts + IAP keys, Apple/Google sign-in
 keys, FCM keys, hosting + domain (support mailbox, deletion page URL,
 `ingress.adminAllowlist`), final bundle id, native translation review.

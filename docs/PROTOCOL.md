@@ -9,7 +9,7 @@ Every frame is a JSON object:
 | Field | Meaning |
 |---|---|
 | `v` | Protocol version (`protocolVersion` in `nard_protocol`). |
-| `type` | One of the message types below. Unknown types are rejected. |
+| `type` | One of the message types below. Unknown types are rejected; clients drop frames of types they do not know (`GameSocket` ignores the `FormatException`), so new server messages need no version bump. |
 | `id` | Sender-generated id (1–64 chars); replies echo it. |
 | `ts` | Sender clock, ms since epoch. |
 | `payload` | Type-specific object. |
@@ -50,6 +50,8 @@ client                                   game_server
 | `tournament.readyState` | S→C | `{matchId, tournamentId, round, you, white: Player, black: Player, ready: {white, black}, deadline}`: an assigned tournament match waiting for its players |
 | `tournament.ready` | C→S | `{matchId}` ("Hazıram"; connecting also counts as present) |
 | `tournament.walkover` | S→C | `{matchId, tournamentId, winner?}`: decided without play after the no-show time (no `winner`: nobody came) |
+| `notification` | S→C | an inbox row just written for this player, exactly as `GET /notifications` returns it (`{id, type, category, data, from, read, createdAt}`, docs/api/notifications.md); also in the inbox (ADR-049) |
+| `tournament.updated` | S→C | `{tournamentId}`: that tournament changed (entries, round, result, end, cancellation); refetch it. Sent to its connected entrants only (ADR-049) |
 | `game.seed` | C→S | `{clientSeed}` (≤ 64 chars) |
 | `game.state` | S→C | `{seq, matchId, gameIndex, record: GameRecord JSON, match: MatchState JSON, pending: [{from, to, die, hit}], clock: {whiteMs, blackMs, delayMs, running?, sentAt}, commitment, serverSeed? (after the game), clientSeeds, opponentConnected, reconnectDeadline?}` |
 | `game.state` (delta) | S→C | `{seq, matchId, gameIndex, delta: {from, actions: [GameAction JSON]}, match?, pending, clock, serverSeed?, clientSeeds?, opponentConnected, reconnectDeadline?}`: only to `stateDelta` connections (ADR-048) |
@@ -152,3 +154,9 @@ Moderation (ADR-045): the API posts `ModerationPayload`
 queueCooldownUntil: epoch s|null}`, signed the same way) to
 `POST /internal/moderation`; the game server answers
 `200 {userId, connected}`, `401 {code: bad_signature}` or `400`.
+Live notifications (ADR-049): the API posts `Notify`
+(`schema/notify.schema.json`, `{notifications: [{userId, notification}]}`,
+≤ 500 rows) to `POST /internal/notify` and `TournamentUpdated`
+(`schema/tournament_updated.schema.json`, `{tournamentId, userIds}`) to
+`POST /internal/tournament-updated`, both signed the same way; the game
+server answers `200 {delivered}` (sockets reached), `401` or `400`.

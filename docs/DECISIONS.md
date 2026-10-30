@@ -876,3 +876,86 @@ load tool counts any gap as an error (`state_gap`). Clients must keep
 handling full frames at any time. Compose now reads
 `WS_MAX_CONNECTIONS_PER_IP` (default 20) so the load test, whose clients
 share one address, can turn the ADR-045 cap off.
+
+## ADR-049 — Live tournament and season notifications (2026-11-08)
+
+**Context.** Every event already landed in the inbox (ADR-041), but the
+client only learned about it by polling: the Home bell every 60 s and on
+resume, bracket / standings every 15 s, the sit-and-go table every 5 s
+(ADR-040). FCM push is disabled until the owner adds keys. Gaps in the
+events themselves: no row when a tournament was cancelled (with its
+refund), none when a new season started, a knockout elimination did not
+say the place, and the season result did not say the rank. The owner
+chose "live tournament and season notifications" as backlog item 5.
+
+**Decision — events.** New inbox types: `tournament_cancelled {tournamentId,
+tournament, reason, refund}` [tournament_start] to every entrant (except an
+organiser who cancelled their own private tournament) and `season_started
+{season, name, endsAt}` [rewards] to every player with a match in the
+season that ended. `tournament_eliminated` gains `place` (knockout place,
+known at elimination) and `season_end` gains `rank` and `variant` (the
+variant whose rating gave the tier). Push copy for all four in
+`lang/{az,en,ru,tr}/notifications.php` (`body_refund` when coins came
+back). "Your next match is ready" stays `tournament_started` (round 1) and
+`tournament_round` (rounds ≥ 2) plus the existing `tournament.readyState`.
+
+**Decision — live delivery.** The simplest path that reuses what exists:
+
+- When `Notifier` writes a row it queues `PushLiveNotifications` (after the
+  surrounding commit, so a rolled-back action sends nothing; queued, so a
+  slow game server never delays the request). `notifyMany` queues one job
+  for the whole batch. Nothing is queued without a configured game server.
+- The job posts the rows, shaped exactly like `GET /notifications` items,
+  to the game server's signed `POST /internal/notify` (`schema/notify.schema.json`,
+  `{notifications: [{userId, notification}]}`, ≤ 500 per request, same
+  `X-Nard-Signature` as ADR-045). One try; failures are logged
+  (`notify push failed`) and never fail the action — the inbox is the
+  source of truth and the bell's poll catches up.
+- `TournamentService` queues `PushTournamentUpdate` after registration,
+  leaving, kicks, start, cancellation and every recorded result (which
+  also covers new rounds and the end). The job posts `{tournamentId,
+  userIds: entrants}` to `POST /internal/tournament-updated`.
+- The game server forwards rows to each listed player's live socket as
+  S→C `notification` (the row unchanged) and sends S→C `tournament.updated
+  {tournamentId}` to connected entrants. It keeps one socket per user, so
+  "all open sockets" is that one.
+- Only entrants get `tournament.updated`; someone watching a tournament
+  they are not in keeps polling (no subscribe message — not worth a new
+  client intent and server state yet).
+
+**Decision — client socket.** The game socket used to open only in some
+flows (search, rooms, presence, tournament readiness). Now `TabShell`
+opens it whenever the app is in the foreground and signed in (not
+banned), and on `AppLifecycleState.paused` closes it when it is idle (no
+search, match or private room). Closing in the background matters
+because being connected counts as present for tournament matches
+(ADR-038): an app left in the background must not start a match and run
+its clock. A sign-out or account switch closes the socket (it spoke for
+the previous account). `LiveNotifications` (`notification` → inbox
+`receive`, bell count, banner; `tournament.updated` and tournament rows →
+invalidate the tournament detail / list / Home banner / sit-and-go
+providers; season rows → season providers). Polling stays as the
+fallback, so everything works with the socket closed.
+
+**Decision — banner.** No in-app toast exists in the design; an inferred
+banner (notifications.md §8): the 16.2 row on a raised card at the top of
+any screen, tap = the 16.2 deep link (marks read), swipe up or × to
+dismiss, auto-hide after 5 s; never during a game or on full-screen flows
+(VS, fair dice, onboarding, level-up, the inbox itself). Level-ups (own
+screen) and unknown types do not pop up.
+
+**Compatibility.** `protocolVersion` stays 1. Builds before this one do
+not know `notification` / `tournament.updated`: `Envelope.fromJson`
+throws `FormatException` for unknown types and `GameSocket` drops such
+frames, so old apps ignore them and keep polling.
+
+**Consequences.** One open socket per foregrounded signed-in player
+(more connections per address behind CGNAT — watch
+`nard_ws_rejected_total{reason="ip_limit"}`, ADR-045). Live latency is
+bounded by the queue worker's idle sleep (compose: 3 s). With several
+game-server pods (ADR-043, not yet) the API would need to reach the pod
+that holds the socket (Redis pub/sub). FCM pushes, once enabled, still
+follow the 16.1 switches and quiet hours; live socket delivery ignores
+them (the app is open). Not built: a subscribe-to-tournament intent for
+non-entrants, live friend/clan screen refreshes (their rows do arrive
+live).

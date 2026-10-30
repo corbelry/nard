@@ -43,7 +43,8 @@ spec:
             matchLabels: { kubernetes.io/metadata.name: {{ $ns.ingressNamespace }} }
         - namespaceSelector:
             matchLabels: { kubernetes.io/metadata.name: {{ $ns.monitoringNamespace }} }
-        # The API, scheduler and queue push pairings and moderation.
+        # The API, scheduler and queue push pairings, moderation and live
+        # notifications (ADR-049).
         {{- range list "api" "scheduler" "queue" }}
         - podSelector:
             matchLabels:

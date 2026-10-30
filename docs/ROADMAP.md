@@ -117,15 +117,16 @@ No design requests are open.
 - Level-up reward items and per-achievement progress (API returns
   unlocked ids only).
 
-- Tournaments (ADR-038): WS pushes for bracket updates / elimination /
-  champion / cancellation (clients poll), Swiss top-8 playoff, longer
-  finals, per-tournament clocks, private-tournament editing, trophy
-  showcase, clan championships (admin creation is in Filament, ADR-042).
+- Tournaments (ADR-038): Swiss top-8 playoff, longer finals,
+  per-tournament clocks, private-tournament editing, trophy showcase, clan
+  championships (admin creation is in Filament, ADR-042). Live pushes are
+  done (ADR-049); a watch/subscribe intent for non-entrants is not (they
+  poll).
 
 - Seasons (ADR-039): per-season mars / longest-streak stats for 7.2, more
   seasonal cosmetics for empty premium-pass levels, admin editing of season
-  reward tables (Filament only lists seasons and ends them),
-  season-end push notification.
+  reward tables (Filament only lists seasons and ends them). Season end /
+  start notifications are done (ADR-049).
 
 - Social: QR friend codes, last-seen times, spectator count, room
   "guest joined" message, clan rename/settings UI, deep links (ADR-037).
@@ -143,8 +144,8 @@ No design requests are open.
 
 - Neural AI (spec §6 v2) — training pipeline, on-device model, unlocks
   Usta/Qrossmeyster, real equity in analysis (QUESTIONS #39).
-- Tournament pushes (eliminated/champion/cancelled), trophy showcase,
-  private tournament editing, Swiss playoff, season mars/streak stats.
+- Trophy showcase, private tournament editing, Swiss playoff, season
+  mars/streak stats.
 
 ## Open questions for the product owner
 

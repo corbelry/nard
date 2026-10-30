@@ -81,8 +81,9 @@ services:
     depends_on:
       api: { condition: service_started }
 
-  # Database queue worker: push notifications (ADR-041). Push sending is
-  # disabled until FCM_PROJECT_ID / FCM_CREDENTIALS are set.
+  # Database queue worker: push notifications (ADR-041; sending is
+  # disabled until FCM_PROJECT_ID / FCM_CREDENTIALS are set) and live
+  # notifications / tournament refreshes to the game server (ADR-049).
   queue:
     build: ../apps/api
     environment: *api-env

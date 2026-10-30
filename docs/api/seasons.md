@@ -32,7 +32,9 @@ Season XP = every player XP grant while the season runs (match rewards and missi
 
 Season end: final ranks per variant for players with ≥ `min_matches` (5) ranked matches in the season (global + country
 rank) → one reward per player by the best final tier over both variants (coins, plus a frame from Almaz up) → soft reset
-`rating = 1500 + (rating − 1500) × 0.5` (peak kept) → next season.
+`rating = 1500 + (rating − 1500) × 0.5` (peak kept) → next season. Notifications (docs/api/notifications.md, live over the
+socket, ADR-049): `season_end {season, tier, coins, itemId, rank, variant}` to each rewarded player (rank of the variant
+that gave the tier) and `season_started {season, name, endsAt}` to everyone who played a match in the ended season.
 
 Leaderboards (6.5)
 - `GET /leaderboard?variant=shortNard|longNard&scope=global|country|friends|clan&season=` →

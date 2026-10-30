@@ -1,5 +1,15 @@
 # Changelog
 
+## Post-Phase-7 backlog (2026-11-08)
+- Production API image (ADR-047), time choice in rooms and challenges
+  (ADR-044 amendment), `game.state` deltas (ADR-048).
+- Live tournament and season notifications: inbox rows reach the open app
+  over the game socket with an in-app banner, entrants' bracket / standings
+  / sit-and-go screens refresh on `tournament.updated`, new rows for a
+  cancelled tournament (with refund) and a new season, knockout places and
+  season ranks in the rows; the socket stays open while the app is
+  foregrounded (ADR-049).
+
 ## Phase 7 — Polish & launch (2026-11-08)
 - Notifications: inbox, settings (quiet hours, categories), push pre-prompt;
   FCM sender disabled until keys (ADR-041).
