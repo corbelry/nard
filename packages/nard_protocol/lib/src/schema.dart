@@ -118,8 +118,27 @@ abstract final class Schemas {
     },
   };
 
+  /// API → game server: a player's moderation state for live sessions.
+  static const moderation = {
+    r'$schema': 'https://json-schema.org/draft/2020-12/schema',
+    r'$id': 'https://nardarena.app/schema/moderation.json',
+    'title': 'Moderation',
+    'type': 'object',
+    'required': ['userId', 'banned', 'muted'],
+    'properties': {
+      'userId': _id,
+      'banned': {'type': 'boolean'},
+      'muted': {'type': 'boolean'},
+      // Epoch seconds; null or absent = no matchmaking cooldown.
+      'queueCooldownUntil': {
+        'type': ['integer', 'null'],
+      },
+    },
+  };
+
   static const all = {
     'match_result.schema.json': matchResult,
+    'moderation.schema.json': moderation,
     'tournament_match.schema.json': tournamentMatch,
     'tournament_no_show.schema.json': tournamentNoShow,
   };

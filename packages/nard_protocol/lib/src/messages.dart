@@ -465,6 +465,10 @@ abstract final class ErrorCode {
   /// Abandonment penalty: the public queue is closed until the time (epoch
   /// seconds) in the message (ADR-042).
   static const queueCooldown = 'queue_cooldown';
+
+  /// Banned by a moderator while connected: sent just before the server
+  /// closes the socket (close code 1008, ADR-045).
+  static const banned = 'banned';
 }
 
 /// `error` (server → client), echoing the request id.
