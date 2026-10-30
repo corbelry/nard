@@ -21,6 +21,7 @@ class AppSettings {
     this.colorBlind = false,
     this.largePips = false,
     this.reduceMotion = false,
+    this.showOpponentCosmetics = true,
   });
 
   /// Chosen app language; null until picked on first launch (9.2).
@@ -49,6 +50,9 @@ class AppSettings {
   final bool largePips;
   final bool reduceMotion;
 
+  /// Draw the online opponent's equipped set (3.1, spec §8.6).
+  final bool showOpponentCosmetics;
+
   static const supportedLanguages = ['az', 'en', 'ru', 'tr'];
 
   static AppSettings fromMap(Map<String, String> map) {
@@ -72,6 +76,7 @@ class AppSettings {
       colorBlind: flag('colorBlind', false),
       largePips: flag('largePips', false),
       reduceMotion: flag('reduceMotion', false),
+      showOpponentCosmetics: flag('showOpponentCosmetics', true),
     );
   }
 
@@ -90,6 +95,7 @@ class AppSettings {
     'colorBlind': '$colorBlind',
     'largePips': '$largePips',
     'reduceMotion': '$reduceMotion',
+    'showOpponentCosmetics': '$showOpponentCosmetics',
   };
 
   AppSettings copyWith({
@@ -107,6 +113,7 @@ class AppSettings {
     bool? colorBlind,
     bool? largePips,
     bool? reduceMotion,
+    bool? showOpponentCosmetics,
   }) => AppSettings(
     locale: locale ?? this.locale,
     preferredVariant: preferredVariant ?? this.preferredVariant,
@@ -122,5 +129,6 @@ class AppSettings {
     colorBlind: colorBlind ?? this.colorBlind,
     largePips: largePips ?? this.largePips,
     reduceMotion: reduceMotion ?? this.reduceMotion,
+    showOpponentCosmetics: showOpponentCosmetics ?? this.showOpponentCosmetics,
   );
 }

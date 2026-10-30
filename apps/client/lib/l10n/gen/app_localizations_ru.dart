@@ -1548,4 +1548,492 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get setupFindOpponent => 'Найти соперника';
+
+  @override
+  String get tabStore => 'Магазин';
+
+  @override
+  String get lockerTitle => 'Шкафчик';
+
+  @override
+  String loadoutName(int n) {
+    return 'Набор $n';
+  }
+
+  @override
+  String get lockerSave => 'Сохранить';
+
+  @override
+  String get lockerSaved => 'Набор сохранён';
+
+  @override
+  String get lockerAddLoadout => 'Новый набор';
+
+  @override
+  String get lockerRenameTitle => 'Название набора';
+
+  @override
+  String get lockerRename => 'Переименовать';
+
+  @override
+  String get lockerDelete => 'Удалить набор';
+
+  @override
+  String lockerLoadoutLimit(int max) {
+    return 'Можно хранить до $max наборов.';
+  }
+
+  @override
+  String get lockerEmptyTitle => 'Здесь пока пусто';
+
+  @override
+  String get lockerEmptyBody => 'Новые предметы для этого раздела скоро появятся.';
+
+  @override
+  String get lockerShowOpponentCosmetics => 'Показывать косметику соперника';
+
+  @override
+  String get categoryBoard => 'Доска';
+
+  @override
+  String get categoryCheckers => 'Шашки';
+
+  @override
+  String get categoryDice => 'Кости';
+
+  @override
+  String get categoryDiceCup => 'Стакан';
+
+  @override
+  String get categoryCube => 'Куб удвоения';
+
+  @override
+  String get categoryBackground => 'Фон';
+
+  @override
+  String get categorySounds => 'Звуки';
+
+  @override
+  String get categoryEmote => 'Эмоции';
+
+  @override
+  String get categoryAvatarFrame => 'Рамка аватара';
+
+  @override
+  String get categoryTitle => 'Титул';
+
+  @override
+  String get categoryWinEffect => 'Эффект победы';
+
+  @override
+  String get categoryOther => 'Другое';
+
+  @override
+  String get itemEquipped => 'Надето';
+
+  @override
+  String get itemPreviewing => 'Примерка';
+
+  @override
+  String get itemOwned => 'Есть у тебя';
+
+  @override
+  String get itemSeason => 'Сезонный пропуск';
+
+  @override
+  String get itemTournamentReward => 'Награда турнира';
+
+  @override
+  String get itemAchievementReward => 'Награда за достижение';
+
+  @override
+  String get rarityCommon => 'Обычный';
+
+  @override
+  String get rarityRare => 'Редкий';
+
+  @override
+  String get rarityEpic => 'Эпический';
+
+  @override
+  String get rarityLegendary => 'Легендарный';
+
+  @override
+  String get raritySeasonal => 'Сезонный';
+
+  @override
+  String get rarityTournament => 'Турнирный';
+
+  @override
+  String get rarityCommonUpper => 'ОБЫЧНЫЙ';
+
+  @override
+  String get rarityRareUpper => 'РЕДКИЙ';
+
+  @override
+  String get rarityEpicUpper => 'ЭПИЧЕСКИЙ';
+
+  @override
+  String get rarityLegendaryUpper => 'ЛЕГЕНДАРНЫЙ';
+
+  @override
+  String get raritySeasonalUpper => 'СЕЗОННЫЙ';
+
+  @override
+  String get rarityTournamentUpper => 'ТУРНИРНЫЙ';
+
+  @override
+  String get itemObtainTitle => 'КАК ПОЛУЧИТЬ';
+
+  @override
+  String get obtainStore => 'Магазин';
+
+  @override
+  String get obtainSeasonPremium => 'Сезонный пропуск · Премиум';
+
+  @override
+  String get obtainTournament => 'Турнир';
+
+  @override
+  String get obtainAchievement => 'Достижение';
+
+  @override
+  String get obtainDefault => 'Стандартный набор';
+
+  @override
+  String get obtainFree => 'Бесплатно';
+
+  @override
+  String priceCoins(int count, String amount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$amount монеты',
+      many: '$amount монет',
+      few: '$amount монеты',
+      one: '$amount монета',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String priceGems(int count, String amount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$amount рубина',
+      many: '$amount рубинов',
+      few: '$amount рубина',
+      one: '$amount рубин',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemTry => 'Примерить';
+
+  @override
+  String get itemBuy => 'Купить';
+
+  @override
+  String get itemEquip => 'Надеть';
+
+  @override
+  String storeFeaturedOverline(int days) {
+    return 'РЕКОМЕНДУЕМ · $days ДН.';
+  }
+
+  @override
+  String get storeDailyTitle => 'ВЫБОР ДНЯ';
+
+  @override
+  String storeRefreshesIn(String time) {
+    return 'Обновится через $time';
+  }
+
+  @override
+  String get storeGemsTitle => 'РУБИНЫ';
+
+  @override
+  String get storePackUnavailable => 'Покупка рубинов пока недоступна. Она откроется после подключения магазинов.';
+
+  @override
+  String storePackAdded(String amount) {
+    return 'На баланс зачислено рубинов: $amount';
+  }
+
+  @override
+  String get accountNeededTitle => 'Войди в аккаунт';
+
+  @override
+  String get accountNeededBody => 'Чтобы зарабатывать монеты, покупать наборы и видеть задания, нужен аккаунт.';
+
+  @override
+  String get purchasePrice => 'Цена';
+
+  @override
+  String get purchaseBalanceAfter => 'Баланс после';
+
+  @override
+  String purchaseShortfall(String amount) {
+    return 'не хватает $amount';
+  }
+
+  @override
+  String purchaseNotEnoughGems(String pack) {
+    return 'Не хватает рубинов. Купи пакет на $pack и сразу открой предмет.';
+  }
+
+  @override
+  String get purchaseNotEnoughCoins => 'Не хватает монет. Монеты только зарабатываются: играй и выполняй задания.';
+
+  @override
+  String purchaseBuyPack(String amount) {
+    return 'Купить рубины: $amount';
+  }
+
+  @override
+  String get purchaseToMissions => 'К заданиям';
+
+  @override
+  String get purchaseFailed => 'Покупка не прошла. Попробуй ещё раз.';
+
+  @override
+  String get purchaseAlreadyOwned => 'Этот предмет уже у тебя.';
+
+  @override
+  String get purchaseNotForSale => 'Этот предмет не продаётся.';
+
+  @override
+  String purchaseOwnedTitle(String item) {
+    return 'Теперь у тебя: $item';
+  }
+
+  @override
+  String get purchaseReceipt => 'Чек';
+
+  @override
+  String get purchasePaid => 'Оплачено';
+
+  @override
+  String get purchaseClose => 'Закрыть';
+
+  @override
+  String get purchaseEquipNow => 'Надеть сейчас';
+
+  @override
+  String get missionsTitle => 'Задания';
+
+  @override
+  String streakCardTitle(int days) {
+    return 'Серия входов · $days дн.';
+  }
+
+  @override
+  String streakTomorrow(int coins) {
+    return 'Завтра: +$coins';
+  }
+
+  @override
+  String get missionsDaily => 'Ежедневные';
+
+  @override
+  String get missionsWeekly => 'Еженедельные';
+
+  @override
+  String missionsResetsIn(String time) {
+    return 'Сброс через $time';
+  }
+
+  @override
+  String missionProgress(int done, int target) {
+    return '$done / $target';
+  }
+
+  @override
+  String missionProgressCompact(int done, int target) {
+    return '$done/$target';
+  }
+
+  @override
+  String missionReward(int n) {
+    return '+$n';
+  }
+
+  @override
+  String get missionClaim => 'Забрать';
+
+  @override
+  String get missionClaimed => 'Получено';
+
+  @override
+  String missionDoubles(int n) {
+    return 'Выброси $n дубля';
+  }
+
+  @override
+  String missionRankedWin(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Выиграй рейтинговые игры: $n',
+      one: 'Выиграй рейтинговую игру',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get missionCubeTakeWin => 'Прими куб и выиграй';
+
+  @override
+  String get missionPlayLong => 'Сыграй в длинные нарды';
+
+  @override
+  String missionMars(int n) {
+    return 'Сделай марс в играх: $n';
+  }
+
+  @override
+  String missionPlay(int n) {
+    return 'Сыграй игр: $n';
+  }
+
+  @override
+  String missionWin(int n) {
+    return 'Выиграй игр: $n';
+  }
+
+  @override
+  String get missionGeneric => 'Задание';
+
+  @override
+  String dailyBonusTitle(int coins) {
+    return 'Ежедневный бонус · +$coins';
+  }
+
+  @override
+  String dailyBonusBody(int done, int total) {
+    return 'Выполни все ежедневные задания · $done / $total';
+  }
+
+  @override
+  String get streakOverline => 'СЕРИЯ ВХОДОВ';
+
+  @override
+  String get streakDay1 => 'День 1';
+
+  @override
+  String get streakDay2 => 'День 2';
+
+  @override
+  String get streakDay3 => 'День 3';
+
+  @override
+  String get streakDay4 => 'День 4';
+
+  @override
+  String get streakDay5 => 'День 5';
+
+  @override
+  String get streakDay6 => 'День 6';
+
+  @override
+  String get streakDay7 => 'День 7';
+
+  @override
+  String get streakBody => 'Заходи каждый день и забери большой бонус седьмого дня.';
+
+  @override
+  String streakClaim(int coins) {
+    return 'Забрать монеты: +$coins';
+  }
+
+  @override
+  String get streakResetNote => 'Пропустишь день, и серия начнётся с первого дня.';
+
+  @override
+  String levelUpOverline(int from, int to) {
+    return 'УРОВЕНЬ $from → $to';
+  }
+
+  @override
+  String get levelUpTitle => 'Новый уровень';
+
+  @override
+  String xpProgress(String xp, String next) {
+    return '$xp / $next XP';
+  }
+
+  @override
+  String homeLevel(int n) {
+    return 'Ур. $n';
+  }
+
+  @override
+  String homeDailyMission(int done, int total) {
+    return 'ЗАДАНИЕ ДНЯ · $done/$total';
+  }
+
+  @override
+  String get homeMissionsDone => 'Задания на сегодня выполнены';
+
+  @override
+  String get matchCoins => 'монет';
+
+  @override
+  String get matchXp => 'опыта';
+
+  @override
+  String get xpBadge => 'XP';
+
+  @override
+  String get achievementsTitle => 'Достижения';
+
+  @override
+  String achievementsCount(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get titlesOverline => 'ТИТУЛ';
+
+  @override
+  String get titlesNone => 'Без титула';
+
+  @override
+  String get titlesLocked => 'Открывается достижением';
+
+  @override
+  String get achFirstWin => 'Первая победа';
+
+  @override
+  String get achWins10 => '10 побед';
+
+  @override
+  String get achWins100 => '100 побед';
+
+  @override
+  String get achGames1000 => '1000 игр';
+
+  @override
+  String get achMars10 => 'Мастер марса';
+
+  @override
+  String get achRankedWins25 => 'Рейтинговый боец';
+
+  @override
+  String get achStreak10 => 'Серия 10 дней';
+
+  @override
+  String get achGeneric => 'Достижение';
+
+  @override
+  String coinsSemantic(String amount) {
+    return 'Монеты: $amount';
+  }
+
+  @override
+  String gemsSemantic(String amount) {
+    return 'Рубины: $amount';
+  }
 }

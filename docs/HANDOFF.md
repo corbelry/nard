@@ -54,8 +54,13 @@ next — without waiting for approval (start only after they say "başla").
   look data, offers endpoint (featured + 3 daily picks), mission events read
   from game records (doubles, cube take & win, Long Nard), daily bonus,
   Yaqut packs 500/1200/2000. API 27 tests.
-- [ ] 4/5. Client cosmetics + store/locker/progression screens — next
-  (spec: `docs/design-notes/store.md`).
+- [x] 4/5. Client: data-driven `BoardLook` (lib/cosmetics), catalog cache
+  for offline, Locker 3.1, item sheet 3.2, Store 7.3–7.5 (+ debug fake Yaqut),
+  missions 12.1, streak modal 12.2, level-up 12.3, achievements/titles 8.2,
+  Home level/XP + currency pills, 2.6 rewards; Mağaza tab. Verified on the
+  emulator (streak → buy Yaqut → buy Marble Royale → equip → it renders in
+  game). ADR-035.
+- [ ] 6. Close Phase 4 (docs) — next; then Phase 5 plan.
 
 Phase 3 is done (CHANGELOG, ADR-031…033). Leftovers: Apple/Google token
 verification (needs keys), multi-pod Redis (Phase 7), iOS build, lesson

@@ -303,3 +303,19 @@ harmony. Sign-in opens on demand, not in first-launch onboarding.
   all daily missions. "Sandıq" chests are fixed, visible rewards — no loot
   boxes (spec §8.7). Yaqut packs 500 / 1 200 / 2 000. All await the
   owner's confirmation (`QUESTIONS.md`).
+
+## ADR-035 — Store and progression screens: design gaps resolved (2026-10-31)
+From `docs/design-notes/store.md` §12: "Sandıq" chests show fixed coin
+amounts ("Günlük bonus"); Mağaza is the second tab (Əsas · Mağaza ·
+Profil), the Locker opens from the store header and a Profil tile; prices
+always show their currency (coins if an item has a coin price, else
+Yaqut); a board item is a whole set; seasonal/tournament items are not
+buyable ("Tezliklə" in their obtain rows); Yaqut tiles show the gem amount
+only (store prices come with the store SDK); match rewards (2.6) are shown
+for online matches as before/after diffs of the server's progress; mission
+and streak countdowns use the server's reset times; achievements show
+unlocked/locked only (no per-achievement progress from the API yet);
+titles are picked on 8.2; the opponent's set colours their own checkers
+(light if White, dark if Black) when "show opponent's cosmetics" is on, a
+local setting for now; replays and lessons still draw walnut. In debug
+builds only, Yaqut packs send a fake `test-…` receipt (local `IAP_FAKE`).

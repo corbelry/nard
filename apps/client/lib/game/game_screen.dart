@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/game.dart';
+import 'package:flutter/foundation.dart' show mapEquals;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,11 +14,17 @@ import 'package:nard_protocol/nard_protocol.dart';
 import '../app/providers.dart';
 import '../app/sounds.dart';
 import '../board/board_game.dart';
+import '../cosmetics/board_look.dart';
+import '../cosmetics/cosmetics_providers.dart';
 import '../data/app_settings.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../online/account.dart';
 import '../online/online_game_controller.dart';
 import '../online/online_text.dart';
+import '../progression/level_up_screen.dart';
+import '../progression/match_rewards.dart';
+import '../progression/progress.dart';
+import '../store/inventory.dart';
 import '../theme/board_theme.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
@@ -54,12 +61,63 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   bool _matchResultReady = false;
   Timer? _resultTimer;
   Timer? _ratingTimer;
+  Timer? _levelUpTimer;
+  BoardLook? _shownLook;
+  Map<Side, BoardLook> _shownSides = const {};
+
+  /// Online: progress + wallet at the start of the match, compared with
+  /// the server's values after it for the 2.6 rewards and 12.3.
+  Future<RewardSnapshot?>? _rewardsBefore;
+  MatchRewards? _rewards;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.online) _captureRewards();
+  }
+
+  void _captureRewards() {
+    _rewards = null;
+    _rewardsBefore = RewardSnapshot.capture(ref.read(apiClientProvider));
+  }
 
   @override
   void dispose() {
     _resultTimer?.cancel();
     _ratingTimer?.cancel();
+    _levelUpTimer?.cancel();
     super.dispose();
+  }
+
+  Future<void> _loadRewards() async {
+    final before = await _rewardsBefore;
+    if (before == null || !mounted) return;
+    final after = await RewardSnapshot.capture(ref.read(apiClientProvider));
+    if (after == null || !mounted) return;
+    final rewards = MatchRewards.compare(before, after);
+    setState(() => _rewards = rewards);
+    ref.read(inventoryProvider.notifier).setWallet(after.wallet);
+    unawaited(ref.read(progressProvider.notifier).refresh());
+    if (rewards.leveledUp) {
+      // After the counters finish (store.md §6.5).
+      _levelUpTimer = Timer(
+        NardMotion.counter + const Duration(milliseconds: 300),
+        () {
+          if (!mounted) return;
+          unawaited(
+            context.push(
+              '/levelup',
+              extra: LevelUpArgs(
+                from: rewards.levelFrom,
+                to: rewards.levelTo,
+                xp: rewards.after.xp,
+                xpForNext: rewards.after.xpForNext,
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 
   ProviderListenable<GameView?> get _provider =>
@@ -87,10 +145,26 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   void _sync(GameView view, AppSettings settings, AppLocalizations l) {
     final board = _board;
-    if (board == null || view.revision == _shownRevision) return;
+    if (board == null) return;
+    final look = ref.read(localLookProvider);
+    final sides = opponentLooks(
+      ref.read(currentCatalogProvider),
+      view.session.setup,
+      show: settings.showOpponentCosmetics,
+    );
+    final sameRevision = view.revision == _shownRevision;
+    if (sameRevision && look == _shownLook && mapEquals(sides, _shownSides)) {
+      return;
+    }
     _shownRevision = view.revision;
+    _shownLook = look;
+    _shownSides = sides;
     board.reduceMotion = settings.reduceMotion;
-    board.show(GamePresenter(view, settings, l).scene(), steps: view.steps);
+    board.show(
+      GamePresenter(view, settings, l).scene().withLook(look, sideLooks: sides),
+      // A set change alone redraws without replaying the last moves.
+      steps: sameRevision ? const [] : view.steps,
+    );
   }
 
   void _onChange(GameView? prev, GameView? next) {
@@ -126,6 +200,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           unawaited(
             ref.read(accountProvider.notifier).refresh().catchError((_) {}),
           );
+          unawaited(_loadRewards());
         });
       }
     }
@@ -235,6 +310,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     ref.listen<GameView?>(_provider, (prev, next) => _onChange(prev, next));
     final view = ref.watch(_provider);
     final settings = ref.watch(currentSettingsProvider);
+    // Rebuild (and re-sync the board) when the equipped set loads.
+    ref.watch(localLookProvider);
+    ref.watch(currentCatalogProvider);
+    final table = ref.watch(localTableProvider);
     final l = AppLocalizations.of(context);
     if (view == null) {
       return const Scaffold(body: NardBackground(child: SizedBox.expand()));
@@ -288,7 +367,22 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) unawaited(_leave(p));
       },
-      child: Scaffold(body: NardBackground(child: body)),
+      child: Scaffold(
+        body:
+            table == null || (s.isMatchOver && _matchResultReady)
+                ? NardBackground(child: body)
+                : DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      center: const Alignment(0, -.2),
+                      radius: .9,
+                      colors: table,
+                      stops: evenStops(table.length),
+                    ),
+                  ),
+                  child: body,
+                ),
+      ),
     );
   }
 
@@ -833,13 +927,15 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       meScore: p.score(me),
       oppScore: p.score(me.opponent),
       meta: meta,
-      extra: _ratingCard(p, me),
+      extra: _resultExtras(p, me),
       rematchLabel: l.matchRematch,
       onRematch: () {
         setState(() {
           _matchResultReady = false;
           _resultTimer = null;
           _ratingTimer = null;
+          _levelUpTimer?.cancel();
+          if (widget.online) _captureRewards();
         });
         _ctrl.rematch();
         // Online rematch = queue again with the same settings.
@@ -853,6 +949,22 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       replayLabel: l.actionViewReplay,
       // Online matches are not saved locally (history lives in 8.1).
       onReplay: widget.online ? null : () => context.push('/replays'),
+    );
+  }
+
+  /// 2.6 parts under the score: rating card (ranked) and the rewards row
+  /// with mission progress (online matches only, store.md §6.5).
+  Widget? _resultExtras(GamePresenter p, Side me) {
+    final rating = _ratingCard(p, me);
+    final rewards = _rewards;
+    final showRewards = widget.online && rewards != null && !rewards.isEmpty;
+    if (rating == null && !showRewards) return null;
+    return Column(
+      children: [
+        if (rating != null) rating,
+        if (rating != null && showRewards) const SizedBox(height: 18),
+        if (showRewards) MatchRewardsView(rewards: rewards),
+      ],
     );
   }
 

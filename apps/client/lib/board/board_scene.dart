@@ -1,5 +1,7 @@
 import 'package:nard_core/nard_core.dart';
 
+import '../cosmetics/board_look.dart';
+
 /// Everything the board draws for one frame of the game, independent of
 /// how the game is driven. Slots are in the owning side's numbering.
 class BoardScene {
@@ -24,6 +26,8 @@ class BoardScene {
     this.mustEnter = false,
     this.colorBlind = false,
     this.largePips = false,
+    this.look = BoardLook.walnut,
+    this.sideLooks = const {},
   });
 
   final RuleSet rules;
@@ -66,4 +70,49 @@ class BoardScene {
 
   final bool colorBlind;
   final bool largePips;
+
+  /// The board set drawn (frame, field, points, numbers, tray).
+  final BoardLook look;
+
+  /// Per-side sets for checkers and dice (opponent cosmetics); sides
+  /// missing here use [look].
+  final Map<Side, BoardLook> sideLooks;
+
+  /// The checker material of [side]: White = light, Black = dark.
+  CheckerMaterial material(Side side) {
+    final set = sideLooks[side] ?? look;
+    return side == Side.white ? set.light : set.dark;
+  }
+
+  /// The dice of the side that rolled (or [look] for the opening roll).
+  DiceLook get diceLook => (sideLooks[diceOwner] ?? look).dice;
+
+  /// This scene drawn in other sets.
+  BoardScene withLook(
+    BoardLook look, {
+    Map<Side, BoardLook> sideLooks = const {},
+  }) => BoardScene(
+    rules: rules,
+    viewer: viewer,
+    board: board,
+    dice: dice,
+    diceUsed: diceUsed,
+    diceOwner: diceOwner,
+    rolling: rolling,
+    cubeValue: cubeValue,
+    cubeOwner: cubeOwner,
+    cubeVisible: cubeVisible,
+    cubeOffered: cubeOffered,
+    mover: mover,
+    selected: selected,
+    targets: targets,
+    illegalTarget: illegalTarget,
+    lastMoves: lastMoves,
+    lastMover: lastMover,
+    mustEnter: mustEnter,
+    colorBlind: colorBlind,
+    largePips: largePips,
+    look: look,
+    sideLooks: sideLooks,
+  );
 }

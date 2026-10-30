@@ -5,6 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:nard_core/nard_core.dart';
 
 import '../../app/setup_draft.dart';
+import '../../cosmetics/cosmetics_providers.dart';
 import '../../l10n/gen/app_localizations.dart';
 import '../../online/account.dart';
 import '../../online/api_client.dart';
@@ -12,6 +13,8 @@ import '../../online/match_history.dart';
 import '../../online/online_text.dart';
 import '../../online/rank.dart';
 import '../../online/reachability.dart';
+import '../../progression/home_progress.dart';
+import '../../progression/progress.dart';
 import '../../theme/nard_colors.dart';
 import '../../theme/nard_tokens.dart';
 import '../../ui/buttons.dart';
@@ -19,6 +22,7 @@ import '../../ui/controls.dart';
 import '../../ui/extra_tokens.dart';
 import '../../ui/identity.dart';
 import '../../ui/layout.dart';
+import '../../ui/pressable.dart';
 import 'account_sheets.dart';
 import 'versus_screen.dart';
 
@@ -240,6 +244,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ],
                         ],
                       ),
+                      TitleLine(
+                        name: ref
+                            .watch(currentCatalogProvider)
+                            .item(ref.watch(progressProvider).value?.title)
+                            ?.nameFor(
+                              Localizations.localeOf(context).languageCode,
+                            ),
+                      ),
                       if (rating != null) ...[
                         const SizedBox(height: 4),
                         Text(
@@ -321,11 +333,82 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
           ),
           Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _LinkTile(
+                    icon: LucideIcons.shirt,
+                    label: l.lockerTitle,
+                    onTap: () => context.go('/store/locker'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _LinkTile(
+                    icon: LucideIcons.award,
+                    label: l.achievementsTitle,
+                    onTap: () => context.push('/profile/achievements'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
             child: Overline(l.profileHistory),
           ),
           ...rows,
         ],
+      ),
+    );
+  }
+}
+
+/// Entry tile to the Locker (3.1) and Achievements (8.2).
+class _LinkTile extends StatelessWidget {
+  const _LinkTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.nard;
+    return Pressable(
+      onTap: onTap,
+      semanticLabel: label,
+      child: Container(
+        height: 48,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          color: c.tile,
+          borderRadius: BorderRadius.circular(c.cardRadius),
+          border: Border.all(color: c.lineSoft),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 18, color: c.accent),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: NardType.bodyS.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: c.text,
+                ),
+              ),
+            ),
+            Icon(LucideIcons.chevronRight, size: 16, color: c.textDim),
+          ],
+        ),
       ),
     );
   }

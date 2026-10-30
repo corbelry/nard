@@ -2516,6 +2516,810 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Rəqib axtar'**
   String get setupFindOpponent;
+
+  /// No description provided for @tabStore.
+  ///
+  /// In az, this message translates to:
+  /// **'Mağaza'**
+  String get tabStore;
+
+  /// No description provided for @lockerTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Dolab'**
+  String get lockerTitle;
+
+  /// No description provided for @loadoutName.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəst {n}'**
+  String loadoutName(int n);
+
+  /// No description provided for @lockerSave.
+  ///
+  /// In az, this message translates to:
+  /// **'Saxla'**
+  String get lockerSave;
+
+  /// No description provided for @lockerSaved.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəst yadda saxlanıldı'**
+  String get lockerSaved;
+
+  /// No description provided for @lockerAddLoadout.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni dəst'**
+  String get lockerAddLoadout;
+
+  /// No description provided for @lockerRenameTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəstin adı'**
+  String get lockerRenameTitle;
+
+  /// No description provided for @lockerRename.
+  ///
+  /// In az, this message translates to:
+  /// **'Adını dəyiş'**
+  String get lockerRename;
+
+  /// No description provided for @lockerDelete.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəsti sil'**
+  String get lockerDelete;
+
+  /// No description provided for @lockerLoadoutLimit.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən çox {max} dəst ola bilər.'**
+  String lockerLoadoutLimit(int max);
+
+  /// No description provided for @lockerEmptyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Burada hələ heç nə yoxdur'**
+  String get lockerEmptyTitle;
+
+  /// No description provided for @lockerEmptyBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu bölməyə yeni əşyalar tezliklə gələcək.'**
+  String get lockerEmptyBody;
+
+  /// No description provided for @lockerShowOpponentCosmetics.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqibin kosmetikasını göstər'**
+  String get lockerShowOpponentCosmetics;
+
+  /// No description provided for @categoryBoard.
+  ///
+  /// In az, this message translates to:
+  /// **'Taxta'**
+  String get categoryBoard;
+
+  /// No description provided for @categoryCheckers.
+  ///
+  /// In az, this message translates to:
+  /// **'Daşlar'**
+  String get categoryCheckers;
+
+  /// No description provided for @categoryDice.
+  ///
+  /// In az, this message translates to:
+  /// **'Zər'**
+  String get categoryDice;
+
+  /// No description provided for @categoryDiceCup.
+  ///
+  /// In az, this message translates to:
+  /// **'Zər qabı'**
+  String get categoryDiceCup;
+
+  /// No description provided for @categoryCube.
+  ///
+  /// In az, this message translates to:
+  /// **'İkiqat kub'**
+  String get categoryCube;
+
+  /// No description provided for @categoryBackground.
+  ///
+  /// In az, this message translates to:
+  /// **'Fon'**
+  String get categoryBackground;
+
+  /// No description provided for @categorySounds.
+  ///
+  /// In az, this message translates to:
+  /// **'Səslər'**
+  String get categorySounds;
+
+  /// No description provided for @categoryEmote.
+  ///
+  /// In az, this message translates to:
+  /// **'Emote'**
+  String get categoryEmote;
+
+  /// No description provided for @categoryAvatarFrame.
+  ///
+  /// In az, this message translates to:
+  /// **'Avatar çərçivəsi'**
+  String get categoryAvatarFrame;
+
+  /// No description provided for @categoryTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Titul'**
+  String get categoryTitle;
+
+  /// No description provided for @categoryWinEffect.
+  ///
+  /// In az, this message translates to:
+  /// **'Qələbə effekti'**
+  String get categoryWinEffect;
+
+  /// No description provided for @categoryOther.
+  ///
+  /// In az, this message translates to:
+  /// **'Digər'**
+  String get categoryOther;
+
+  /// No description provided for @itemEquipped.
+  ///
+  /// In az, this message translates to:
+  /// **'Taxılıb'**
+  String get itemEquipped;
+
+  /// No description provided for @itemPreviewing.
+  ///
+  /// In az, this message translates to:
+  /// **'Sınanır'**
+  String get itemPreviewing;
+
+  /// No description provided for @itemOwned.
+  ///
+  /// In az, this message translates to:
+  /// **'Sahibsən'**
+  String get itemOwned;
+
+  /// No description provided for @itemSeason.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon bileti'**
+  String get itemSeason;
+
+  /// No description provided for @itemTournamentReward.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir mükafatı'**
+  String get itemTournamentReward;
+
+  /// No description provided for @itemAchievementReward.
+  ///
+  /// In az, this message translates to:
+  /// **'Nailiyyət mükafatı'**
+  String get itemAchievementReward;
+
+  /// No description provided for @rarityCommon.
+  ///
+  /// In az, this message translates to:
+  /// **'Adi'**
+  String get rarityCommon;
+
+  /// No description provided for @rarityRare.
+  ///
+  /// In az, this message translates to:
+  /// **'Nadir'**
+  String get rarityRare;
+
+  /// No description provided for @rarityEpic.
+  ///
+  /// In az, this message translates to:
+  /// **'Epik'**
+  String get rarityEpic;
+
+  /// No description provided for @rarityLegendary.
+  ///
+  /// In az, this message translates to:
+  /// **'Əfsanəvi'**
+  String get rarityLegendary;
+
+  /// No description provided for @raritySeasonal.
+  ///
+  /// In az, this message translates to:
+  /// **'Mövsümi'**
+  String get raritySeasonal;
+
+  /// No description provided for @rarityTournament.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir'**
+  String get rarityTournament;
+
+  /// Uppercase overline; stored uppercased (no toUpperCase).
+  ///
+  /// In az, this message translates to:
+  /// **'ADİ'**
+  String get rarityCommonUpper;
+
+  /// No description provided for @rarityRareUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'NADİR'**
+  String get rarityRareUpper;
+
+  /// No description provided for @rarityEpicUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'EPİK'**
+  String get rarityEpicUpper;
+
+  /// No description provided for @rarityLegendaryUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'ƏFSANƏVİ'**
+  String get rarityLegendaryUpper;
+
+  /// No description provided for @raritySeasonalUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'MÖVSÜMİ'**
+  String get raritySeasonalUpper;
+
+  /// No description provided for @rarityTournamentUpper.
+  ///
+  /// In az, this message translates to:
+  /// **'TURNİR'**
+  String get rarityTournamentUpper;
+
+  /// No description provided for @itemObtainTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'NECƏ ƏLDƏ EDİLİR'**
+  String get itemObtainTitle;
+
+  /// No description provided for @obtainStore.
+  ///
+  /// In az, this message translates to:
+  /// **'Mağaza'**
+  String get obtainStore;
+
+  /// No description provided for @obtainSeasonPremium.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon bileti · Premium'**
+  String get obtainSeasonPremium;
+
+  /// No description provided for @obtainTournament.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir'**
+  String get obtainTournament;
+
+  /// No description provided for @obtainAchievement.
+  ///
+  /// In az, this message translates to:
+  /// **'Nailiyyət'**
+  String get obtainAchievement;
+
+  /// No description provided for @obtainDefault.
+  ///
+  /// In az, this message translates to:
+  /// **'Standart dəst'**
+  String get obtainDefault;
+
+  /// No description provided for @obtainFree.
+  ///
+  /// In az, this message translates to:
+  /// **'Pulsuz'**
+  String get obtainFree;
+
+  /// amount = count with thousands separators.
+  ///
+  /// In az, this message translates to:
+  /// **'{count, plural, other{{amount} sikkə}}'**
+  String priceCoins(int count, String amount);
+
+  /// Paid currency (ADR-023): Yaqut / Rubies / Рубины / Yakut.
+  ///
+  /// In az, this message translates to:
+  /// **'{count, plural, other{{amount} yaqut}}'**
+  String priceGems(int count, String amount);
+
+  /// No description provided for @itemTry.
+  ///
+  /// In az, this message translates to:
+  /// **'Sına'**
+  String get itemTry;
+
+  /// No description provided for @itemBuy.
+  ///
+  /// In az, this message translates to:
+  /// **'Al'**
+  String get itemBuy;
+
+  /// No description provided for @itemEquip.
+  ///
+  /// In az, this message translates to:
+  /// **'Tax'**
+  String get itemEquip;
+
+  /// No description provided for @storeFeaturedOverline.
+  ///
+  /// In az, this message translates to:
+  /// **'TÖVSİYƏ · {days} GÜN'**
+  String storeFeaturedOverline(int days);
+
+  /// No description provided for @storeDailyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'GÜNLÜK SEÇİM'**
+  String get storeDailyTitle;
+
+  /// No description provided for @storeRefreshesIn.
+  ///
+  /// In az, this message translates to:
+  /// **'Yenilənir {time}'**
+  String storeRefreshesIn(String time);
+
+  /// No description provided for @storeGemsTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'YAQUT'**
+  String get storeGemsTitle;
+
+  /// No description provided for @storePackUnavailable.
+  ///
+  /// In az, this message translates to:
+  /// **'Yaqut almaq hələ mümkün deyil. Mağaza hesabları qoşulanda açılacaq.'**
+  String get storePackUnavailable;
+
+  /// No description provided for @storePackAdded.
+  ///
+  /// In az, this message translates to:
+  /// **'+{amount} yaqut balansına əlavə olundu'**
+  String storePackAdded(String amount);
+
+  /// No description provided for @accountNeededTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hesabına daxil ol'**
+  String get accountNeededTitle;
+
+  /// No description provided for @accountNeededBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Sikkə qazanmaq, dəst almaq və tapşırıqları görmək üçün hesab lazımdır.'**
+  String get accountNeededBody;
+
+  /// No description provided for @purchasePrice.
+  ///
+  /// In az, this message translates to:
+  /// **'Qiymət'**
+  String get purchasePrice;
+
+  /// No description provided for @purchaseBalanceAfter.
+  ///
+  /// In az, this message translates to:
+  /// **'Balans sonra'**
+  String get purchaseBalanceAfter;
+
+  /// No description provided for @purchaseShortfall.
+  ///
+  /// In az, this message translates to:
+  /// **'−{amount} çatmır'**
+  String purchaseShortfall(String amount);
+
+  /// No description provided for @purchaseNotEnoughGems.
+  ///
+  /// In az, this message translates to:
+  /// **'Balansın kifayət etmir. {pack} yaqut paketini al və əşyanı birbaşa aç.'**
+  String purchaseNotEnoughGems(String pack);
+
+  /// No description provided for @purchaseNotEnoughCoins.
+  ///
+  /// In az, this message translates to:
+  /// **'Sikkən kifayət etmir. Sikkə yalnız qazanılır: oyna və tapşırıqları bitir.'**
+  String get purchaseNotEnoughCoins;
+
+  /// No description provided for @purchaseBuyPack.
+  ///
+  /// In az, this message translates to:
+  /// **'{amount} yaqut al'**
+  String purchaseBuyPack(String amount);
+
+  /// No description provided for @purchaseToMissions.
+  ///
+  /// In az, this message translates to:
+  /// **'Tapşırıqlara bax'**
+  String get purchaseToMissions;
+
+  /// No description provided for @purchaseFailed.
+  ///
+  /// In az, this message translates to:
+  /// **'Alış alınmadı. Yenidən cəhd et.'**
+  String get purchaseFailed;
+
+  /// No description provided for @purchaseAlreadyOwned.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu əşya artıq səndədir.'**
+  String get purchaseAlreadyOwned;
+
+  /// No description provided for @purchaseNotForSale.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu əşya satılmır.'**
+  String get purchaseNotForSale;
+
+  /// No description provided for @purchaseOwnedTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'{item} sənindir'**
+  String purchaseOwnedTitle(String item);
+
+  /// No description provided for @purchaseReceipt.
+  ///
+  /// In az, this message translates to:
+  /// **'Qəbz'**
+  String get purchaseReceipt;
+
+  /// No description provided for @purchasePaid.
+  ///
+  /// In az, this message translates to:
+  /// **'Ödəniş'**
+  String get purchasePaid;
+
+  /// No description provided for @purchaseClose.
+  ///
+  /// In az, this message translates to:
+  /// **'Bağla'**
+  String get purchaseClose;
+
+  /// No description provided for @purchaseEquipNow.
+  ///
+  /// In az, this message translates to:
+  /// **'İndi tax'**
+  String get purchaseEquipNow;
+
+  /// No description provided for @missionsTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Tapşırıqlar'**
+  String get missionsTitle;
+
+  /// No description provided for @streakCardTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Giriş seriyası · {days} gün'**
+  String streakCardTitle(int days);
+
+  /// No description provided for @streakTomorrow.
+  ///
+  /// In az, this message translates to:
+  /// **'Sabah: +{coins}'**
+  String streakTomorrow(int coins);
+
+  /// No description provided for @missionsDaily.
+  ///
+  /// In az, this message translates to:
+  /// **'Günlük'**
+  String get missionsDaily;
+
+  /// No description provided for @missionsWeekly.
+  ///
+  /// In az, this message translates to:
+  /// **'Həftəlik'**
+  String get missionsWeekly;
+
+  /// No description provided for @missionsResetsIn.
+  ///
+  /// In az, this message translates to:
+  /// **'Yenilənməyə {time}'**
+  String missionsResetsIn(String time);
+
+  /// No description provided for @missionProgress.
+  ///
+  /// In az, this message translates to:
+  /// **'{done} / {target}'**
+  String missionProgress(int done, int target);
+
+  /// No description provided for @missionProgressCompact.
+  ///
+  /// In az, this message translates to:
+  /// **'{done}/{target}'**
+  String missionProgressCompact(int done, int target);
+
+  /// No description provided for @missionReward.
+  ///
+  /// In az, this message translates to:
+  /// **'+{n}'**
+  String missionReward(int n);
+
+  /// No description provided for @missionClaim.
+  ///
+  /// In az, this message translates to:
+  /// **'Al'**
+  String get missionClaim;
+
+  /// No description provided for @missionClaimed.
+  ///
+  /// In az, this message translates to:
+  /// **'Alındı'**
+  String get missionClaimed;
+
+  /// No description provided for @missionDoubles.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} dubl at'**
+  String missionDoubles(int n);
+
+  /// No description provided for @missionRankedWin.
+  ///
+  /// In az, this message translates to:
+  /// **'{n, plural, =1{Reytinq oyunu qazan} other{{n} reytinq oyunu qazan}}'**
+  String missionRankedWin(int n);
+
+  /// No description provided for @missionCubeTakeWin.
+  ///
+  /// In az, this message translates to:
+  /// **'Kubu qəbul et və qazan'**
+  String get missionCubeTakeWin;
+
+  /// No description provided for @missionPlayLong.
+  ///
+  /// In az, this message translates to:
+  /// **'Uzun nərd oyna'**
+  String get missionPlayLong;
+
+  /// No description provided for @missionMars.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} oyunda mars et'**
+  String missionMars(int n);
+
+  /// No description provided for @missionPlay.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} oyun oyna'**
+  String missionPlay(int n);
+
+  /// No description provided for @missionWin.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} oyun qazan'**
+  String missionWin(int n);
+
+  /// No description provided for @missionGeneric.
+  ///
+  /// In az, this message translates to:
+  /// **'Tapşırıq'**
+  String get missionGeneric;
+
+  /// No description provided for @dailyBonusTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Günlük bonus · +{coins}'**
+  String dailyBonusTitle(int coins);
+
+  /// No description provided for @dailyBonusBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Bütün günlük tapşırıqları bitir · {done} / {total}'**
+  String dailyBonusBody(int done, int total);
+
+  /// No description provided for @streakOverline.
+  ///
+  /// In az, this message translates to:
+  /// **'GİRİŞ SERİYASI'**
+  String get streakOverline;
+
+  /// No description provided for @streakDay1.
+  ///
+  /// In az, this message translates to:
+  /// **'1-ci gün'**
+  String get streakDay1;
+
+  /// No description provided for @streakDay2.
+  ///
+  /// In az, this message translates to:
+  /// **'2-ci gün'**
+  String get streakDay2;
+
+  /// No description provided for @streakDay3.
+  ///
+  /// In az, this message translates to:
+  /// **'3-cü gün'**
+  String get streakDay3;
+
+  /// No description provided for @streakDay4.
+  ///
+  /// In az, this message translates to:
+  /// **'4-cü gün'**
+  String get streakDay4;
+
+  /// No description provided for @streakDay5.
+  ///
+  /// In az, this message translates to:
+  /// **'5-ci gün'**
+  String get streakDay5;
+
+  /// No description provided for @streakDay6.
+  ///
+  /// In az, this message translates to:
+  /// **'6-cı gün'**
+  String get streakDay6;
+
+  /// No description provided for @streakDay7.
+  ///
+  /// In az, this message translates to:
+  /// **'7-ci gün'**
+  String get streakDay7;
+
+  /// No description provided for @streakBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Hər gün daxil ol, 7-ci gün böyük bonusu al.'**
+  String get streakBody;
+
+  /// No description provided for @streakClaim.
+  ///
+  /// In az, this message translates to:
+  /// **'+{coins} sikkəni al'**
+  String streakClaim(int coins);
+
+  /// No description provided for @streakResetNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Bir gün buraxsan, seriya 1-ci gündən başlayır.'**
+  String get streakResetNote;
+
+  /// No description provided for @levelUpOverline.
+  ///
+  /// In az, this message translates to:
+  /// **'SƏVİYYƏ {from} → {to}'**
+  String levelUpOverline(int from, int to);
+
+  /// No description provided for @levelUpTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Səviyyə yüksəldi'**
+  String get levelUpTitle;
+
+  /// No description provided for @xpProgress.
+  ///
+  /// In az, this message translates to:
+  /// **'{xp} / {next} XP'**
+  String xpProgress(String xp, String next);
+
+  /// No description provided for @homeLevel.
+  ///
+  /// In az, this message translates to:
+  /// **'Səv. {n}'**
+  String homeLevel(int n);
+
+  /// No description provided for @homeDailyMission.
+  ///
+  /// In az, this message translates to:
+  /// **'GÜNLÜK MİSSİYA · {done}/{total}'**
+  String homeDailyMission(int done, int total);
+
+  /// No description provided for @homeMissionsDone.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu günün tapşırıqları bitdi'**
+  String get homeMissionsDone;
+
+  /// No description provided for @matchCoins.
+  ///
+  /// In az, this message translates to:
+  /// **'sikkə'**
+  String get matchCoins;
+
+  /// No description provided for @matchXp.
+  ///
+  /// In az, this message translates to:
+  /// **'təcrübə'**
+  String get matchXp;
+
+  /// No description provided for @xpBadge.
+  ///
+  /// In az, this message translates to:
+  /// **'XP'**
+  String get xpBadge;
+
+  /// No description provided for @achievementsTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Nailiyyətlər'**
+  String get achievementsTitle;
+
+  /// No description provided for @achievementsCount.
+  ///
+  /// In az, this message translates to:
+  /// **'{done} / {total}'**
+  String achievementsCount(int done, int total);
+
+  /// No description provided for @titlesOverline.
+  ///
+  /// In az, this message translates to:
+  /// **'TİTUL'**
+  String get titlesOverline;
+
+  /// No description provided for @titlesNone.
+  ///
+  /// In az, this message translates to:
+  /// **'Titulsuz'**
+  String get titlesNone;
+
+  /// No description provided for @titlesLocked.
+  ///
+  /// In az, this message translates to:
+  /// **'Nailiyyətlə açılır'**
+  String get titlesLocked;
+
+  /// No description provided for @achFirstWin.
+  ///
+  /// In az, this message translates to:
+  /// **'İlk qələbə'**
+  String get achFirstWin;
+
+  /// No description provided for @achWins10.
+  ///
+  /// In az, this message translates to:
+  /// **'10 qələbə'**
+  String get achWins10;
+
+  /// No description provided for @achWins100.
+  ///
+  /// In az, this message translates to:
+  /// **'100 qələbə'**
+  String get achWins100;
+
+  /// No description provided for @achGames1000.
+  ///
+  /// In az, this message translates to:
+  /// **'1000 oyun'**
+  String get achGames1000;
+
+  /// No description provided for @achMars10.
+  ///
+  /// In az, this message translates to:
+  /// **'Mars ustası'**
+  String get achMars10;
+
+  /// No description provided for @achRankedWins25.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq döyüşçüsü'**
+  String get achRankedWins25;
+
+  /// No description provided for @achStreak10.
+  ///
+  /// In az, this message translates to:
+  /// **'10 günlük seriya'**
+  String get achStreak10;
+
+  /// No description provided for @achGeneric.
+  ///
+  /// In az, this message translates to:
+  /// **'Nailiyyət'**
+  String get achGeneric;
+
+  /// No description provided for @coinsSemantic.
+  ///
+  /// In az, this message translates to:
+  /// **'Sikkə: {amount}'**
+  String coinsSemantic(String amount);
+
+  /// No description provided for @gemsSemantic.
+  ///
+  /// In az, this message translates to:
+  /// **'Yaqut: {amount}'**
+  String gemsSemantic(String amount);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

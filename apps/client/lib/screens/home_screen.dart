@@ -15,6 +15,7 @@ import '../online/online_draft.dart';
 import '../online/online_text.dart';
 import '../online/rank.dart';
 import '../online/reachability.dart';
+import '../progression/home_progress.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/background.dart';
@@ -132,6 +133,7 @@ class HomeScreen extends ConsumerWidget {
                               ],
                             ),
                           ],
+                          const HomeLevelLine(),
                         ],
                       ),
                     ),
@@ -139,6 +141,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
             ),
+          if (account != null) const HomeCurrencyRow(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -298,6 +301,10 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
+                if (account != null) ...[
+                  const SizedBox(height: 8),
+                  const HomeMissionCard(),
+                ],
               ],
             ),
           ),

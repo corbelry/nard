@@ -1390,4 +1390,486 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get setupFindOpponent => 'Rakip bul';
+
+  @override
+  String get tabStore => 'Mağaza';
+
+  @override
+  String get lockerTitle => 'Dolap';
+
+  @override
+  String loadoutName(int n) {
+    return 'Set $n';
+  }
+
+  @override
+  String get lockerSave => 'Kaydet';
+
+  @override
+  String get lockerSaved => 'Set kaydedildi';
+
+  @override
+  String get lockerAddLoadout => 'Yeni set';
+
+  @override
+  String get lockerRenameTitle => 'Set adı';
+
+  @override
+  String get lockerRename => 'Yeniden adlandır';
+
+  @override
+  String get lockerDelete => 'Seti sil';
+
+  @override
+  String lockerLoadoutLimit(int max) {
+    return 'En fazla $max set olabilir.';
+  }
+
+  @override
+  String get lockerEmptyTitle => 'Burada henüz bir şey yok';
+
+  @override
+  String get lockerEmptyBody => 'Bu bölüme yeni eşyalar yakında gelecek.';
+
+  @override
+  String get lockerShowOpponentCosmetics => 'Rakibin kozmetiğini göster';
+
+  @override
+  String get categoryBoard => 'Tahta';
+
+  @override
+  String get categoryCheckers => 'Pullar';
+
+  @override
+  String get categoryDice => 'Zar';
+
+  @override
+  String get categoryDiceCup => 'Zar kabı';
+
+  @override
+  String get categoryCube => 'Katlama küpü';
+
+  @override
+  String get categoryBackground => 'Arka plan';
+
+  @override
+  String get categorySounds => 'Sesler';
+
+  @override
+  String get categoryEmote => 'İfadeler';
+
+  @override
+  String get categoryAvatarFrame => 'Avatar çerçevesi';
+
+  @override
+  String get categoryTitle => 'Unvan';
+
+  @override
+  String get categoryWinEffect => 'Zafer efekti';
+
+  @override
+  String get categoryOther => 'Diğer';
+
+  @override
+  String get itemEquipped => 'Takılı';
+
+  @override
+  String get itemPreviewing => 'Deneniyor';
+
+  @override
+  String get itemOwned => 'Sende var';
+
+  @override
+  String get itemSeason => 'Sezon bileti';
+
+  @override
+  String get itemTournamentReward => 'Turnuva ödülü';
+
+  @override
+  String get itemAchievementReward => 'Başarım ödülü';
+
+  @override
+  String get rarityCommon => 'Sıradan';
+
+  @override
+  String get rarityRare => 'Nadir';
+
+  @override
+  String get rarityEpic => 'Destansı';
+
+  @override
+  String get rarityLegendary => 'Efsanevi';
+
+  @override
+  String get raritySeasonal => 'Sezonluk';
+
+  @override
+  String get rarityTournament => 'Turnuva';
+
+  @override
+  String get rarityCommonUpper => 'SIRADAN';
+
+  @override
+  String get rarityRareUpper => 'NADİR';
+
+  @override
+  String get rarityEpicUpper => 'DESTANSI';
+
+  @override
+  String get rarityLegendaryUpper => 'EFSANEVİ';
+
+  @override
+  String get raritySeasonalUpper => 'SEZONLUK';
+
+  @override
+  String get rarityTournamentUpper => 'TURNUVA';
+
+  @override
+  String get itemObtainTitle => 'NASIL ALINIR';
+
+  @override
+  String get obtainStore => 'Mağaza';
+
+  @override
+  String get obtainSeasonPremium => 'Sezon bileti · Premium';
+
+  @override
+  String get obtainTournament => 'Turnuva';
+
+  @override
+  String get obtainAchievement => 'Başarım';
+
+  @override
+  String get obtainDefault => 'Standart set';
+
+  @override
+  String get obtainFree => 'Ücretsiz';
+
+  @override
+  String priceCoins(int count, String amount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$amount jeton',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String priceGems(int count, String amount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$amount yakut',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemTry => 'Dene';
+
+  @override
+  String get itemBuy => 'Satın al';
+
+  @override
+  String get itemEquip => 'Tak';
+
+  @override
+  String storeFeaturedOverline(int days) {
+    return 'ÖNE ÇIKAN · $days GÜN';
+  }
+
+  @override
+  String get storeDailyTitle => 'GÜNLÜK SEÇİM';
+
+  @override
+  String storeRefreshesIn(String time) {
+    return 'Yenilenme $time';
+  }
+
+  @override
+  String get storeGemsTitle => 'YAKUT';
+
+  @override
+  String get storePackUnavailable => 'Yakut satın alma henüz mümkün değil. Mağaza hesapları bağlanınca açılacak.';
+
+  @override
+  String storePackAdded(String amount) {
+    return '+$amount yakut bakiyene eklendi';
+  }
+
+  @override
+  String get accountNeededTitle => 'Hesabına giriş yap';
+
+  @override
+  String get accountNeededBody => 'Jeton kazanmak, set almak ve görevleri görmek için hesap gerekir.';
+
+  @override
+  String get purchasePrice => 'Fiyat';
+
+  @override
+  String get purchaseBalanceAfter => 'Sonraki bakiye';
+
+  @override
+  String purchaseShortfall(String amount) {
+    return '$amount eksik';
+  }
+
+  @override
+  String purchaseNotEnoughGems(String pack) {
+    return 'Bakiyen yetmiyor. $pack yakut paketini al ve eşyayı hemen aç.';
+  }
+
+  @override
+  String get purchaseNotEnoughCoins => 'Jetonun yetmiyor. Jeton yalnızca kazanılır: oyna ve görevleri bitir.';
+
+  @override
+  String purchaseBuyPack(String amount) {
+    return '$amount yakut al';
+  }
+
+  @override
+  String get purchaseToMissions => 'Görevlere bak';
+
+  @override
+  String get purchaseFailed => 'Satın alma gerçekleşmedi. Tekrar dene.';
+
+  @override
+  String get purchaseAlreadyOwned => 'Bu eşya zaten sende.';
+
+  @override
+  String get purchaseNotForSale => 'Bu eşya satılmıyor.';
+
+  @override
+  String purchaseOwnedTitle(String item) {
+    return '$item artık senin';
+  }
+
+  @override
+  String get purchaseReceipt => 'Fiş';
+
+  @override
+  String get purchasePaid => 'Ödenen';
+
+  @override
+  String get purchaseClose => 'Kapat';
+
+  @override
+  String get purchaseEquipNow => 'Şimdi tak';
+
+  @override
+  String get missionsTitle => 'Görevler';
+
+  @override
+  String streakCardTitle(int days) {
+    return 'Giriş serisi · $days gün';
+  }
+
+  @override
+  String streakTomorrow(int coins) {
+    return 'Yarın: +$coins';
+  }
+
+  @override
+  String get missionsDaily => 'Günlük';
+
+  @override
+  String get missionsWeekly => 'Haftalık';
+
+  @override
+  String missionsResetsIn(String time) {
+    return 'Yenilenmeye $time';
+  }
+
+  @override
+  String missionProgress(int done, int target) {
+    return '$done / $target';
+  }
+
+  @override
+  String missionProgressCompact(int done, int target) {
+    return '$done/$target';
+  }
+
+  @override
+  String missionReward(int n) {
+    return '+$n';
+  }
+
+  @override
+  String get missionClaim => 'Al';
+
+  @override
+  String get missionClaimed => 'Alındı';
+
+  @override
+  String missionDoubles(int n) {
+    return '$n çift at';
+  }
+
+  @override
+  String missionRankedWin(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n dereceli oyun kazan',
+      one: 'Dereceli oyun kazan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get missionCubeTakeWin => 'Küpü kabul et ve kazan';
+
+  @override
+  String get missionPlayLong => 'Uzun tavla oyna';
+
+  @override
+  String missionMars(int n) {
+    return '$n oyunda mars yap';
+  }
+
+  @override
+  String missionPlay(int n) {
+    return '$n oyun oyna';
+  }
+
+  @override
+  String missionWin(int n) {
+    return '$n oyun kazan';
+  }
+
+  @override
+  String get missionGeneric => 'Görev';
+
+  @override
+  String dailyBonusTitle(int coins) {
+    return 'Günlük bonus · +$coins';
+  }
+
+  @override
+  String dailyBonusBody(int done, int total) {
+    return 'Tüm günlük görevleri bitir · $done / $total';
+  }
+
+  @override
+  String get streakOverline => 'GİRİŞ SERİSİ';
+
+  @override
+  String get streakDay1 => '1. gün';
+
+  @override
+  String get streakDay2 => '2. gün';
+
+  @override
+  String get streakDay3 => '3. gün';
+
+  @override
+  String get streakDay4 => '4. gün';
+
+  @override
+  String get streakDay5 => '5. gün';
+
+  @override
+  String get streakDay6 => '6. gün';
+
+  @override
+  String get streakDay7 => '7. gün';
+
+  @override
+  String get streakBody => 'Her gün giriş yap, 7. gün büyük bonusu al.';
+
+  @override
+  String streakClaim(int coins) {
+    return '$coins jetonu al';
+  }
+
+  @override
+  String get streakResetNote => 'Bir gün kaçırırsan seri 1. günden başlar.';
+
+  @override
+  String levelUpOverline(int from, int to) {
+    return 'SEVİYE $from → $to';
+  }
+
+  @override
+  String get levelUpTitle => 'Seviye atladın';
+
+  @override
+  String xpProgress(String xp, String next) {
+    return '$xp / $next XP';
+  }
+
+  @override
+  String homeLevel(int n) {
+    return 'Sv. $n';
+  }
+
+  @override
+  String homeDailyMission(int done, int total) {
+    return 'GÜNLÜK GÖREV · $done/$total';
+  }
+
+  @override
+  String get homeMissionsDone => 'Bugünün görevleri bitti';
+
+  @override
+  String get matchCoins => 'jeton';
+
+  @override
+  String get matchXp => 'deneyim';
+
+  @override
+  String get xpBadge => 'XP';
+
+  @override
+  String get achievementsTitle => 'Başarımlar';
+
+  @override
+  String achievementsCount(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get titlesOverline => 'UNVAN';
+
+  @override
+  String get titlesNone => 'Unvansız';
+
+  @override
+  String get titlesLocked => 'Başarımla açılır';
+
+  @override
+  String get achFirstWin => 'İlk galibiyet';
+
+  @override
+  String get achWins10 => '10 galibiyet';
+
+  @override
+  String get achWins100 => '100 galibiyet';
+
+  @override
+  String get achGames1000 => '1000 oyun';
+
+  @override
+  String get achMars10 => 'Mars ustası';
+
+  @override
+  String get achRankedWins25 => 'Dereceli savaşçı';
+
+  @override
+  String get achStreak10 => '10 günlük seri';
+
+  @override
+  String get achGeneric => 'Başarım';
+
+  @override
+  String coinsSemantic(String amount) {
+    return 'Jeton: $amount';
+  }
+
+  @override
+  String gemsSemantic(String amount) {
+    return 'Yakut: $amount';
+  }
 }

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../cosmetics/locker_screen.dart';
 import '../game/game_screen.dart';
+import '../progression/achievements_screen.dart';
+import '../progression/level_up_screen.dart';
+import '../progression/missions_screen.dart';
 import '../screens/ai_level_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/hotseat_setup_screen.dart';
@@ -24,6 +28,9 @@ import '../screens/settings_screen.dart';
 import '../screens/setup_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/tab_shell.dart';
+import '../store/purchase_flow.dart';
+import '../store/store_screen.dart';
+import '../ui/background.dart';
 
 Page<void> _fade(GoRouterState state, Widget child) => CustomTransitionPage(
   key: state.pageKey,
@@ -60,7 +67,36 @@ final routerProvider = Provider<GoRouter>((ref) {
         branches: [
           StatefulShellBranch(
             routes: [
-              GoRoute(path: '/home', builder: (_, _) => const HomeScreen()),
+              GoRoute(
+                path: '/home',
+                builder: (_, _) => const HomeScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'missions',
+                    builder:
+                        (_, _) => const NardBackground(child: MissionsScreen()),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/store',
+                builder: (_, _) => const StoreScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'locker',
+                    builder:
+                        (_, s) => NardBackground(
+                          child: LockerScreen(
+                            category: s.uri.queryParameters['category'],
+                          ),
+                        ),
+                  ),
+                ],
+              ),
             ],
           ),
           StatefulShellBranch(
@@ -68,6 +104,14 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/profile',
                 builder: (_, _) => const ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'achievements',
+                    builder:
+                        (_, _) =>
+                            const NardBackground(child: AchievementsScreen()),
+                  ),
+                ],
               ),
             ],
           ),
@@ -108,6 +152,25 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
       ),
       GoRoute(path: '/replays', builder: (_, _) => const ReplayListScreen()),
+      // 7.5 and 12.3 cover the tab bar.
+      GoRoute(
+        path: '/purchased',
+        builder:
+            (_, s) =>
+                s.extra is PurchaseOutcome
+                    ? PurchaseSuccessScreen(
+                      outcome: s.extra! as PurchaseOutcome,
+                    )
+                    : const _Missing(),
+      ),
+      GoRoute(
+        path: '/levelup',
+        builder:
+            (_, s) =>
+                s.extra is LevelUpArgs
+                    ? LevelUpScreen(args: s.extra! as LevelUpArgs)
+                    : const _Missing(),
+      ),
       GoRoute(
         path: '/replay/:id',
         builder: (_, s) => ReplayScreen(id: int.parse(s.pathParameters['id']!)),
@@ -115,3 +178,16 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
+
+/// A route opened without its arguments (e.g. restored): back to Home.
+class _Missing extends StatelessWidget {
+  const _Missing();
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) context.go('/home');
+    });
+    return const Scaffold(body: NardBackground(child: SizedBox.expand()));
+  }
+}

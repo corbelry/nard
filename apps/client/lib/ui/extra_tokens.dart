@@ -163,4 +163,96 @@ extension NardExtras on NardColors {
   /// Sign-in Apple button: ivory fill, charcoal label.
   Color get appleFill => NardPalette.ivory100;
   Color get appleText => NardPalette.charcoal900;
+
+  // ---- Store & progression (store.md §0) -------------------------------
+
+  /// Coin glyph (radial at 35% 30%).
+  Gradient get coinFill => const RadialGradient(
+    center: Alignment(-.3, -.4),
+    radius: .8,
+    colors: [Color(0xFFFBE7A6), Color(0xFFC9A24A), Color(0xFF8A6A22)],
+    stops: [0, .6, 1],
+  );
+
+  /// Yaqut glyph (linear 135°, drawn as a rotated square).
+  Gradient get gemFill => const LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFF9FB0), Color(0xFF9E1B32)],
+  );
+
+  /// Currency pill fill.
+  Color get pillFill => text.withValues(alpha: .06);
+
+  /// Level badge fill (garnet primary ends).
+  Gradient get levelBadgeFill => const LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFB52A45), Color(0xFF86152A)],
+  );
+
+  /// 12.3 level-up background.
+  Gradient get levelUpBg => const RadialGradient(
+    center: Alignment(0, -.24),
+    radius: .9,
+    colors: [Color(0xFF5A2430), Color(0xFF24161B), Color(0xFF120C0E)],
+    stops: [0, .6, 1],
+  );
+
+  /// 3.1 Locker preview glow.
+  Gradient get lockerGlow => RadialGradient(
+    center: const Alignment(0, .1),
+    radius: .6,
+    colors: [accent.withValues(alpha: .14), accent.withValues(alpha: 0)],
+    stops: const [0, .7],
+  );
+
+  /// 7.5 purchase success background in the item's [rarity] colour.
+  Gradient successBg(Color rarity) => RadialGradient(
+    center: const Alignment(0, -.24),
+    radius: .7,
+    colors: [rarity.withValues(alpha: .3), const Color(0xFF1B120C)],
+    stops: const [0, .7],
+  );
+
+  /// 3.2 item sheet: rarity tint fading into the raised surface.
+  Gradient itemSheetFill(Color rarity) => LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [rarity.withValues(alpha: .22), surfaceRaised],
+    stops: const [0, .45],
+  );
+
+  /// Featured / legendary card (160°).
+  Gradient featuredFill(Color rarity) => LinearGradient(
+    begin: const Alignment(-.34, -.94),
+    end: const Alignment(.34, .94),
+    colors: [rarity.withValues(alpha: .3), surfaceRaised],
+    stops: const [0, .6],
+  );
+
+  /// Achievement hex fill without a tier (garnet).
+  Gradient get garnetHexFill => const LinearGradient(
+    begin: Alignment(-.34, -.94),
+    end: Alignment(.34, .94),
+    colors: [Color(0xFFC52F4A), Color(0xFF6E0F20)],
+  );
+
+  /// Discount / bonus tag.
+  Color get tagFill => success;
+  Color get tagText => NardPalette.ivory100;
+
+  /// Lattice lines of the level-up screen.
+  Color get levelUpLattice => accent.withValues(alpha: .08);
 }
+
+/// Rarity colour of an item (`tokens/colors.css`); tournament items use
+/// brass (no rarity colour in the design, store.md §12.34).
+Color rarityColor(String rarity) => switch (rarity) {
+  'rare' => NardPalette.rarityRare,
+  'epic' => NardPalette.rarityEpic,
+  'legendary' => NardPalette.rarityLegendary,
+  'seasonal' => NardPalette.raritySeasonal,
+  'tournament' => NardPalette.brass300,
+  _ => NardPalette.rarityCommon,
+};

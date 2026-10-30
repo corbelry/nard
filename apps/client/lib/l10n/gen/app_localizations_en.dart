@@ -1504,4 +1504,488 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setupFindOpponent => 'Find an opponent';
+
+  @override
+  String get tabStore => 'Store';
+
+  @override
+  String get lockerTitle => 'Locker';
+
+  @override
+  String loadoutName(int n) {
+    return 'Set $n';
+  }
+
+  @override
+  String get lockerSave => 'Save';
+
+  @override
+  String get lockerSaved => 'Set saved';
+
+  @override
+  String get lockerAddLoadout => 'New set';
+
+  @override
+  String get lockerRenameTitle => 'Set name';
+
+  @override
+  String get lockerRename => 'Rename';
+
+  @override
+  String get lockerDelete => 'Delete set';
+
+  @override
+  String lockerLoadoutLimit(int max) {
+    return 'You can have up to $max sets.';
+  }
+
+  @override
+  String get lockerEmptyTitle => 'Nothing here yet';
+
+  @override
+  String get lockerEmptyBody => 'New items for this section are on their way.';
+
+  @override
+  String get lockerShowOpponentCosmetics => 'Show opponent\'s cosmetics';
+
+  @override
+  String get categoryBoard => 'Board';
+
+  @override
+  String get categoryCheckers => 'Checkers';
+
+  @override
+  String get categoryDice => 'Dice';
+
+  @override
+  String get categoryDiceCup => 'Dice cup';
+
+  @override
+  String get categoryCube => 'Doubling cube';
+
+  @override
+  String get categoryBackground => 'Background';
+
+  @override
+  String get categorySounds => 'Sounds';
+
+  @override
+  String get categoryEmote => 'Emotes';
+
+  @override
+  String get categoryAvatarFrame => 'Avatar frame';
+
+  @override
+  String get categoryTitle => 'Title';
+
+  @override
+  String get categoryWinEffect => 'Win effect';
+
+  @override
+  String get categoryOther => 'Other';
+
+  @override
+  String get itemEquipped => 'Equipped';
+
+  @override
+  String get itemPreviewing => 'Trying on';
+
+  @override
+  String get itemOwned => 'Owned';
+
+  @override
+  String get itemSeason => 'Season pass';
+
+  @override
+  String get itemTournamentReward => 'Tournament reward';
+
+  @override
+  String get itemAchievementReward => 'Achievement reward';
+
+  @override
+  String get rarityCommon => 'Common';
+
+  @override
+  String get rarityRare => 'Rare';
+
+  @override
+  String get rarityEpic => 'Epic';
+
+  @override
+  String get rarityLegendary => 'Legendary';
+
+  @override
+  String get raritySeasonal => 'Seasonal';
+
+  @override
+  String get rarityTournament => 'Tournament';
+
+  @override
+  String get rarityCommonUpper => 'COMMON';
+
+  @override
+  String get rarityRareUpper => 'RARE';
+
+  @override
+  String get rarityEpicUpper => 'EPIC';
+
+  @override
+  String get rarityLegendaryUpper => 'LEGENDARY';
+
+  @override
+  String get raritySeasonalUpper => 'SEASONAL';
+
+  @override
+  String get rarityTournamentUpper => 'TOURNAMENT';
+
+  @override
+  String get itemObtainTitle => 'HOW TO GET IT';
+
+  @override
+  String get obtainStore => 'Store';
+
+  @override
+  String get obtainSeasonPremium => 'Season pass · Premium';
+
+  @override
+  String get obtainTournament => 'Tournament';
+
+  @override
+  String get obtainAchievement => 'Achievement';
+
+  @override
+  String get obtainDefault => 'Standard set';
+
+  @override
+  String get obtainFree => 'Free';
+
+  @override
+  String priceCoins(int count, String amount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$amount coins',
+      one: '$amount coin',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String priceGems(int count, String amount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$amount rubies',
+      one: '$amount ruby',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemTry => 'Try on';
+
+  @override
+  String get itemBuy => 'Buy';
+
+  @override
+  String get itemEquip => 'Equip';
+
+  @override
+  String storeFeaturedOverline(int days) {
+    return 'FEATURED · $days D';
+  }
+
+  @override
+  String get storeDailyTitle => 'DAILY PICKS';
+
+  @override
+  String storeRefreshesIn(String time) {
+    return 'Refreshes in $time';
+  }
+
+  @override
+  String get storeGemsTitle => 'RUBIES';
+
+  @override
+  String get storePackUnavailable => 'Buying rubies isn\'t available yet. It opens once the store accounts are connected.';
+
+  @override
+  String storePackAdded(String amount) {
+    return '+$amount rubies added to your balance';
+  }
+
+  @override
+  String get accountNeededTitle => 'Sign in to your account';
+
+  @override
+  String get accountNeededBody => 'You need an account to earn coins, buy sets and see your missions.';
+
+  @override
+  String get purchasePrice => 'Price';
+
+  @override
+  String get purchaseBalanceAfter => 'Balance after';
+
+  @override
+  String purchaseShortfall(String amount) {
+    return '$amount short';
+  }
+
+  @override
+  String purchaseNotEnoughGems(String pack) {
+    return 'Not enough rubies. Get the $pack pack and unlock the item right away.';
+  }
+
+  @override
+  String get purchaseNotEnoughCoins => 'Not enough coins. Coins are only earned: play and finish missions.';
+
+  @override
+  String purchaseBuyPack(String amount) {
+    return 'Get $amount rubies';
+  }
+
+  @override
+  String get purchaseToMissions => 'See missions';
+
+  @override
+  String get purchaseFailed => 'The purchase didn\'t go through. Try again.';
+
+  @override
+  String get purchaseAlreadyOwned => 'You already own this item.';
+
+  @override
+  String get purchaseNotForSale => 'This item isn\'t for sale.';
+
+  @override
+  String purchaseOwnedTitle(String item) {
+    return '$item is yours';
+  }
+
+  @override
+  String get purchaseReceipt => 'Receipt';
+
+  @override
+  String get purchasePaid => 'Paid';
+
+  @override
+  String get purchaseClose => 'Close';
+
+  @override
+  String get purchaseEquipNow => 'Equip now';
+
+  @override
+  String get missionsTitle => 'Missions';
+
+  @override
+  String streakCardTitle(int days) {
+    return 'Login streak · $days d';
+  }
+
+  @override
+  String streakTomorrow(int coins) {
+    return 'Tomorrow: +$coins';
+  }
+
+  @override
+  String get missionsDaily => 'Daily';
+
+  @override
+  String get missionsWeekly => 'Weekly';
+
+  @override
+  String missionsResetsIn(String time) {
+    return 'Resets in $time';
+  }
+
+  @override
+  String missionProgress(int done, int target) {
+    return '$done / $target';
+  }
+
+  @override
+  String missionProgressCompact(int done, int target) {
+    return '$done/$target';
+  }
+
+  @override
+  String missionReward(int n) {
+    return '+$n';
+  }
+
+  @override
+  String get missionClaim => 'Claim';
+
+  @override
+  String get missionClaimed => 'Claimed';
+
+  @override
+  String missionDoubles(int n) {
+    return 'Roll $n doubles';
+  }
+
+  @override
+  String missionRankedWin(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Win $n ranked games',
+      one: 'Win a ranked game',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get missionCubeTakeWin => 'Take the cube and win';
+
+  @override
+  String get missionPlayLong => 'Play Long Nard';
+
+  @override
+  String missionMars(int n) {
+    return 'Win $n games by mars';
+  }
+
+  @override
+  String missionPlay(int n) {
+    return 'Play $n games';
+  }
+
+  @override
+  String missionWin(int n) {
+    return 'Win $n games';
+  }
+
+  @override
+  String get missionGeneric => 'Mission';
+
+  @override
+  String dailyBonusTitle(int coins) {
+    return 'Daily bonus · +$coins';
+  }
+
+  @override
+  String dailyBonusBody(int done, int total) {
+    return 'Finish every daily mission · $done / $total';
+  }
+
+  @override
+  String get streakOverline => 'LOGIN STREAK';
+
+  @override
+  String get streakDay1 => 'Day 1';
+
+  @override
+  String get streakDay2 => 'Day 2';
+
+  @override
+  String get streakDay3 => 'Day 3';
+
+  @override
+  String get streakDay4 => 'Day 4';
+
+  @override
+  String get streakDay5 => 'Day 5';
+
+  @override
+  String get streakDay6 => 'Day 6';
+
+  @override
+  String get streakDay7 => 'Day 7';
+
+  @override
+  String get streakBody => 'Sign in every day and collect the big day-7 bonus.';
+
+  @override
+  String streakClaim(int coins) {
+    return 'Collect $coins coins';
+  }
+
+  @override
+  String get streakResetNote => 'Miss a day and the streak starts again from day 1.';
+
+  @override
+  String levelUpOverline(int from, int to) {
+    return 'LEVEL $from → $to';
+  }
+
+  @override
+  String get levelUpTitle => 'Level up';
+
+  @override
+  String xpProgress(String xp, String next) {
+    return '$xp / $next XP';
+  }
+
+  @override
+  String homeLevel(int n) {
+    return 'Lv. $n';
+  }
+
+  @override
+  String homeDailyMission(int done, int total) {
+    return 'DAILY MISSION · $done/$total';
+  }
+
+  @override
+  String get homeMissionsDone => 'Today\'s missions are done';
+
+  @override
+  String get matchCoins => 'coins';
+
+  @override
+  String get matchXp => 'experience';
+
+  @override
+  String get xpBadge => 'XP';
+
+  @override
+  String get achievementsTitle => 'Achievements';
+
+  @override
+  String achievementsCount(int done, int total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get titlesOverline => 'TITLE';
+
+  @override
+  String get titlesNone => 'No title';
+
+  @override
+  String get titlesLocked => 'Unlocked by an achievement';
+
+  @override
+  String get achFirstWin => 'First win';
+
+  @override
+  String get achWins10 => '10 wins';
+
+  @override
+  String get achWins100 => '100 wins';
+
+  @override
+  String get achGames1000 => '1000 games';
+
+  @override
+  String get achMars10 => 'Mars master';
+
+  @override
+  String get achRankedWins25 => 'Ranked contender';
+
+  @override
+  String get achStreak10 => '10-day streak';
+
+  @override
+  String get achGeneric => 'Achievement';
+
+  @override
+  String coinsSemantic(String amount) {
+    return 'Coins: $amount';
+  }
+
+  @override
+  String gemsSemantic(String amount) {
+    return 'Rubies: $amount';
+  }
 }

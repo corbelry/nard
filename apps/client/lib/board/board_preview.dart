@@ -55,6 +55,7 @@ class _PreviewPainter extends CustomPainter {
             r,
             side,
             colorBlind: scene.colorBlind,
+            material: scene.material(side),
           );
           if (k == n - 1 && slot != BoardState.bar && n > layout.maxFit) {
             BoardPainter.paintCount(canvas, c, n, side);
@@ -70,6 +71,7 @@ class _PreviewPainter extends CustomPainter {
         canvas,
         layout.diceCenter(j, scene.dice.length, viewerSide: true),
         scene.dice[j],
+        dice: scene.diceLook,
       );
     }
     canvas.restore();

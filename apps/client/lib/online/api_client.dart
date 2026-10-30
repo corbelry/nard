@@ -3,6 +3,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../cosmetics/catalog.dart';
+import '../progression/progress_models.dart';
+import '../store/store_models.dart';
+
 /// An API error with its machine code (e.g. `code_invalid`).
 class ApiException implements Exception {
   const ApiException(this.status, this.code, [this.message = '']);
@@ -207,4 +211,79 @@ class ApiClient {
   /// A short-lived game-server ticket.
   Future<String> ticket() async =>
       (await _call('POST', '/game/ticket'))['ticket']! as String;
+
+  // ---- Phase 4: cosmetics, store, progression ------------------------
+
+  Future<Catalog> catalog() async =>
+      Catalog.fromJson(await _call('GET', '/catalog'));
+
+  Future<Inventory> inventory() async =>
+      Inventory.fromJson(await _call('GET', '/me/inventory'));
+
+  /// Buys [itemId]; idempotent by [idempotencyKey] (8–64 chars). Throws
+  /// 422 `insufficient_funds` | `already_owned` | `not_for_sale`.
+  Future<PurchaseResult> purchase(
+    String itemId,
+    Currency currency,
+    String idempotencyKey,
+  ) async => PurchaseResult.fromJson(
+    await _call('POST', '/store/purchase', {
+      'itemId': itemId,
+      'currency': currency.name,
+      'idempotencyKey': idempotencyKey,
+    }),
+  );
+
+  /// Creates ([id] null) or updates a loadout (max 5).
+  Future<Loadout> saveLoadout(
+    String name,
+    Map<String, String> slots, {
+    int? id,
+  }) async => Loadout.fromJson(
+    (await _call(
+          id == null ? 'POST' : 'PUT',
+          '/me/loadouts${id == null ? '' : '/$id'}',
+          {'name': name, 'slots': slots},
+        ))['loadout']!
+        as Map<String, Object?>,
+  );
+
+  Future<void> deleteLoadout(int id) => _call('DELETE', '/me/loadouts/$id');
+
+  Future<void> activateLoadout(int id) =>
+      _call('POST', '/me/loadouts/$id/activate');
+
+  Future<StoreOffers> offers() async =>
+      StoreOffers.fromJson(await _call('GET', '/store/offers'));
+
+  Future<GemProducts> products() async =>
+      GemProducts.fromJson(await _call('GET', '/store/products'));
+
+  /// Redeems a store receipt; returns the new Yaqut balance. 503
+  /// `iap_disabled` until the store accounts exist.
+  Future<int> redeemIap(
+    String platform,
+    String productId,
+    String receipt,
+  ) async =>
+      ((await _call('POST', '/store/iap/$platform', {
+                'productId': productId,
+                'receipt': receipt,
+              }))['gems']
+              as num?)
+          ?.toInt() ??
+      0;
+
+  Future<Progress> progress() async =>
+      Progress.fromJson(await _call('GET', '/me/progress'));
+
+  Future<CheckIn> checkIn() async =>
+      CheckIn.fromJson(await _call('POST', '/me/checkin'));
+
+  /// Throws 422 `not_claimable`.
+  Future<ClaimResult> claimMission(String id) async =>
+      ClaimResult.fromJson(await _call('POST', '/me/missions/$id/claim'));
+
+  Future<void> setTitle(String? itemId) =>
+      _call('PUT', '/me/title', {'itemId': itemId});
 }

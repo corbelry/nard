@@ -1161,5 +1161,395 @@
       }
     }
   },
-  "setupFindOpponent": "Rəqib axtar"
+  "setupFindOpponent": "Rəqib axtar",
+  "tabStore": "Mağaza",
+  "lockerTitle": "Dolab",
+  "loadoutName": "Dəst {n}",
+  "@loadoutName": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "lockerSave": "Saxla",
+  "lockerSaved": "Dəst yadda saxlanıldı",
+  "lockerAddLoadout": "Yeni dəst",
+  "lockerRenameTitle": "Dəstin adı",
+  "lockerRename": "Adını dəyiş",
+  "lockerDelete": "Dəsti sil",
+  "lockerLoadoutLimit": "Ən çox {max} dəst ola bilər.",
+  "@lockerLoadoutLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "lockerEmptyTitle": "Burada hələ heç nə yoxdur",
+  "lockerEmptyBody": "Bu bölməyə yeni əşyalar tezliklə gələcək.",
+  "lockerShowOpponentCosmetics": "Rəqibin kosmetikasını göstər",
+  "categoryBoard": "Taxta",
+  "categoryCheckers": "Daşlar",
+  "categoryDice": "Zər",
+  "categoryDiceCup": "Zər qabı",
+  "categoryCube": "İkiqat kub",
+  "categoryBackground": "Fon",
+  "categorySounds": "Səslər",
+  "categoryEmote": "Emote",
+  "categoryAvatarFrame": "Avatar çərçivəsi",
+  "categoryTitle": "Titul",
+  "categoryWinEffect": "Qələbə effekti",
+  "categoryOther": "Digər",
+  "itemEquipped": "Taxılıb",
+  "itemPreviewing": "Sınanır",
+  "itemOwned": "Sahibsən",
+  "itemSeason": "Sezon bileti",
+  "itemTournamentReward": "Turnir mükafatı",
+  "itemAchievementReward": "Nailiyyət mükafatı",
+  "rarityCommon": "Adi",
+  "rarityRare": "Nadir",
+  "rarityEpic": "Epik",
+  "rarityLegendary": "Əfsanəvi",
+  "raritySeasonal": "Mövsümi",
+  "rarityTournament": "Turnir",
+  "rarityCommonUpper": "ADİ",
+  "@rarityCommonUpper": {
+    "description": "Uppercase overline; stored uppercased (no toUpperCase)."
+  },
+  "rarityRareUpper": "NADİR",
+  "rarityEpicUpper": "EPİK",
+  "rarityLegendaryUpper": "ƏFSANƏVİ",
+  "raritySeasonalUpper": "MÖVSÜMİ",
+  "rarityTournamentUpper": "TURNİR",
+  "itemObtainTitle": "NECƏ ƏLDƏ EDİLİR",
+  "obtainStore": "Mağaza",
+  "obtainSeasonPremium": "Sezon bileti · Premium",
+  "obtainTournament": "Turnir",
+  "obtainAchievement": "Nailiyyət",
+  "obtainDefault": "Standart dəst",
+  "obtainFree": "Pulsuz",
+  "priceCoins": "{count, plural, other{{amount} sikkə}}",
+  "@priceCoins": {
+    "description": "amount = count with thousands separators.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "priceGems": "{count, plural, other{{amount} yaqut}}",
+  "@priceGems": {
+    "description": "Paid currency (ADR-023): Yaqut / Rubies / Рубины / Yakut.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "itemTry": "Sına",
+  "itemBuy": "Al",
+  "itemEquip": "Tax",
+  "storeFeaturedOverline": "TÖVSİYƏ · {days} GÜN",
+  "@storeFeaturedOverline": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "storeDailyTitle": "GÜNLÜK SEÇİM",
+  "storeRefreshesIn": "Yenilənir {time}",
+  "@storeRefreshesIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "storeGemsTitle": "YAQUT",
+  "storePackUnavailable": "Yaqut almaq hələ mümkün deyil. Mağaza hesabları qoşulanda açılacaq.",
+  "storePackAdded": "+{amount} yaqut balansına əlavə olundu",
+  "@storePackAdded": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "accountNeededTitle": "Hesabına daxil ol",
+  "accountNeededBody": "Sikkə qazanmaq, dəst almaq və tapşırıqları görmək üçün hesab lazımdır.",
+  "purchasePrice": "Qiymət",
+  "purchaseBalanceAfter": "Balans sonra",
+  "purchaseShortfall": "−{amount} çatmır",
+  "@purchaseShortfall": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "purchaseNotEnoughGems": "Balansın kifayət etmir. {pack} yaqut paketini al və əşyanı birbaşa aç.",
+  "@purchaseNotEnoughGems": {
+    "placeholders": {
+      "pack": {
+        "type": "String"
+      }
+    }
+  },
+  "purchaseNotEnoughCoins": "Sikkən kifayət etmir. Sikkə yalnız qazanılır: oyna və tapşırıqları bitir.",
+  "purchaseBuyPack": "{amount} yaqut al",
+  "@purchaseBuyPack": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "purchaseToMissions": "Tapşırıqlara bax",
+  "purchaseFailed": "Alış alınmadı. Yenidən cəhd et.",
+  "purchaseAlreadyOwned": "Bu əşya artıq səndədir.",
+  "purchaseNotForSale": "Bu əşya satılmır.",
+  "purchaseOwnedTitle": "{item} sənindir",
+  "@purchaseOwnedTitle": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "purchaseReceipt": "Qəbz",
+  "purchasePaid": "Ödəniş",
+  "purchaseClose": "Bağla",
+  "purchaseEquipNow": "İndi tax",
+  "missionsTitle": "Tapşırıqlar",
+  "streakCardTitle": "Giriş seriyası · {days} gün",
+  "@streakCardTitle": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "streakTomorrow": "Sabah: +{coins}",
+  "@streakTomorrow": {
+    "placeholders": {
+      "coins": {
+        "type": "int"
+      }
+    }
+  },
+  "missionsDaily": "Günlük",
+  "missionsWeekly": "Həftəlik",
+  "missionsResetsIn": "Yenilənməyə {time}",
+  "@missionsResetsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "missionProgress": "{done} / {target}",
+  "@missionProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "missionProgressCompact": "{done}/{target}",
+  "@missionProgressCompact": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "missionReward": "+{n}",
+  "@missionReward": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "missionClaim": "Al",
+  "missionClaimed": "Alındı",
+  "missionDoubles": "{n} dubl at",
+  "@missionDoubles": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "missionRankedWin": "{n, plural, =1{Reytinq oyunu qazan} other{{n} reytinq oyunu qazan}}",
+  "@missionRankedWin": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "missionCubeTakeWin": "Kubu qəbul et və qazan",
+  "missionPlayLong": "Uzun nərd oyna",
+  "missionMars": "{n} oyunda mars et",
+  "@missionMars": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "missionPlay": "{n} oyun oyna",
+  "@missionPlay": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "missionWin": "{n} oyun qazan",
+  "@missionWin": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "missionGeneric": "Tapşırıq",
+  "dailyBonusTitle": "Günlük bonus · +{coins}",
+  "@dailyBonusTitle": {
+    "placeholders": {
+      "coins": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyBonusBody": "Bütün günlük tapşırıqları bitir · {done} / {total}",
+  "@dailyBonusBody": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "streakOverline": "GİRİŞ SERİYASI",
+  "streakDay1": "1-ci gün",
+  "streakDay2": "2-ci gün",
+  "streakDay3": "3-cü gün",
+  "streakDay4": "4-cü gün",
+  "streakDay5": "5-ci gün",
+  "streakDay6": "6-cı gün",
+  "streakDay7": "7-ci gün",
+  "streakBody": "Hər gün daxil ol, 7-ci gün böyük bonusu al.",
+  "streakClaim": "+{coins} sikkəni al",
+  "@streakClaim": {
+    "placeholders": {
+      "coins": {
+        "type": "int"
+      }
+    }
+  },
+  "streakResetNote": "Bir gün buraxsan, seriya 1-ci gündən başlayır.",
+  "levelUpOverline": "SƏVİYYƏ {from} → {to}",
+  "@levelUpOverline": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "levelUpTitle": "Səviyyə yüksəldi",
+  "xpProgress": "{xp} / {next} XP",
+  "@xpProgress": {
+    "placeholders": {
+      "xp": {
+        "type": "String"
+      },
+      "next": {
+        "type": "String"
+      }
+    }
+  },
+  "homeLevel": "Səv. {n}",
+  "@homeLevel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "homeDailyMission": "GÜNLÜK MİSSİYA · {done}/{total}",
+  "@homeDailyMission": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "homeMissionsDone": "Bu günün tapşırıqları bitdi",
+  "matchCoins": "sikkə",
+  "matchXp": "təcrübə",
+  "xpBadge": "XP",
+  "achievementsTitle": "Nailiyyətlər",
+  "achievementsCount": "{done} / {total}",
+  "@achievementsCount": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "titlesOverline": "TİTUL",
+  "titlesNone": "Titulsuz",
+  "titlesLocked": "Nailiyyətlə açılır",
+  "achFirstWin": "İlk qələbə",
+  "achWins10": "10 qələbə",
+  "achWins100": "100 qələbə",
+  "achGames1000": "1000 oyun",
+  "achMars10": "Mars ustası",
+  "achRankedWins25": "Reytinq döyüşçüsü",
+  "achStreak10": "10 günlük seriya",
+  "achGeneric": "Nailiyyət",
+  "coinsSemantic": "Sikkə: {amount}",
+  "@coinsSemantic": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "gemsSemantic": "Yaqut: {amount}",
+  "@gemsSemantic": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

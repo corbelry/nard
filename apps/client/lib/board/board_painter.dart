@@ -4,33 +4,28 @@ import 'dart:ui';
 import 'package:flutter/painting.dart' show TextPainter, TextSpan, TextStyle;
 import 'package:nard_core/nard_core.dart';
 
+import '../cosmetics/board_look.dart';
 import '../theme/board_theme.dart';
 import '../theme/nard_tokens.dart';
 import 'board_layout.dart';
 import 'board_scene.dart';
 
 /// Canvas drawing of the board, checkers, dice and cube in the 640 × H
-/// logical space (Classic Walnut fallback colours; textures are Phase 4).
-/// Shared by the Flame board and static previews.
+/// logical space, in the scene's [BoardLook] (store.md §1.1; Classic
+/// Walnut by default). Shared by the Flame board and static previews.
 abstract final class BoardPainter {
-  static const BoardTheme theme = BoardTheme.walnut;
-
-  // Design raw values (docs/design-notes/game.md §2.1, "no token").
-  static const _frameGrad = [
-    Color(0xFF6E4224),
-    Color(0xFF4B2B16),
-    Color(0xFF5D3720),
-  ];
-  static const _fieldGrad = [Color(0xFFC49159), Color(0xFFA87745)];
-  static const _darkPoint = [Color(0xFF2E1C10), Color(0xFF1A0E07)];
-  static const _lightPoint = [Color(0xFFF2E7CF), Color(0xFFD5C29D)];
-  static const _trayGrad = [Color(0xFF2A170C), Color(0xFF1C0F07)];
   static const _hinge = [
     Color(0xFF8A6A2A),
     Color(0xFFE2C472),
     Color(0xFFA07C30),
   ];
   static const illegal = Color(0xFFE0566C);
+
+  static List<double> _frameStops(int n) =>
+      n == 3 ? const [0, .55, 1] : evenStops(n);
+
+  static List<double> _checkerStops(int n) =>
+      n == 4 ? const [0, .42, .78, 1] : evenStops(n);
 
   /// Frame, fields, bar, hinges, points, highlights, numbers and trays.
   static void paintBoard(
@@ -40,6 +35,7 @@ abstract final class BoardPainter {
     bool slabs = true,
   }) {
     final h = l.height;
+    final look = s.look;
     final full = RRect.fromRectAndRadius(
       Rect.fromLTWH(0, 0, BoardLayout.w, h),
       const Radius.circular(12),
@@ -56,11 +52,13 @@ abstract final class BoardPainter {
         ..shader = Gradient.linear(
           Offset.zero,
           Offset(BoardLayout.w * .3, h),
-          _frameGrad,
-          const [0, .55, 1],
+          look.frame,
+          _frameStops(look.frame.length),
         ),
     );
-    _grain(canvas, full.outerRect, const Color(0x14000000), 7);
+    if (look.grain) {
+      _grain(canvas, full.outerRect, const Color(0x14000000), 7);
+    }
     canvas.drawRRect(
       full.deflate(.5),
       Paint()
@@ -74,16 +72,36 @@ abstract final class BoardPainter {
         Rect.fromLTWH(x, BoardLayout.f, BoardGeometry.quadrant, fieldH),
         const Radius.circular(2),
       );
+      final inlay = look.inlay;
+      if (inlay != null) _inlay(canvas, r.outerRect.inflate(6), inlay);
       canvas.drawRRect(
         r,
         Paint()
           ..shader = Gradient.linear(
             r.outerRect.topCenter,
             r.outerRect.bottomCenter,
-            _fieldGrad,
+            look.field,
+            evenStops(look.field.length),
           ),
       );
-      _grain(canvas, r.outerRect, const Color(0x12000000), 5);
+      if (look.grain) {
+        _grain(canvas, r.outerRect, const Color(0x12000000), 5);
+      }
+      final glow = look.glow;
+      if (glow != null) {
+        canvas.save();
+        canvas.clipRRect(r);
+        canvas.drawRect(
+          r.outerRect,
+          Paint()
+            ..shader = Gradient.radial(
+              r.outerRect.bottomCenter,
+              r.outerRect.width * .9,
+              [glow, glow.withValues(alpha: 0)],
+            ),
+        );
+        canvas.restore();
+      }
     }
 
     // Bar: frame wood darkened at the edges.
@@ -146,7 +164,8 @@ abstract final class BoardPainter {
           ..shader = Gradient.linear(
             base,
             tip,
-            p.isOdd ? _darkPoint : _lightPoint,
+            p.isOdd ? look.pointA : look.pointB,
+            evenStops((p.isOdd ? look.pointA : look.pointB).length),
           ),
       );
       if (targetsV.contains(p) || p == illegalV) {
@@ -165,7 +184,7 @@ abstract final class BoardPainter {
               ? illegal
               : targetsV.contains(p)
               ? BoardOverlay.selectRing
-              : theme.numberColor;
+              : look.numbers;
       _text(
         canvas,
         '$p',
@@ -207,7 +226,12 @@ abstract final class BoardPainter {
       canvas.drawRRect(
         rr,
         Paint()
-          ..shader = Gradient.linear(t.topCenter, t.bottomCenter, _trayGrad),
+          ..shader = Gradient.linear(
+            t.topCenter,
+            t.bottomCenter,
+            look.tray,
+            evenStops(look.tray.length),
+          ),
       );
       canvas.drawRRect(
         rr,
@@ -281,60 +305,78 @@ abstract final class BoardPainter {
     }
   }
 
-  /// A checker of [side] (White = ivory, Black = onyx) at [c].
+  /// A checker of [side] at [c] in [material] (default: walnut ivory for
+  /// White, onyx for Black).
   static void paintChecker(
     Canvas canvas,
     Offset c,
     double radius,
     Side side, {
     bool colorBlind = false,
+    CheckerMaterial? material,
   }) {
     final ivory = side == Side.white;
-    canvas.drawCircle(
-      c + const Offset(0, 2.5),
-      radius,
-      Paint()
-        ..color = Color(ivory ? 0x55000000 : 0x73000000)
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
-    );
-    canvas.drawCircle(
-      c,
-      radius,
-      Paint()
-        ..shader = Gradient.radial(
-          c + Offset(-radius * .24, -radius * .4),
-          radius * 1.6,
-          ivory
-              ? const [
-                Color(0xFFFFFBF2),
-                Color(0xFFEFE4CF),
-                Color(0xFFD4C3A2),
-                Color(0xFFB3A07C),
-              ]
-              : const [
-                Color(0xFF5D564F),
-                Color(0xFF2B2724),
-                Color(0xFF151312),
-                Color(0xFF0A0909),
-              ],
-          const [0, .42, .78, 1],
-        ),
-    );
-    final groove =
+    final m =
+        material ?? (ivory ? BoardLook.walnut.light : BoardLook.walnut.dark);
+    if (m.flat) {
+      canvas.drawCircle(
+        c + const Offset(0, 1),
+        radius,
+        Paint()
+          ..color = const Color(0x66000000)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2),
+      );
+      canvas.drawCircle(c, radius, Paint()..color = m.stops.first);
+    } else {
+      canvas.drawCircle(
+        c + const Offset(0, 2.5),
+        radius,
+        Paint()
+          ..color = Color(ivory ? 0x55000000 : 0x73000000)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
+      );
+      canvas.drawCircle(
+        c,
+        radius,
+        Paint()
+          ..shader = Gradient.radial(
+            c + Offset(-radius * .24, -radius * .4),
+            radius * 1.6,
+            m.stops,
+            _checkerStops(m.stops.length),
+          ),
+      );
+      final grooveColor = m.groove;
+      if (grooveColor != null) {
+        final groove =
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1
+              ..color = grooveColor;
+        for (var r = radius - 6; r > 4; r -= 6) {
+          canvas.drawCircle(c, r, groove);
+        }
+      }
+      canvas.drawCircle(
+        c,
+        radius - .5,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 1
-          ..color = ivory ? const Color(0x2B6E5532) : const Color(0x0EFFFFFF);
-    for (var r = radius - 6; r > 4; r -= 6) {
-      canvas.drawCircle(c, r, groove);
+          ..color = ivory ? const Color(0x59503719) : const Color(0x99000000),
+      );
     }
-    canvas.drawCircle(
-      c,
-      radius - .5,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..color = ivory ? const Color(0x59503719) : const Color(0x99000000),
-    );
+    final rim = m.rim;
+    if (rim != null) {
+      final w = m.flat ? 2.0 : 2.5;
+      canvas.drawCircle(
+        c,
+        radius - w / 2,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = w
+          ..color = rim,
+      );
+    }
     if (colorBlind) {
       if (ivory) {
         canvas.drawCircle(
@@ -388,7 +430,7 @@ abstract final class BoardPainter {
     6: [0, 2, 3, 5, 6, 8],
   };
 
-  /// Ivory die of [value] centered at [c] (44 × 44 at scale 1).
+  /// Die of [value] in [dice] centered at [c] (44 × 44 at scale 1).
   static void paintDie(
     Canvas canvas,
     Offset c,
@@ -397,7 +439,9 @@ abstract final class BoardPainter {
     double angle = 0,
     bool used = false,
     bool largePips = false,
+    DiceLook? dice,
   }) {
+    final d = dice ?? BoardLook.walnut.dice;
     canvas.save();
     canvas.translate(c.dx, c.dy);
     canvas.rotate(angle);
@@ -411,13 +455,20 @@ abstract final class BoardPainter {
         ..color = Color.fromRGBO(0, 0, 0, .45 * alpha)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
     );
+    List<Color> faded(List<Color> colors) => [
+      for (final c in colors) c.withValues(alpha: c.a * alpha),
+    ];
     canvas.drawRRect(
       rr,
-      Paint()
-        ..shader = Gradient.linear(rect.topLeft, rect.bottomRight, [
-          Color.fromRGBO(255, 250, 240, alpha),
-          Color.fromRGBO(228, 214, 184, alpha),
-        ]),
+      d.flat
+          ? (Paint()..color = faded(d.face).first)
+          : (Paint()
+            ..shader = Gradient.linear(
+              rect.topLeft,
+              rect.bottomRight,
+              faded(d.face),
+              evenStops(d.face.length),
+            )),
     );
     final scale = size / 44;
     final pip = (largePips ? 9.5 : 7.5) * scale;
@@ -431,11 +482,15 @@ abstract final class BoardPainter {
       canvas.drawCircle(
         p,
         pip / 2,
-        Paint()
-          ..shader = Gradient.radial(p, pip / 2, [
-            Color.fromRGBO(58, 42, 30, alpha),
-            Color.fromRGBO(13, 8, 6, alpha),
-          ]),
+        d.flat
+            ? (Paint()..color = faded(d.pip).first)
+            : (Paint()
+              ..shader = Gradient.radial(
+                p,
+                pip / 2,
+                faded(d.pip),
+                evenStops(d.pip.length),
+              )),
       );
     }
     canvas.restore();
@@ -555,6 +610,46 @@ abstract final class BoardPainter {
         paint,
       );
     }
+  }
+
+  /// Inlay band behind a field: a gradient for 2–3 colours, diagonal
+  /// xatam stripes (3-2-3-2 of 10 pt) for 4+.
+  static void _inlay(Canvas canvas, Rect r, List<Color> colors) {
+    final rr = RRect.fromRectAndRadius(r, const Radius.circular(4));
+    if (colors.length < 4) {
+      canvas.drawRRect(
+        rr,
+        Paint()
+          ..shader = Gradient.linear(
+            r.topCenter,
+            r.bottomCenter,
+            colors,
+            evenStops(colors.length),
+          ),
+      );
+      return;
+    }
+    const widths = [3.0, 2.0, 3.0, 2.0];
+    final total = widths.reduce((a, b) => a + b);
+    final stripeColors = <Color>[];
+    final stops = <double>[];
+    var at = 0.0;
+    for (var i = 0; i < 4; i++) {
+      stripeColors.addAll([colors[i], colors[i]]);
+      stops.addAll([at / total, (at + widths[i]) / total]);
+      at += widths[i];
+    }
+    canvas.drawRRect(
+      rr,
+      Paint()
+        ..shader = Gradient.linear(
+          r.topLeft,
+          r.topLeft + Offset(total / sqrt2, total / sqrt2),
+          stripeColors,
+          stops,
+          TileMode.repeated,
+        ),
+    );
   }
 
   /// Faint vertical grain lines over wood.

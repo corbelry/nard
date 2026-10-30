@@ -350,6 +350,7 @@ class _CheckerSprite extends PositionComponent
       r,
       side,
       colorBlind: scene.colorBlind,
+      material: scene.material(side),
     );
     if (selected) {
       canvas.drawCircle(
@@ -448,6 +449,7 @@ class _TopLayer extends Component with HasGameReference<NardBoardGame> {
         angle: tilt,
         used: j < scene.diceUsed.length && scene.diceUsed[j],
         largePips: scene.largePips,
+        dice: scene.diceLook,
       );
     }
   }

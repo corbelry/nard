@@ -35,6 +35,7 @@ class NardButton extends StatefulWidget {
     this.expand = true,
     this.labelStyle,
     this.labelColor,
+    this.trailing,
   });
 
   final String label;
@@ -51,6 +52,9 @@ class NardButton extends StatefulWidget {
 
   /// Overrides the enabled label colour (e.g. the brass guest link).
   final Color? labelColor;
+
+  /// Drawn after the label (e.g. a price tag with a currency glyph).
+  final Widget? trailing;
 
   @override
   State<NardButton> createState() => _NardButtonState();
@@ -151,6 +155,10 @@ class _NardButtonState extends State<NardButton> {
             style: labelStyle,
           ),
         ),
+        if (widget.trailing != null) ...[
+          const SizedBox(width: 8),
+          widget.trailing!,
+        ],
         if (widget.sub != null) ...[
           const SizedBox(width: 10),
           Text(
