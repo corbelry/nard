@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -30,6 +31,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $mars_total
  * @property int $ranked_wins_total
  * @property int $games_total
+ * @property string|null $friend_code
+ * @property Carbon|null $last_seen_at
  */
 #[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
 #[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub'])]
@@ -61,6 +64,53 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_guest' => 'boolean',
+            'last_seen_at' => 'datetime',
+        ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (User $user): void {
+            $user->friend_code ??= self::newFriendCode();
+        });
+    }
+
+    /** 8 characters without look-alikes (0/O, 1/I/L). */
+    public static function newFriendCode(): string
+    {
+        $alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+        do {
+            $code = '';
+            for ($i = 0; $i < 8; $i++) {
+                $code .= $alphabet[random_int(0, strlen($alphabet) - 1)];
+            }
+        } while (self::query()->where('friend_code', $code)->exists());
+
+        return $code;
+    }
+
+    public function isOnline(): bool
+    {
+        return $this->last_seen_at !== null
+            && $this->last_seen_at->gt(now()->subSeconds((int) config('social.online_window')));
+    }
+
+    /**
+     * Public card shown to other players.
+     *
+     * @return array<string, mixed>
+     */
+    public function publicCard(): array
+    {
+        return [
+            'id' => (string) $this->id,
+            'name' => $this->name,
+            'country' => $this->country,
+            'avatar' => $this->avatar,
+            'level' => $this->level,
+            'title' => $this->title_item_id,
+            'online' => $this->isOnline(),
+            'ratings' => $this->ratings()->get()->mapWithKeys(fn (Rating $r) => [$r->variant => $r->rating])->all(),
         ];
     }
 
@@ -96,6 +146,7 @@ class User extends Authenticatable
             'avatar' => $this->avatar,
             'locale' => $this->locale,
             'guest' => $this->is_guest,
+            'friendCode' => $this->friend_code,
             'ratings' => $this->ratings()->get()->mapWithKeys(fn (Rating $r) => [
                 $r->variant => [
                     'rating' => $r->rating,

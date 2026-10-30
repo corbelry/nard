@@ -5,7 +5,9 @@ use App\Http\Controllers\Api\IapController;
 use App\Http\Controllers\Api\MatchResultController;
 use App\Http\Controllers\Api\MeController;
 use App\Http\Controllers\Api\ProgressController;
+use App\Http\Controllers\Api\SocialController;
 use App\Http\Controllers\Api\StoreController;
+use App\Http\Middleware\TouchLastSeen;
 use App\Http\Middleware\VerifyGameServerSignature;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +21,7 @@ Route::prefix('v1')->group(function (): void {
     Route::post('/auth/email/start', [AuthController::class, 'emailStart'])
         ->middleware('throttle:5,10');
 
-    Route::middleware('auth:sanctum')->group(function (): void {
+    Route::middleware(['auth:sanctum', TouchLastSeen::class])->group(function (): void {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::get('/me', [MeController::class, 'show']);
         Route::patch('/me', [MeController::class, 'update']);
@@ -28,6 +30,17 @@ Route::prefix('v1')->group(function (): void {
         Route::get('/me/matches', [MeController::class, 'matches']);
         Route::get('/me/matches/{id}', [MeController::class, 'match']);
         Route::post('/game/ticket', [MeController::class, 'ticket'])->middleware('throttle:30,1');
+
+        Route::get('/friends', [SocialController::class, 'friends']);
+        Route::post('/friends/requests', [SocialController::class, 'request'])->middleware('throttle:30,1');
+        Route::post('/friends/requests/{id}/accept', [SocialController::class, 'accept'])->whereNumber('id');
+        Route::delete('/friends/requests/{id}', [SocialController::class, 'dismiss'])->whereNumber('id');
+        Route::delete('/friends/{userId}', [SocialController::class, 'unfriend'])->whereNumber('userId');
+        Route::get('/users/search', [SocialController::class, 'search'])->middleware('throttle:30,1');
+        Route::get('/blocks', [SocialController::class, 'blocks']);
+        Route::post('/blocks/{userId}', [SocialController::class, 'block'])->whereNumber('userId');
+        Route::delete('/blocks/{userId}', [SocialController::class, 'unblock'])->whereNumber('userId');
+        Route::post('/reports', [SocialController::class, 'report']);
 
         Route::get('/me/progress', [ProgressController::class, 'show']);
         Route::post('/me/checkin', [ProgressController::class, 'checkIn']);

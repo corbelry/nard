@@ -36,7 +36,13 @@ next — without waiting for approval (start only after they say "başla").
 
 ## Phase 5 progress (update after every step)
 
-- [ ] 1. Social API (friends, blocks, reports, presence) — next.
+- [x] 1. Social API: friend codes (8 chars, no look-alikes), requests
+  (crossed requests auto-accept), accept/decline/cancel/unfriend, search
+  (prefix, hides blocks), blocks (end friendships), reports (reasons from
+  config, daily limit, reference R-000001), presence via `TouchLastSeen`
+  (online = seen within 120 s). 32 API tests.
+- [ ] 2. Private rooms + friend challenges + spectating + emotes
+  (game server) — next.
 
 Phase 4 is done (CHANGELOG, ADR-034/035). Leftovers: texture packs, store
 receipt APIs, Apple/Google keys, iOS build, lesson content, Redis scaling.
