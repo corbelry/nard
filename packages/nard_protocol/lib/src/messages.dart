@@ -19,16 +19,44 @@ class ProtocolException implements FormatException {
   String toString() => 'ProtocolException: $message';
 }
 
-/// `auth` (client → server): a game-server ticket issued by the API.
+/// Optional protocol features a client announces in `auth` (ADR-048). The
+/// server enables those it knows and lists them in `hello.features`; a
+/// client that announces nothing gets the original behaviour.
+abstract final class ProtocolFeature {
+  /// `game.state` deltas: only the record actions appended since the last
+  /// state this connection received (see [GameStateDelta]).
+  static const stateDelta = 'stateDelta';
+}
+
+/// `auth` (client → server): a game-server ticket issued by the API, plus
+/// the optional [ProtocolFeature]s the client understands.
 class AuthPayload {
-  const AuthPayload(this.ticket);
+  const AuthPayload(this.ticket, {this.features = const {}});
 
   final String ticket;
 
-  Map<String, Object?> toJson() => {'ticket': ticket};
+  /// Unknown names are kept (and ignored by the server).
+  final Set<String> features;
 
-  static AuthPayload fromJson(Map<String, Object?> j) =>
-      AuthPayload(j.str('ticket', max: 2048));
+  Map<String, Object?> toJson() => {
+    'ticket': ticket,
+    if (features.isNotEmpty) 'features': features.toList(),
+  };
+
+  static AuthPayload fromJson(Map<String, Object?> j) {
+    final raw = j.opt<List<Object?>>('features') ?? const [];
+    if (raw.length > 16) throw const ProtocolException('Too many "features"');
+    return AuthPayload(
+      j.str('ticket', max: 2048),
+      features: {
+        for (final f in raw)
+          if (f is String && f.length <= 32)
+            f
+          else
+            throw const ProtocolException('"features" must be short strings'),
+      },
+    );
+  }
 }
 
 /// How a match was made. `tournament` matches are assigned by the API
@@ -344,9 +372,26 @@ class ClockState {
   );
 }
 
+/// A `game.state` payload: a full [GameStatePayload] or, for clients that
+/// announced [ProtocolFeature.stateDelta], a [GameStateDelta] (ADR-048).
+sealed class GameStateFrame {
+  /// Increases with every state the server sends for this match.
+  int get seq;
+  String get matchId;
+  int get gameIndex;
+
+  Map<String, Object?> toJson();
+
+  /// A frame with `delta` is a [GameStateDelta], otherwise a full state.
+  static GameStateFrame fromJson(Map<String, Object?> j) =>
+      j.containsKey('delta')
+          ? GameStateDelta.fromJson(j)
+          : GameStatePayload.fromJson(j);
+}
+
 /// `game.state` (server → client): the full authoritative state. Clients
 /// rebuild positions by replaying [record] with nard_core.
-class GameStatePayload {
+class GameStatePayload implements GameStateFrame {
   const GameStatePayload({
     required this.seq,
     required this.matchId,
@@ -362,9 +407,11 @@ class GameStatePayload {
     this.reconnectDeadline,
   });
 
-  /// Increases with every state the server sends for this match.
+  @override
   final int seq;
+  @override
   final String matchId;
+  @override
   final int gameIndex;
   final GameRecord record;
 
@@ -388,20 +435,40 @@ class GameStatePayload {
 
   GameState get state => record.replay();
 
+  /// This state for a receiver that already holds the first [from] actions
+  /// of [record] (same match and game). [withMatch] / [withSeeds] false
+  /// leave out [match] / [clientSeeds] when the receiver has them already.
+  GameStateDelta deltaSince(
+    int from, {
+    bool withMatch = true,
+    bool withSeeds = true,
+  }) => GameStateDelta(
+    seq: seq,
+    matchId: matchId,
+    gameIndex: gameIndex,
+    from: from,
+    actions: record.actions.sublist(from),
+    match: withMatch ? match : null,
+    pending: pending,
+    clock: clock,
+    serverSeed: serverSeed,
+    clientSeeds: withSeeds ? clientSeeds : null,
+    opponentConnected: opponentConnected,
+    reconnectDeadline: reconnectDeadline,
+  );
+
+  @override
   Map<String, Object?> toJson() => {
     'seq': seq,
     'matchId': matchId,
     'gameIndex': gameIndex,
     'record': record.toJson(),
     'match': match.toJson(),
-    'pending': [
-      for (final m in pending)
-        {'from': m.from, 'to': m.to, 'die': m.die, 'hit': m.hit},
-    ],
+    'pending': _pendingJson(pending),
     'clock': clock.toJson(),
     'commitment': commitment,
     if (serverSeed != null) 'serverSeed': serverSeed,
-    'clientSeeds': {for (final e in clientSeeds.entries) e.key.name: e.value},
+    'clientSeeds': _seedsJson(clientSeeds),
     'opponentConnected': opponentConnected,
     if (reconnectDeadline != null) 'reconnectDeadline': reconnectDeadline,
   };
@@ -421,35 +488,189 @@ class GameStatePayload {
       gameIndex: j.req<int>('gameIndex'),
       record: record,
       match: MatchState.fromJson(j.obj('match')),
-      pending: [
-        for (final m in j.req<List<Object?>>('pending'))
-          if (m is Map<String, Object?>)
-            Move(
-              m.req<int>('from'),
-              m.req<int>('to'),
-              m.req<int>('die'),
-              hit: m.opt<bool>('hit') ?? false,
-            )
-          else
-            throw const ProtocolException('"pending" items must be objects'),
-      ],
+      pending: _readPending(j),
       clock: ClockState.fromJson(j.obj('clock')),
       commitment: j.str('commitment', max: 64),
       serverSeed: j.opt<String>('serverSeed'),
-      clientSeeds: {
-        for (final e in j.obj('clientSeeds').entries)
-          readEnum(Side.values, e.key, 'clientSeeds'):
-              e.value is String
-                  ? e.value! as String
-                  : throw const ProtocolException(
-                    'Client seeds must be strings',
-                  ),
-      },
+      clientSeeds: _readSeeds(j),
       opponentConnected: j.opt<bool>('opponentConnected') ?? true,
       reconnectDeadline: j.opt<int>('reconnectDeadline'),
     );
   }
 }
+
+/// A `game.state` that carries only the record actions appended since the
+/// receiver's previous state of the same game (ADR-048): `delta: {from,
+/// actions}` instead of `record`, and no `commitment` (fixed per game).
+/// `match` and `clientSeeds` are sent only when they changed since that
+/// state; every other field is complete. The server sends one only to a
+/// connection that announced [ProtocolFeature.stateDelta] and already got a
+/// state of this game; [applyTo] rebuilds the full state.
+class GameStateDelta implements GameStateFrame {
+  const GameStateDelta({
+    required this.seq,
+    required this.matchId,
+    required this.gameIndex,
+    required this.from,
+    required this.actions,
+    this.match,
+    required this.pending,
+    required this.clock,
+    this.serverSeed,
+    this.clientSeeds,
+    this.opponentConnected = true,
+    this.reconnectDeadline,
+  });
+
+  @override
+  final int seq;
+  @override
+  final String matchId;
+  @override
+  final int gameIndex;
+
+  /// How many record actions the receiver must already hold.
+  final int from;
+
+  /// The actions after the first [from].
+  final List<GameAction> actions;
+
+  /// Null: unchanged since the base state.
+  final MatchState? match;
+  final List<Move> pending;
+  final ClockState clock;
+  final String? serverSeed;
+
+  /// Null: unchanged since the base state.
+  final Map<Side, String>? clientSeeds;
+  final bool opponentConnected;
+  final int? reconnectDeadline;
+
+  /// The full state this delta leads to from [base]; throws
+  /// [StateGapException] when [base] is not the state it builds on
+  /// (another match or game, or a different number of actions).
+  GameStatePayload applyTo(GameStatePayload base) {
+    if (base.matchId != matchId ||
+        base.gameIndex != gameIndex ||
+        base.record.actions.length != from) {
+      throw StateGapException(
+        'Delta from $matchId/$gameIndex@$from does not fit '
+        '${base.matchId}/${base.gameIndex}@${base.record.actions.length}',
+      );
+    }
+    return GameStatePayload(
+      seq: seq,
+      matchId: matchId,
+      gameIndex: gameIndex,
+      record: GameRecord(
+        variant: base.record.variant,
+        config: base.record.config,
+        actions: [...base.record.actions, ...actions],
+      ),
+      match: match ?? base.match,
+      pending: pending,
+      clock: clock,
+      commitment: base.commitment,
+      serverSeed: serverSeed,
+      clientSeeds: clientSeeds ?? base.clientSeeds,
+      opponentConnected: opponentConnected,
+      reconnectDeadline: reconnectDeadline,
+    );
+  }
+
+  @override
+  Map<String, Object?> toJson() => {
+    'seq': seq,
+    'matchId': matchId,
+    'gameIndex': gameIndex,
+    'delta': {
+      'from': from,
+      'actions': [for (final a in actions) a.toJson()],
+    },
+    if (match != null) 'match': match!.toJson(),
+    'pending': _pendingJson(pending),
+    'clock': clock.toJson(),
+    if (serverSeed != null) 'serverSeed': serverSeed,
+    if (clientSeeds != null) 'clientSeeds': _seedsJson(clientSeeds!),
+    'opponentConnected': opponentConnected,
+    if (reconnectDeadline != null) 'reconnectDeadline': reconnectDeadline,
+  };
+
+  static GameStateDelta fromJson(Map<String, Object?> j) {
+    final delta = j.obj('delta');
+    final from = delta.req<int>('from');
+    if (from < 0) throw const ProtocolException('"from" must be >= 0');
+    final List<GameAction> actions;
+    try {
+      actions = [
+        for (final a in delta.req<List<Object?>>('actions'))
+          if (a is Map<String, Object?>)
+            GameAction.fromJson(a)
+          else
+            throw const ProtocolException('"actions" items must be objects'),
+      ];
+    } on ProtocolException {
+      rethrow;
+    } on Object catch (e) {
+      throw ProtocolException('Invalid actions: $e');
+    }
+    return GameStateDelta(
+      seq: j.req<int>('seq'),
+      matchId: j.str('matchId', max: 64),
+      gameIndex: j.req<int>('gameIndex'),
+      from: from,
+      actions: actions,
+      match: j['match'] == null ? null : MatchState.fromJson(j.obj('match')),
+      pending: _readPending(j),
+      clock: ClockState.fromJson(j.obj('clock')),
+      serverSeed: j.opt<String>('serverSeed'),
+      clientSeeds: j['clientSeeds'] == null ? null : _readSeeds(j),
+      opponentConnected: j.opt<bool>('opponentConnected') ?? true,
+      reconnectDeadline: j.opt<int>('reconnectDeadline'),
+    );
+  }
+}
+
+/// A [GameStateDelta] that does not build on the receiver's state: the
+/// client asks for a full state (`game.sync`) instead of guessing.
+class StateGapException implements Exception {
+  const StateGapException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => 'StateGapException: $message';
+}
+
+List<Map<String, Object?>> _pendingJson(List<Move> pending) => [
+  for (final m in pending)
+    {'from': m.from, 'to': m.to, 'die': m.die, 'hit': m.hit},
+];
+
+List<Move> _readPending(Map<String, Object?> j) => [
+  for (final m in j.req<List<Object?>>('pending'))
+    if (m is Map<String, Object?>)
+      Move(
+        m.req<int>('from'),
+        m.req<int>('to'),
+        m.req<int>('die'),
+        hit: m.opt<bool>('hit') ?? false,
+      )
+    else
+      throw const ProtocolException('"pending" items must be objects'),
+];
+
+Map<String, String> _seedsJson(Map<Side, String> seeds) => {
+  for (final e in seeds.entries) e.key.name: e.value,
+};
+
+Map<Side, String> _readSeeds(Map<String, Object?> j) => {
+  for (final e in j.obj('clientSeeds').entries)
+    readEnum(Side.values, e.key, 'clientSeeds'):
+        e.value is String
+            ? e.value! as String
+            : throw const ProtocolException('Client seeds must be strings'),
+};
 
 /// Error codes of `error` replies.
 abstract final class ErrorCode {

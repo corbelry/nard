@@ -9,6 +9,10 @@ abstract final class MessageType {
   static const queueLeave = 'queue.leave';
   static const matchFound = 'match.found';
   static const gameState = 'game.state';
+
+  /// Client → server `{matchId}`: resend the full `game.state` of that
+  /// match (played or watched) after a delta gap (ADR-048).
+  static const gameSync = 'game.sync';
   static const gameSeed = 'game.seed';
   static const gameRoll = 'game.roll';
   static const gameMove = 'game.move';
@@ -42,6 +46,7 @@ abstract final class MessageType {
     queueLeave,
     matchFound,
     gameState,
+    gameSync,
     gameSeed,
     gameRoll,
     gameMove,
