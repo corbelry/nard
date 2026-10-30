@@ -427,6 +427,62 @@ void main() {
       }
     });
 
+    test(
+      'the guest plays the host room clock, whatever it queued for',
+      () async {
+        final a = Client(server.port)..auth('alice');
+        final b = Client(server.port)..auth('bob');
+        for (final x in [a, b]) {
+          await x.next(MessageType.hello);
+        }
+        a.send(
+          MessageType.roomCreate,
+          const RoomCreatePayload(
+            variant: Variant.longNard,
+            matchLength: 3,
+            timeControl: TimeControl.blitz,
+          ).toJson(),
+        );
+        final code =
+            RoomCodePayload.fromJson(
+              (await a.next(MessageType.roomCreated)).payload,
+            ).code;
+        // The joiner's own queue preference does not matter: the room wins.
+        b.send(
+          MessageType.queueJoin,
+          const QueueJoinPayload(
+            variant: Variant.shortNard,
+            matchLength: 1,
+            mode: QueueMode.casual,
+            timeControl: TimeControl.classic,
+          ).toJson(),
+        );
+        b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+        final hostFound = MatchFoundPayload.fromJson(
+          (await a.next(MessageType.matchFound)).payload,
+        );
+        final guestFound = MatchFoundPayload.fromJson(
+          (await b.next(MessageType.matchFound)).payload,
+        );
+        for (final found in [hostFound, guestFound]) {
+          expect(found.variant, Variant.longNard);
+          expect(found.matchLength, 3);
+          expect(found.clock.reserveMs, TimeControl.blitz.clock.reserveMs);
+          expect(found.clock.delayMs, TimeControl.blitz.clock.delayMs);
+        }
+        a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+        b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+        final state = GameStatePayload.fromJson(
+          (await b.next(MessageType.gameState)).payload,
+        );
+        expect(state.clock.whiteMs, TimeControl.blitz.clock.reserveMs);
+        expect(state.clock.blackMs, TimeControl.blitz.clock.reserveMs);
+        for (final x in [a, b]) {
+          await x.ws.sink.close();
+        }
+      },
+    );
+
     test('the bot fallback keeps the chosen control', () async {
       final quick = Hub(
         ticketSecret: secret,
