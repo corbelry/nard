@@ -99,6 +99,9 @@ class User extends Authenticatable implements FilamentUser
         // A leader's clan gets a new leader (or is disbanded) first.
         static::deleting(function (User $user): void {
             app(ClanService::class)->onUserDeleted($user);
+            // Opponents' history keeps the match but not the name (QUESTIONS #44).
+            GameMatch::query()->where('white_user_id', $user->id)->update(['white_name' => GameMatch::DELETED_NAME]);
+            GameMatch::query()->where('black_user_id', $user->id)->update(['black_name' => GameMatch::DELETED_NAME]);
         });
     }
 

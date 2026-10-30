@@ -33,6 +33,9 @@ use Illuminate\Support\Carbon;
  */
 class GameMatch extends Model
 {
+    /** Stored instead of the name of a deleted account. */
+    public const DELETED_NAME = '';
+
     public $incrementing = false;
 
     protected $keyType = 'string';
@@ -51,6 +54,11 @@ class GameMatch extends Model
         ];
     }
 
+    private static function shownName(string $name): string
+    {
+        return $name === self::DELETED_NAME ? (string) __('nard.deleted_player') : $name;
+    }
+
     /** @return array<string, mixed> */
     public function summary(?int $forUserId = null, bool $withGames = false): array
     {
@@ -60,8 +68,8 @@ class GameMatch extends Model
             'matchLength' => $this->match_length,
             'mode' => $this->mode,
             'tournamentId' => $this->tournament_id === null ? null : (string) $this->tournament_id,
-            'white' => ['name' => $this->white_name, 'bot' => $this->white_bot, 'ratingBefore' => $this->white_rating_before, 'ratingAfter' => $this->white_rating_after],
-            'black' => ['name' => $this->black_name, 'bot' => $this->black_bot, 'ratingBefore' => $this->black_rating_before, 'ratingAfter' => $this->black_rating_after],
+            'white' => ['name' => self::shownName($this->white_name), 'bot' => $this->white_bot, 'ratingBefore' => $this->white_rating_before, 'ratingAfter' => $this->white_rating_after],
+            'black' => ['name' => self::shownName($this->black_name), 'bot' => $this->black_bot, 'ratingBefore' => $this->black_rating_before, 'ratingAfter' => $this->black_rating_after],
             'winner' => $this->winner,
             'whiteScore' => $this->white_score,
             'blackScore' => $this->black_score,

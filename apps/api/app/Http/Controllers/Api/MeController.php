@@ -62,6 +62,7 @@ class MeController extends Controller
     public function matches(Request $request): JsonResponse
     {
         $user = $this->user($request);
+        app()->setLocale($user->locale);
         $limit = min(100, max(1, (int) $request->query('limit', '30')));
 
         return response()->json([
@@ -73,6 +74,7 @@ class MeController extends Controller
     public function match(Request $request, string $id): JsonResponse
     {
         $user = $this->user($request);
+        app()->setLocale($user->locale);
         $match = $this->matchesOf($user)->where('id', $id)->first();
         if ($match === null) {
             return response()->json(['code' => 'not_found'], 404);

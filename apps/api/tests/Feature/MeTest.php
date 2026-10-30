@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\GameMatch;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -49,5 +50,21 @@ class MeTest extends TestCase
             ->assertJsonPath('user.id', $id)->assertJsonPath('matches', []);
         $this->withToken($token)->deleteJson('/api/v1/me')->assertOk();
         $this->assertNull(User::query()->find((int) $id));
+    }
+
+    public function test_deleted_accounts_disappear_from_opponents_history(): void
+    {
+        $a = User::factory()->create(['name' => 'Elvin', 'locale' => 'en']);
+        $b = User::factory()->create(['name' => 'Nigar']);
+        GameMatch::query()->create([
+            'id' => 'm-del', 'variant' => 'shortNard', 'match_length' => 1, 'mode' => 'casual',
+            'white_user_id' => $a->id, 'black_user_id' => $b->id, 'white_name' => 'Elvin', 'black_name' => 'Nigar',
+            'winner' => 'white', 'white_score' => 1, 'black_score' => 0, 'reason' => 'completed',
+            'games' => [], 'started_at' => now(), 'ended_at' => now(),
+        ]);
+        $b->delete();
+        $this->assertSame('', GameMatch::query()->findOrFail('m-del')->black_name);
+        $this->actingAs($a)->getJson('/api/v1/me/matches')->assertOk()
+            ->assertJsonPath('matches.0.black.name', 'Deleted player');
     }
 }
