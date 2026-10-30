@@ -4,7 +4,7 @@
 return [
     'friend_request' => ['title' => 'Заявка в друзья', 'body' => ':name отправил(а) вам заявку в друзья'],
     'friend_accepted' => ['title' => 'Новый друг', 'body' => ':name принял(а) вашу заявку в друзья'],
-    'challenge' => ['title' => 'Приглашение в игру', 'body' => ':name зовёт вас сыграть · :variant, до :points очков'],
+    'challenge' => ['title' => 'Приглашение в игру', 'body' => ':name зовёт вас сыграть · :variant, до :points очков, :time'],
     'clan_invite' => ['title' => 'Приглашение в клан', 'body' => ':name приглашает вас в клан :clan [:tag]'],
     'clan_joined' => ['title' => 'Вы в клане', 'body' => 'Добро пожаловать в :clan [:tag]!'],
     'clan_war' => ['title' => 'Война кланов началась', 'body' => 'Соперник недели: :opponent [:tag]. Каждая победа приносит очки клану.'],
@@ -18,6 +18,7 @@ return [
     'level_up' => ['title' => 'Новый уровень', 'body' => 'Уровень :level!'],
     'moderation_warning' => ['title' => 'Предупреждение модераторов', 'body' => 'Пожалуйста, соблюдайте правила честной игры. Причина: :reason'],
     'variants' => ['shortNard' => 'Короткие нарды', 'longNard' => 'Длинные нарды'],
+    'times' => ['blitz' => 'Блиц 1+8 с', 'rapid' => 'Рапид 3+12 с', 'classic' => 'Классика 5+15 с'],
     'tiers' => [
         'bronze' => 'Бронза', 'silver' => 'Серебро', 'gold' => 'Золото', 'platinum' => 'Платина',
         'diamond' => 'Алмаз', 'master' => 'Мастер', 'grandmaster' => 'Гроссмейстер',

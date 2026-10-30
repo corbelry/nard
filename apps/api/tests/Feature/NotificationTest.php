@@ -117,6 +117,24 @@ class NotificationTest extends TestCase
         $this->assertCount(2, $this->inbox($b));
     }
 
+    public function test_challenge_rows_and_pushes_carry_the_time_control(): void
+    {
+        $push = $this->recorder();
+        $a = User::factory()->create(['name' => 'Elvin']);
+        $b = User::factory()->create();
+        $this->befriend($a, $b);
+        $this->device($b, locale: 'en');
+        $body = ['userId' => (string) $b->id, 'code' => 'NRD482', 'variant' => 'longNard', 'matchLength' => 5, 'timeControl' => 'blitz'];
+        $this->actingAs($a)->postJson('/api/v1/challenges', $body)->assertCreated();
+        $this->assertSame('blitz', $this->inbox($b)[0]['data']['timeControl']);
+        $this->assertSame('Elvin invites you to play · Long Nard, 5 points, Blitz 1+8s', $push->sent[0]->body);
+
+        // Without a control the room is rapid.
+        unset($body['timeControl']);
+        $this->actingAs($a)->postJson('/api/v1/challenges', [...$body, 'code' => 'XYZ234'])->assertCreated();
+        $this->assertSame('rapid', $this->inbox($b)[0]['data']['timeControl']);
+    }
+
     public function test_blocked_senders_are_dropped_and_hidden(): void
     {
         $a = User::factory()->create();

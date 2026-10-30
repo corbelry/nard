@@ -5,7 +5,7 @@
 return [
     'friend_request' => ['title' => 'Dostluq sorğusu', 'body' => ':name dostluq sorğusu göndərdi'],
     'friend_accepted' => ['title' => 'Yeni dost', 'body' => ':name dostluq sorğunu qəbul etdi'],
-    'challenge' => ['title' => 'Oyun dəvəti', 'body' => ':name səni oyuna çağırır · :variant, :points xal'],
+    'challenge' => ['title' => 'Oyun dəvəti', 'body' => ':name səni oyuna çağırır · :variant, :points xal, :time'],
     'clan_invite' => ['title' => 'Klan dəvəti', 'body' => ':name səni :clan [:tag] klanına dəvət edir'],
     'clan_joined' => ['title' => 'Klana qəbul olundun', 'body' => ':clan [:tag] klanına xoş gəldin!'],
     'clan_war' => ['title' => 'Klan döyüşü başladı', 'body' => 'Həftənin rəqibi: :opponent [:tag]. Hər qələbə klana xal gətirir.'],
@@ -19,6 +19,7 @@ return [
     'level_up' => ['title' => 'Yeni səviyyə', 'body' => 'Səviyyə :level!'],
     'moderation_warning' => ['title' => 'Moderatorlardan xəbərdarlıq', 'body' => 'Zəhmət olmasa ədalətli oyun qaydalarına əməl edin. Səbəb: :reason'],
     'variants' => ['shortNard' => 'Qısa nərd', 'longNard' => 'Uzun nərd'],
+    'times' => ['blitz' => 'Blits 1+8s', 'rapid' => 'Sürətli 3+12s', 'classic' => 'Klassik 5+15s'],
     'tiers' => [
         'bronze' => 'Bürünc', 'silver' => 'Gümüş', 'gold' => 'Qızıl', 'platinum' => 'Platin',
         'diamond' => 'Almaz', 'master' => 'Master', 'grandmaster' => 'Qrossmeyster',

@@ -4,7 +4,7 @@
 return [
     'friend_request' => ['title' => 'Friend request', 'body' => ':name sent you a friend request'],
     'friend_accepted' => ['title' => 'New friend', 'body' => ':name accepted your friend request'],
-    'challenge' => ['title' => 'Game invite', 'body' => ':name invites you to play · :variant, :points points'],
+    'challenge' => ['title' => 'Game invite', 'body' => ':name invites you to play · :variant, :points points, :time'],
     'clan_invite' => ['title' => 'Clan invite', 'body' => ':name invites you to the clan :clan [:tag]'],
     'clan_joined' => ['title' => 'You joined a clan', 'body' => 'Welcome to :clan [:tag]!'],
     'clan_war' => ['title' => 'Clan war started', 'body' => "This week's opponent: :opponent [:tag]. Every win scores for your clan."],
@@ -18,6 +18,7 @@ return [
     'level_up' => ['title' => 'Level up', 'body' => 'Level :level!'],
     'moderation_warning' => ['title' => 'Warning from the moderators', 'body' => 'Please follow the fair-play rules. Reason: :reason'],
     'variants' => ['shortNard' => 'Short Nard', 'longNard' => 'Long Nard'],
+    'times' => ['blitz' => 'Blitz 1+8s', 'rapid' => 'Rapid 3+12s', 'classic' => 'Classic 5+15s'],
     'tiers' => [
         'bronze' => 'Bronze', 'silver' => 'Silver', 'gold' => 'Gold', 'platinum' => 'Platinum',
         'diamond' => 'Diamond', 'master' => 'Master', 'grandmaster' => 'Grandmaster',

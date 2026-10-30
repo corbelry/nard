@@ -329,6 +329,8 @@ class Notifier
             'tournament' => is_array($tournament) ? (string) ($tournament[$locale] ?? $tournament['en'] ?? reset($tournament)) : '',
             'variant' => __('notifications.variants.'.$text('variant'), [], $locale),
             'tier' => __('notifications.tiers.'.$text('tier'), [], $locale),
+            // Challenges from before ADR-044 rooms were rapid.
+            'time' => __('notifications.times.'.($text('timeControl') ?: 'rapid'), [], $locale),
         ];
         foreach (['points' => 'matchLength', 'clan' => 'clan', 'tag' => 'tag', 'opponent' => 'opponent', 'round' => 'round',
             'place' => 'place', 'season' => 'season', 'level' => 'level', 'minutes' => 'minutes', 'reason' => 'reason'] as $placeholder => $key) {

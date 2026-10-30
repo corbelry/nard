@@ -103,4 +103,25 @@ class SocialTest extends TestCase
         $this->travel(11)->minutes();
         $this->assertSame([], $this->actingAs($b)->getJson('/api/v1/friends')->json('challenges'));
     }
+
+    public function test_challenges_carry_the_room_time_control(): void
+    {
+        $a = User::factory()->create();
+        $b = User::factory()->create();
+        $this->actingAs($a)->postJson('/api/v1/friends/requests', ['userId' => (string) $b->id]);
+        $this->actingAs($b)->postJson('/api/v1/friends/requests', ['userId' => (string) $a->id]);
+        $body = ['userId' => (string) $b->id, 'code' => 'AB23CD', 'variant' => 'shortNard', 'matchLength' => 1];
+
+        // Older clients send no control: the room plays rapid (ADR-044).
+        $this->actingAs($a)->postJson('/api/v1/challenges', $body)->assertCreated();
+        $this->assertSame('rapid', $this->actingAs($b)->getJson('/api/v1/friends')->json('challenges.0.timeControl'));
+
+        $this->actingAs($a)->postJson('/api/v1/challenges', [...$body, 'timeControl' => 'classic'])->assertCreated();
+        $challenges = $this->actingAs($b)->getJson('/api/v1/friends')->json('challenges');
+        $this->assertCount(1, $challenges);
+        $this->assertSame('classic', $challenges[0]['timeControl']);
+
+        $this->actingAs($a)->postJson('/api/v1/challenges', [...$body, 'timeControl' => 'daily'])
+            ->assertUnprocessable()->assertJsonValidationErrors('timeControl');
+    }
 }

@@ -13,7 +13,7 @@ Shapes
 Types (`data` fields; category in brackets; push copy in `lang/{az,en,ru,tr}/notifications.php`)
 - `friend_request {requestId}` [friend_requests], `from` = requester
 - `friend_accepted {}` [friend_requests], `from` = the new friend
-- `challenge {challengeId, code, variant, matchLength, expiresAt}` [game_invites], `from` = challenger; one row per sender + room code
+- `challenge {challengeId, code, variant, matchLength, timeControl, expiresAt}` [game_invites], `from` = challenger; one row per sender + room code; `timeControl` (`blitz|rapid|classic`, ADR-044) is missing on rows from before it (= `rapid`)
 - `clan_invite {inviteId, clanId, clan, tag, expiresAt}` [clan], `from` = inviter
 - `clan_joined {clanId, clan, tag}` [clan] — my join request was accepted
 - `clan_war {clanId, warId, opponentId, opponent, tag}` [clan_war] — to every member of both clans

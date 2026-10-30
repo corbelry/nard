@@ -32,6 +32,7 @@ class SocialController extends Controller
                 'code' => $c->code,
                 'variant' => $c->variant,
                 'matchLength' => (int) $c->match_length,
+                'timeControl' => $c->time_control,
                 'expiresAt' => Carbon::parse($c->expires_at)->toIso8601String(),
             ])->filter(fn ($c) => $c['from'] !== null)->values()->all();
 
@@ -85,7 +86,7 @@ class SocialController extends Controller
             : response()->json(['code' => 'not_found'], 404);
     }
 
-    /** Offers a private-room code to a friend (friends only). */
+    /** Offers a private-room code to a friend (friends only); the room's clock rides along (ADR-044). */
     public function challenge(Request $request, Notifier $notifier): JsonResponse
     {
         $data = $request->validate([
@@ -93,7 +94,9 @@ class SocialController extends Controller
             'code' => ['required', 'string', 'regex:/^[A-Z2-9]{6}$/'],
             'variant' => ['required', 'in:shortNard,longNard'],
             'matchLength' => ['required', 'integer', 'in:1,3,5,7'],
+            'timeControl' => ['nullable', 'in:blitz,rapid,classic'],
         ]);
+        $timeControl = $data['timeControl'] ?? 'rapid';
         $user = $this->user($request);
         $row = $this->social->between($user->id, (int) $data['userId']);
         if ($row === null || $row->status !== 'accepted') {
@@ -107,6 +110,7 @@ class SocialController extends Controller
             'code' => $data['code'],
             'variant' => $data['variant'],
             'match_length' => $data['matchLength'],
+            'time_control' => $timeControl,
             'expires_at' => $expires,
             'created_at' => now(),
             'updated_at' => now(),
@@ -117,6 +121,7 @@ class SocialController extends Controller
             'code' => $data['code'],
             'variant' => $data['variant'],
             'matchLength' => (int) $data['matchLength'],
+            'timeControl' => $timeControl,
             'expiresAt' => $expires->toIso8601String(),
         ], "challenge:{$user->id}:{$data['code']}", $user->id);
 
