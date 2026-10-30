@@ -47,7 +47,12 @@ next — without waiting for approval (start only after they say "başla").
   by id only (`Emotes` in nard_protocol, 2 s gap). API: friend challenges
   (`POST /challenges`, shown in `GET /friends` for 10 min). Tests: server 17,
   API 33.
-- [ ] 3. Clans API — next (needs `docs/design-notes/social.md` numbers).
+- [x] 3. Clans API (ADR-036, contract `docs/api/clans.md`): clans, members
+  & roles, requests, invites, chat (polling), weekly chest, clan XP/levels,
+  leaderboard, weekly wars (`clans:pair-wars`). API 44 tests; migrated on
+  MySQL; e2e passes.
+- [ ] 4. Client social + clan screens — next (subagent; spec
+  `docs/design-notes/social.md`, contracts `docs/api/clans.md` + friends).
 
 Phase 4 is done (CHANGELOG, ADR-034/035). Leftovers: texture packs, store
 receipt APIs, Apple/Google keys, iOS build, lesson content, Redis scaling.

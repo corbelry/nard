@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Services\ClanService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -33,6 +35,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $games_total
  * @property string|null $friend_code
  * @property Carbon|null $last_seen_at
+ * @property-read ClanMember|null $clanMembership
  */
 #[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
 #[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub'])]
@@ -73,6 +76,10 @@ class User extends Authenticatable
         static::creating(function (User $user): void {
             $user->friend_code ??= self::newFriendCode();
         });
+        // A leader's clan gets a new leader (or is disbanded) first.
+        static::deleting(function (User $user): void {
+            app(ClanService::class)->onUserDeleted($user);
+        });
     }
 
     /** 8 characters without look-alikes (0/O, 1/I/L). */
@@ -111,7 +118,28 @@ class User extends Authenticatable
             'title' => $this->title_item_id,
             'online' => $this->isOnline(),
             'ratings' => $this->ratings()->get()->mapWithKeys(fn (Rating $r) => [$r->variant => $r->rating])->all(),
+            'clan' => $this->currentClanMember()?->clan->badge(),
         ];
+    }
+
+    /** @return HasOne<ClanMember, $this> */
+    public function clanMembership(): HasOne
+    {
+        return $this->hasOne(ClanMember::class);
+    }
+
+    /** Read fresh: membership changes within a request. */
+    public function currentClanMember(): ?ClanMember
+    {
+        return $this->clanMembership()->with('clan')->first();
+    }
+
+    /** Highest current rating over the variants (initial rating if none). */
+    public function bestRating(): int
+    {
+        $best = $this->ratings()->max('rating');
+
+        return $best === null ? (int) config('nard.rating.initial') : (int) $best;
     }
 
     /** @return HasMany<Rating, $this> */
@@ -147,6 +175,11 @@ class User extends Authenticatable
             'locale' => $this->locale,
             'guest' => $this->is_guest,
             'friendCode' => $this->friend_code,
+            'clan' => ($m = $this->currentClanMember()) === null ? null : [
+                ...$m->clan->badge(),
+                'name' => $m->clan->name,
+                'role' => $m->role,
+            ],
             'ratings' => $this->ratings()->get()->mapWithKeys(fn (Rating $r) => [
                 $r->variant => [
                     'rating' => $r->rating,

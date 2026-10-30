@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ClanController;
 use App\Http\Controllers\Api\IapController;
 use App\Http\Controllers\Api\MatchResultController;
 use App\Http\Controllers\Api\MeController;
@@ -42,6 +43,34 @@ Route::prefix('v1')->group(function (): void {
         Route::post('/blocks/{userId}', [SocialController::class, 'block'])->whereNumber('userId');
         Route::delete('/blocks/{userId}', [SocialController::class, 'unblock'])->whereNumber('userId');
         Route::post('/reports', [SocialController::class, 'report']);
+
+        // Clans (spec §8.4).
+        Route::get('/clans', [ClanController::class, 'index'])->middleware('throttle:60,1');
+        Route::get('/clans/tag-available', [ClanController::class, 'tagAvailable'])->middleware('throttle:60,1');
+        Route::get('/clans/leaderboard', [ClanController::class, 'leaderboard']);
+        Route::post('/clans', [ClanController::class, 'store'])->middleware('throttle:10,1');
+        Route::get('/me/clan-invites', [ClanController::class, 'myInvites']);
+        Route::post('/me/clan-invites/{inviteId}/accept', [ClanController::class, 'acceptInvite'])->whereNumber('inviteId');
+        Route::delete('/me/clan-invites/{inviteId}', [ClanController::class, 'declineInvite'])->whereNumber('inviteId');
+        Route::prefix('/clans/{id}')->whereNumber('id')->group(function (): void {
+            Route::get('/', [ClanController::class, 'show']);
+            Route::patch('/', [ClanController::class, 'update'])->middleware('throttle:20,1');
+            Route::delete('/', [ClanController::class, 'destroy']);
+            Route::post('/join', [ClanController::class, 'join'])->middleware('throttle:20,1');
+            Route::delete('/join', [ClanController::class, 'cancelJoin']);
+            Route::post('/leave', [ClanController::class, 'leave']);
+            Route::get('/requests', [ClanController::class, 'requests']);
+            Route::post('/requests/{requestId}/accept', [ClanController::class, 'acceptRequest'])->whereNumber('requestId');
+            Route::delete('/requests/{requestId}', [ClanController::class, 'declineRequest'])->whereNumber('requestId');
+            Route::post('/invites', [ClanController::class, 'invite'])->middleware('throttle:30,1');
+            Route::post('/members/{userId}/role', [ClanController::class, 'role'])->whereNumber('userId');
+            Route::delete('/members/{userId}', [ClanController::class, 'kick'])->whereNumber('userId');
+            Route::get('/messages', [ClanController::class, 'messages']);
+            Route::post('/messages', [ClanController::class, 'post']);
+            Route::delete('/messages/{messageId}', [ClanController::class, 'deleteMessage'])->whereNumber('messageId');
+            Route::post('/donate', [ClanController::class, 'donate'])->middleware('throttle:30,1');
+            Route::get('/war', [ClanController::class, 'war']);
+        });
 
         Route::get('/me/progress', [ProgressController::class, 'show']);
         Route::post('/me/checkin', [ProgressController::class, 'checkIn']);

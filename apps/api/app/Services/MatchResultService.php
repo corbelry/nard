@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 /** Stores a MatchResult and applies rating changes (ranked, humans only). */
 class MatchResultService
 {
-    public function __construct(private ProgressionService $progression) {}
+    public function __construct(private ProgressionService $progression, private ClanService $clans) {}
 
     /**
      * Idempotent: a repeated report returns the stored match unchanged.
@@ -77,6 +77,7 @@ class MatchResultService
             $match->save();
             // New matches only: rewards are granted exactly once.
             $this->progression->onMatch($match);
+            $this->clans->onMatch($match);
 
             return $match;
         });

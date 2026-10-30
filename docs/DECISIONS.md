@@ -319,3 +319,17 @@ titles are picked on 8.2; the opponent's set colours their own checkers
 (light if White, dark if Black) when "show opponent's cosmetics" is on, a
 local setting for now; replays and lessons still draw walnut. In debug
 builds only, Yaqut packs send a fake `test-…` receipt (local `IAP_FAKE`).
+
+## ADR-036 — Clans: rules taken from the design (2026-11-01)
+Numbers in `apps/api/config/clans.php` (create 3 000 coins, rename 1 000,
+cap 50, name 3–24, tag A–Z 3–5, chat 300 chars / 10 per minute, weekly
+chest 10 000 → clan XP only, wars +3 per win up to 25 matches). Roles
+stack (leader > co-leader > elder > member); kicks and role changes only
+on members strictly below you; leadership moves via `role: leader`; a
+leader must transfer before leaving unless last (then disband). Min rating
+is checked against the best rating of both variants; invites bypass policy
+and rating. Clan XP: online wins against humans outside the clan, donations,
+full chest, war wins (no XP from bots or in-clan games). Wars pair clans of
+similar level weekly; any online match between their members counts while
+the war is live. Spectators see emotes only, no chat (QUESTIONS #28).
+Contract: `docs/api/clans.md`.
