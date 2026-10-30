@@ -133,6 +133,10 @@ class AuthController extends Controller
         // Multi-account signal (§8.14): where the account signs in from.
         $device = $request->input('deviceId', $request->header('X-Device-Id'));
         app(AntiCheatService::class)->recordSignIn($user, $request->ip(), is_string($device) ? $device : null);
+        if ($user->deletion_requested_at !== null) {
+            // Signing in during the grace period cancels the deletion.
+            $user->forceFill(['deletion_requested_at' => null])->save();
+        }
         if ($user->isBanned()) {
             return response()->json(['code' => 'banned', 'until' => $user->banned_until?->toIso8601String()], 403);
         }

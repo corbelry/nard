@@ -27,3 +27,5 @@ Schedule::command('notifications:prune')->dailyAt('03:30')->timezone('UTC')->wit
 // Fair play (ADR-042): report spikes, abandonment cooldowns, multi-accounts
 // and, when MOVE_QUALITY_CMD is set, engine-assistance checks.
 Schedule::command('anticheat:scan')->dailyAt('04:00')->timezone('UTC')->withoutOverlapping();
+
+Schedule::command('accounts:purge')->dailyAt('03:30');

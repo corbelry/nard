@@ -131,6 +131,7 @@ class SocialController extends Controller
             ->merge(DB::table('blocks')->where('blocked_id', $user->id)->pluck('blocker_id'))->all();
         $q = str_replace(['%', '_'], ['\\%', '\\_'], $data['q']);
         $users = User::query()->where('name', 'like', $q.'%')->where('id', '!=', $user->id)
+            ->whereNull('deletion_requested_at')
             ->whereNotIn('id', $blocked)->orderBy('name')->limit(20)->get();
 
         return response()->json(['users' => $users->map(fn (User $u) => $u->publicCard())->all()]);

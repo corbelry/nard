@@ -35,6 +35,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $mars_total
  * @property int $ranked_wins_total
  * @property int $games_total
+ * @property Carbon|null $deletion_requested_at
  * @property string|null $friend_code
  * @property Carbon|null $last_seen_at
  * @property int $puzzle_rating
@@ -82,6 +83,7 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
             'is_guest' => 'boolean',
             'last_seen_at' => 'datetime',
+            'deletion_requested_at' => 'datetime',
             'is_admin' => 'boolean',
             'banned_at' => 'datetime',
             'banned_until' => 'datetime',

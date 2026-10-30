@@ -1356,7 +1356,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteItemHistory => 'Profil ve tüm maç geçmişi';
 
   @override
-  String get deleteIrreversible => 'Hesap hemen silinir ve geri getirilemez.';
+  String get deleteIrreversible => 'Hesabın 30 gün sonra tamamen silinir. Bu sürede giriş yaparsan silme iptal olur.';
 
   @override
   String deleteConfirmLabel(String word) {

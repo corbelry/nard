@@ -2460,7 +2460,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteIrreversible.
   ///
   /// In az, this message translates to:
-  /// **'Hesab dərhal silinir və bərpa olunmur.'**
+  /// **'Hesab 30 gün sonra tamamilə silinir. Bu müddətdə daxil olsan, silinmə ləğv olunur.'**
   String get deleteIrreversible;
 
   /// No description provided for @deleteConfirmLabel.

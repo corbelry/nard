@@ -48,7 +48,16 @@ class MeTest extends TestCase
         [$token, $id] = $this->guest();
         $this->withToken($token)->getJson('/api/v1/me/export')->assertOk()
             ->assertJsonPath('user.id', $id)->assertJsonPath('matches', []);
-        $this->withToken($token)->deleteJson('/api/v1/me')->assertOk();
+        $this->withToken($token)->deleteJson('/api/v1/me')->assertOk()->assertJsonStructure(['deletesAt']);
+        // 30-day grace: the account still exists, tokens are gone.
+        $this->assertNotNull(User::query()->findOrFail((int) $id)->deletion_requested_at);
+        // Signing in again cancels the deletion.
+        $this->app['auth']->forgetGuards();
+        $this->withoutToken()->postJson('/api/v1/auth/guest', ['deviceId' => 'device-1000'])->assertOk();
+        $this->assertNull(User::query()->findOrFail((int) $id)->deletion_requested_at);
+        // After the grace period the purge deletes it.
+        User::query()->whereKey((int) $id)->update(['deletion_requested_at' => now()->subDays(31)]);
+        $this->runCommand('accounts:purge')->assertSuccessful();
         $this->assertNull(User::query()->find((int) $id));
     }
 

@@ -1128,7 +1128,7 @@
     }
   },
   "deleteItemHistory": "Profil və bütün matç tarixçəsi",
-  "deleteIrreversible": "Hesab dərhal silinir və bərpa olunmur.",
+  "deleteIrreversible": "Hesab 30 gün sonra tamamilə silinir. Bu müddətdə daxil olsan, silinmə ləğv olunur.",
   "deleteConfirmLabel": "Təsdiq üçün {word} yaz",
   "@deleteConfirmLabel": {
     "placeholders": {

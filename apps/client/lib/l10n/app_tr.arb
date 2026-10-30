@@ -393,7 +393,7 @@
   "deleteTitle": "Hesap silinsin mi?",
   "deleteItemRating": "Puan ({rating}), derece ve tüm maç geçmişi",
   "deleteItemHistory": "Profil ve tüm maç geçmişi",
-  "deleteIrreversible": "Hesap hemen silinir ve geri getirilemez.",
+  "deleteIrreversible": "Hesabın 30 gün sonra tamamen silinir. Bu sürede giriş yaparsan silme iptal olur.",
   "deleteConfirmLabel": "Onaylamak için {word} yaz",
   "deleteConfirmWord": "SİL",
   "setupOnlineTitle": "Çevrimiçi oyun",

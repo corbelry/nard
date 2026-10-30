@@ -1514,7 +1514,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get deleteItemHistory => 'Профиль и вся история матчей';
 
   @override
-  String get deleteIrreversible => 'Аккаунт удаляется сразу, восстановить его нельзя.';
+  String get deleteIrreversible => 'Аккаунт будет удалён навсегда через 30 дней. Войди раньше, чтобы отменить удаление.';
 
   @override
   String deleteConfirmLabel(String word) {

@@ -393,7 +393,7 @@
   "deleteTitle": "Delete your account?",
   "deleteItemRating": "Your rating ({rating}), rank and full match history",
   "deleteItemHistory": "Your profile and full match history",
-  "deleteIrreversible": "The account is deleted right away and can't be restored.",
+  "deleteIrreversible": "Your account is deleted for good after 30 days. Sign in before then to cancel.",
   "deleteConfirmLabel": "Type {word} to confirm",
   "deleteConfirmWord": "DELETE",
   "setupOnlineTitle": "Online game",

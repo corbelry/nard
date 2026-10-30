@@ -37,13 +37,17 @@ class MeController extends Controller
     }
 
     /** 15.3: deletes the account; finished matches keep anonymous names. */
+    /** 15.3: schedules deletion after the grace period; signing in cancels it. */
     public function destroy(Request $request): JsonResponse
     {
         $user = $this->user($request);
+        $user->forceFill(['deletion_requested_at' => now()])->save();
         $user->tokens()->delete();
-        $user->delete();
 
-        return response()->json(['ok' => true]);
+        return response()->json([
+            'ok' => true,
+            'deletesAt' => now()->addDays((int) config('nard.deletion_grace_days'))->toIso8601String(),
+        ]);
     }
 
     /** 15.2: everything stored about the player. */

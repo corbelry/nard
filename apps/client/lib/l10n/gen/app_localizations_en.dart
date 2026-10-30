@@ -1470,7 +1470,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteItemHistory => 'Your profile and full match history';
 
   @override
-  String get deleteIrreversible => 'The account is deleted right away and can\'t be restored.';
+  String get deleteIrreversible => 'Your account is deleted for good after 30 days. Sign in before then to cancel.';
 
   @override
   String deleteConfirmLabel(String word) {

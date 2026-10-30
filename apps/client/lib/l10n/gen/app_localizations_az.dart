@@ -1356,7 +1356,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get deleteItemHistory => 'Profil və bütün matç tarixçəsi';
 
   @override
-  String get deleteIrreversible => 'Hesab dərhal silinir və bərpa olunmur.';
+  String get deleteIrreversible => 'Hesab 30 gün sonra tamamilə silinir. Bu müddətdə daxil olsan, silinmə ləğv olunur.';
 
   @override
   String deleteConfirmLabel(String word) {
