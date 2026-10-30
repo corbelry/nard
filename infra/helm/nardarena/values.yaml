@@ -6,6 +6,9 @@ nameOverride: ""
 fullnameOverride: ""
 
 images:
+  # Production target of apps/api/Dockerfile (ADR-047):
+  #   docker build --target production -t <repository>:<tag> apps/api
+  # The same image runs the API, scheduler, queue workers and migrations.
   api:
     repository: europe-docker.pkg.dev/PROJECT/nardarena/api
     tag: "0.1.0"
@@ -59,14 +62,16 @@ api:
     MAIL_FROM_ADDRESS: no-reply@nardarena.example
     APPLE_SIGNIN_ENABLED: "false"
     GOOGLE_SIGNIN_ENABLED: "false"
-    # PHP's built-in server with workers until the production image
-    # (php-fpm/Octane) lands (ADR-043).
-    PHP_CLI_SERVER_WORKERS: "8"
-  # Interim command: the dev image runs PHP's built-in server.
-  command:
-    - sh
-    - -c
-    - cd public && exec php -S 0.0.0.0:8000 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php
+  # FrankenPHP PHP threads per API pod (ADR-047): concurrent requests
+  # in classic mode; each may use up to PHP's memory_limit (128M), so keep
+  # it in line with resources.limits.memory.
+  threads: 8
+  # Writable volumes on the read-only root (ADR-047): /app/storage
+  # (compiled views, file cache, logs) and /tmp (uploads, export ZIPs,
+  # Caddy state). Memory-backed would count against the memory limit, so
+  # they use node disk.
+  storageSizeLimit: 256Mi
+  tmpSizeLimit: 256Mi
   replicas: 2
   resources:
     requests: { cpu: 250m, memory: 256Mi }
@@ -162,16 +167,19 @@ metrics:
 podSecurityContext:
   seccompProfile: { type: RuntimeDefault }
 
-# Security review 2026-10-30. The game-server image is `FROM scratch` (a
-# static binary), so it runs as an unprivileged user on a read-only root.
-# The interim API image (php:cli-alpine) still runs as root because Laravel
-# writes storage/ and bootstrap/cache/ owned by root; the production image
-# (php-fpm/Octane, ADR-043) should switch to runAsNonRoot +
-# readOnlyRootFilesystem with an emptyDir for storage/framework.
+# Security review 2026-10-30. Both images run as unprivileged users on a
+# read-only root: the game server (`FROM scratch`, a static binary) as
+# 65532, the API image (FrankenPHP, ADR-047) as 10001 with emptyDir volumes
+# for /app/storage and /tmp. The API, scheduler, queue and migrate
+# containers share `api`.
 containerSecurityContext:
   api:
     allowPrivilegeEscalation: false
     capabilities: { drop: [ALL] }
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+    readOnlyRootFilesystem: true
   gameServer:
     allowPrivilegeEscalation: false
     capabilities: { drop: [ALL] }

@@ -81,3 +81,24 @@ affinity:
   {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- end -}}
+
+{{/*
+Writable paths of the API image on a read-only root (ADR-047). Every pod
+that runs the API image (api, scheduler, queue, migrate) mounts both; the
+image's entrypoint recreates storage/'s layout in the empty volume.
+*/}}
+{{- define "nardarena.apiVolumes" -}}
+- name: storage
+  emptyDir:
+    sizeLimit: {{ .Values.api.storageSizeLimit }}
+- name: tmp
+  emptyDir:
+    sizeLimit: {{ .Values.api.tmpSizeLimit }}
+{{- end -}}
+
+{{- define "nardarena.apiVolumeMounts" -}}
+- name: storage
+  mountPath: /app/storage
+- name: tmp
+  mountPath: /tmp
+{{- end -}}
