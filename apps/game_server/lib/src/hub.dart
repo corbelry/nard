@@ -626,6 +626,55 @@ class Hub {
     return true;
   }
 
+  // ---- Live notifications (pushed by the API, ADR-049) -----------------------
+
+  /// Forwards inbox rows (`POST /internal/notify`) to the players' open
+  /// sockets as `notification`, unchanged. Players without a socket read
+  /// them from the inbox later. Returns how many were delivered.
+  int notify(NotifyPayload push) {
+    var delivered = 0;
+    for (final n in push.notifications) {
+      final conn = _online[n.userId];
+      if (conn == null || conn.user == null) continue;
+      conn.send(
+        Envelope(
+          type: MessageType.notification,
+          id: 's-n${n.notification['id']}',
+          ts: _now(),
+          payload: n.notification,
+        ),
+      );
+      delivered++;
+    }
+    log.info('notify push', {
+      'notifications': push.notifications.length,
+      'delivered': delivered,
+    });
+    return delivered;
+  }
+
+  /// Tells the connected entrants of a tournament that it changed
+  /// (`POST /internal/tournament-updated`), so open screens refetch.
+  /// Returns how many sockets got `tournament.updated`.
+  int tournamentUpdated(TournamentUpdatedPush push) {
+    var delivered = 0;
+    final payload = TournamentUpdatedPayload(push.tournamentId).toJson();
+    for (final userId in push.userIds.toSet()) {
+      final conn = _online[userId];
+      if (conn == null || conn.user == null) continue;
+      conn.send(
+        Envelope(
+          type: MessageType.tournamentUpdated,
+          id: 's-t${push.tournamentId}',
+          ts: _now(),
+          payload: payload,
+        ),
+      );
+      delivered++;
+    }
+    return delivered;
+  }
+
   ModerationPayload? _pushedState(String userId) {
     final e = _moderation[userId];
     if (e == null) return null;
