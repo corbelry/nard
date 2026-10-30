@@ -51,8 +51,9 @@ drafts, and every owner answer in `docs/QUESTIONS.md` (all answered
    search chip "1+8s", bot fallback game on the 1-min clock, 15.2 guest
    sheet ("E-poçt bağla"); fixed the misleading match count (ce9f760).
    Local admin now needs an authenticator app on first `/admin` sign-in.
-2. Production API image: php-fpm or Octane, non-root, read-only root
-   (ADR-043/046).
+2. DONE 2026-11-08: production API image — `apps/api/Dockerfile` target
+   `production`, FrankenPHP classic mode, uid 10001 on a read-only root,
+   chart uses it (ADR-047).
 3. Time choice in the 6.3 private room and friend challenges (ADR-044).
 4. `game.state` deltas instead of the full record (docs/LOAD_TEST.md).
 5. Other carry-overs in `docs/ROADMAP.md` ("Carried over / not yet done").
@@ -86,6 +87,8 @@ game_server, rebuild their compose containers before emulator tests.
   Dart pub workspaces are supported by this version.
 - Local PHP 8.3 lacks mbstring/dom/pdo — run API checks in the
   `apps/api/Dockerfile` image (command in `CLAUDE.md`).
+  `docker build apps/api` is the dev image (default, last stage); the
+  production image is `--target production` (ADR-047).
 - Host ports 3306/6379/8000 are taken on this machine; compose uses
   13306/16379/18000/18080.
 - gnu.org rate-limits fetches; the gnubg source mirror on GitHub

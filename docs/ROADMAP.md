@@ -130,9 +130,7 @@ No design requests are open.
 - Social: QR friend codes, last-seen times, spectator count, room
   "guest joined" message, clan rename/settings UI, deep links (ADR-037).
 
-- Infra (ADR-043, ADR-046): production API image (php-fpm or Octane,
-  non-root, read-only root with an emptyDir for `storage/framework`; the
-  chart still runs PHP's built-in server with workers as root), multi-pod game server
+- Infra (ADR-043, ADR-046): multi-pod game server
   (Redis queues, matchId registry, sticky routing, per-turn snapshots —
   the chart refuses replicas > 1), Grafana dashboards / alert rules,
   OpenTelemetry traces, Sentry SDKs for the Flutter client. `game.state`

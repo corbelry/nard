@@ -743,3 +743,66 @@ non-root on a read-only root with an emptyDir for `storage/framework`.
 Per-IP WebSocket caps may be low for carrier NAT — watch
 `nard_ws_rejected_total{reason="ip_limit"}`.
 
+
+## ADR-047 — Production API image: FrankenPHP, non-root, read-only root (2026-11-08)
+
+**Context.** The Helm chart ran the dev image (`php:8.3-cli-alpine`, dev
+dependencies, root) with PHP's built-in server and `PHP_CLI_SERVER_WORKERS`
+(ADR-043); ADR-046 left non-root + read-only root as open work.
+
+**Decision.**
+- **One Dockerfile, two targets** (`apps/api/Dockerfile`): `production`
+  (`docker build --target production apps/api`) and `dev`. `dev` stays the
+  last stage, so builds without `--target` — compose and the CLAUDE.md
+  checks — still get the dev image with dev dependencies.
+- **Server: FrankenPHP in classic mode** (`dunglas/frankenphp:1.12.7-php8.3-alpine`,
+  pinned; PHP 8.3 like dev and CI). Caddy and PHP are one process, so one
+  container per pod and no supervisor — php-fpm would need nginx beside it
+  (two processes or a sidecar). Classic mode runs one request per PHP
+  thread with a fresh app, exactly like php-fpm; no Octane: its worker mode
+  keeps the app in memory between requests and would need an audit of
+  singletons and static state (Filament, Livewire, our services) for little
+  gain at our traffic. Threads: `FRANKENPHP_NUM_THREADS` (chart
+  `api.threads`, default 8). Plain HTTP on :8000; TLS ends at the ingress.
+  Caddy's admin API, automatic HTTPS and config persistence are off.
+- **Build:** `composer install --no-dev` + `dump-autoload --optimize
+  --classmap-authoritative` (split for layer caching), extensions
+  pdo_mysql, redis, intl, zip, pcntl, bcmath, opcache (no gd: nothing uses
+  it); `php.ini-production` + opcache with `validate_timestamps=0`; no
+  tests, phpunit/phpstan configs or composer in the final image. Baked
+  caches are env-independent only: `route:cache`, `event:cache`,
+  `filament:optimize` (components + Blade icons) and the package/service
+  manifests. **No `config:cache`** (configuration comes from the
+  environment at runtime) and **no `view:cache`** (compiled views live in
+  `storage/`, a volume; Livewire/Blade also compile on demand).
+  `bootstrap/cache/*.php` is in `.dockerignore` so a host route cache never
+  ships.
+- **Runtime:** uid/gid 10001 (`nard`); code is root-owned and read-only.
+  Only `/app/storage` (compiled views, file cache, logs) and `/tmp`
+  (uploads, export ZIPs, Caddy state via `XDG_*_HOME`) must be writable.
+  The entrypoint recreates `storage/`'s directories in an empty volume and
+  `exec`s the command — the web server by default, or `php artisan …`.
+  The image's file capability `cap_net_bind_service` is removed: pods drop
+  every capability and port 8000 needs none.
+- **Helm:** `containerSecurityContext.api` adds `runAsNonRoot`,
+  `runAsUser/Group: 10001`, `readOnlyRootFilesystem`; API, scheduler, queue
+  and migrate pods mount emptyDirs at `/app/storage` and `/tmp`
+  (`api.storageSizeLimit`, `api.tmpSizeLimit`) and pass their artisan
+  commands as `args` (a `command` would skip the entrypoint). The interim
+  `api.command` and `PHP_CLI_SERVER_WORKERS` are gone.
+- **Compose keeps the dev image** (live dev loop, seeding, `key:generate`
+  at start).
+
+**Verified** (2026-11-08) with `--read-only --user 10001:10001 --cap-drop
+ALL --security-opt no-new-privileges` and tmpfs at `/app/storage` and
+`/tmp`, against the compose MySQL/Redis: `/up` 200, `/readyz` ready,
+guest sign-in 200, Filament login page and assets 200, account-export ZIP,
+`migrate:status`, `schedule:list`, `schedule:run`, `queue:work --once`.
+CI builds the target and checks `/up` on a read-only root. Image: 362 MB
+(the FrankenPHP base and ICU make up most of it).
+
+**Consequences.** `php artisan down` (file maintenance driver) only
+affects one pod's volume — use the ingress for maintenance pages. Outside
+Kubernetes, the writable volumes must be writable by uid 10001 (e.g.
+`--tmpfs /app/storage:mode=1777`). Bumping FrankenPHP is a tag change in
+the Dockerfile.

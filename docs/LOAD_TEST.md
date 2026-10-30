@@ -137,8 +137,7 @@ latency breaks the target.
 - **Load-tool bug found and fixed while testing:** a re-queue timer could
   write to a socket that was already closed.
 - **Not measured yet:**
-  - the API hot paths under load (sign-in, `/me`, store, leaderboards); a
-    PHP-FPM or Octane production image is needed before those numbers mean
-    anything;
+  - the API hot paths under load (sign-in, `/me`, store, leaderboards); measure
+    them on the production image (FrankenPHP, ADR-047), not the dev one;
   - reconnect storms;
   - a long run (hours) for slow memory growth.
