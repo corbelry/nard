@@ -20,6 +20,10 @@ class TicketSigner
         if (strlen($secret) < 32) {
             throw new RuntimeException('GAME_TICKET_SECRET must be at least 32 characters.');
         }
+        // Banned players never reach the game server (ADR-042).
+        if ($user->isBanned()) {
+            throw new AccountBanned('banned');
+        }
         $ratings = [];
         foreach ($user->ratings()->get() as $rating) {
             /** @var Rating $rating */
@@ -33,6 +37,15 @@ class TicketSigner
         ];
         if ($user->country !== null) {
             $payload['country'] = $user->country;
+        }
+        // Muted players' emotes are dropped by the game server.
+        if ($user->isMuted()) {
+            $payload['muted'] = true;
+        }
+        // Abandonment penalty: the public queue refuses until then (§8.14).
+        $cooldown = $user->queueCooldownUntil();
+        if ($cooldown !== null) {
+            $payload['queueCooldownUntil'] = $cooldown->getTimestamp();
         }
         // The opponent sees these if they allow it (spec §8.6).
         $equipped = $this->store->equipped($user);

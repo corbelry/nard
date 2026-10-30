@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property array{moves: string, loss: float}|null $second_best
  * @property int $rating
  * @property string $phase
+ * @property bool $enabled disabled puzzles are no longer served (admin)
  */
 class Puzzle extends Model
 {
@@ -37,6 +38,7 @@ class Puzzle extends Model
             'board' => 'array',
             'result_board' => 'array',
             'second_best' => 'array',
+            'enabled' => 'boolean',
         ];
     }
 

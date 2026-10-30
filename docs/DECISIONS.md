@@ -468,3 +468,56 @@ mapping `data{id,type,data}` to `PushOpen`), override
 (`POST /me/devices`), sign-out unregisters it, and 16.3 starts appearing.
 Contract: `docs/api/notifications.md`; screens:
 `docs/design-notes/notifications.md`.
+
+## ADR-042 — Admin panel (Filament 5) and fair-play signals (2026-11-06)
+**Admin.** Filament **v5.11** (Livewire 4) — the first major that supports
+Laravel 13 (ADR-002); no Laravel downgrade, no extra PHP extensions (needs
+`intl`, already in the image). Panel at `/admin` with Filament's own
+e-mail + password session login on the `web` guard, separate from the
+mobile Sanctum tokens; `User::canAccessPanel` = `is_admin` and not banned.
+Admins are made with `php artisan admin:create {email} [--password=]`
+(promotes or creates; guests have no password so cannot log in). The panel
+is staff-only and English-only (labels inline, not in lang files). Writes
+go through services (`ModerationService`, `TournamentService`,
+`SeasonService`, `ClanService::adminRename`) and every one lands in
+`admin_actions` (audit log). Resources are read-heavy: no create/edit/delete
+except tournaments (create scheduled public ones), items (create/edit) and
+puzzles (rating/phase/enabled); the featured offer moved to
+`app_settings.featured` (config stays the default). Admin grants credit
+coins or Yaqut with ledger reason `admin` and a mandatory note, capped at
+`fairplay.max_grant` — support compensation only, never sold (ADR-022).
+Report actions: dismiss (`reviewed`), warn (inbox `moderation_warning`),
+mute, ban (`actioned`).
+
+**Enforcement.** Banned users (`banned_at` set, `banned_until` null =
+permanent) get `403 {code: banned, until}` from a middleware on every
+authenticated API route, the same answer (and no token) at sign-in, and
+`TicketSigner` refuses them. Muted users (`muted_until`) cannot post clan
+chat (`403 muted`) and their ticket carries `muted: true`; the game server
+drops their emotes silently. The abandonment penalty is a
+`queue_cooldown_until` timestamp carried in the ticket
+(`queueCooldownUntil`); the game server refuses `queue.join` with the new
+error code `queue_cooldown` (private rooms and tournaments stay open), so
+the API never has to refuse the whole ticket.
+
+**Fair-play signals** (`anticheat:scan`, daily): flags for review in
+`cheat_flags`; only abandonment acts automatically (24 h queue cooldown).
+(a) Engine assistance is scored in Dart (`MoveQualityAnalyzer` in
+`nard_ai`, CLI `tool/move_quality.dart`) because the rules and bots are
+Dart: it replays stored game records and measures agreement with
+`HeuristicBot(hard)` (same resulting position) and average evaluation loss;
+the API exports ranked matches (`anticheat:export`) and imports the
+per-player results (`--engine=<file>` or `MOVE_QUALITY_CMD`). A player is
+flagged when agreement ≥ the rating band's expected agreement + 0.15 over
+≥ 10 matches / 150 decisions. Caveat: an external engine (gnubg) need not
+agree with our heuristic bot, so the signal is weak until the neural AI
+exists; the bands are placeholders to calibrate on real data. (b)
+Multi-accounting: sign-ins store hashed IP / device sightings (and
+`users.last_ip`), kept 90 days; accounts sharing one that meet ≥ 2 times in
+ranked are flagged with their head-to-head wins (shared IPs — families,
+carrier NAT — make this review-only). (c) Abandonment: ≥ 30 % of ≥ 10
+matches in 14 days lost by `abandoned`/`timeout`. (d) Reports: ≥ 5 distinct
+reporters in 7 days. One flag per player and kind within the rule's window:
+open flags are refreshed, reviewed ones are not raised again. Thresholds
+are first guesses (QUESTIONS #40). Tournament collusion detection is not
+built yet.

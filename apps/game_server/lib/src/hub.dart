@@ -172,6 +172,10 @@ class Hub {
         conn.send(
           _error(msg.id, ErrorCode.illegalAction, 'Tournament match pending'),
         );
+      case MessageType.queueJoin when user.inQueueCooldown(_now() ~/ 1000):
+        conn.send(
+          _error(msg.id, ErrorCode.queueCooldown, '${user.queueCooldownUntil}'),
+        );
       case MessageType.queueJoin:
         if (seat != null && !seat.room.isOver) {
           conn.send(_error(msg.id, ErrorCode.illegalAction, 'In a match'));
@@ -235,6 +239,9 @@ class Hub {
             payload: PresencePayload(matches).toJson(),
           ),
         );
+      // Muted by a moderator (ticket flag): emotes are dropped silently.
+      case MessageType.chatEmote when user.muted && seat != null:
+        return;
       default:
         if (seat == null) {
           conn.send(_error(msg.id, ErrorCode.notInMatch));

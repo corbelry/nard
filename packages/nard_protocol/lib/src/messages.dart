@@ -416,6 +416,10 @@ abstract final class ErrorCode {
   static const illegalAction = 'illegal_action';
   static const rateLimited = 'rate_limited';
   static const notImplemented = 'not_implemented';
+
+  /// Abandonment penalty: the public queue is closed until the time (epoch
+  /// seconds) in the message (ADR-042).
+  static const queueCooldown = 'queue_cooldown';
 }
 
 /// `error` (server → client), echoing the request id.

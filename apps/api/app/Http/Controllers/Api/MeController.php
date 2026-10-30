@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\GameMatch;
 use App\Models\User;
+use App\Services\AccountBanned;
 use App\Services\TicketSigner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -83,10 +84,18 @@ class MeController extends Controller
     public function ticket(Request $request, TicketSigner $signer): JsonResponse
     {
         $now = now()->getTimestamp();
+        $user = $this->user($request);
+        try {
+            $ticket = $signer->sign($user, $now);
+        } catch (AccountBanned) {
+            return response()->json(['code' => 'banned', 'until' => $user->banned_until?->toIso8601String()], 403);
+        }
 
         return response()->json([
-            'ticket' => $signer->sign($this->user($request), $now),
+            'ticket' => $ticket,
             'expiresAt' => $now + (int) config('nard.ticket_ttl'),
+            // The game server refuses the public queue until then (abandonment).
+            'queueCooldownUntil' => $user->queueCooldownUntil()?->toIso8601String(),
         ]);
     }
 

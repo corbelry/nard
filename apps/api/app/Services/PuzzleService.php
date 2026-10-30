@@ -27,13 +27,13 @@ class PuzzleService
         foreach ($this->states($user) as $puzzleId => $state) {
             if (! $state['finished']) {
                 $puzzle = Puzzle::query()->find($puzzleId);
-                if ($puzzle !== null && ($variant === null || $puzzle->variant === $variant)) {
+                if ($puzzle !== null && $puzzle->enabled && ($variant === null || $puzzle->variant === $variant)) {
                     return $puzzle;
                 }
             }
         }
 
-        return Puzzle::query()
+        return Puzzle::query()->where('enabled', true)
             ->whereNotIn('id', DB::table('puzzle_attempts')->where('user_id', $user->id)->select('puzzle_id'))
             ->when($variant !== null, fn ($q) => $q->where('variant', $variant))
             ->orderByRaw('ABS(rating - ?)', [$user->puzzle_rating])->orderBy('id')
@@ -43,7 +43,7 @@ class PuzzleService
     /** The same puzzle for everyone on a UTC day. */
     public function daily(Carbon $day): ?Puzzle
     {
-        $ids = Puzzle::query()->orderBy('id')->pluck('id');
+        $ids = Puzzle::query()->where('enabled', true)->orderBy('id')->pluck('id');
         if ($ids->isEmpty()) {
             return null;
         }

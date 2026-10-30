@@ -176,6 +176,18 @@ class ClanService
         }
     }
 
+    /** Admin rename (moderation): no price, name rules still apply. */
+    public function adminRename(Clan $clan, string $name): void
+    {
+        DB::transaction(function () use ($clan, $name): void {
+            $this->assertNameFree($name, $clan->id);
+            $clan->name = $name;
+            $clan->name_key = Clan::nameKey($name);
+            $clan->save();
+            $this->system($clan->id, 'renamed', ['name' => $clan->name, 'tag' => $clan->tag]);
+        });
+    }
+
     public function disband(Clan $clan, User $user): void
     {
         $this->requireMember($clan, $user, 'leader');
@@ -530,6 +542,9 @@ class ClanService
     public function post(Clan $clan, User $user, string $text): ClanMessage
     {
         $this->requireMember($clan, $user);
+        if ($user->isMuted()) {
+            throw new ClanException('muted', 403, ['until' => $user->muted_until?->toIso8601String()]);
+        }
         $key = "clan-chat:{$user->id}";
         if (RateLimiter::tooManyAttempts($key, (int) config('clans.chat.per_minute'))) {
             throw new ClanException('rate_limited', 429);

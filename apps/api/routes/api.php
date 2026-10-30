@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\SocialController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\TournamentController;
+use App\Http\Middleware\EnsureNotBanned;
 use App\Http\Middleware\TouchLastSeen;
 use App\Http\Middleware\VerifyGameServerSignature;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,7 @@ Route::prefix('v1')->group(function (): void {
     Route::post('/auth/email/start', [AuthController::class, 'emailStart'])
         ->middleware('throttle:5,10');
 
-    Route::middleware(['auth:sanctum', TouchLastSeen::class])->group(function (): void {
+    Route::middleware(['auth:sanctum', EnsureNotBanned::class, TouchLastSeen::class])->group(function (): void {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::get('/me', [MeController::class, 'show']);
         Route::patch('/me', [MeController::class, 'update']);

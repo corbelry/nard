@@ -16,6 +16,7 @@ return [
     'tournament_finished' => ['title' => 'Турнир окончен', 'body' => ':tournament · Ваше место: :place.'],
     'season_end' => ['title' => 'Сезон :season завершён', 'body' => 'Ваша лига: :tier. Посмотрите итоги и награду.'],
     'level_up' => ['title' => 'Новый уровень', 'body' => 'Уровень :level!'],
+    'moderation_warning' => ['title' => 'Предупреждение модераторов', 'body' => 'Пожалуйста, соблюдайте правила честной игры. Причина: :reason'],
     'variants' => ['shortNard' => 'Короткие нарды', 'longNard' => 'Длинные нарды'],
     'tiers' => [
         'bronze' => 'Бронза', 'silver' => 'Серебро', 'gold' => 'Золото', 'platinum' => 'Платина',

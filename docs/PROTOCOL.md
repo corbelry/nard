@@ -50,7 +50,7 @@ client                                   game_server
 | `game.state` | S→C | `{seq, matchId, gameIndex, record: GameRecord JSON, match: MatchState JSON, pending: [{from, to, die, hit}], clock: {whiteMs, blackMs, delayMs, running?, sentAt}, commitment, serverSeed? (after the game), clientSeeds, opponentConnected, reconnectDeadline?}` |
 | `game.move` | C→S | `{from: 1..25, to: 0..24}` (mover's numbering, 25 = bar, 0 = off) |
 | `game.resign` | C→S | `{kind: single\|gammon\|backgammon}` |
-| `error` | S→C | `{code, message, rejection?}`; codes: `bad_request`, `unauthorized`, `not_in_match`, `not_your_turn`, `illegal_move`, `illegal_action`, `rate_limited`, `not_implemented` |
+| `error` | S→C | `{code, message, rejection?}`; codes: `bad_request`, `unauthorized`, `not_in_match`, `not_your_turn`, `illegal_move`, `illegal_action`, `rate_limited`, `not_implemented`, `queue_cooldown` |
 
 `game.state` is always the full state; clients replay `record` with
 `nard_core` and drop any state whose `seq` is not newer than the last one.
@@ -60,8 +60,13 @@ client                                   game_server
 The API issues a short-lived ticket per WebSocket session:
 `base64url(json) "." base64url(HMAC-SHA256(GAME_TICKET_SECRET, base64url(json)))`
 (unpadded base64url), JSON `{sub, name, country?, ratings: {shortNard?,
-longNard?}, exp}` (`exp` in seconds). The game server verifies it in
-constant time (`apps/game_server/lib/src/ticket.dart`). One live connection
+longNard?}, cosmetics?, muted?, queueCooldownUntil?, exp}` (`exp` and
+`queueCooldownUntil` in seconds). The game server verifies it in
+constant time (`apps/game_server/lib/src/ticket.dart`). Moderation
+(ADR-042): banned accounts get no ticket; `muted: true` → the server drops
+the player's `chat.emote` silently; `queueCooldownUntil` (abandonment
+penalty) → `queue.join` is refused with `queue_cooldown` (message = the end
+time) until then; private rooms and tournament matches stay open. One live connection
 per user; a newer connection replaces the old one (reconnect).
 
 ## API contract

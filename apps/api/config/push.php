@@ -36,6 +36,8 @@ return [
         'season_end' => 'rewards',
         // Earned with the app open (match end screen): inbox only.
         'level_up' => null,
+        // Admin warning (ADR-042): inbox only.
+        'moderation_warning' => null,
     ],
 
     'categories' => [

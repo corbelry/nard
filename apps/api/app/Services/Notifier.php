@@ -331,7 +331,7 @@ class Notifier
             'tier' => __('notifications.tiers.'.$text('tier'), [], $locale),
         ];
         foreach (['points' => 'matchLength', 'clan' => 'clan', 'tag' => 'tag', 'opponent' => 'opponent', 'round' => 'round',
-            'place' => 'place', 'season' => 'season', 'level' => 'level', 'minutes' => 'minutes'] as $placeholder => $key) {
+            'place' => 'place', 'season' => 'season', 'level' => 'level', 'minutes' => 'minutes', 'reason' => 'reason'] as $placeholder => $key) {
             $replace[$placeholder] = $text($key);
         }
         $type = (string) $row->type;

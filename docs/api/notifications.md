@@ -25,6 +25,7 @@ Types (`data` fields; category in brackets; push copy in `lang/{az,en,ru,tr}/not
 - `tournament_finished {tournamentId, tournament, place}` [tournament_round] — Swiss / round-robin, places 2+
 - `season_end {season, tier, coins, itemId|null}` [rewards]
 - `level_up {level, coins}` [none: inbox only, never pushed]
+- `moderation_warning {reason}` [none, inbox only] — sent by an admin (ADR-042); the client does not render it yet
 
 Clients must ignore unknown types (render a generic row).
 

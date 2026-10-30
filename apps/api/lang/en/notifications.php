@@ -16,6 +16,7 @@ return [
     'tournament_finished' => ['title' => 'Tournament over', 'body' => ':tournament · Your place: :place.'],
     'season_end' => ['title' => 'Season :season is over', 'body' => 'Your tier: :tier. See your results and reward.'],
     'level_up' => ['title' => 'Level up', 'body' => 'Level :level!'],
+    'moderation_warning' => ['title' => 'Warning from the moderators', 'body' => 'Please follow the fair-play rules. Reason: :reason'],
     'variants' => ['shortNard' => 'Short Nard', 'longNard' => 'Long Nard'],
     'tiers' => [
         'bronze' => 'Bronze', 'silver' => 'Silver', 'gold' => 'Gold', 'platinum' => 'Platinum',

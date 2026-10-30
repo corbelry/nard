@@ -73,7 +73,7 @@ class PuzzleController extends Controller
             'puzzle' => $puzzle === null ? null : [...$puzzle->toApi(), ...$this->puzzles->state($user, $puzzle)],
             'rating' => (int) User::query()->whereKey($user->id)->value('puzzle_rating'),
             'solved' => DB::table('puzzle_attempts')->where(['user_id' => $user->id, 'correct' => true])->count(),
-            'total' => Puzzle::query()->count(),
+            'total' => Puzzle::query()->where('enabled', true)->count(),
         ];
     }
 

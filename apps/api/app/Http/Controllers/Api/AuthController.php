@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\LoginCodeMail;
 use App\Models\LoginCode;
 use App\Models\User;
+use App\Services\AntiCheatService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -36,7 +37,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return $this->signedIn($user, 'guest');
+        return $this->signedIn($user, 'guest', $request);
     }
 
     public function emailStart(Request $request): JsonResponse
@@ -69,6 +70,7 @@ class AuthController extends Controller
         $data = $request->validate([
             'email' => ['required', 'email:rfc', 'max:255'],
             'code' => ['required', 'string', 'size:6'],
+            'deviceId' => ['nullable', 'string', 'min:8', 'max:64'],
         ]);
         $email = mb_strtolower($data['email']);
         $login = LoginCode::query()->where('email', $email)->latest('id')->first();
@@ -94,7 +96,7 @@ class AuthController extends Controller
                 'is_guest' => false,
             ])->save();
 
-            return $this->signedIn($current, 'email');
+            return $this->signedIn($current, 'email', $request);
         }
         $user = $existing ?? User::query()->create([
             'name' => __('nard.guest_name', ['n' => random_int(1000, 9999)]),
@@ -103,7 +105,7 @@ class AuthController extends Controller
         ]);
         $user->forceFill(['email_verified_at' => now()])->save();
 
-        return $this->signedIn($user, 'email');
+        return $this->signedIn($user, 'email', $request);
     }
 
     /** Apple / Google sign-in: disabled until the owner adds keys (ADR-030). */
@@ -126,8 +128,14 @@ class AuthController extends Controller
         return response()->json(['ok' => true]);
     }
 
-    private function signedIn(User $user, string $method): JsonResponse
+    private function signedIn(User $user, string $method, Request $request): JsonResponse
     {
+        // Multi-account signal (§8.14): where the account signs in from.
+        $device = $request->input('deviceId', $request->header('X-Device-Id'));
+        app(AntiCheatService::class)->recordSignIn($user, $request->ip(), is_string($device) ? $device : null);
+        if ($user->isBanned()) {
+            return response()->json(['code' => 'banned', 'until' => $user->banned_until?->toIso8601String()], 403);
+        }
         $token = $user->createToken($method)->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $user->profile()]);

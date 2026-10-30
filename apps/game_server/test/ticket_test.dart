@@ -36,4 +36,27 @@ void main() {
     final body = token.split('.').first;
     expect(Ticket.verify('$body.x', 'secret', nowSeconds: 0), isNull);
   });
+
+  test('muted and queue cooldown flags round-trip (ADR-042)', () {
+    final token = Ticket.sign(
+      const Ticket(
+        userId: 'u2',
+        name: 'Nigar',
+        expiresAt: 1000,
+        muted: true,
+        queueCooldownUntil: 900,
+      ),
+      'secret',
+    );
+    final back = Ticket.verify(token, 'secret', nowSeconds: 0)!;
+    expect(back.muted, isTrue);
+    expect(back.queueCooldownUntil, 900);
+    expect(back.inQueueCooldown(899), isTrue);
+    expect(back.inQueueCooldown(900), isFalse);
+    final plain =
+        Ticket.verify(Ticket.sign(t, 'secret'), 'secret', nowSeconds: 0)!;
+    expect(plain.muted, isFalse);
+    expect(plain.inQueueCooldown(0), isFalse);
+    expect(plain.toJson().containsKey('muted'), isFalse);
+  });
 }

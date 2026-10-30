@@ -14,6 +14,8 @@ class Ticket {
     this.country,
     this.ratings = const {},
     this.cosmetics = const {},
+    this.muted = false,
+    this.queueCooldownUntil,
   });
 
   final String userId;
@@ -29,6 +31,16 @@ class Ticket {
   /// Seconds since epoch.
   final int expiresAt;
 
+  /// Chat-muted by a moderator: emotes are dropped (ADR-042).
+  final bool muted;
+
+  /// Abandonment penalty (spec §8.14): the public queue is refused until
+  /// this time, in seconds since epoch.
+  final int? queueCooldownUntil;
+
+  bool inQueueCooldown(int nowSeconds) =>
+      queueCooldownUntil != null && queueCooldownUntil! > nowSeconds;
+
   int rating(Variant v) => ratings[v] ?? 1500;
 
   Map<String, Object?> toJson() => {
@@ -37,6 +49,8 @@ class Ticket {
     if (country != null) 'country': country,
     'ratings': {for (final e in ratings.entries) e.key.name: e.value},
     if (cosmetics.isNotEmpty) 'cosmetics': cosmetics,
+    if (muted) 'muted': true,
+    if (queueCooldownUntil != null) 'queueCooldownUntil': queueCooldownUntil,
     'exp': expiresAt,
   };
 
@@ -88,6 +102,7 @@ class Ticket {
           for (final e in rawCosmetics.entries)
             if (e.value is String) e.key: e.value! as String,
       };
+      final cooldown = json['queueCooldownUntil'];
       return Ticket(
         userId: sub,
         name: name,
@@ -95,6 +110,8 @@ class Ticket {
         ratings: ratings,
         cosmetics: cosmetics,
         expiresAt: exp,
+        muted: json['muted'] == true,
+        queueCooldownUntil: cooldown is int ? cooldown : null,
       );
     } on FormatException {
       return null;

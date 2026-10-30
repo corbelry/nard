@@ -82,6 +82,23 @@ class SeasonService
         return $ended;
     }
 
+    /**
+     * Admin: ends the running [season] now (final ranks, rewards, soft
+     * reset) and starts the next one. False when it is not active.
+     */
+    public function endEarly(Season $season, ?Carbon $now = null): bool
+    {
+        $now ??= now();
+        if ($season->status !== 'active') {
+            return false;
+        }
+        if ($season->ends_at->gt($now)) {
+            $season->forceFill(['ends_at' => $now])->save();
+        }
+
+        return $this->roll($now) > 0;
+    }
+
     private function finish(Season $season, Carbon $now): void
     {
         DB::transaction(function () use ($season, $now): void {

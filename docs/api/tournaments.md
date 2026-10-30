@@ -11,7 +11,7 @@ Shapes
 - Tournament (summary) `{id, name (locale map; private: {default}), type: knockout|swiss|round_robin, kind: scheduled|sit_and_go|private,
   status: registering|running|finished|cancelled, variant, matchLength, clock{reserveMs, delayMs}, size, minPlayers, entrants,
   entry{kind: free|coins|invite, coins}, minRating|null, rated:false, private, startsAt|null, expiresAt|null, startedAt|null, finishedAt|null,
-  cancelReason: not_enough_players|not_filled|expired|organizer|null, currentRound, totalRounds|null, prizes:[Prize], prizeFund, fairDice:true,
+  cancelReason: not_enough_players|not_filled|expired|organizer|admin|null, currentRound, totalRounds|null, prizes:[Prize], prizeFund, fairDice:true,
   myStatus: none|registered|playing|eliminated|champion|finished, myPlace|null}`
 - UserLite `{id, name, country, avatar}`
 - Match (bracket cell) `{slot, matchId, white:UserLite|null, black:UserLite|null, status: pending|ready|finished|walkover|bye, result: white|black|none|null, winnerId|null, score:[white, black]|null}`

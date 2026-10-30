@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Services\ClanService;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,11 +38,20 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $friend_code
  * @property Carbon|null $last_seen_at
  * @property int $puzzle_rating
+ * @property bool $is_admin
+ * @property Carbon|null $banned_at
+ * @property Carbon|null $banned_until
+ * @property string|null $ban_reason
+ * @property Carbon|null $muted_until
+ * @property Carbon|null $queue_cooldown_until
+ * @property string|null $last_ip
+ * @property Carbon|null $last_login_at
+ * @property Carbon|null $created_at
  * @property-read ClanMember|null $clanMembership
  */
 #[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
-#[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub'])]
-class User extends Authenticatable
+#[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub', 'last_ip', 'ban_reason'])]
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -58,6 +69,7 @@ class User extends Authenticatable
         'ranked_wins_total' => 0,
         'games_total' => 0,
         'puzzle_rating' => 1500,
+        'is_admin' => false,
     ];
 
     /**
@@ -70,6 +82,12 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_guest' => 'boolean',
             'last_seen_at' => 'datetime',
+            'is_admin' => 'boolean',
+            'banned_at' => 'datetime',
+            'banned_until' => 'datetime',
+            'muted_until' => 'datetime',
+            'queue_cooldown_until' => 'datetime',
+            'last_login_at' => 'datetime',
         ];
     }
 
@@ -96,6 +114,47 @@ class User extends Authenticatable
         } while (self::query()->where('friend_code', $code)->exists());
 
         return $code;
+    }
+
+    /** Only admins reach the Filament panel (its own session login, ADR-042). */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_admin && ! $this->isBanned();
+    }
+
+    /** Banned while banned_at is set and the ban is permanent or not over. */
+    public function isBanned(): bool
+    {
+        return $this->banned_at !== null && ($this->banned_until === null || $this->banned_until->isFuture());
+    }
+
+    public function isMuted(): bool
+    {
+        return $this->muted_until !== null && $this->muted_until->isFuture();
+    }
+
+    public function queueCooldownUntil(): ?Carbon
+    {
+        return $this->queue_cooldown_until !== null && $this->queue_cooldown_until->isFuture()
+            ? $this->queue_cooldown_until : null;
+    }
+
+    /** @return HasMany<WalletTransaction, $this> */
+    public function walletTransactions(): HasMany
+    {
+        return $this->hasMany(WalletTransaction::class);
+    }
+
+    /** @return HasMany<CheatFlag, $this> */
+    public function cheatFlags(): HasMany
+    {
+        return $this->hasMany(CheatFlag::class);
+    }
+
+    /** @return HasMany<Report, $this> */
+    public function reportsAgainst(): HasMany
+    {
+        return $this->hasMany(Report::class, 'reported_id');
     }
 
     public function isOnline(): bool

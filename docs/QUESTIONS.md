@@ -45,5 +45,9 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 37 | 6 | Season pass: 50 levels × 1 000 XP, premium 950 Yaqut, premium track gives some Yaqut back (500 Yaqut over the season, ADR-039). | a) Keep · b) Change | a | assumed |
 | 38 | 6 | Analysis numbers come from the heuristic bot, not a trained equity model. | a) Show them as "evaluation" with a note until the neural AI (later) · b) Hide analysis until then | a | assumed |
 | 39 | 6 | Neural AI (spec §6 v2, Python training, on-device model) — Usta/Qrossmeyster stay locked until it exists. | a) Later phase, after launch data · b) Now | a | assumed |
+| 40 | 7 | Fair-play thresholds (ADR-042): engine flag at expected agreement + 0.15 (bands are guesses), abandonment ≥ 30 % of ≥ 10 matches → 24 h queue cooldown, ≥ 5 reporters in 7 days, shared IP/device + ≥ 2 ranked meetings. | a) Keep as review-only flags (only the cooldown is automatic) and calibrate after launch data · b) Automatic bans | a | assumed |
+| 41 | 7 | Banned / muted players: the client has no "banned" screen for `403 {code: banned, until}`, no appeal contact, and does not render the `moderation_warning` inbox type or the `queue_cooldown` error yet. | a) Add a banned screen (until + support e-mail), warning row and cooldown message in the client · b) Generic error for now | a (client work; needs a support e-mail) | open |
+| 42 | 7 | Sign-in IP / device sightings for multi-account detection (hashed, 90 days; raw last IP on the user). | a) Keep, mention in the privacy policy · b) Do not store IPs | a | assumed |
+| 43 | 7 | Admin panel language. | a) English only (staff tool) · b) Azerbaijani too | a | assumed |
 
 Earlier questions are tracked in `ROADMAP.md` → "Open questions".

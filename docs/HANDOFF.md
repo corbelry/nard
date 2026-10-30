@@ -1,6 +1,6 @@
 # Session handoff — start here
 
-Last updated: 2026-11-01. Next step: **Phase 7 – Polish & launch**.
+Last updated: 2026-11-06. Next step: **Phase 7 – Polish & launch** (item 4, observability).
 
 ## Working with the product owner
 
@@ -42,7 +42,21 @@ next — without waiting for approval (start only after they say "başla").
   sender disabled until `FCM_PROJECT_ID`/`FCM_CREDENTIALS`, queue worker in
   compose), client (bell + 60 s polling, 16.2 inbox, 16.1 settings, 16.3
   pre-prompt, no-op `PushRegistrar`), `docs/api/notifications.md`.
-  Not committed yet. Next: Filament admin (plan item 1).
+  Committed (fc5e6ed).
+- [x] 2. Filament admin + anti-cheat (plan items 1–2, ADR-042,
+  `docs/api/admin.md`): Filament 5.11 panel at `/admin` (admins only,
+  `php artisan admin:create {email}`); users (ban/unban, mute, cooldown,
+  warn, nickname reset, admin grant, ledger/reports/flags tabs), reports
+  queue, matches with seeds, tournaments (create scheduled, cancel +
+  refund), seasons (end now), clans (rename, disband), puzzles (edit,
+  disable), items, featured offer (`app_settings`), ledger + grant, flags,
+  audit log. Bans → 403 `banned` (middleware, sign-in, TicketSigner); mutes
+  → clan chat 403 + ticket `muted` (game server drops emotes); abandonment
+  → ticket `queueCooldownUntil` (game server `queue_cooldown`).
+  `anticheat:scan` (daily) + `anticheat:export`; engine check via
+  `packages/nard_ai/tool/move_quality.dart`. QUESTIONS #40–43.
+  Not committed yet. Next: observability (plan item 4); client follow-up
+  for QUESTIONS #41 (banned screen, warning row, cooldown message).
 
 Phase 6 is done (CHANGELOG, ADR-038…040). After changing api or
 game_server, rebuild their compose containers before emulator tests.

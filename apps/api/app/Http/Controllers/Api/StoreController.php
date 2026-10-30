@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Loadout;
 use App\Models\User;
 use App\Services\InsufficientFunds;
+use App\Services\Settings;
 use App\Services\StoreService;
 use App\Services\WalletService;
 use Illuminate\Http\JsonResponse;
@@ -38,8 +39,8 @@ class StoreController extends Controller
             ->where(fn ($q) => $q->whereNotNull('price_coins')->orWhereNotNull('price_gems'))
             ->orderBy('id')->get()
             ->filter(fn (Item $i) => ! in_array($i->id, $owned, true))->values();
-        $featuredConfig = config('economy.featured');
-        $featured = is_array($featuredConfig) ? Item::query()->find($featuredConfig['item']) : null;
+        $featuredConfig = app(Settings::class)->featuredOffer();
+        $featured = $featuredConfig === null ? null : Item::query()->where('available', true)->find($featuredConfig['item']);
         $epochDays = intdiv($now->getTimestamp(), 86400);
         $picks = [];
         if ($buyable->isNotEmpty()) {

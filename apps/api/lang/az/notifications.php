@@ -17,6 +17,7 @@ return [
     'tournament_finished' => ['title' => 'Turnir bitdi', 'body' => ':tournament · Yerin: :place.'],
     'season_end' => ['title' => 'Sezon :season bitdi', 'body' => 'Dərəcən: :tier. Nəticələrə və mükafata bax.'],
     'level_up' => ['title' => 'Yeni səviyyə', 'body' => 'Səviyyə :level!'],
+    'moderation_warning' => ['title' => 'Moderatorlardan xəbərdarlıq', 'body' => 'Zəhmət olmasa ədalətli oyun qaydalarına əməl edin. Səbəb: :reason'],
     'variants' => ['shortNard' => 'Qısa nərd', 'longNard' => 'Uzun nərd'],
     'tiers' => [
         'bronze' => 'Bürünc', 'silver' => 'Gümüş', 'gold' => 'Qızıl', 'platinum' => 'Platin',

@@ -44,16 +44,19 @@ class Client {
     throw StateError('Stream closed');
   }
 
-  void auth(String user) => send(MessageType.auth, {
-    'ticket': Ticket.sign(
-      Ticket(
-        userId: user,
-        name: user,
-        expiresAt: DateTime.now().millisecondsSinceEpoch ~/ 1000 + 60,
-      ),
-      secret,
-    ),
-  });
+  void auth(String user, {bool muted = false, int? queueCooldownUntil}) =>
+      send(MessageType.auth, {
+        'ticket': Ticket.sign(
+          Ticket(
+            userId: user,
+            name: user,
+            expiresAt: DateTime.now().millisecondsSinceEpoch ~/ 1000 + 60,
+            muted: muted,
+            queueCooldownUntil: queueCooldownUntil,
+          ),
+          secret,
+        ),
+      });
 }
 
 void main() {
@@ -251,6 +254,83 @@ void main() {
     );
     c.send(MessageType.spectateLeave);
     for (final x in [a, b, c]) {
+      await x.ws.sink.close();
+    }
+  });
+
+  test('muted players\' emotes are dropped (ADR-042)', () async {
+    final a = Client(server.port)..auth('alice', muted: true);
+    final b = Client(server.port)..auth('bob');
+    for (final x in [a, b]) {
+      await x.next(MessageType.hello);
+    }
+    a.send(
+      MessageType.roomCreate,
+      const RoomCreatePayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+      ).toJson(),
+    );
+    final code =
+        RoomCodePayload.fromJson(
+          (await a.next(MessageType.roomCreated)).payload,
+        ).code;
+    b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+    final found = MatchFoundPayload.fromJson(
+      (await b.next(MessageType.matchFound)).payload,
+    );
+    await a.next(MessageType.matchFound);
+    // Alice's emote never arrives; Bob's (sent after it) does, to both.
+    a.send(MessageType.chatEmote, const EmotePayload('good_luck').toJson());
+    b.send(MessageType.chatEmote, const EmotePayload('well_played').toJson());
+    final heard = EmotePayload.fromJson(
+      (await b.next(MessageType.chatEmote)).payload,
+    );
+    expect((heard.id, heard.from), ('well_played', found.you));
+    final echoed = EmotePayload.fromJson(
+      (await a.next(MessageType.chatEmote)).payload,
+    );
+    expect(echoed.id, 'well_played');
+    for (final x in [a, b]) {
+      await x.ws.sink.close();
+    }
+  });
+
+  test('a queue cooldown refuses matchmaking until it ends', () async {
+    final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final a = Client(server.port)..auth('alice', queueCooldownUntil: now + 600);
+    await a.next(MessageType.hello);
+    const join = QueueJoinPayload(
+      variant: Variant.shortNard,
+      matchLength: 1,
+      mode: QueueMode.ranked,
+    );
+    a.send(MessageType.queueJoin, join.toJson());
+    final error = await a.next(MessageType.error);
+    expect(error.payload['code'], ErrorCode.queueCooldown);
+    expect(error.payload['message'], '${now + 600}');
+    // Private rooms stay open.
+    a.send(
+      MessageType.roomCreate,
+      const RoomCreatePayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+      ).toJson(),
+    );
+    await a.next(MessageType.roomCreated);
+    // An expired cooldown no longer applies.
+    final b = Client(server.port)..auth('bob', queueCooldownUntil: now - 1);
+    await b.next(MessageType.hello);
+    b.send(MessageType.queueJoin, join.toJson());
+    b.send(MessageType.queueLeave);
+    b.send(MessageType.ping);
+    final seen = <String>[];
+    while (await b.it.moveNext().timeout(const Duration(seconds: 5))) {
+      seen.add(b.it.current.type);
+      if (b.it.current.type == MessageType.pong) break;
+    }
+    expect(seen, isNot(contains(MessageType.error)));
+    for (final x in [a, b]) {
       await x.ws.sink.close();
     }
   });
