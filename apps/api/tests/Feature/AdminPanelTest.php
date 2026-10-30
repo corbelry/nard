@@ -27,7 +27,8 @@ class AdminPanelTest extends TestCase
     private function admin(): User
     {
         $admin = User::factory()->create(['name' => 'Mod']);
-        $admin->forceFill(['is_admin' => true])->save();
+        // Admins have set up an authenticator app (MFA is required).
+        $admin->forceFill(['is_admin' => true, 'app_authentication_secret' => 'JBSWY3DPEHPK3PXP'])->save();
 
         return $admin;
     }
@@ -44,8 +45,15 @@ class AdminPanelTest extends TestCase
         $this->app['auth']->forgetGuards();
         $this->withToken($token)->get('/admin/users')->assertRedirect('/admin/login');
 
+        // An admin without an authenticator app must set one up first.
+        $fresh = User::factory()->create();
+        $fresh->forceFill(['is_admin' => true])->save();
+        $this->actingAs($fresh)->get('/admin')->assertRedirectContains('/admin/multi-factor-authentication');
+        $this->actingAs($fresh)->get('/admin/multi-factor-authentication/set-up')->assertOk();
+
         $admin = $this->admin();
         $this->actingAs($admin)->get('/admin')->assertOk();
+        $this->assertNotSame('JBSWY3DPEHPK3PXP', $admin->getRawOriginal('app_authentication_secret'));
         $admin->forceFill(['banned_at' => now()])->save();
         $this->actingAs($admin)->get('/admin')->assertForbidden();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -29,6 +30,9 @@ class AdminPanelProvider extends PanelProvider
             // Filament's own session login for admins only (User::canAccessPanel);
             // separate from the mobile bearer tokens (ADR-042).
             ->login()
+            // Authenticator app with recovery codes, required for every
+            // admin (security review 2026-10-30).
+            ->multiFactorAuthentication([AppAuthentication::make()->recoverable()], isRequired: true)
             ->brandName('NardArena Admin')
             ->colors([
                 'primary' => Color::Amber,

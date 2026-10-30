@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Services\ClanService;
 use Database\Factories\UserFactory;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -48,11 +50,13 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $last_ip
  * @property Carbon|null $last_login_at
  * @property Carbon|null $created_at
+ * @property string|null $app_authentication_secret
+ * @property array<string>|null $app_authentication_recovery_codes
  * @property-read ClanMember|null $clanMembership
  */
 #[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
-#[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub', 'last_ip', 'ban_reason'])]
-class User extends Authenticatable implements FilamentUser
+#[Hidden(['password', 'remember_token', 'device_id', 'apple_sub', 'google_sub', 'last_ip', 'ban_reason', 'app_authentication_secret', 'app_authentication_recovery_codes'])]
+class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -90,7 +94,39 @@ class User extends Authenticatable implements FilamentUser
             'muted_until' => 'datetime',
             'queue_cooldown_until' => 'datetime',
             'last_login_at' => 'datetime',
+            'app_authentication_secret' => 'encrypted',
+            'app_authentication_recovery_codes' => 'encrypted:array',
         ];
+    }
+
+    // Filament admin MFA: an authenticator app is required (security review
+    // 2026-10-30); players never use it.
+
+    public function getAppAuthenticationSecret(): ?string
+    {
+        return $this->app_authentication_secret;
+    }
+
+    public function saveAppAuthenticationSecret(#[\SensitiveParameter] ?string $secret): void
+    {
+        $this->forceFill(['app_authentication_secret' => $secret])->save();
+    }
+
+    public function getAppAuthenticationHolderName(): string
+    {
+        return (string) ($this->email ?? $this->name);
+    }
+
+    /** @return array<string>|null */
+    public function getAppAuthenticationRecoveryCodes(): ?array
+    {
+        return $this->app_authentication_recovery_codes;
+    }
+
+    /** @param  array<string>|null  $codes */
+    public function saveAppAuthenticationRecoveryCodes(#[\SensitiveParameter] ?array $codes): void
+    {
+        $this->forceFill(['app_authentication_recovery_codes' => $codes])->save();
     }
 
     protected static function booted(): void
