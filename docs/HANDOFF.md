@@ -1,6 +1,6 @@
 # Session handoff — start here
 
-Last updated: 2026-11-06. Next step: **Phase 7 – Polish & launch** (item 4, observability).
+Last updated: 2026-11-07. Next step: **Phase 7 – Polish & launch** (hardening: rate limits, security review, store listings).
 
 ## Working with the product owner
 
@@ -55,8 +55,26 @@ next — without waiting for approval (start only after they say "başla").
   → ticket `queueCooldownUntil` (game server `queue_cooldown`).
   `anticheat:scan` (daily) + `anticheat:export`; engine check via
   `packages/nard_ai/tool/move_quality.dart`. QUESTIONS #40–43.
-  Not committed yet. Next: observability (plan item 4); client follow-up
-  for QUESTIONS #41 (banned screen, warning row, cooldown message).
+  Committed (85705e6). Client follow-up for QUESTIONS #41 (banned screen,
+  warning row, cooldown message) still open.
+- [x] 3. Observability, load test, Helm, MySQL CI (plan items 4, 5 and part
+  of 6, ADR-043): game server `/metrics` (Prometheus), `/readyz`, JSON logs,
+  pluggable error reporter (`SENTRY_DSN`); API `json` + `sentry` log
+  channels, `/api/v1/internal/metrics` (bearer `METRICS_TOKEN`), `/readyz`
+  (DB + Redis), `TRUSTED_PROXIES` fix; `tool/load_test.dart` with results in
+  `docs/LOAD_TEST.md`; Helm chart `infra/helm/nardarena`; CI jobs
+  `api-mysql`, `helm`, e2e readiness/metrics + load smoke. API suite passes
+  on SQLite and MySQL 8.4. Not committed yet. Next: rate-limit review,
+  `/security-review` of the Phase 7 diff, production API image
+  (php-fpm/Octane), store listing drafts, bundle id question.
+- [x] 2b. Client moderation follow-up (QUESTIONS #41): `ApiClient` records
+  `403 banned` → `banProvider` → full-screen `BannedGate`/`BannedScreen`
+  in `MaterialApp.builder` (also on refused sign-in; sign out → Home
+  offline; `kSupportEmail` placeholder TODO in
+  `apps/client/lib/moderation/moderation.dart`), clan chat `403 muted` →
+  inline composer notice, `queue_cooldown` / ticket `queueCooldownUntil` →
+  2.4 cooldown view, inbox `moderation_warning` row; store drafts in
+  `docs/store/listing.md`. Not committed yet.
 
 Phase 6 is done (CHANGELOG, ADR-038…040). After changing api or
 game_server, rebuild their compose containers before emulator tests.
@@ -88,6 +106,11 @@ game_server, rebuild their compose containers before emulator tests.
   13306/16379/18000/18080.
 - gnu.org rate-limits fetches; the gnubg source mirror on GitHub
   (`mormegil-cz/gnubg`) worked.
+
+### Queued owner decisions to implement (after the running infra agent)
+- #20 Time controls: `QueueJoinPayload.timeControl` blitz|rapid|classic
+  (1+8, 3+12, 5+15), separate queues, room clock from it; private rooms and
+  tournaments keep rapid unless set; client 2.2 time tiles enabled.
 
 ## Phase 7 plan (spec §12 phase 7, §8.11, §8.13, §8.14, §11, design 16.x)
 
