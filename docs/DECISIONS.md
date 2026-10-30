@@ -610,8 +610,8 @@ bot fallback (ADR-024) plays the player's control. The queue-size metric
 label gains the control (`shortNard/1/casual/blitz`). The room clock comes
 from the request; tournament matches keep `rapid` (the API's pairing has
 no clock field; per-tournament clocks remain on the roadmap, ADR-038).
-Private rooms default to `rapid`; the 6.3 room UI does not offer a choice
-yet.
+Private rooms default to `rapid` (see the amendment below for the 6.3
+choice).
 
 **Ratings and results.** Ratings stay shared across controls (one rating
 per variant). `MatchResult` gets an optional `timeControl` (the game server
@@ -624,6 +624,22 @@ as `timeControl` in match summaries.
 "Tezliklə". The choice lives in the in-memory online draft like the other
 2.2 options (not persisted across launches) and is sent with `queue.join`;
 2.4 and 2.5 show the chosen clock.
+
+**Amendment (2026-11-08): private rooms and friend challenges.** The host
+picks the control; the room decides for both players — the guest joins by
+code and plays the host's clock, whatever it last queued for (game server
+test). 6.3 keeps the design's settings list ("Vaxt · 5 dəq + 15s"); the
+Vaxt row opens the 2.2 tiles in a sheet (shared `TimeControlTiles`,
+Gündəlik disabled), like Variant/Format, and a change recreates the room
+(new code) and becomes the 2.2 draft. Rooms start from the draft's
+control (Home chooser, 6.1 "Çağır", 14.1/5.5 invites); a private-room
+rematch keeps the match's clock. `POST /challenges` takes an optional
+`timeControl` (absent = `rapid`, other values 422), stored in
+`challenges.time_control` (existing rows `rapid`) and returned in `GET
+/friends` challenges, the `challenge` notification data and the push copy
+("…, 5 points, Blitz 1+8s"). 6.1 challenge rows, inbox rows and the join
+screen show "Blits 1+8s"; the challenge's control is display only — a
+stale or forged value cannot change the room's clock.
 
 ## ADR-045 — Live moderation push and WebSocket abuse limits (2026-11-08)
 

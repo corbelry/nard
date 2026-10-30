@@ -300,9 +300,9 @@ Icons: `plus`, `chevron-left`, `search`, `x` (dismiss, proposal),
 
 **Purpose:** host an unrated game with a friend by code (spec §8.5). Entry:
 Home mode tile "Şəxsi otaq" (`lock`, `online.md` §7.1), 6.1 "Çağır".
-Protocol (working copy): `room.create {variant, matchLength}` →
-`room.created {code, expiresAt}`; guest `room.join {code}`; host
-`room.cancel`. Code = 6 chars `[A-Z2-9]`.
+Protocol: `room.create {variant, matchLength, timeControl?}` →
+`room.created {code, expiresAt}`; guest `room.join {code}` (plays the
+host's clock); host `room.cancel`. Code = 6 chars `[A-Z2-9]`.
 
 Layout (bg private-room radial §0, no tab bar):
 1. Header `ScreenHeader(bare: true)` "Şəxsi otaq".
@@ -328,6 +328,14 @@ Layout (bg private-room radial §0, no tab bar):
      "5 xala qədər" · Vaxt "5 dəq + 15s" · Reytinq "Təsir etmir". Editing is
      not drawn (no chevrons) → *proposal*: rows tappable before a guest
      joins, each opens a `showNardSheet` picker reusing 2.2 tiles.
+     **Built (ADR-044 amendment):** Vaxt shows the room's clock
+     (`clockValue`, as in the mock) and opens `TimeControlTiles` (the 2.2
+     2×2 tiles, Gündəlik disabled "Tezliklə") under the sheet title "Vaxt";
+     a new control recreates the room (new code). The room starts from the
+     2.2 draft's control. Challenge rows (6.1 "ÇAĞIRIŞLAR"), inbox rows and
+     the join screen show `challengeMeta` "Uzun nərd · 5 xal · Klassik
+     5+15s" (`timeControlWithClock` "{name} {clock}"; join screen: caption
+     `accentHi` under the hint, only when known from a challenge).
 3. Footer padding `0 16 40`: **Başla** h 56, radius 16; disabled look (fill
    `text@.06`, ring 1px `accent@.2`, label `text@.45` w600 — the 17.3/DS
    disabled mismatch again, §13.26) until the guest joins; then primary.
@@ -1081,7 +1089,7 @@ invites (7, unless invites need it now — §13.8).
 | 8 | QR + invite link; no visible code | 6.2 | link carries the friend code | 8-char friend code `[A-HJKMNP-Z2-9]` (no I, L, O) |
 | 9 | Room code 6 chars "NRD482" | 6.3 | letters + digits | `[A-Z2-9]{6}` |
 | 10 | "Kod 9:41-də bitir · 14:32 qaldı" | 6.3 | room code lives ~15 min | `expiresAt` (TTL not fixed) |
-| 11 | Private room: Uzun nərd · 5 xala qədər · 5 dəq + 15s · Reytinq təsir etmir | 6.3 | host picks variant/length/time; always unrated | create has variant + matchLength only; server clock 3+12 only |
+| 11 | Private room: Uzun nərd · 5 xala qədər · 5 dəq + 15s · Reytinq təsir etmir | 6.3 | host picks variant/length/time; always unrated | done: `room.create` + challenges carry `timeControl` (ADR-044) |
 | 12 | One guest seat ("Dost gözlənilir…") | 6.3 | 1 v 1 only | — |
 | 13 | 128 spectators | 6.4 | public count; many spectators per game | `spectate.join/leave`, no count message |
 | 14 | Spectator free-text chat | 6.4 | spectators chat with each other | none (conflicts with §8.5 spirit) |
@@ -1129,7 +1137,9 @@ outgoing, friendCode}` with `publicCard {id, name, country, avatar, level,
 title, online, ratings{variant: rating}}`; `POST /friends/requests {code |
 userId}` → `requested | accepted`; accept/dismiss/unfriend; `GET
 /users/search?q`; `GET/POST/DELETE /blocks`; `POST /reports {userId,
-reason, matchId?, note?}` → `{reference}`.
+reason, matchId?, note?}` → `{reference}`; `POST /challenges {userId,
+code, variant, matchLength, timeControl?}` → `GET /friends` `challenges`
+(contract: docs/api/social.md).
 
 **Missing for the friend screens:** `lastSeenAt` (6.1, 5.5), tier +
 sub-level per variant (6.2 "Almaz III", 14.1 "Platin I"), clan `{id, name,

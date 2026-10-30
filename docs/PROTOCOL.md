@@ -64,7 +64,9 @@ client                                   game_server
 | `classic` | 5 min + 15 s (300 000 + 15 000) |
 
 `room.create {variant, matchLength, timeControl?}` takes the same optional
-field (default `rapid`). Tournament matches play `rapid`. Unknown values are
+field (default `rapid`); the guest (`room.join {code}`) always plays the
+host room's clock. The API's friend challenge carries it for display only
+(docs/api/social.md). Tournament matches play `rapid`. Unknown values are
 refused with `bad_request`. `match.found.clock` carries the values.
 
 ## Tickets

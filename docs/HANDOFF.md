@@ -54,7 +54,9 @@ drafts, and every owner answer in `docs/QUESTIONS.md` (all answered
 2. DONE 2026-11-08: production API image — `apps/api/Dockerfile` target
    `production`, FrankenPHP classic mode, uid 10001 on a read-only root,
    chart uses it (ADR-047).
-3. Time choice in the 6.3 private room and friend challenges (ADR-044).
+3. DONE 2026-11-08: time choice in the 6.3 room (Vaxt row → 2.2 tiles)
+   and friend challenges (`POST /challenges` `timeControl`, shown on 6.1,
+   inbox and join; ADR-044 amendment, docs/api/social.md).
 4. `game.state` deltas instead of the full record (docs/LOAD_TEST.md).
 5. Other carry-overs in `docs/ROADMAP.md` ("Carried over / not yet done").
 Owner-only before launch: store accounts + IAP keys, Apple/Google sign-in

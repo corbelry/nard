@@ -139,10 +139,10 @@ No design requests are open.
   last turn (docs/LOAD_TEST.md).
 
 - Time controls (ADR-044, QUESTIONS #20): Blits 1+8 / Sürətli 3+12 /
-  Klassik 5+15 done (separate queues, room clock, 2.2 tiles). Later:
-  Gündəlik (correspondence), a time choice in the 6.3 private-room UI and in
-  friend challenges, per-tournament clocks. The API stores it
-  (`game_matches.time_control`, in match summaries).
+  Klassik 5+15 done (separate queues, room clock, 2.2 tiles, 6.3 room and
+  friend challenges). Later: Gündəlik (correspondence), per-tournament
+  clocks. The API stores it (`game_matches.time_control`, in match
+  summaries; `challenges.time_control`).
 
 - Neural AI (spec §6 v2) — training pipeline, on-device model, unlocks
   Usta/Qrossmeyster, real equity in analysis (QUESTIONS #39).
