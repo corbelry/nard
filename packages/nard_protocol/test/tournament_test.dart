@@ -153,6 +153,7 @@ void main() {
       startedAt: 1,
       endedAt: 1,
       tournamentId: '7',
+      timeControl: TimeControl.rapid,
     );
     final back = MatchResult.fromJson(result.toJson());
     expect((back.reason, back.tournamentId), (MatchEndReason.walkover, '7'));

@@ -140,6 +140,13 @@
     "tournamentId": {
       "type": "string",
       "maxLength": 64
+    },
+    "timeControl": {
+      "enum": [
+        "blitz",
+        "rapid",
+        "classic"
+      ]
     }
   }
 }

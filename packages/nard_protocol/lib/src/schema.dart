@@ -69,6 +69,10 @@ abstract final class Schemas {
       'endedAt': {'type': 'integer'},
       // Required when mode is `tournament`.
       'tournamentId': _id,
+      // Optional (ADR-044); absent from older game servers.
+      'timeControl': {
+        'enum': ['blitz', 'rapid', 'classic'],
+      },
     },
   };
 

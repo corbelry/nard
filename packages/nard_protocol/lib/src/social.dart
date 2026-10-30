@@ -57,19 +57,31 @@ class EmotePayload {
 
 /// `room.create` (client → server): a private room, always unrated.
 class RoomCreatePayload {
-  const RoomCreatePayload({required this.variant, required this.matchLength});
+  const RoomCreatePayload({
+    required this.variant,
+    required this.matchLength,
+    this.timeControl = TimeControl.rapid,
+  });
 
   final Variant variant;
   final int matchLength;
 
+  /// Optional on the wire; [TimeControl.rapid] when absent.
+  final TimeControl timeControl;
+
   Map<String, Object?> toJson() => {
     'variant': variant.name,
     'matchLength': matchLength,
+    'timeControl': timeControl.name,
   };
 
   static RoomCreatePayload fromJson(Map<String, Object?> j) {
     final q = QueueJoinPayload.fromJson({...j, 'mode': QueueMode.casual.name});
-    return RoomCreatePayload(variant: q.variant, matchLength: q.matchLength);
+    return RoomCreatePayload(
+      variant: q.variant,
+      matchLength: q.matchLength,
+      timeControl: q.timeControl,
+    );
   }
 }
 

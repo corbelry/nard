@@ -35,12 +35,40 @@ class AuthPayload {
 /// (never queued) and are unrated (QUESTIONS #33).
 enum QueueMode { casual, ranked, tournament }
 
+/// Online time controls (spec §7.3, QUESTIONS #20, ADR-044): reserve per
+/// player plus a delay per turn. Players only meet others of the same
+/// control. Correspondence ("Gündəlik") is a later, separate product.
+enum TimeControl {
+  /// "Blits": 1 min + 8 s.
+  blitz(ClockConfig(reserveMs: 60 * 1000, delayMs: 8000)),
+
+  /// "Sürətli": 3 min + 12 s, the default.
+  rapid(ClockConfig.standard),
+
+  /// "Klassik": 5 min + 15 s.
+  classic(ClockConfig(reserveMs: 5 * 60 * 1000, delayMs: 15000));
+
+  const TimeControl(this.clock);
+
+  final ClockConfig clock;
+
+  /// The optional `timeControl` field of [j]; [rapid] when absent (older
+  /// clients and servers).
+  static TimeControl read(Map<String, Object?> j) {
+    final name = j.opt<String>('timeControl');
+    return name == null
+        ? rapid
+        : readEnum(TimeControl.values, name, 'timeControl');
+  }
+}
+
 /// `queue.join` (client → server).
 class QueueJoinPayload {
   const QueueJoinPayload({
     required this.variant,
     required this.matchLength,
     required this.mode,
+    this.timeControl = TimeControl.rapid,
   });
 
   final Variant variant;
@@ -49,12 +77,28 @@ class QueueJoinPayload {
   final int matchLength;
   final QueueMode mode;
 
+  /// Optional on the wire; [TimeControl.rapid] when absent.
+  final TimeControl timeControl;
+
   static const lengths = {1, 3, 5, 7};
+
+  QueueJoinPayload copyWith({
+    Variant? variant,
+    int? matchLength,
+    QueueMode? mode,
+    TimeControl? timeControl,
+  }) => QueueJoinPayload(
+    variant: variant ?? this.variant,
+    matchLength: matchLength ?? this.matchLength,
+    mode: mode ?? this.mode,
+    timeControl: timeControl ?? this.timeControl,
+  );
 
   Map<String, Object?> toJson() => {
     'variant': variant.name,
     'matchLength': matchLength,
     'mode': mode.name,
+    'timeControl': timeControl.name,
   };
 
   static QueueJoinPayload fromJson(Map<String, Object?> j) {
@@ -70,6 +114,7 @@ class QueueJoinPayload {
       variant: readEnum(Variant.values, j.str('variant'), 'variant'),
       matchLength: length,
       mode: mode,
+      timeControl: TimeControl.read(j),
     );
   }
 }
@@ -470,6 +515,7 @@ class MatchResult {
     required this.startedAt,
     required this.endedAt,
     this.tournamentId,
+    this.timeControl,
   });
 
   final String matchId;
@@ -492,6 +538,10 @@ class MatchResult {
   /// bracket with this result.
   final String? tournamentId;
 
+  /// The clock the match was played with (ADR-044). Optional in the
+  /// schema: ratings are shared across controls, the API may ignore it.
+  final TimeControl? timeControl;
+
   Map<String, Object?> toJson() => {
     'matchId': matchId,
     'variant': variant.name,
@@ -507,6 +557,7 @@ class MatchResult {
     'startedAt': startedAt,
     'endedAt': endedAt,
     if (tournamentId != null) 'tournamentId': tournamentId,
+    if (timeControl != null) 'timeControl': timeControl!.name,
   };
 
   static MatchResult fromJson(Map<String, Object?> j) => MatchResult(
@@ -524,5 +575,6 @@ class MatchResult {
     startedAt: j.req<int>('startedAt'),
     endedAt: j.req<int>('endedAt'),
     tournamentId: j.opt<String>('tournamentId'),
+    timeControl: j['timeControl'] == null ? null : TimeControl.read(j),
   );
 }
