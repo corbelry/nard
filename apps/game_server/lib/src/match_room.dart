@@ -28,13 +28,18 @@ class MatchRoom {
     this.timeControl,
     this.deltas = _noDeltas,
     int Function()? now,
+    String Function()? newServerSeed,
   }) : _now = now ?? (() => DateTime.now().millisecondsSinceEpoch),
+       _newServerSeed = newServerSeed ?? FairDice.newServerSeed,
        _match = MatchState.start(length: matchLength),
        _reserve = {Side.white: clock.reserveMs, Side.black: clock.reserveMs} {
     _resetGame();
   }
 
   final String matchId;
+
+  /// Per-game server seed (secure random; tests pass a seeded one).
+  final String Function() _newServerSeed;
   final Variant variant;
   final int matchLength;
   final QueueMode mode;
@@ -115,7 +120,7 @@ class MatchRoom {
     _game = GameState.newGame(rulesFor(variant), config: _match.gameConfig());
     _record = GameRecord(variant: variant, config: _match.gameConfig());
     _pending.clear();
-    _serverSeed = FairDice.newServerSeed();
+    _serverSeed = _newServerSeed();
     _clientSeeds.clear();
     _dice = null;
   }

@@ -39,22 +39,27 @@ MatchRoom room(
   int length = 1,
   void Function(MatchResult)? onEnd,
   Map<Side, BotDriver>? bots,
-}) => MatchRoom(
-  matchId: 'm1',
-  variant: Variant.shortNard,
-  matchLength: length,
-  mode: QueueMode.casual,
-  white: alice,
-  black: bob,
-  clock: const ClockConfig(reserveMs: 600000, delayMs: 600000),
-  now: () => async.elapsed.inMilliseconds,
-  deltas: deltas,
-  send: (side, msg) {
-    players[side]!.take(msg);
-    bots?[side]?.receive(msg);
-  },
-  onEnd: onEnd ?? (_) {},
-);
+}) {
+  final seeds = Random(2026);
+  return MatchRoom(
+    matchId: 'm1',
+    variant: Variant.shortNard,
+    matchLength: length,
+    mode: QueueMode.casual,
+    white: alice,
+    black: bob,
+    clock: const ClockConfig(reserveMs: 600000, delayMs: 600000),
+    now: () => async.elapsed.inMilliseconds,
+    deltas: deltas,
+    // Seeded dice: the match plays out the same on every run.
+    newServerSeed: () => FairDice.newServerSeed(seeds),
+    send: (side, msg) {
+      players[side]!.take(msg);
+      bots?[side]?.receive(msg);
+    },
+    onEnd: onEnd ?? (_) {},
+  );
+}
 
 /// The state without the fields that differ between the two seats' views.
 Map<String, Object?> shared(GameStatePayload s) =>
