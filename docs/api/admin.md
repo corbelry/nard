@@ -46,6 +46,15 @@ Decisions: ADR-042. Spec: §8.13 (admin), §8.14 (anti-cheat). Config:
   `queueCooldownUntil` (ISO-8601|null) and the ticket carries it (epoch
   seconds); the game server answers `queue.join` with error
   `queue_cooldown` until then. Private rooms and tournaments stay open.
+- Live sessions (ADR-045): ban, unban, mute, unmute, clear cooldown and the
+  scan's abandonment cooldown push the player's whole state
+  (`{userId, banned, muted, queueCooldownUntil}`) to the game server's
+  signed `POST /internal/moderation` (`GameServerClient::pushModeration`,
+  after the transaction commits). A ban closes the open socket (the match
+  continues as a disconnect), a mute drops emotes at once, a cooldown
+  refuses `queue.join` and leaves the queue. Best effort: if the game server
+  is unreachable the action still succeeds (logged warning) and the next
+  ticket carries the state. Needs `GAME_SERVER_URL`.
 
 ## Fair-play scan
 

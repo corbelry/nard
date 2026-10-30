@@ -50,7 +50,7 @@ client                                   game_server
 | `game.state` | S→C | `{seq, matchId, gameIndex, record: GameRecord JSON, match: MatchState JSON, pending: [{from, to, die, hit}], clock: {whiteMs, blackMs, delayMs, running?, sentAt}, commitment, serverSeed? (after the game), clientSeeds, opponentConnected, reconnectDeadline?}` |
 | `game.move` | C→S | `{from: 1..25, to: 0..24}` (mover's numbering, 25 = bar, 0 = off) |
 | `game.resign` | C→S | `{kind: single\|gammon\|backgammon}` |
-| `error` | S→C | `{code, message, rejection?}`; codes: `bad_request`, `unauthorized`, `not_in_match`, `not_your_turn`, `illegal_move`, `illegal_action`, `rate_limited`, `not_implemented`, `queue_cooldown` |
+| `error` | S→C | `{code, message, rejection?}`; codes: `bad_request`, `unauthorized`, `not_in_match`, `not_your_turn`, `illegal_move`, `illegal_action`, `rate_limited`, `not_implemented`, `queue_cooldown`, `banned` |
 
 `game.state` is always the full state; clients replay `record` with
 `nard_core` and drop any state whose `seq` is not newer than the last one.
@@ -81,6 +81,29 @@ penalty) → `queue.join` is refused with `queue_cooldown` (message = the end
 time) until then; private rooms and tournament matches stay open. One live connection
 per user; a newer connection replaces the old one (reconnect).
 
+The ticket is checked once; later changes reach a live session through
+the API's moderation push (ADR-045, see API contract): a ban sends
+`error {code: banned}` and closes the socket with `4008 banned`, a mute or
+cooldown applies to the open session at once (a queued player gets
+`queue_cooldown` and leaves the queue). Sessions are not closed when the
+ticket's `exp` passes.
+
+## Connection limits (ADR-045)
+
+Defaults, configurable on the game server by env (`WsLimits`):
+
+- `auth` must succeed within 10 s, else close `4008 auth_timeout`.
+- Frames over 16 KiB close the socket with `4009 frame_too_large`.
+- 20 messages/s per connection, burst 40: excess messages get
+  `error {code: rate_limited}` (once per run) and are dropped; more than 40
+  refused in a row close the socket with `4008 rate_limited`.
+- At most 20 concurrent sockets per client address (HTTP 429 on the
+  upgrade).
+- The server sends WebSocket pings every 30 s; dead peers are dropped.
+
+Close codes (`CloseCode`): `4008` policy (reason `banned`, `auth_timeout`,
+`rate_limited`), `4009` frame too large.
+
 ## API contract
 
 The game server reports finished matches as `MatchResult`
@@ -93,3 +116,8 @@ signed like results); results carry `mode: tournament` and `tournamentId`
 server posts `TournamentNoShow` (`schema/tournament_no_show.schema.json`).
 Results also carry an optional `timeControl` (ADR-044); the API currently
 ignores it (ratings are shared across controls).
+Moderation (ADR-045): the API posts `ModerationPayload`
+(`schema/moderation.schema.json`, `{userId, banned, muted,
+queueCooldownUntil: epoch s|null}`, signed the same way) to
+`POST /internal/moderation`; the game server answers
+`200 {userId, connected}`, `401 {code: bad_signature}` or `400`.

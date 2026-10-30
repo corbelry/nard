@@ -624,3 +624,71 @@ as `timeControl` in match summaries.
 "Tezliklə". The choice lives in the in-memory online draft like the other
 2.2 options (not persisted across launches) and is sent with `queue.join`;
 2.4 and 2.5 show the chosen clock.
+
+## ADR-045 — Live moderation push and WebSocket abuse limits (2026-11-08)
+
+**Context.** A security review found that bans, mutes and the abandonment
+cooldown (ADR-042) reached the game server only through the ticket, which
+is checked once at `auth`: a player who kept the socket open kept queueing,
+playing and emoting, and the cooldown set by the fair-play scan never hit
+the current session. Separately, `/ws` on the single game-server pod
+(ADR-032) had no frame size limit, auth deadline, message rate, connection
+cap or ping, so one client could tie up the pod.
+
+**Decision — moderation push.** The API pushes the player's *whole*
+moderation state to the game server's `POST /internal/moderation`
+(`ModerationPayload` / `schema/moderation.schema.json`:
+`{userId, banned, muted, queueCooldownUntil: epoch s|null}`), signed like
+tournament pairings (`X-Nard-Signature`, `GameServerClient`).
+`ModerationService` sends it after ban, unban, mute, unmute and clear
+cooldown (after the surrounding transaction commits, so report handling
+pushes only what was saved), and `AntiCheatService` after it sets an
+abandonment cooldown. Full state rather than a delta makes repeats and
+reordering harmless. Delivery is best effort: a failure (game server down,
+refused) is logged and never fails the admin action; the next ticket
+carries the same state. On the game server:
+
+- `banned` → error `banned`, the socket closes with `4008 banned`, the
+  player leaves the queue and private rooms, and a running match continues
+  as a disconnect (the opponent wins by abandonment if they do not return —
+  they cannot, the API issues no ticket).
+- `muted` → the live session's emotes are dropped.
+- `queueCooldownUntil` → `queue.join` is refused with `queue_cooldown`; a
+  queued player is taken out of the queue with that error.
+- The push is remembered for 10 minutes (twice the 5-minute ticket
+  lifetime) and overrides tickets presented in that window, so a ticket
+  signed just before a ban cannot be used after it.
+
+Sessions are *not* closed when the ticket's `exp` passes: that would cut
+live matches; the push is the revocation mechanism.
+
+**Decision — WebSocket limits** (`WsLimits`, env with defaults; 0 turns a
+limit off):
+
+| Limit | Default | Env | On breach |
+|---|---|---|---|
+| Frame size | 16 KiB | `WS_MAX_FRAME_BYTES` | close `4009 frame_too_large` |
+| Auth deadline | 10 s | `WS_AUTH_TIMEOUT_SECONDS` | close `4008 auth_timeout` |
+| Message rate | 20/s, burst 40 | `WS_MESSAGES_PER_SECOND`, `WS_BURST` | error `rate_limited` (once per run); > burst refusals in a row → close `4008 rate_limited` |
+| Connections per client address | 20 | `WS_MAX_CONNECTIONS_PER_IP` | HTTP 429 before the upgrade |
+| WebSocket ping | 30 s | `WS_PING_SECONDS` | dead peers are dropped |
+
+The client address is the TCP peer, or with `TRUST_PROXY=true` the
+rightmost `X-Forwarded-For` entry (the hop the proxy appended; entries to
+its left are client-controlled). Helm sets `TRUST_PROXY` (the pods are only
+reachable through the ingress, NetworkPolicy) and adds ingress-nginx
+`limit-connections: 20` / `limit-rps: 5` per IP on the WebSocket ingress;
+docker compose leaves it off. Rejections are counted in
+`nard_ws_rejected_total{reason=ip_limit|frame_too_large|auth_timeout|rate_limited}`.
+
+Close codes are 4000 + the RFC 6455 code they stand for (`CloseCode` in
+`nard_protocol`): `package:web_socket` lets a server send only 1000 or
+3000–4999, so 1008/1009 are not available. dart:io buffers a whole frame
+before the size check; the ingress (and the pod's memory limit) bound what
+reaches it.
+
+**Consequences.** Mobile carriers put many players behind one address
+(CGNAT): the per-address caps may need raising — watch
+`nard_ws_rejected_total{reason="ip_limit"}`. The client does not yet treat
+`banned` / close 4008 specially: it reconnects and the API refuses the
+ticket with 403 `banned`; a dedicated banned screen is open work.
