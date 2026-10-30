@@ -588,3 +588,40 @@ product bugs: MySQL normalizes the key order of JSON columns (new
 `assertSameIgnoringKeyOrder` helper) and does not reset auto-increment ids
 between transactional tests (the report reference is computed from the
 stored id).
+
+## ADR-044 — Online time controls: Blits, Sürətli, Klassik (2026-11-07)
+QUESTIONS #20 (owner, 2026-11-01): three controls next to each other,
+correspondence ("Gündəlik") later as a separate product.
+
+**Controls.** `TimeControl` in `nard_protocol` carries its clock (spec
+§7.3, reserve per player + delay per turn): `blitz` 1 min + 8 s, `rapid`
+3 min + 12 s (the former single `ClockConfig.standard`, still the
+default), `classic` 5 min + 15 s.
+
+**Protocol.** `queue.join` and `room.create` take an optional
+`timeControl` (`blitz|rapid|classic`); absent means `rapid`, so older
+clients keep working; any other value is refused with `bad_request`
+(`ProtocolException`). `match.found` is unchanged — it already carries the
+clock values, which clients display.
+
+**Matchmaking.** One queue per `variant/length/mode/timeControl`: players
+never meet someone who chose another control, also in ranked; the casual
+bot fallback (ADR-024) plays the player's control. The queue-size metric
+label gains the control (`shortNard/1/casual/blitz`). The room clock comes
+from the request; tournament matches keep `rapid` (the API's pairing has
+no clock field; per-tournament clocks remain on the roadmap, ADR-038).
+Private rooms default to `rapid`; the 6.3 room UI does not offer a choice
+yet.
+
+**Ratings and results.** Ratings stay shared across controls (one rating
+per variant). `MatchResult` gets an optional `timeControl` (the game server
+always sends it; optional in `match_result.schema.json`). The API does not
+store it yet — Laravel's validated data drops the unknown key, so the
+contract is unchanged; storing it (a `game_matches.time_control` column)
+is a follow-up if per-control statistics are wanted.
+
+**Client.** 2.2 shows the design's 2×2 time tiles (`TimeTile`, screens.md
+"Time tile"): Blits / Sürətli / Klassik selectable, Gündəlik disabled with
+"Tezliklə". The choice lives in the in-memory online draft like the other
+2.2 options (not persisted across launches) and is sent with `queue.join`;
+2.4 and 2.5 show the chosen clock.

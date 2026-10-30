@@ -23,7 +23,7 @@ Payload models: `packages/nard_protocol/lib/src/messages.dart` (every
 client                                   game_server
   auth {ticket}                      →     (ticket from the API, signed)
                                      ←     game.state (if a match is running: reconnect)
-  queue.join {variant, matchLength, mode}  →
+  queue.join {variant, matchLength, mode, timeControl?}  →
                                      ←     match.found {matchId, you, white, black, clock}
   game.seed {clientSeed}             →     (FD-02; both seeds before the opening)
                                      ←     game.state {seq, record, match, pending, clock, commitment, …}
@@ -41,7 +41,7 @@ client                                   game_server
 | Type | Direction | Payload |
 |---|---|---|
 | `auth` | C→S | `{ticket}` |
-| `queue.join` | C→S | `{variant: shortNard\|longNard, matchLength: 1\|3\|5\|7, mode: casual\|ranked}` (`tournament` is refused) |
+| `queue.join` | C→S | `{variant: shortNard\|longNard, matchLength: 1\|3\|5\|7, mode: casual\|ranked, timeControl?: blitz\|rapid\|classic}` (`tournament` is refused; `timeControl` absent = `rapid`; one queue per variant/length/mode/timeControl, ADR-044) |
 | `match.found` | S→C | `{matchId, variant, matchLength, mode: casual\|ranked\|tournament, you: white\|black, white: Player, black: Player, clock: {reserveMs, delayMs}, tournamentId?, round?}`; Player = `{userId, name, rating?, country?, bot}` |
 | `tournament.readyState` | S→C | `{matchId, tournamentId, round, you, white: Player, black: Player, ready: {white, black}, deadline}`: an assigned tournament match waiting for its players |
 | `tournament.ready` | C→S | `{matchId}` ("Hazıram"; connecting also counts as present) |
@@ -54,6 +54,18 @@ client                                   game_server
 
 `game.state` is always the full state; clients replay `record` with
 `nard_core` and drop any state whose `seq` is not newer than the last one.
+
+## Time controls (ADR-044)
+
+| `timeControl` | Clock (`reserveMs` + `delayMs`) |
+|---|---|
+| `blitz` | 1 min + 8 s (60 000 + 8 000) |
+| `rapid` (default) | 3 min + 12 s (180 000 + 12 000) |
+| `classic` | 5 min + 15 s (300 000 + 15 000) |
+
+`room.create {variant, matchLength, timeControl?}` takes the same optional
+field (default `rapid`). Tournament matches play `rapid`. Unknown values are
+refused with `bad_request`. `match.found.clock` carries the values.
 
 ## Tickets
 
@@ -79,3 +91,5 @@ Tournament matches (`docs/api/tournaments.md`): the API pushes pairings to
 signed like results); results carry `mode: tournament` and `tournamentId`
 (`reason: walkover` when one player never came); when neither came the game
 server posts `TournamentNoShow` (`schema/tournament_no_show.schema.json`).
+Results also carry an optional `timeControl` (ADR-044); the API currently
+ignores it (ratings are shared across controls).

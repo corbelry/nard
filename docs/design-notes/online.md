@@ -624,7 +624,8 @@ Offline layout per `screens.md` 2.1 stays; Phase 3 adds:
 ### 7.2 2.2 Setup — online additions (`screens.md` 2.2 omitted these)
 - "VAXT NƏZARƏTİ" 2×2 time tiles (`screens.md` 2.4 time tile): Blits
   `1 dəq + 8s`, Sürətli `3 dəq + 12s` (default), Klassik `5 dəq + 15s`,
-  Gündəlik `24 saat / gediş` — server supports only 3+12 now (§12).
+  Gündəlik `24 saat / gediş` — built: Blits/Sürətli/Klassik selectable,
+  Gündəlik disabled "Tezliklə" (ADR-044).
 - Toggle row "Reytinqli" + sub "±1842 · 150 xal aralıq", default Switch.
 - CTA "Rəqib axtar" → 2.4. Vs-computer flow keeps "Davam et".
 

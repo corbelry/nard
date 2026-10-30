@@ -109,9 +109,9 @@ game_server, rebuild their compose containers before emulator tests.
 
 ### Queued owner decisions to implement (all questions answered 2026-10-30)
 Infra agent work is committed (ADR-043). #35 (3 min no-show) is done.
-- #20 Time controls: `QueueJoinPayload.timeControl` blitz|rapid|classic
-  (1+8, 3+12, 5+15), separate queues, room clock from it; private rooms and
-  tournaments keep rapid unless set; client 2.2 time tiles enabled.
+#20 time controls are done (ADR-044): blitz/rapid/classic on `queue.join`
+and `room.create`, separate queues, room clock from the control, 2.2 tiles;
+the API ignores `MatchResult.timeControl` for now.
 - #45 DONE (59f2b73): `/delete-account` served by the API (docs/api/account.md).
 - #17 API DONE (37e66fd): `POST /me/export` → 202 e-mailed ZIP, 409
   `email_required` for guests; `GET /me/export` is gone. CLIENT TODO (after
