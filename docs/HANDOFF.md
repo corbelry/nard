@@ -57,7 +57,13 @@ drafts, and every owner answer in `docs/QUESTIONS.md` (all answered
 3. DONE 2026-11-08: time choice in the 6.3 room (Vaxt row → 2.2 tiles)
    and friend challenges (`POST /challenges` `timeControl`, shown on 6.1,
    inbox and join; ADR-044 amendment, docs/api/social.md).
-4. `game.state` deltas instead of the full record (docs/LOAD_TEST.md).
+4. DONE 2026-11-08: `game.state` deltas for clients that announce
+   `stateDelta` (old apps keep full states; `game.sync` resync): average
+   frame 5.1 KB → 372 B in the load test (ADR-048, docs/LOAD_TEST.md).
+   The emulator check found two older bugs, both fixed: the result screen
+   crashed after a decided match (the last `game.state` already counted
+   the game in `match`), and online-match analysis could not read the
+   API's `games` entries (`{record, serverSeed, …}`).
 5. Other carry-overs in `docs/ROADMAP.md` ("Carried over / not yet done").
 Owner-only before launch: store accounts + IAP keys, Apple/Google sign-in
 keys, FCM keys, hosting + domain (support mailbox, deletion page URL,

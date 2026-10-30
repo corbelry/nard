@@ -6,13 +6,19 @@ the move round trip, from sending an intent to receiving the authoritative
 `game.state` that applies it.
 
 ```
-docker compose -f infra/docker-compose.yml up --build -d
+# Every simulated client connects from one address: turn the ADR-045
+# per-address cap (20 sockets) off for the run.
+WS_MAX_CONNECTIONS_PER_IP=0 docker compose -f infra/docker-compose.yml up --build -d
 cd apps/game_server
 dart run tool/load_test.dart --matches 100 --duration 180 --think 500
 #   --api http://localhost:18000  --ws ws://localhost:18080/ws
 #   --metrics http://localhost:18080/metrics  --ramp 10  --workers 8
 #   --accounts .dart_tool/load_test_accounts.json  --json out.json
+#   --deltas false   (play as an old client: full game.state frames only)
 ```
+
+Without the env variable, connections past the 20th get HTTP 429 on the
+upgrade and the tool stops.
 
 ## What it does
 
@@ -34,6 +40,10 @@ dart run tool/load_test.dart --matches 100 --duration 180 --think 500
 4. **Measure.**
    - Move round trip: from the `game.roll` or `game.confirmTurn` send to
      the first `game.state` that shows it applied.
+   - Size of every `game.state` frame (average, p50, p95, max) and how
+     many were deltas (ADR-048). Clients announce `stateDelta` unless
+     `--deltas false`; a delta that does not fit counts as error
+     `state_gap` and triggers `game.sync`.
    - `ping`/`pong` round trip, every 5 s per client.
    - Matches found and completed, error messages by code, and stalled
      clients (no state for 90 s).
@@ -87,6 +97,32 @@ the delay was queueing on the event loop, not slow rules. RSS stayed at
 50 MB. So one pod handles roughly **900 intents per second**; above that,
 latency breaks the target.
 
+## `game.state` deltas (2026-11-08, ADR-048)
+
+Same machine; 50 concurrent matches (100 clients), 60 s of load, 500 ms ±
+250 ms think, 10 s ramp, game server rebuilt and restarted before each run.
+"Before" is the server without deltas; "old client" is the new server
+with `--deltas false` (clients that do not announce `stateDelta`).
+
+| | Before | Deltas | Old client on new server |
+|---|---|---|---|
+| Matches completed / errors / stalled | 63 / 0 / 0 | 59 / 0 / 0 | 62 / 0 / 0 |
+| `game.state` frames (of them deltas) | 31 702 (0) | 30 220 (29 984) | 31 104 (0) |
+| **Frame size avg / p50 / p95** | 5 116 / 4 839 / 10 863 B | **372 / 376 / 452 B** | 5 025 / 4 831 / 9 929 B |
+| Frame size max | 15 422 B | 568 B | 17 031 B |
+| Data to clients | 162 MB | 11.4 MB | 157 MB |
+| Move round trip p50 / p95 / p99 | 2 / 8 / 12 ms | 2 / 6 / 9 ms | 2 / 8 / 11 ms |
+| Room handle time p99 (bucket) | ≤ 2.5 ms | ≤ 1 ms | ≤ 2.5 ms |
+| Game server peak RSS | 54 MB | 26 MB | 53 MB |
+
+Deltas cut the bytes per frame by 93 % and keep them flat (a full frame
+grows with the game, up to 17 KB here). The 236 full frames in the delta
+run are the start of each match (two per seat: the room's first state and
+the one after the seat connects; both have an empty record). Older clients
+get the same full frames as before. Latency was already far below the
+target, so the gain there is small, but the server spends less time
+encoding JSON and holds half the memory.
+
 ## Compared with spec §11
 
 - **Move round trip p95 < 150 ms in-region: met with a wide margin.** The
@@ -121,13 +157,10 @@ latency breaks the target.
 - **No failures** at any size: no protocol errors, no stalls, no internal
   errors, no lost results. The API (PHP's single-process built-in server in
   compose) kept up with about 2 results per second at 200 matches.
-- **`game.state` is heavy.** Each frame carries the whole game record and
-  averages about 4.7 KB, growing as the game goes on. At 200 matches that
-  is about 5 MB/s (1.5 GB per 5 minutes) to clients. On mobile data this is
-  the first optimisation to make: send only the new actions, or only the
-  last turn, with the full record on (re)connect. JSON encoding of these
-  frames is also most of the server's CPU. This is a protocol change, so
-  it is carried over in `docs/ROADMAP.md`.
+- **`game.state` was heavy** (fixed by ADR-048, see below). Each frame
+  carried the whole game record and averaged about 4.7 KB, growing as the
+  game went on: about 5 MB/s to clients at 200 matches, and JSON encoding
+  of these frames was most of the server's CPU.
 - **Guest sign-up is limited to 20/min per IP.** That is fine for players,
   but behind carrier-grade NAT many players share one IP. Before this
   phase the API also trusted no proxy, so behind the Kubernetes ingress

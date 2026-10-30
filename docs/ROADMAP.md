@@ -133,10 +133,7 @@ No design requests are open.
 - Infra (ADR-043, ADR-046): multi-pod game server
   (Redis queues, matchId registry, sticky routing, per-turn snapshots —
   the chart refuses replicas > 1), Grafana dashboards / alert rules,
-  OpenTelemetry traces, Sentry SDKs for the Flutter client. `game.state`
-  carries the full game record on every message (≈5 KB per frame on
-  average in the load test, growing with the game): send deltas or only the
-  last turn (docs/LOAD_TEST.md).
+  OpenTelemetry traces, Sentry SDKs for the Flutter client.
 
 - Time controls (ADR-044, QUESTIONS #20): Blits 1+8 / Sürətli 3+12 /
   Klassik 5+15 done (separate queues, room clock, 2.2 tiles, 6.3 room and

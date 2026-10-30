@@ -822,3 +822,57 @@ affects one pod's volume — use the ingress for maintenance pages. Outside
 Kubernetes, the writable volumes must be writable by uid 10001 (e.g.
 `--tmpfs /app/storage:mode=1777`). Bumping FrankenPHP is a tag change in
 the Dockerfile.
+
+## ADR-048 — `game.state` deltas (2026-11-08)
+
+**Context.** Every `game.state` carried the whole game record, so frames
+grew with the game: 5.1 KB on average, 10.9 KB at p95 and up to 15.4 KB in
+the load test (docs/LOAD_TEST.md), most of the bytes to clients and most
+of the server's JSON work. The server broadcasts after every intent,
+including single checker moves and clock or connection changes, so most
+frames repeat the record unchanged.
+
+**Decision.** Opt-in deltas, full snapshots whenever a receiver has no
+base:
+
+- `auth` gains `features: ["stateDelta"]`; the server echoes what it
+  enabled in `hello.features`. A client that announces nothing (every app
+  build before this one) keeps getting full states: a staged rollout
+  needs no version switch and `protocolVersion` stays 1.
+- The room remembers, per receiver (each seat and each spectator), what
+  the last state it sent held: game index, record length, number of
+  client seeds and the score object. For a `stateDelta` receiver with a
+  base in the same game it sends `delta: {from, actions}` instead of
+  `record`, drops `commitment` (fixed per game) and sends `match` and
+  `clientSeeds` only when they changed. Everything else (pending moves,
+  clock, revealed server seed, connection flags) is complete in every
+  frame, so only the append-only record is incremental.
+- Full states: the first state on a socket (match start, reconnect — the
+  room forgets the seat's base on `connected`), `spectate.join`, a new
+  game of the match (index changes) and `game.sync`. Bots take deltas
+  (they read the room directly).
+- Clients rebuild full states with `GameStateSync` (`nard_protocol`): a
+  delta applies only if match id, game index and record length match;
+  otherwise the client sends `game.sync {matchId}` once, ignores deltas
+  until a full state comes, and never guesses. The server answers with
+  the full state of the match the socket plays or watches.
+- The rebuilt `GameStatePayload` is identical to the full one, so the
+  controllers, last-move ghosts, fair-dice check, result screen, replay
+  and analysis are unchanged.
+
+Rejected: sending only the last turn and fetching the record on demand
+(another request type and a second source of truth for replays), and a
+seq-based ack protocol (WebSocket is ordered; reconnects already reset to
+a full state, so the record length is a sufficient base check).
+
+**Measured** (50 matches, 60 s, 500 ms think, same machine as ADR-043):
+average frame 5 116 → 372 bytes (−93 %), p95 10 863 → 452, max 15 422 →
+568; data to clients 162 → 11.4 MB; move round trip p50/p95/p99 2/8/12 →
+2/6/9 ms; room handle p99 ≤ 2.5 ms → ≤ 1 ms; server peak RSS 54 → 26 MB.
+
+**Consequences.** Server memory per receiver is one small record. Lost
+frames cannot happen on one socket, so `game.sync` is a safety net; the
+load tool counts any gap as an error (`state_gap`). Clients must keep
+handling full frames at any time. Compose now reads
+`WS_MAX_CONNECTIONS_PER_IP` (default 20) so the load test, whose clients
+share one address, can turn the ADR-045 cap off.

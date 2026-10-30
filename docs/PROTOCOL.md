@@ -21,12 +21,15 @@ Payload models: `packages/nard_protocol/lib/src/messages.dart` (every
 
 ```
 client                                   game_server
-  auth {ticket}                      →     (ticket from the API, signed)
+  auth {ticket, features?}           →     (ticket from the API, signed)
+                                     ←     hello {userId, features?}
                                      ←     game.state (if a match is running: reconnect)
   queue.join {variant, matchLength, mode, timeControl?}  →
                                      ←     match.found {matchId, you, white, black, clock}
   game.seed {clientSeed}             →     (FD-02; both seeds before the opening)
                                      ←     game.state {seq, record, match, pending, clock, commitment, …}
+                                     ←     game.state {seq, delta: {from, actions}, …} (ADR-048)
+  game.sync {matchId}                →     after a delta gap: full game.state again
   game.roll {}                       →     server rolls with FairDice, broadcasts game.state
   game.move {from, to}               →     validated with TurnPlanner; error {rejection} if refused
   game.undo {}  /  game.confirmTurn {} →   pending moves are server state; confirm applies PlayTurn
@@ -40,7 +43,8 @@ client                                   game_server
 
 | Type | Direction | Payload |
 |---|---|---|
-| `auth` | C→S | `{ticket}` |
+| `auth` | C→S | `{ticket, features?: ["stateDelta"]}` (optional features, ADR-048; unknown names are ignored) |
+| `hello` | S→C | `{userId, features?}`: the announced features the server enabled |
 | `queue.join` | C→S | `{variant: shortNard\|longNard, matchLength: 1\|3\|5\|7, mode: casual\|ranked, timeControl?: blitz\|rapid\|classic}` (`tournament` is refused; `timeControl` absent = `rapid`; one queue per variant/length/mode/timeControl, ADR-044) |
 | `match.found` | S→C | `{matchId, variant, matchLength, mode: casual\|ranked\|tournament, you: white\|black, white: Player, black: Player, clock: {reserveMs, delayMs}, tournamentId?, round?}`; Player = `{userId, name, rating?, country?, bot}` |
 | `tournament.readyState` | S→C | `{matchId, tournamentId, round, you, white: Player, black: Player, ready: {white, black}, deadline}`: an assigned tournament match waiting for its players |
@@ -48,12 +52,37 @@ client                                   game_server
 | `tournament.walkover` | S→C | `{matchId, tournamentId, winner?}`: decided without play after the no-show time (no `winner`: nobody came) |
 | `game.seed` | C→S | `{clientSeed}` (≤ 64 chars) |
 | `game.state` | S→C | `{seq, matchId, gameIndex, record: GameRecord JSON, match: MatchState JSON, pending: [{from, to, die, hit}], clock: {whiteMs, blackMs, delayMs, running?, sentAt}, commitment, serverSeed? (after the game), clientSeeds, opponentConnected, reconnectDeadline?}` |
+| `game.state` (delta) | S→C | `{seq, matchId, gameIndex, delta: {from, actions: [GameAction JSON]}, match?, pending, clock, serverSeed?, clientSeeds?, opponentConnected, reconnectDeadline?}`: only to `stateDelta` connections (ADR-048) |
+| `game.sync` | C→S | `{matchId}`: resend the full `game.state` of the match played or watched; `error {not_in_match}` otherwise |
 | `game.move` | C→S | `{from: 1..25, to: 0..24}` (mover's numbering, 25 = bar, 0 = off) |
 | `game.resign` | C→S | `{kind: single\|gammon\|backgammon}` |
 | `error` | S→C | `{code, message, rejection?}`; codes: `bad_request`, `unauthorized`, `not_in_match`, `not_your_turn`, `illegal_move`, `illegal_action`, `rate_limited`, `not_implemented`, `queue_cooldown`, `banned` |
 
-`game.state` is always the full state; clients replay `record` with
+A full `game.state` carries the whole `record`; clients replay it with
 `nard_core` and drop any state whose `seq` is not newer than the last one.
+
+### `game.state` deltas (ADR-048)
+
+A client that sends `auth.features: ["stateDelta"]` gets full states only
+when it has no base: the first state on a socket (match start, reconnect),
+`spectate.join`, a new game of the match, and `game.sync`. Every other
+`game.state` is a delta against the previous state sent on that socket:
+
+- `delta.from` = how many record actions the client already holds;
+  `delta.actions` = the actions after them (often none: a move of the turn
+  being built, a clock or connection change);
+- no `record` and no `commitment` (fixed for the game);
+- `match` and `clientSeeds` only when they changed since that state;
+- every other field is complete (`pending`, `clock`, `serverSeed`, …).
+
+The client applies a delta only when `matchId` and `gameIndex` equal its
+state's and its record has exactly `from` actions; otherwise it sends
+`game.sync {matchId}` once and ignores deltas until a full state arrives
+(`GameStateSync` in `nard_protocol`). The rebuilt record is identical to
+the full one, so fair-dice checks, replays and the result screen work
+unchanged. Clients that announce nothing (older apps) always get full
+states. In the load test a full state averaged 5.1 KB (up to 17 KB) and a
+delta 372 bytes (docs/LOAD_TEST.md).
 
 ## Time controls (ADR-044)
 
