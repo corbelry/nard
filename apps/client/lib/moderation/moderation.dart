@@ -7,9 +7,9 @@ import '../online/account.dart';
 import '../online/api_client.dart';
 
 /// Where banned players write to appeal (shown on the banned screen).
-// TODO(owner): replace with the real support address before release
+// TODO(owner): confirm the domain and mailbox exist before release
 // (docs/QUESTIONS.md #41, docs/store/listing.md "What the owner provides").
-const kSupportEmail = 'support@nardarena.example';
+const kSupportEmail = 'support@nardarena.app';
 
 /// The current account ban, set by any `403 {code: banned}` answer
 /// (ADR-042). While non-null the app shows the full-screen banned state.
