@@ -77,4 +77,27 @@ void main() {
     expect(calls, 2);
     expect(logs.last, contains('lost'));
   });
+
+  test('tournament no-shows go to their own endpoint', () async {
+    final seen = <http.Request>[];
+    await HttpResultSink(
+      apiUrl: Uri.parse('http://api:8000'),
+      secret: 's' * 32,
+      backoff: Duration.zero,
+      log: (_) {},
+      client: MockClient((req) async {
+        seen.add(req);
+        return http.Response('{}', 200);
+      }),
+    ).reportNoShow(
+      const TournamentNoShow(matchId: 'm1', tournamentId: '7', endedAt: 1),
+    );
+    final req = seen.single;
+    expect(req.url.path, '/api/v1/internal/tournament-no-shows');
+    expect(
+      req.headers['X-Nard-Signature'],
+      HttpResultSink.signature(req.body, 's' * 32),
+    );
+    expect((jsonDecode(req.body) as Map<String, Object?>)['tournamentId'], '7');
+  });
 }

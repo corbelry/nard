@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:nard_protocol/nard_protocol.dart';
 
 import 'hub.dart';
+import 'signature.dart';
 
-/// Posts finished matches to the API, signed with the shared secret
-/// (`X-Nard-Signature: hex(HMAC-SHA256(secret, body))`). Retries with
-/// backoff; the API stores results idempotently by match id.
+/// Posts finished matches (and tournament no-shows) to the API, signed with
+/// the shared secret (`X-Nard-Signature: hex(HMAC-SHA256(secret, body))`).
+/// Retries with backoff; the API stores reports idempotently by match id.
 class HttpResultSink implements ResultSink {
   HttpResultSink({
     required this.apiUrl,
@@ -29,12 +29,29 @@ class HttpResultSink implements ResultSink {
   final void Function(String) _log;
 
   static String signature(String body, String secret) =>
-      Hmac(sha256, utf8.encode(secret)).convert(utf8.encode(body)).toString();
+      Signature.sign(body, secret);
 
   @override
-  Future<void> report(MatchResult result) async {
-    final body = jsonEncode(result.toJson());
-    final url = apiUrl.resolve('/api/v1/internal/match-results');
+  Future<void> report(MatchResult result) => _post(
+    '/api/v1/internal/match-results',
+    result.toJson(),
+    'match ${result.matchId}',
+  );
+
+  @override
+  Future<void> reportNoShow(TournamentNoShow noShow) => _post(
+    '/api/v1/internal/tournament-no-shows',
+    noShow.toJson(),
+    'no-show ${noShow.matchId}',
+  );
+
+  Future<void> _post(
+    String path,
+    Map<String, Object?> json,
+    String what,
+  ) async {
+    final body = jsonEncode(json);
+    final url = apiUrl.resolve(path);
     for (var i = 1; i <= attempts; i++) {
       try {
         final res = await _client.post(
@@ -46,21 +63,19 @@ class HttpResultSink implements ResultSink {
           },
           body: body,
         );
-        if (res.statusCode == 201) return;
+        if (res.statusCode >= 200 && res.statusCode < 300) return;
         // 4xx other than rate limiting will not get better on retry.
         if (res.statusCode >= 400 &&
             res.statusCode < 500 &&
             res.statusCode != 429) {
-          _log(
-            'match ${result.matchId} rejected: ${res.statusCode} ${res.body}',
-          );
+          _log('$what rejected: ${res.statusCode} ${res.body}');
           return;
         }
       } on Object catch (e) {
-        _log('match ${result.matchId} report failed ($i/$attempts): $e');
+        _log('$what report failed ($i/$attempts): $e');
       }
       if (i < attempts) await Future<void>.delayed(backoff * i);
     }
-    _log('match ${result.matchId} result lost after $attempts attempts');
+    _log('$what result lost after $attempts attempts');
   }
 }

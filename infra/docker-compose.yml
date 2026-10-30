@@ -35,9 +35,11 @@ services:
 
   api:
     build: ../apps/api
-    environment:
+    environment: &api-env
       APP_ENV: local
       GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
+      # Tournament pairings are pushed here (signed, docs/api/tournaments.md).
+      GAME_SERVER_URL: http://game_server:8080
       DB_HOST: mysql
       REDIS_HOST: redis
       MAIL_MAILER: smtp
@@ -58,6 +60,20 @@ services:
     depends_on:
       mysql: { condition: service_healthy }
       redis: { condition: service_healthy }
+
+  # Laravel scheduler (routes/console.php): tournaments:tick every minute,
+  # tournaments:schedule hourly, weekly clan wars. Waits for the api's
+  # migrations on the first start.
+  scheduler:
+    build: ../apps/api
+    environment: *api-env
+    command: >
+      sh -c "cp -n .env.example .env &&
+             php artisan key:generate --force -q &&
+             sleep 30 &&
+             php artisan schedule:work"
+    depends_on:
+      api: { condition: service_started }
 
   game_server:
     build:

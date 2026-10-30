@@ -3,14 +3,22 @@
 namespace App\Services;
 
 use App\Models\GameMatch;
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/** Stores a MatchResult and applies rating changes (ranked, humans only). */
+/**
+ * Stores a MatchResult and applies rating changes (ranked, humans only);
+ * tournament results advance their bracket (unrated).
+ */
 class MatchResultService
 {
-    public function __construct(private ProgressionService $progression, private ClanService $clans) {}
+    public function __construct(
+        private ProgressionService $progression,
+        private ClanService $clans,
+        private TournamentService $tournaments,
+    ) {}
 
     /**
      * Idempotent: a repeated report returns the stored match unchanged.
@@ -35,6 +43,7 @@ class MatchResultService
                 'variant' => $r['variant'],
                 'match_length' => $r['matchLength'],
                 'mode' => $r['mode'],
+                'tournament_id' => self::tournamentId($r),
                 'white_user_id' => $whiteUser?->id,
                 'black_user_id' => $blackUser?->id,
                 'white_name' => $white['name'],
@@ -75,12 +84,29 @@ class MatchResultService
                 $match->black_rating_after = $b->rating;
             }
             $match->save();
-            // New matches only: rewards are granted exactly once.
-            $this->progression->onMatch($match);
-            $this->clans->onMatch($match);
+            // New matches only: rewards are granted exactly once. A walkover
+            // was not played: no rewards, no clan XP.
+            if ($match->reason !== 'walkover') {
+                $this->progression->onMatch($match);
+                $this->clans->onMatch($match);
+            }
+            if ($r['mode'] === 'tournament' && isset($r['tournamentId'])) {
+                $this->tournaments->onMatch($match, (string) $r['tournamentId']);
+            }
 
             return $match;
         });
+    }
+
+    /** @param array<string, mixed> $r */
+    private static function tournamentId(array $r): ?int
+    {
+        $id = $r['tournamentId'] ?? null;
+        if ($r['mode'] !== 'tournament' || ! is_string($id) || ! ctype_digit($id)) {
+            return null;
+        }
+
+        return Tournament::query()->whereKey((int) $id)->exists() ? (int) $id : null;
     }
 
     /** @param array<string, mixed> $player */

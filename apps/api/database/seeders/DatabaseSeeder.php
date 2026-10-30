@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Services\TournamentService;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -10,5 +11,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(ItemCatalogSeeder::class);
+        // The next scheduled championships (idempotent; also run hourly).
+        app(TournamentService::class)->schedule(now());
     }
 }

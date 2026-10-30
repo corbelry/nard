@@ -36,7 +36,15 @@ next — without waiting for approval (start only after they say "başla").
 
 ## Phase 6 progress (update after every step)
 
-- [ ] 1. Tournament + season design spec (subagent) and API — next.
+- [x] 1. Design spec `docs/design-notes/tournaments.md`; questions #33–39.
+- [x] 2. Tournament backend (ADR-038, contract `docs/api/tournaments.md`):
+  knockout / Swiss (Buchholz) / round-robin / sit-and-go / scheduled /
+  private (free KO); fees + refunds + prizes via the ledger; pairing engine;
+  API → game server signed pairing push; game server assigned matches,
+  60 s no-show → walkover; `tournaments:tick` + `tournaments:schedule`;
+  compose `scheduler` service. API 68, game_server 24, protocol 14 tests;
+  verified on the compose stack (scheduled cups created, e2e passes).
+- [ ] 3. Seasons, season pass, leaderboards, puzzles, analysis — next.
 
 Phase 5 is done (CHANGELOG, ADR-036/037). Remember: after changing
 game_server, rebuild its compose container before testing on the emulator

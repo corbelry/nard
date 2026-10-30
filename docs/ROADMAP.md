@@ -11,7 +11,7 @@ end of every phase (together with `CHANGELOG.md`).
 | 3 – Accounts & online core | Laravel auth, profiles, game_server, provably fair dice (`docs/FAIRNESS.md`), casual + ranked matchmaking, clocks, reconnection, rating | ✅ Done (2026-10-30) — single game-server pod (ADR-032); Apple/Google keys pending |
 | 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation; progression: level/XP, missions, achievements, titles, login streak (ADR-017) | ✅ Done (2026-10-31) — data-driven sets (ADR-034); texture packs + store receipt APIs pending |
 | 5 – Social & clans | Friends, private rooms, spectating, emotes, clans, clan chat, clan wars | ✅ Done (2026-11-01) — ADR-036/037 |
-| 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | ⏭ Next |
+| 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | 🚧 In progress — tournament backend done (API + game server + protocol, ADR-038, `docs/api/tournaments.md`); client screens, seasons, leaderboards, analysis, puzzles next |
 | 7 – Polish & launch | Admin completeness, anti-cheat, notifications, observability, load tests, store listings | Planned |
 
 ## Design coverage (nardarena-design skill)
@@ -116,6 +116,11 @@ No design requests are open.
 - Item names/descriptions in ru/tr (catalog has az + en).
 - Level-up reward items and per-achievement progress (API returns
   unlocked ids only).
+
+- Tournaments (ADR-038): WS pushes for bracket updates / elimination /
+  champion / cancellation (clients poll), Swiss top-8 playoff, longer
+  finals, per-tournament clocks, private-tournament editing, trophy
+  showcase, clan championships, admin creation (Filament, Phase 7).
 
 - Social: QR friend codes, last-seen times, spectator count, room
   "guest joined" message, clan rename/settings UI, deep links (ADR-037);

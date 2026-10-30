@@ -1,5 +1,7 @@
 import 'package:nard_core/nard_core.dart';
 
+import 'read.dart';
+
 /// Thrown when a payload does not match its schema.
 class ProtocolException implements FormatException {
   const ProtocolException(this.message);
@@ -17,34 +19,6 @@ class ProtocolException implements FormatException {
   String toString() => 'ProtocolException: $message';
 }
 
-/// Typed reads from a decoded JSON object.
-extension _Read on Map<String, Object?> {
-  T req<T>(String key) {
-    final v = this[key];
-    if (v is! T) throw ProtocolException('"$key" must be $T');
-    return v;
-  }
-
-  T? opt<T>(String key) {
-    final v = this[key];
-    if (v == null) return null;
-    if (v is! T) throw ProtocolException('"$key" must be $T');
-    return v as T;
-  }
-
-  String str(String key, {int max = 256}) {
-    final v = req<String>(key);
-    if (v.length > max) throw ProtocolException('"$key" is too long');
-    return v;
-  }
-
-  Map<String, Object?> obj(String key) => req<Map<String, Object?>>(key);
-}
-
-T _enum<T extends Enum>(List<T> values, String name, String key) =>
-    values.asNameMap()[name] ??
-    (throw ProtocolException('"$key" has unknown value $name'));
-
 /// `auth` (client → server): a game-server ticket issued by the API.
 class AuthPayload {
   const AuthPayload(this.ticket);
@@ -57,7 +31,9 @@ class AuthPayload {
       AuthPayload(j.str('ticket', max: 2048));
 }
 
-enum QueueMode { casual, ranked }
+/// How a match was made. `tournament` matches are assigned by the API
+/// (never queued) and are unrated (QUESTIONS #33).
+enum QueueMode { casual, ranked, tournament }
 
 /// `queue.join` (client → server).
 class QueueJoinPayload {
@@ -86,10 +62,14 @@ class QueueJoinPayload {
     if (!lengths.contains(length)) {
       throw const ProtocolException('"matchLength" must be 1, 3, 5 or 7');
     }
+    final mode = readEnum(QueueMode.values, j.str('mode'), 'mode');
+    if (mode == QueueMode.tournament) {
+      throw const ProtocolException('"mode" must be casual or ranked');
+    }
     return QueueJoinPayload(
-      variant: _enum(Variant.values, j.str('variant'), 'variant'),
+      variant: readEnum(Variant.values, j.str('variant'), 'variant'),
       matchLength: length,
-      mode: _enum(QueueMode.values, j.str('mode'), 'mode'),
+      mode: mode,
     );
   }
 }
@@ -176,6 +156,8 @@ class MatchFoundPayload {
     required this.white,
     required this.black,
     required this.clock,
+    this.tournamentId,
+    this.round,
   });
 
   final String matchId;
@@ -189,6 +171,10 @@ class MatchFoundPayload {
   final PlayerInfo black;
   final ClockConfig clock;
 
+  /// Tournament matches only (2.5 "RAUND 1" overline).
+  final String? tournamentId;
+  final int? round;
+
   Map<String, Object?> toJson() => {
     'matchId': matchId,
     'variant': variant.name,
@@ -198,18 +184,22 @@ class MatchFoundPayload {
     'white': white.toJson(),
     'black': black.toJson(),
     'clock': clock.toJson(),
+    if (tournamentId != null) 'tournamentId': tournamentId,
+    if (round != null) 'round': round,
   };
 
   static MatchFoundPayload fromJson(Map<String, Object?> j) =>
       MatchFoundPayload(
         matchId: j.str('matchId', max: 64),
-        variant: _enum(Variant.values, j.str('variant'), 'variant'),
+        variant: readEnum(Variant.values, j.str('variant'), 'variant'),
         matchLength: j.req<int>('matchLength'),
-        mode: _enum(QueueMode.values, j.str('mode'), 'mode'),
-        you: _enum(Side.values, j.str('you'), 'you'),
+        mode: readEnum(QueueMode.values, j.str('mode'), 'mode'),
+        you: readEnum(Side.values, j.str('you'), 'you'),
         white: PlayerInfo.fromJson(j.obj('white')),
         black: PlayerInfo.fromJson(j.obj('black')),
         clock: ClockConfig.fromJson(j.obj('clock')),
+        tournamentId: j.opt<String>('tournamentId'),
+        round: j.opt<int>('round'),
       );
 }
 
@@ -266,7 +256,7 @@ class ResignPayload {
   Map<String, Object?> toJson() => {'kind': kind.name};
 
   static ResignPayload fromJson(Map<String, Object?> j) =>
-      ResignPayload(_enum(WinKind.values, j.str('kind'), 'kind'));
+      ResignPayload(readEnum(WinKind.values, j.str('kind'), 'kind'));
 }
 
 /// Remaining time; the running side's clock is measured from [sentAt].
@@ -304,7 +294,7 @@ class ClockState {
     running:
         j.opt<String>('running') == null
             ? null
-            : _enum(Side.values, j.str('running'), 'running'),
+            : readEnum(Side.values, j.str('running'), 'running'),
     sentAt: j.req<int>('sentAt'),
   );
 }
@@ -403,7 +393,7 @@ class GameStatePayload {
       serverSeed: j.opt<String>('serverSeed'),
       clientSeeds: {
         for (final e in j.obj('clientSeeds').entries)
-          _enum(Side.values, e.key, 'clientSeeds'):
+          readEnum(Side.values, e.key, 'clientSeeds'):
               e.value is String
                   ? e.value! as String
                   : throw const ProtocolException(
@@ -450,12 +440,13 @@ class ErrorPayload {
     rejection:
         j.opt<String>('rejection') == null
             ? null
-            : _enum(MoveRejection.values, j.str('rejection'), 'rejection'),
+            : readEnum(MoveRejection.values, j.str('rejection'), 'rejection'),
   );
 }
 
-/// Why a match ended.
-enum MatchEndReason { completed, resigned, timeout, abandoned }
+/// Why a match ended. `walkover`: a tournament opponent did not show up
+/// within the no-show time; no game was played.
+enum MatchEndReason { completed, resigned, timeout, abandoned, walkover }
 
 /// Result the game server reports to the API (Redis stream `match.results`
 /// and signed HTTP). Mirrored by the JSON schema in `schema/`.
@@ -474,6 +465,7 @@ class MatchResult {
     required this.games,
     required this.startedAt,
     required this.endedAt,
+    this.tournamentId,
   });
 
   final String matchId;
@@ -492,6 +484,10 @@ class MatchResult {
   final int startedAt;
   final int endedAt;
 
+  /// Set for tournament matches (mode `tournament`): the API advances the
+  /// bracket with this result.
+  final String? tournamentId;
+
   Map<String, Object?> toJson() => {
     'matchId': matchId,
     'variant': variant.name,
@@ -506,21 +502,23 @@ class MatchResult {
     'games': games,
     'startedAt': startedAt,
     'endedAt': endedAt,
+    if (tournamentId != null) 'tournamentId': tournamentId,
   };
 
   static MatchResult fromJson(Map<String, Object?> j) => MatchResult(
     matchId: j.str('matchId', max: 64),
-    variant: _enum(Variant.values, j.str('variant'), 'variant'),
+    variant: readEnum(Variant.values, j.str('variant'), 'variant'),
     matchLength: j.req<int>('matchLength'),
-    mode: _enum(QueueMode.values, j.str('mode'), 'mode'),
+    mode: readEnum(QueueMode.values, j.str('mode'), 'mode'),
     white: PlayerInfo.fromJson(j.obj('white')),
     black: PlayerInfo.fromJson(j.obj('black')),
-    winner: _enum(Side.values, j.str('winner'), 'winner'),
+    winner: readEnum(Side.values, j.str('winner'), 'winner'),
     whiteScore: j.req<int>('whiteScore'),
     blackScore: j.req<int>('blackScore'),
-    reason: _enum(MatchEndReason.values, j.str('reason'), 'reason'),
+    reason: readEnum(MatchEndReason.values, j.str('reason'), 'reason'),
     games: j.req<List<Object?>>('games').cast<Map<String, Object?>>(),
     startedAt: j.req<int>('startedAt'),
     endedAt: j.req<int>('endedAt'),
+    tournamentId: j.opt<String>('tournamentId'),
   );
 }

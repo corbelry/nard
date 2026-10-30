@@ -8,6 +8,8 @@ return [
     'match' => [
         'ranked' => ['win' => [250, 120], 'loss' => [60, 40]],
         'casual' => ['win' => [150, 80], 'loss' => [40, 30]],
+        // Tournament matches pay like casual ones; walkovers pay nothing.
+        'tournament' => ['win' => [150, 80], 'loss' => [40, 30]],
         'bot' => ['win' => [60, 40], 'loss' => [15, 15]],
     ],
     'match_reference_length' => 5,

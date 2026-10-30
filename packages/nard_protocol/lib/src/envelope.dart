@@ -28,6 +28,9 @@ abstract final class MessageType {
   static const roomCancel = 'room.cancel';
   static const presenceQuery = 'presence.query';
   static const presence = 'presence';
+  static const tournamentReady = 'tournament.ready';
+  static const tournamentReadyState = 'tournament.readyState';
+  static const tournamentWalkover = 'tournament.walkover';
   static const ping = 'ping';
   static const pong = 'pong';
   static const error = 'error';
@@ -58,6 +61,9 @@ abstract final class MessageType {
     roomCancel,
     presenceQuery,
     presence,
+    tournamentReady,
+    tournamentReadyState,
+    tournamentWalkover,
     ping,
     pong,
     error,

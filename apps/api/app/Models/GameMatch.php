@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  * @property string $variant
  * @property int $match_length
  * @property string $mode
+ * @property int|null $tournament_id
  * @property int|null $white_user_id
  * @property int|null $black_user_id
  * @property string $white_name
@@ -58,6 +59,7 @@ class GameMatch extends Model
             'variant' => $this->variant,
             'matchLength' => $this->match_length,
             'mode' => $this->mode,
+            'tournamentId' => $this->tournament_id === null ? null : (string) $this->tournament_id,
             'white' => ['name' => $this->white_name, 'bot' => $this->white_bot, 'ratingBefore' => $this->white_rating_before, 'ratingAfter' => $this->white_rating_after],
             'black' => ['name' => $this->black_name, 'bot' => $this->black_bot, 'ratingBefore' => $this->black_rating_before, 'ratingAfter' => $this->black_rating_after],
             'winner' => $this->winner,

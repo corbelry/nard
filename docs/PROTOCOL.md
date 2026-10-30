@@ -41,8 +41,11 @@ client                                   game_server
 | Type | Direction | Payload |
 |---|---|---|
 | `auth` | C→S | `{ticket}` |
-| `queue.join` | C→S | `{variant: shortNard\|longNard, matchLength: 1\|3\|5\|7, mode: casual\|ranked}` |
-| `match.found` | S→C | `{matchId, variant, matchLength, mode, you: white\|black, white: Player, black: Player, clock: {reserveMs, delayMs}}`; Player = `{userId, name, rating?, country?, bot}` |
+| `queue.join` | C→S | `{variant: shortNard\|longNard, matchLength: 1\|3\|5\|7, mode: casual\|ranked}` (`tournament` is refused) |
+| `match.found` | S→C | `{matchId, variant, matchLength, mode: casual\|ranked\|tournament, you: white\|black, white: Player, black: Player, clock: {reserveMs, delayMs}, tournamentId?, round?}`; Player = `{userId, name, rating?, country?, bot}` |
+| `tournament.readyState` | S→C | `{matchId, tournamentId, round, you, white: Player, black: Player, ready: {white, black}, deadline}`: an assigned tournament match waiting for its players |
+| `tournament.ready` | C→S | `{matchId}` ("Hazıram"; connecting also counts as present) |
+| `tournament.walkover` | S→C | `{matchId, tournamentId, winner?}`: decided without play after the no-show time (no `winner`: nobody came) |
 | `game.seed` | C→S | `{clientSeed}` (≤ 64 chars) |
 | `game.state` | S→C | `{seq, matchId, gameIndex, record: GameRecord JSON, match: MatchState JSON, pending: [{from, to, die, hit}], clock: {whiteMs, blackMs, delayMs, running?, sentAt}, commitment, serverSeed? (after the game), clientSeeds, opponentConnected, reconnectDeadline?}` |
 | `game.move` | C→S | `{from: 1..25, to: 0..24}` (mover's numbering, 25 = bar, 0 = off) |
@@ -66,3 +69,8 @@ per user; a newer connection replaces the old one (reconnect).
 The game server reports finished matches as `MatchResult`
 (`schema/match_result.schema.json`, exported by
 `dart run tool/export_schema.dart` in `packages/nard_protocol`).
+Tournament matches (`docs/api/tournaments.md`): the API pushes pairings to
+`POST /internal/tournament-matches` (`schema/tournament_match.schema.json`,
+signed like results); results carry `mode: tournament` and `tournamentId`
+(`reason: walkover` when one player never came); when neither came the game
+server posts `TournamentNoShow` (`schema/tournament_no_show.schema.json`).

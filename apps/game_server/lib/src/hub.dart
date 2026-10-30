@@ -15,14 +15,22 @@ import 'ticket.dart';
 /// Receives finished matches (the API in production, ADR-031).
 abstract interface class ResultSink {
   Future<void> report(MatchResult result);
+
+  /// Neither player of a tournament match showed up.
+  Future<void> reportNoShow(TournamentNoShow noShow);
 }
 
 /// Keeps results in memory (development and tests).
 class MemoryResultSink implements ResultSink {
   final results = <MatchResult>[];
+  final noShows = <TournamentNoShow>[];
 
   @override
   Future<void> report(MatchResult result) async => results.add(result);
+
+  @override
+  Future<void> reportNoShow(TournamentNoShow noShow) async =>
+      noShows.add(noShow);
 }
 
 class _Connection {
@@ -48,6 +56,32 @@ class _Seat {
 
   final MatchRoom room;
   final Side side;
+}
+
+/// A tournament pairing from the API waiting for both players.
+class _Assignment {
+  _Assignment(this.match, this.deadline);
+
+  final TournamentMatchPayload match;
+
+  /// No-show deadline, ms since epoch.
+  final int deadline;
+
+  /// Sides that connected or sent `tournament.ready` (sticky).
+  final present = <Side>{};
+  Timer? timer;
+
+  String get id => match.matchId;
+
+  PlayerInfo player(Side side) =>
+      side == Side.white ? match.white : match.black;
+
+  Side? sideOf(String userId) =>
+      match.white.userId == userId
+          ? Side.white
+          : match.black.userId == userId
+          ? Side.black
+          : null;
 }
 
 /// Routes WebSocket connections to the matchmaker and match rooms. One live
@@ -86,12 +120,20 @@ class Hub {
   final _privateRooms = <String, _PrivateRoom>{};
   final _live = <String, MatchRoom>{};
   final _watching = <_Connection, MatchRoom>{};
+  final _assignments = <String, _Assignment>{};
+
+  /// Tournament matches already played or decided here (the API may push a
+  /// pairing again until it has the result).
+  final _decided = <String>{};
 
   /// How long a private room waits for the second player.
   static const roomTtl = Duration(minutes: 15);
   int _matches = 0;
 
   int get activeMatches => _seats.values.map((s) => s.room).toSet().length;
+
+  /// Tournament matches waiting for their players.
+  int get pendingTournamentMatches => _assignments.length;
 
   void attach(WebSocketChannel channel) {
     final conn = _Connection(channel);
@@ -123,6 +165,13 @@ class Hub {
     }
     final seat = _seats[user.userId];
     switch (msg.type) {
+      case MessageType.queueJoin ||
+              MessageType.roomCreate ||
+              MessageType.roomJoin
+          when _hasAssignment(user.userId):
+        conn.send(
+          _error(msg.id, ErrorCode.illegalAction, 'Tournament match pending'),
+        );
       case MessageType.queueJoin:
         if (seat != null && !seat.room.isOver) {
           conn.send(_error(msg.id, ErrorCode.illegalAction, 'In a match'));
@@ -152,6 +201,21 @@ class Hub {
         room.addSpectator(conn, conn.send);
       case MessageType.spectateLeave:
         _watching.remove(conn)?.removeSpectator(conn);
+      case MessageType.tournamentReady:
+        final String matchId;
+        try {
+          matchId = TournamentReadyPayload.fromJson(msg.payload).matchId;
+        } on ProtocolException catch (e) {
+          conn.send(_error(msg.id, ErrorCode.badRequest, e.message));
+          return;
+        }
+        final a = _assignments[matchId];
+        final side = a?.sideOf(user.userId);
+        if (a == null || side == null) {
+          conn.send(_error(msg.id, ErrorCode.notInMatch));
+          return;
+        }
+        _arrive(a, side);
       case MessageType.presenceQuery:
         final ids = msg.payload['userIds'];
         final matches = <String, String>{};
@@ -209,7 +273,166 @@ class Hub {
     if (seat != null && !seat.room.isOver) {
       seat.room.connected(seat.side);
     }
+    for (final a in _assignments.values.toList()) {
+      final side = a.sideOf(ticket.userId);
+      if (side != null) _arrive(a, side);
+    }
   }
+
+  // ---- Tournament matches (assigned by the API) ----------------------------
+
+  /// Accepts a pairing pushed by the API (`POST /internal/tournament-matches`).
+  /// Returns false when the match is already known here (idempotent).
+  bool assignTournamentMatch(TournamentMatchPayload match) {
+    final id = match.matchId;
+    if (_assignments.containsKey(id) ||
+        _live.containsKey(id) ||
+        _decided.contains(id)) {
+      return false;
+    }
+    final a =
+        _assignments[id] = _Assignment(
+          match,
+          _now() + match.noShowSeconds * 1000,
+        );
+    a.timer = Timer(Duration(seconds: match.noShowSeconds), () => _noShow(a));
+    for (final side in Side.values) {
+      if (_online.containsKey(a.player(side).userId)) a.present.add(side);
+    }
+    _sendReadyState(a);
+    _tryStart(a);
+    return true;
+  }
+
+  bool _hasAssignment(String userId) =>
+      _assignments.values.any((a) => a.sideOf(userId) != null);
+
+  void _arrive(_Assignment a, Side side) {
+    a.present.add(side);
+    _sendReadyState(a);
+    _tryStart(a);
+  }
+
+  void _sendReadyState(_Assignment a) {
+    final m = a.match;
+    for (final side in Side.values) {
+      _online[a.player(side).userId]?.send(
+        Envelope(
+          type: MessageType.tournamentReadyState,
+          id: 's-${m.matchId}-ready',
+          ts: _now(),
+          payload:
+              TournamentReadyStatePayload(
+                matchId: m.matchId,
+                tournamentId: m.tournamentId,
+                round: m.round,
+                you: side,
+                white: m.white,
+                black: m.black,
+                ready: {for (final s in Side.values) s: a.present.contains(s)},
+                deadline: a.deadline,
+              ).toJson(),
+        ),
+      );
+    }
+  }
+
+  /// Starts the match once both players are present and neither is still
+  /// playing another match.
+  void _tryStart(_Assignment a) {
+    if (a.present.length < 2 || _assignments[a.id] != a) return;
+    for (final side in Side.values) {
+      final seat = _seats[a.player(side).userId];
+      if (seat != null && !seat.room.isOver) return;
+    }
+    _assignments.remove(a.id);
+    a.timer?.cancel();
+    final m = a.match;
+    for (final side in Side.values) {
+      final userId = a.player(side).userId;
+      matchmaker.leave(userId);
+      _cancelRooms(userId);
+    }
+    _startRoom(
+      QueueJoinPayload(
+        variant: m.variant,
+        matchLength: m.matchLength,
+        mode: QueueMode.tournament,
+      ),
+      white: _unrated(m.white),
+      black: _unrated(m.black),
+      matchId: m.matchId,
+      tournamentId: m.tournamentId,
+      round: m.round,
+    );
+  }
+
+  /// The no-show time is over: one present player wins by walkover; if
+  /// nobody came the API is told both were absent. When both are present
+  /// (one still busy in another match) the match starts once they are free.
+  void _noShow(_Assignment a) {
+    if (_assignments[a.id] != a || a.present.length == 2) return;
+    _assignments.remove(a.id);
+    _decided.add(a.id);
+    final m = a.match;
+    final now = _now();
+    final winner = a.present.isEmpty ? null : a.present.single;
+    if (winner == null) {
+      unawaited(
+        results.reportNoShow(
+          TournamentNoShow(
+            matchId: m.matchId,
+            tournamentId: m.tournamentId,
+            endedAt: now,
+          ),
+        ),
+      );
+    } else {
+      unawaited(
+        results.report(
+          MatchResult(
+            matchId: m.matchId,
+            variant: m.variant,
+            matchLength: m.matchLength,
+            mode: QueueMode.tournament,
+            white: _unrated(m.white),
+            black: _unrated(m.black),
+            winner: winner,
+            whiteScore: winner == Side.white ? m.matchLength : 0,
+            blackScore: winner == Side.black ? m.matchLength : 0,
+            reason: MatchEndReason.walkover,
+            games: const [],
+            startedAt: now,
+            endedAt: now,
+            tournamentId: m.tournamentId,
+          ),
+        ),
+      );
+    }
+    for (final side in Side.values) {
+      _online[a.player(side).userId]?.send(
+        Envelope(
+          type: MessageType.tournamentWalkover,
+          id: 's-${m.matchId}-walkover',
+          ts: now,
+          payload:
+              TournamentWalkoverPayload(
+                matchId: m.matchId,
+                tournamentId: m.tournamentId,
+                winner: winner,
+              ).toJson(),
+        ),
+      );
+    }
+  }
+
+  /// Tournament matches are unrated (QUESTIONS #33).
+  static PlayerInfo _unrated(PlayerInfo p) => PlayerInfo(
+    userId: p.userId,
+    name: p.name,
+    country: p.country,
+    cosmetics: p.cosmetics,
+  );
 
   void _onClose(_Connection conn) {
     _watching.remove(conn)?.removeSpectator(conn);
@@ -340,8 +563,12 @@ class Hub {
     QueueJoinPayload request, {
     required PlayerInfo white,
     required PlayerInfo black,
+    String? matchId,
+    String? tournamentId,
+    int? round,
   }) {
-    final id = 'm${_now()}-${_matches++}-${_random.nextInt(1 << 20)}';
+    final id =
+        matchId ?? 'm${_now()}-${_matches++}-${_random.nextInt(1 << 20)}';
     late final MatchRoom room;
     final drivers = <Side, BotDriver>{};
     room = MatchRoom(
@@ -352,6 +579,7 @@ class Hub {
       white: white,
       black: black,
       clock: clock,
+      tournamentId: tournamentId,
       now: _now,
       send: (side, msg) {
         final player = room.player(side);
@@ -371,6 +599,16 @@ class Hub {
         for (final p in [white, black]) {
           if (_seats[p.userId]?.room == room) _seats.remove(p.userId);
         }
+        if (tournamentId != null) _decided.add(id);
+        // A tournament match may have waited for these players to finish.
+        Timer.run(() {
+          for (final a in _assignments.values.toList()) {
+            if (a.sideOf(white.userId) != null ||
+                a.sideOf(black.userId) != null) {
+              _tryStart(a);
+            }
+          }
+        });
       },
     );
     for (final side in Side.values) {
@@ -401,6 +639,8 @@ class Hub {
                   white: white,
                   black: black,
                   clock: clock,
+                  tournamentId: tournamentId,
+                  round: round,
                 ).toJson(),
           ),
         );
@@ -429,6 +669,9 @@ class Hub {
     matchmaker.dispose();
     for (final r in _privateRooms.values) {
       r.expires.cancel();
+    }
+    for (final a in _assignments.values) {
+      a.timer?.cancel();
     }
     for (final b in _bots) {
       b.dispose();

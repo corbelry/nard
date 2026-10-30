@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nardarena.app/schema/tournament_no_show.json",
+  "title": "TournamentNoShow",
+  "type": "object",
+  "required": [
+    "matchId",
+    "tournamentId",
+    "endedAt"
+  ],
+  "properties": {
+    "matchId": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "tournamentId": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "endedAt": {
+      "type": "integer"
+    }
+  }
+}

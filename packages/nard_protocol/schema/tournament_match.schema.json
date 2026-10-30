@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nardarena.app/schema/tournament_match.json",
+  "title": "TournamentMatch",
+  "type": "object",
+  "required": [
+    "matchId",
+    "tournamentId",
+    "round",
+    "variant",
+    "matchLength",
+    "white",
+    "black",
+    "noShowSeconds"
+  ],
+  "properties": {
+    "matchId": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "tournamentId": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "round": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "variant": {
+      "enum": [
+        "shortNard",
+        "longNard"
+      ]
+    },
+    "matchLength": {
+      "enum": [
+        1,
+        3,
+        5,
+        7
+      ]
+    },
+    "white": {
+      "type": "object",
+      "required": [
+        "userId",
+        "name",
+        "bot"
+      ],
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "country": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 2
+        },
+        "bot": {
+          "type": "boolean"
+        }
+      }
+    },
+    "black": {
+      "type": "object",
+      "required": [
+        "userId",
+        "name",
+        "bot"
+      ],
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "country": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 2
+        },
+        "bot": {
+          "type": "boolean"
+        }
+      }
+    },
+    "noShowSeconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3600
+    }
+  }
+}

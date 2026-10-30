@@ -40,7 +40,8 @@
     "mode": {
       "enum": [
         "casual",
-        "ranked"
+        "ranked",
+        "tournament"
       ]
     },
     "white": {
@@ -120,7 +121,8 @@
         "completed",
         "resigned",
         "timeout",
-        "abandoned"
+        "abandoned",
+        "walkover"
       ]
     },
     "games": {
@@ -134,6 +136,10 @@
     },
     "endedAt": {
       "type": "integer"
+    },
+    "tournamentId": {
+      "type": "string",
+      "maxLength": 64
     }
   }
 }

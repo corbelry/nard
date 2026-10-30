@@ -43,10 +43,16 @@ class ItemCatalogSeeder extends Seeder
         foreach (['regular' => ['Daimi', 'Regular'], 'veteran' => ['Veteran', 'Veteran'], 'mars_master' => ['Mars ustası', 'Mars master'], 'contender' => ['İddiaçı', 'Contender']] as $id => [$az, $en]) {
             $defaults[] = ["title.$id", 'title', ['name' => ['az' => $az, 'en' => $en], 'obtain' => 'achievement']];
         }
+        // Tournament titles (config/tournaments.php prizes).
+        foreach (['friday_champion' => ['Cümə Çempionu', 'Friday Champion'], 'league_champion' => ['Liqa Çempionu', 'League Champion']] as $id => [$az, $en]) {
+            $defaults[] = ["title.$id", 'title', ['name' => ['az' => $az, 'en' => $en], 'obtain' => 'tournament', 'rarity' => 'tournament']];
+        }
         foreach ($defaults as $i => [$id, $category, $data]) {
+            $rarity = $data['rarity'] ?? 'common';
+            $data = array_diff_key($data, ['rarity' => true]);
             Item::query()->updateOrCreate(['id' => $id], [
                 'category' => $category,
-                'rarity' => 'common',
+                'rarity' => $rarity,
                 'is_default' => $category !== 'title',
                 'available' => true,
                 'sort' => $i,

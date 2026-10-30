@@ -5,6 +5,9 @@ return [
     'ticket_secret' => env('GAME_TICKET_SECRET', ''),
     'ticket_ttl' => 300,
 
+    // Where the API pushes tournament pairings (signed with the same secret).
+    'game_server_url' => env('GAME_SERVER_URL', ''),
+
     'login_code_ttl' => 600,
     'login_code_attempts' => 5,
 

@@ -348,3 +348,30 @@ amounts; the war tab shows score and counted matches (no assigned
 pairings); the leaderboard ranks by clan XP. Not built yet: QR codes, last
 seen, spectator count, guest-joined card, clan rename/settings UI, deep
 links (Phase 7 with push).
+
+## ADR-038 — Tournament backend (2026-11-03)
+Product answers assumed (QUESTIONS #33–36): tournament matches are
+**unrated** (queue mode `tournament`, no ratings in seats or results);
+private tournaments are **free** knockouts with an invite code (sizes
+4/8/16/32, start with ≥ 2); the no-show timer is **60 s** from the moment
+the game server receives the pairing; scheduled prizes are fixed,
+house-funded coin credits (reason `tournament`, ADR-022 keeps coins
+earn-only), sit-and-go withholds **10 %** of the entries and an unfilled
+table is cancelled with a full refund after **10 min**. Entry fees are
+ledger debits keyed by the client's idempotency key; a refunded key cannot
+be reused. The API is the source of truth for brackets
+(`PairingEngine`, pure PHP): knockout seeded by rating with byes to the top
+seeds and no third-place match (semi-finalists share 3rd); Swiss pairs
+top-down by points then rating, avoiding rematches (backtracking), bye = 1
+point, full integer Buchholz then rating as tie-breaks (tournaments.md
+§19.16); round-robin by the circle method. Pairings are pushed to the game
+server over signed HTTP (`/internal/tournament-matches`, same HMAC as
+results, reversed) from `tournaments:tick` and after each round; the game
+server starts a match when both players are connected or sent
+`tournament.ready`, reports a `walkover` result for a single no-show and a
+`TournamentNoShow` when both are absent (nobody advances; in a knockout
+the opponent of the next round gets a bye). Walkovers give no match
+rewards or clan XP; played tournament matches pay like casual ones.
+Sit-and-go: Short Nard to 3, 500 coins at every size (8/16/32), joined over
+REST rather than WS so the ledger stays in the API. Bracket changes reach
+clients by polling for now. Contract: `docs/api/tournaments.md`.

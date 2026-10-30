@@ -6,7 +6,7 @@ return [
     // Reasons that may credit each currency. Coins are earn-only: no reason
     // tied to money may grant them (ADR-022).
     'credit_reasons' => [
-        'coins' => ['match_reward', 'mission', 'achievement', 'streak', 'level_up', 'refund', 'admin'],
+        'coins' => ['match_reward', 'mission', 'achievement', 'streak', 'level_up', 'tournament', 'refund', 'admin'],
         'gems' => ['iap', 'refund', 'admin'],
     ],
 

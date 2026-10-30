@@ -24,6 +24,7 @@ class MatchRoom {
     this.reconnectGrace = const Duration(seconds: 60),
     this.passDelay = const Duration(seconds: 2),
     this.nextGameDelay = const Duration(seconds: 4),
+    this.tournamentId,
     int Function()? now,
   }) : _now = now ?? (() => DateTime.now().millisecondsSinceEpoch),
        _match = MatchState.start(length: matchLength),
@@ -45,6 +46,9 @@ class MatchRoom {
   final Duration reconnectGrace;
   final Duration passDelay;
   final Duration nextGameDelay;
+
+  /// Set for tournament matches; carried into the [MatchResult].
+  final String? tournamentId;
   final int Function() _now;
 
   MatchState _match;
@@ -400,6 +404,7 @@ class MatchRoom {
         games: List.unmodifiable(_games),
         startedAt: _startedAt,
         endedAt: _now(),
+        tournamentId: tournamentId,
       ),
     );
   }

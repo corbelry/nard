@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\MeController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\SocialController;
 use App\Http\Controllers\Api\StoreController;
+use App\Http\Controllers\Api\TournamentController;
 use App\Http\Middleware\TouchLastSeen;
 use App\Http\Middleware\VerifyGameServerSignature;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,22 @@ Route::prefix('v1')->group(function (): void {
             Route::get('/war', [ClanController::class, 'war']);
         });
 
+        // Tournaments (spec §8.3, docs/api/tournaments.md).
+        Route::get('/tournaments', [TournamentController::class, 'index'])->middleware('throttle:60,1');
+        Route::get('/tournaments/sng', [TournamentController::class, 'sitAndGo']);
+        Route::post('/tournaments/sng/{size}/join', [TournamentController::class, 'joinSitAndGo'])
+            ->whereNumber('size')->middleware('throttle:30,1');
+        Route::post('/tournaments/private', [TournamentController::class, 'createPrivate'])->middleware('throttle:10,1');
+        Route::post('/tournaments/join-by-code', [TournamentController::class, 'joinByCode'])->middleware('throttle:20,1');
+        Route::prefix('/tournaments/{id}')->whereNumber('id')->group(function (): void {
+            Route::get('/', [TournamentController::class, 'show']);
+            Route::delete('/', [TournamentController::class, 'destroy']);
+            Route::post('/register', [TournamentController::class, 'register'])->middleware('throttle:30,1');
+            Route::delete('/register', [TournamentController::class, 'unregister']);
+            Route::post('/start', [TournamentController::class, 'start']);
+            Route::delete('/entrants/{userId}', [TournamentController::class, 'kick'])->whereNumber('userId');
+        });
+
         Route::get('/me/progress', [ProgressController::class, 'show']);
         Route::post('/me/checkin', [ProgressController::class, 'checkIn']);
         Route::post('/me/missions/{id}/claim', [ProgressController::class, 'claim']);
@@ -92,5 +109,7 @@ Route::prefix('v1')->group(function (): void {
     });
 
     Route::post('/internal/match-results', [MatchResultController::class, 'store'])
+        ->middleware(VerifyGameServerSignature::class);
+    Route::post('/internal/tournament-no-shows', [MatchResultController::class, 'noShow'])
         ->middleware(VerifyGameServerSignature::class);
 });
