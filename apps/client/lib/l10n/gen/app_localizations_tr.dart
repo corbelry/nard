@@ -464,7 +464,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String playerPip(int pip) {
-    return 'Pip $pip';
+    return 'Kalan hane $pip';
   }
 
   @override
@@ -809,7 +809,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsShowLegalMoves => 'Olası hamleleri göster';
 
   @override
-  String get settingsPipCount => 'Pip sayısı';
+  String get settingsPipCount => 'Kalan hane sayısı';
 
   @override
   String get settingsAnimationSpeed => 'Animasyon hızı';
@@ -983,7 +983,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get searchTipHeadRule => 'Uzun tavlada her sırada baştan yalnızca bir pul alınır.';
 
   @override
-  String get searchTipPip => 'Pip sayısı yarışta kimin önde olduğunu gösterir.';
+  String get searchTipPip => 'Kalan hane sayısı yarışta kimin önde olduğunu gösterir.';
 
   @override
   String get searchBotSoon => '30 saniye içinde canlı rakip bulunmazsa bir botla oynarsın.';

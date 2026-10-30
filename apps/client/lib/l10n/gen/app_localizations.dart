@@ -918,7 +918,7 @@ abstract class AppLocalizations {
   /// No description provided for @playerPip.
   ///
   /// In az, this message translates to:
-  /// **'Pip {pip}'**
+  /// **'Qalan xana {pip}'**
   String playerPip(int pip);
 
   /// No description provided for @playerBotLevel.
@@ -1506,7 +1506,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPipCount.
   ///
   /// In az, this message translates to:
-  /// **'Pip sayı'**
+  /// **'Qalan xana sayı'**
   String get settingsPipCount;
 
   /// No description provided for @settingsAnimationSpeed.
@@ -1830,7 +1830,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchTipPip.
   ///
   /// In az, this message translates to:
-  /// **'Pip sayı yarışda kimin öndə olduğunu göstərir.'**
+  /// **'Qalan xana sayı yarışda kimin öndə olduğunu göstərir.'**
   String get searchTipPip;
 
   /// No description provided for @searchBotSoon.

@@ -347,7 +347,7 @@
   "@actionMenu": {
     "description": "Accessibility label."
   },
-  "playerPip": "Pip {pip}",
+  "playerPip": "Qalan xana {pip}",
   "@playerPip": {
     "placeholders": {
       "pip": {
@@ -667,7 +667,7 @@
   "settingsConfirmMove": "Gedişi təsdiqlə",
   "settingsAutoRoll": "Avtomatik zər at",
   "settingsShowLegalMoves": "Mümkün gedişləri göstər",
-  "settingsPipCount": "Pip sayı",
+  "settingsPipCount": "Qalan xana sayı",
   "settingsAnimationSpeed": "Animasiya sürəti",
   "animationSpeedSlow": "Yavaş",
   "animationSpeedNormal": "Normal",
@@ -766,7 +766,7 @@
     }
   },
   "searchTipHeadRule": "Uzun nərddə başdan yalnız bir daş götürülür.",
-  "searchTipPip": "Pip sayı yarışda kimin öndə olduğunu göstərir.",
+  "searchTipPip": "Qalan xana sayı yarışda kimin öndə olduğunu göstərir.",
   "searchBotSoon": "30 saniyədə canlı rəqib tapılmasa, bot ilə oynayacaqsan.",
   "timeControlShort": "{minutes}+{delay}s",
   "@timeControlShort": {

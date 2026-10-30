@@ -498,7 +498,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String playerPip(int pip) {
-    return 'Pip $pip';
+    return 'Осталось $pip';
   }
 
   @override
@@ -935,7 +935,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsShowLegalMoves => 'Показывать возможные ходы';
 
   @override
-  String get settingsPipCount => 'Счёт Pip';
+  String get settingsPipCount => 'Оставшиеся пункты';
 
   @override
   String get settingsAnimationSpeed => 'Скорость анимации';
@@ -1109,7 +1109,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get searchTipHeadRule => 'В длинных нардах с головы за ход снимают только одну шашку.';
 
   @override
-  String get searchTipPip => 'Счёт пипов показывает, кто впереди в гонке.';
+  String get searchTipPip => 'Число оставшихся пунктов показывает, кто впереди в гонке.';
 
   @override
   String get searchBotSoon => 'Если за 30 секунд живой соперник не найдётся, сыграешь с ботом.';

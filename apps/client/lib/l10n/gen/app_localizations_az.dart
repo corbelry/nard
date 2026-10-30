@@ -464,7 +464,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String playerPip(int pip) {
-    return 'Pip $pip';
+    return 'Qalan xana $pip';
   }
 
   @override
@@ -809,7 +809,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get settingsShowLegalMoves => 'Mümkün gedişləri göstər';
 
   @override
-  String get settingsPipCount => 'Pip sayı';
+  String get settingsPipCount => 'Qalan xana sayı';
 
   @override
   String get settingsAnimationSpeed => 'Animasiya sürəti';
@@ -983,7 +983,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get searchTipHeadRule => 'Uzun nərddə başdan yalnız bir daş götürülür.';
 
   @override
-  String get searchTipPip => 'Pip sayı yarışda kimin öndə olduğunu göstərir.';
+  String get searchTipPip => 'Qalan xana sayı yarışda kimin öndə olduğunu göstərir.';
 
   @override
   String get searchBotSoon => '30 saniyədə canlı rəqib tapılmasa, bot ilə oynayacaqsan.';
