@@ -16,6 +16,15 @@ are unchecked.
   access** — recruit testers early. Moving the apps to a company account
   later is possible (app transfer) but takes work.
 
+- 2026-10-30 — **One subdomain of the owner's personal domain** for
+  everything (e.g. `nard.<domain>`): API, admin, privacy and deletion
+  pages on `/`, the game server on `/ws` (one DNS record, one TLS
+  certificate). The Helm chart does this when `ingress.ws.host` is empty
+  (the default now). Mobile builds then use
+  `--dart-define=API_URL=https://nard.<domain>` and
+  `--dart-define=WS_URL=wss://nard.<domain>/ws`. Waiting for: the domain,
+  the subdomain name and the support e-mail address.
+
 ## Steps (critical path first)
 
 ### 1. Identity and accounts (start first — longest waits)

@@ -31,7 +31,11 @@ spec:
                 name: {{ $full }}-api
                 port: { name: http }
 ---
-# WebSocket entry: only the /ws path of the game server is public.
+# WebSocket entry: only the /ws path of the game server is public. With an
+# empty ingress.ws.host it shares the API host (one subdomain, one
+# certificate: the API Ingress owns it, so no second cert-manager request).
+{{- $wsHost := .Values.ingress.ws.host | default .Values.ingress.api.host }}
+{{- $shared := eq $wsHost .Values.ingress.api.host }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -39,7 +43,7 @@ metadata:
   labels:
     {{- include "nardarena.labels" . | nindent 4 }}
   annotations:
-    {{- if .Values.ingress.tls.enabled }}
+    {{- if and .Values.ingress.tls.enabled (not $shared) }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer | quote }}
     {{- end }}
     {{- with .Values.ingress.wsAnnotations }}
@@ -49,11 +53,11 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- if .Values.ingress.tls.enabled }}
   tls:
-    - hosts: [{{ .Values.ingress.ws.host | quote }}]
-      secretName: {{ $full }}-ws-tls
+    - hosts: [{{ $wsHost | quote }}]
+      secretName: {{ if $shared }}{{ $full }}-api-tls{{ else }}{{ $full }}-ws-tls{{ end }}
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.ws.host | quote }}
+    - host: {{ $wsHost | quote }}
       http:
         paths:
           - path: {{ .Values.ingress.ws.path }}

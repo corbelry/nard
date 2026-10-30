@@ -39,7 +39,9 @@ redis:
 # Non-secret API configuration, rendered into a ConfigMap (and inline into
 # the migration Job, which runs before the ConfigMap exists on install).
 api:
-  url: https://api.nardarena.example
+  # Owner's choice (docs/LAUNCH.md): one subdomain of the owner's domain for
+  # the API, admin, web pages and the game server (/ws). Set the real host.
+  url: https://nard.example.com
   env:
     APP_ENV: production
     APP_DEBUG: "false"
@@ -59,7 +61,7 @@ api:
     SESSION_SECURE_COOKIE: "true"
     READINESS_CHECKS: database,redis
     MAIL_MAILER: smtp
-    MAIL_FROM_ADDRESS: no-reply@nardarena.example
+    MAIL_FROM_ADDRESS: no-reply@example.com
     APPLE_SIGNIN_ENABLED: "false"
     GOOGLE_SIGNIN_ENABLED: "false"
   # FrankenPHP PHP threads per API pod (ADR-047): concurrent requests
@@ -129,9 +131,10 @@ ingress:
     # cert-manager issuer (annotation) or an existing TLS secret per host.
     clusterIssuer: letsencrypt
   api:
-    host: api.nardarena.example
+    host: nard.example.com
   ws:
-    host: play.nardarena.example
+    # Empty = the API host (one subdomain); set a host for a separate one.
+    host: ""
     # Only the WebSocket path is public; /metrics, /readyz and the signed
     # /internal/* endpoint stay inside the cluster.
     path: /ws
