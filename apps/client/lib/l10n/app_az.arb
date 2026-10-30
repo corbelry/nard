@@ -1107,14 +1107,6 @@
   "exportLinkEmail": "E-poçt bağla",
   "exportProfile": "Profil və hesab",
   "exportGames": "Matç tarixçəsi",
-  "exportGamesCount": "{n} matç",
-  "@exportGamesCount": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
   "exportPurchases": "Alışlar və balans",
   "exportSocial": "Dostlar və klan",
   "exportFormat": "Format",

@@ -1439,17 +1439,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportGames => 'Match history';
 
   @override
-  String exportGamesCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n matches',
-      one: '1 match',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get exportPurchases => 'Purchases and balance';
 
   @override

@@ -1481,19 +1481,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exportGames => 'История матчей';
 
   @override
-  String exportGamesCount(int n) {
-    String _temp0 = intl.Intl.pluralLogic(
-      n,
-      locale: localeName,
-      other: '$n матча',
-      many: '$n матчей',
-      few: '$n матча',
-      one: '$n матч',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get exportPurchases => 'Покупки и баланс';
 
   @override

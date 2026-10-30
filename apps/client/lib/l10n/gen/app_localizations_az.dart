@@ -1331,11 +1331,6 @@ class AppLocalizationsAz extends AppLocalizations {
   String get exportGames => 'Matç tarixçəsi';
 
   @override
-  String exportGamesCount(int n) {
-    return '$n matç';
-  }
-
-  @override
   String get exportPurchases => 'Alışlar və balans';
 
   @override

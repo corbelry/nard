@@ -386,7 +386,6 @@
   "exportLinkEmail": "Привязать e-mail",
   "exportProfile": "Профиль и аккаунт",
   "exportGames": "История матчей",
-  "exportGamesCount": "{n, plural, one{{n} матч} few{{n} матча} many{{n} матчей} other{{n} матча}}",
   "exportPurchases": "Покупки и баланс",
   "exportSocial": "Друзья и клан",
   "exportFormat": "Формат",

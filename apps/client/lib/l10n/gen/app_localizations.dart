@@ -2415,12 +2415,6 @@ abstract class AppLocalizations {
   /// **'Matç tarixçəsi'**
   String get exportGames;
 
-  /// No description provided for @exportGamesCount.
-  ///
-  /// In az, this message translates to:
-  /// **'{n} matç'**
-  String exportGamesCount(int n);
-
   /// No description provided for @exportPurchases.
   ///
   /// In az, this message translates to:

@@ -534,7 +534,8 @@ accent@.4`, handle 40×5 r3 `text@.25` — differs from `showNardSheet` (inset 8
    rows min-h 48, padding h 14, gap 12, bottom border 1px `accent@.08`:
    check box 22, radius 6, fill `accent`, Lucide `check` 14 stroke 3.5
    `c.onAccent` · label 15 · trailing 12 `text@.55`.
-   Rows: "Profil və hesab" · "Oyun tarixçəsi" ("1 248 oyun", count from
+   Rows: "Profil və hesab" · "Oyun tarixçəsi" (mock "1 248 oyun"; no count —
+   rating counts are rated matches only, the ZIP has every match; was: count from
    `matches`) · ~~"Alışlar və balans" ("14 əməliyyat")~~ Phase 4 ·
    ~~"Söhbətlər"~~ Phase 5. Boxes are display-only (all included).
 4. Row space-between, padding h 4, 13 `text@.6`: "Format" · value mono

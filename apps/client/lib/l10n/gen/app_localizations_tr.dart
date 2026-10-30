@@ -1331,11 +1331,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get exportGames => 'Maç geçmişi';
 
   @override
-  String exportGamesCount(int n) {
-    return '$n maç';
-  }
-
-  @override
   String get exportPurchases => 'Satın almalar ve bakiye';
 
   @override

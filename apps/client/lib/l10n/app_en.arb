@@ -386,7 +386,6 @@
   "exportLinkEmail": "Link e-mail",
   "exportProfile": "Profile and account",
   "exportGames": "Match history",
-  "exportGamesCount": "{n, plural, =1{1 match} other{{n} matches}}",
   "exportPurchases": "Purchases and balance",
   "exportSocial": "Friends and clan",
   "exportFormat": "Format",

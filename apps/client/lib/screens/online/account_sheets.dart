@@ -145,10 +145,6 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
     final c = context.nard;
     final account = ref.watch(accountProvider).value;
     final email = account?.email;
-    final matches = account?.ratings.values.fold<int>(
-      0,
-      (sum, r) => sum + r.matches,
-    );
     Widget row(
       String label,
       String? trailing, {
@@ -216,10 +212,8 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
             child: Column(
               children: [
                 row(l.exportProfile, null),
-                row(
-                  l.exportGames,
-                  matches == null ? null : l.exportGamesCount(matches),
-                ),
+                // No count: ratings count rated matches only, the ZIP has all.
+                row(l.exportGames, null),
                 row(l.exportPurchases, null),
                 row(l.exportSocial, null, last: true),
               ],
