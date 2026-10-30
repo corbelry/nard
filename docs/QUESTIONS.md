@@ -33,5 +33,10 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 25 | 4 | The 2 000 Yaqut pack (19,99 ₼) gives less per ₼ than the 1 200 pack (9,99 ₼). | a) 2 000 → 2 600 Yaqut · b) Keep | — (prices are set in the stores) | open |
 | 26 | 4 | Caspian appears as season level 30, premium track level 19 and (earlier) buyable. | a) Season pass only · b) Also buyable | a | assumed |
 | 27 | 4 | Should bot and offline games give coins/XP? | a) Online bot games: reduced rewards; offline: none (no farming) · b) Offline too | a | assumed |
+| 28 | 5 | 6.4 spectator view shows free-text chat; spec §8.5 forbids free text in ranked games. | a) Spectators: emotes only (no chat) · b) Spectator-only chat, never shown to players | a | assumed |
+| 29 | 5 | Clan war scoring: the design gives +3 per won match (25 matches to 5 points); spec says "total points win". | a) +3 per won war match, most points wins · b) Sum of match points | a | assumed |
+| 30 | 5 | Clan roles: who may accept requests, kick and promote (design is inconsistent, e.g. an Ağsaqqal kicking an Ağsaqqal). | a) Leader all; co-leader below co-leader; elder: requests, invites, kick members, moderate chat · b) Other | a | assumed |
+| 31 | 5 | Weekly clan chest (target 10 000 coins): what do members get when it is reached? Donation limits? | a) Clan XP only for now; decide rewards later · b) Coins back to donors · c) An exclusive item | a | open |
+| 32 | 5 | Clan creation 3 000 coins, rename 1 000, member cap 50, tag 3–5 letters (design numbers). | a) Keep · b) Change | a | assumed |
 
 Earlier questions are tracked in `ROADMAP.md` → "Open questions".
