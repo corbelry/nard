@@ -46,6 +46,20 @@ class InboxNotifier extends AsyncNotifier<InboxPage?> {
     );
   }
 
+  /// A row pushed over the socket (ADR-049): added on top and counted as
+  /// unread; ignored when already held or before the first load (which
+  /// fetches it anyway).
+  void receive(AppNotification n) {
+    final current = state.value;
+    if (current == null || current.items.any((i) => i.id == n.id)) return;
+    _set(
+      InboxPage(
+        items: [n, ...current.items],
+        unread: n.read ? current.unread : current.unread + 1,
+      ),
+    );
+  }
+
   Future<void> markAllRead() async {
     final current = state.value;
     if (current == null) return;
@@ -194,12 +208,14 @@ Future<void> syncPushDevice(
     NotificationType.tournamentRound ||
     NotificationType.tournamentEliminated ||
     NotificationType.tournamentWon ||
-    NotificationType.tournamentFinished =>
+    NotificationType.tournamentFinished ||
+    NotificationType.tournamentCancelled =>
       tournament.isEmpty ? null : (path: '/tournaments/$tournament', go: false),
     NotificationType.seasonEnd => (
       path: '/season/summary?n=${n.number('season')}',
       go: false,
     ),
+    NotificationType.seasonStarted => (path: '/season', go: false),
     NotificationType.levelUp => (path: '/profile', go: true),
     // The row itself is the whole message.
     NotificationType.moderationWarning || NotificationType.unknown => null,

@@ -3999,6 +3999,27 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String notifTournamentEliminatedPlace(int round, int place) {
+    return '· Tur $round: elendin. Sıran: $place';
+  }
+
+  @override
+  String get notifTournamentCancelled => 'iptal edildi';
+
+  @override
+  String notifTournamentCancelledRefund(int coins) {
+    return 'iptal edildi · $coins jeton iade edildi';
+  }
+
+  @override
+  String notifSeasonEndRank(String tier, int rank, int coins) {
+    return 'bitti · Ligin: $tier, sıran: #$rank. Ödül: $coins jeton';
+  }
+
+  @override
+  String get notifSeasonStarted => 'başladı. Yeni sezon bileti ve ödüller seni bekliyor';
+
+  @override
   String get notifUnknown => 'Yeni bildirim';
 
   @override

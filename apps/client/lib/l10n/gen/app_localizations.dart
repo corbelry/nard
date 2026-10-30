@@ -6999,6 +6999,36 @@ abstract class AppLocalizations {
   /// **'+{coins} sikkə qazandın'**
   String notifLevelUp(int coins);
 
+  /// No description provided for @notifTournamentEliminatedPlace.
+  ///
+  /// In az, this message translates to:
+  /// **'· Raund {round}: mübarizə bitdi. Yerin: {place}'**
+  String notifTournamentEliminatedPlace(int round, int place);
+
+  /// No description provided for @notifTournamentCancelled.
+  ///
+  /// In az, this message translates to:
+  /// **'ləğv edildi'**
+  String get notifTournamentCancelled;
+
+  /// No description provided for @notifTournamentCancelledRefund.
+  ///
+  /// In az, this message translates to:
+  /// **'ləğv edildi · {coins} sikkə geri qaytarıldı'**
+  String notifTournamentCancelledRefund(int coins);
+
+  /// No description provided for @notifSeasonEndRank.
+  ///
+  /// In az, this message translates to:
+  /// **'bitdi · Dərəcən: {tier}, yerin: #{rank}. Mükafat: {coins} sikkə'**
+  String notifSeasonEndRank(String tier, int rank, int coins);
+
+  /// No description provided for @notifSeasonStarted.
+  ///
+  /// In az, this message translates to:
+  /// **'başladı. Yeni sezon keçidi və mükafatlar səni gözləyir'**
+  String get notifSeasonStarted;
+
   /// No description provided for @notifUnknown.
   ///
   /// In az, this message translates to:

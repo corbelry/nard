@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/gen/app_localizations.dart';
 import '../moderation/banned_screen.dart';
+import '../notifications/live_banner.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_theme.dart';
 import 'providers.dart';
@@ -42,7 +43,7 @@ class NardApp extends ConsumerWidget {
             ),
             child: BannedGate(
               onSignedOut: () => router.go('/home'),
-              child: child!,
+              child: LiveBannerHost(router: router, child: child!),
             ),
           ),
     );

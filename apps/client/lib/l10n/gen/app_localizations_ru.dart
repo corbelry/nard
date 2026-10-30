@@ -4155,6 +4155,27 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String notifTournamentEliminatedPlace(int round, int place) {
+    return '· Раунд $round: вы выбыли. Ваше место: $place';
+  }
+
+  @override
+  String get notifTournamentCancelled => 'отменён';
+
+  @override
+  String notifTournamentCancelledRefund(int coins) {
+    return 'отменён · возвращено монет: $coins';
+  }
+
+  @override
+  String notifSeasonEndRank(String tier, int rank, int coins) {
+    return 'завершён · Ваша лига: $tier, место #$rank. Награда: $coins монет';
+  }
+
+  @override
+  String get notifSeasonStarted => 'начался. Новый сезонный пропуск и награды уже ждут';
+
+  @override
   String get notifUnknown => 'Новое уведомление';
 
   @override

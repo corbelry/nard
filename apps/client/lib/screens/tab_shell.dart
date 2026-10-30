@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../l10n/gen/app_localizations.dart';
+import '../moderation/moderation.dart';
+import '../notifications/live_notifications.dart';
 import '../online/account.dart';
 import '../online/api_client.dart' show Account;
 import '../online/online_game_controller.dart';
@@ -19,6 +21,9 @@ import '../ui/layout.dart';
 /// §13). Runs the daily check-in once per app open while signed in and
 /// shows the 12.2 streak modal when coins were credited. Assigned
 /// tournament matches open VS (2.5) and walkovers 21.3 from any screen.
+/// While signed in and in the foreground it keeps the game-server socket
+/// open for live notifications (ADR-049); in the background an idle
+/// socket is closed.
 class TabShell extends ConsumerStatefulWidget {
   const TabShell({super.key, required this.shell});
 
@@ -29,13 +34,20 @@ class TabShell extends ConsumerStatefulWidget {
 }
 
 class _TabShellState extends ConsumerState<TabShell> {
+  AppLifecycleListener? _lifecycle;
+  String? _accountId;
+
   @override
   void initState() {
     super.initState();
     ref.listenManual<AsyncValue<Account?>>(
       accountProvider,
-      (_, next) => _maybeCheckIn(next.value),
+      (_, next) => _onAccount(next.value),
       fireImmediately: true,
+    );
+    _lifecycle = AppLifecycleListener(
+      onResume: _goLive,
+      onPause: () => ref.read(liveNotificationsProvider.notifier).background(),
     );
     ref.listenManual<Lobby>(lobbyProvider, (prev, next) {
       final found = next.phase == LobbyPhase.found;
@@ -61,6 +73,32 @@ class _TabShellState extends ConsumerState<TabShell> {
         }
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _lifecycle?.dispose();
+    super.dispose();
+  }
+
+  void _onAccount(Account? account) {
+    final id = account?.id;
+    // Another account (or none): the socket was authenticated as the
+    // previous one.
+    if (_accountId != null && id != _accountId) {
+      ref.read(liveNotificationsProvider.notifier).accountChanged();
+    }
+    _accountId = id;
+    _maybeCheckIn(account);
+    _goLive();
+  }
+
+  /// Opens the shared socket for live notifications when signed in and
+  /// not banned (a banned account gets no ticket).
+  void _goLive() {
+    if (ref.read(accountProvider).value == null) return;
+    if (ref.read(banProvider) != null) return;
+    ref.read(liveNotificationsProvider.notifier).foreground();
   }
 
   void _maybeCheckIn(Account? account) {

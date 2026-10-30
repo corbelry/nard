@@ -58,7 +58,13 @@ NotificationLine notificationLine(
     ),
     NotificationType.tournamentEliminated => (
       who: tournament,
-      text: l.notifTournamentEliminated(n.number('round')),
+      text:
+          n.number('place') > 0
+              ? l.notifTournamentEliminatedPlace(
+                n.number('round'),
+                n.number('place'),
+              )
+              : l.notifTournamentEliminated(n.number('round')),
     ),
     NotificationType.tournamentWon => (
       who: tournament,
@@ -68,9 +74,27 @@ NotificationLine notificationLine(
       who: tournament,
       text: l.notifTournamentFinished(n.number('place')),
     ),
+    NotificationType.tournamentCancelled => (
+      who: tournament,
+      text:
+          n.number('refund') > 0
+              ? l.notifTournamentCancelledRefund(n.number('refund'))
+              : l.notifTournamentCancelled,
+    ),
     NotificationType.seasonEnd => (
       who: l.notifSeasonEndWho(n.number('season')),
-      text: l.notifSeasonEnd(tier == null ? '' : l.tierName(tier)),
+      text:
+          n.number('rank') > 0
+              ? l.notifSeasonEndRank(
+                tier == null ? '' : l.tierName(tier),
+                n.number('rank'),
+                n.number('coins'),
+              )
+              : l.notifSeasonEnd(tier == null ? '' : l.tierName(tier)),
+    ),
+    NotificationType.seasonStarted => (
+      who: l.notifSeasonEndWho(n.number('season')),
+      text: l.notifSeasonStarted,
     ),
     NotificationType.levelUp => (
       who: l.notifLevelUpWho(n.number('level')),
@@ -99,8 +123,10 @@ IconData notificationIcon(NotificationType t) => switch (t) {
   NotificationType.tournamentRound ||
   NotificationType.tournamentEliminated ||
   NotificationType.tournamentWon ||
-  NotificationType.tournamentFinished => LucideIcons.trophy,
-  NotificationType.seasonEnd => LucideIcons.award,
+  NotificationType.tournamentFinished ||
+  NotificationType.tournamentCancelled => LucideIcons.trophy,
+  NotificationType.seasonEnd ||
+  NotificationType.seasonStarted => LucideIcons.award,
   NotificationType.levelUp => LucideIcons.sparkles,
   NotificationType.moderationWarning => LucideIcons.shieldAlert,
   NotificationType.unknown => LucideIcons.bell,

@@ -4109,6 +4109,27 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notifTournamentEliminatedPlace(int round, int place) {
+    return '· Round $round: your run is over. Your place: $place';
+  }
+
+  @override
+  String get notifTournamentCancelled => 'was cancelled';
+
+  @override
+  String notifTournamentCancelledRefund(int coins) {
+    return 'was cancelled · $coins coins refunded';
+  }
+
+  @override
+  String notifSeasonEndRank(String tier, int rank, int coins) {
+    return 'is over · Your tier: $tier, rank #$rank. Reward: $coins coins';
+  }
+
+  @override
+  String get notifSeasonStarted => 'has begun. A new season pass and new rewards are waiting';
+
+  @override
   String get notifUnknown => 'New notification';
 
   @override

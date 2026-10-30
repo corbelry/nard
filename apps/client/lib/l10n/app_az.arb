@@ -3374,6 +3374,41 @@
       }
     }
   },
+  "notifTournamentEliminatedPlace": "· Raund {round}: mübarizə bitdi. Yerin: {place}",
+  "@notifTournamentEliminatedPlace": {
+    "placeholders": {
+      "round": {
+        "type": "int"
+      },
+      "place": {
+        "type": "int"
+      }
+    }
+  },
+  "notifTournamentCancelled": "ləğv edildi",
+  "notifTournamentCancelledRefund": "ləğv edildi · {coins} sikkə geri qaytarıldı",
+  "@notifTournamentCancelledRefund": {
+    "placeholders": {
+      "coins": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSeasonEndRank": "bitdi · Dərəcən: {tier}, yerin: #{rank}. Mükafat: {coins} sikkə",
+  "@notifSeasonEndRank": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      },
+      "rank": {
+        "type": "int"
+      },
+      "coins": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSeasonStarted": "başladı. Yeni sezon keçidi və mükafatlar səni gözləyir",
   "notifUnknown": "Yeni bildiriş",
   "notifGroupGame": "OYUN",
   "notifGroupTournament": "TURNİR",

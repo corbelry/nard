@@ -14,7 +14,9 @@ enum NotificationType {
   tournamentEliminated('tournament_eliminated'),
   tournamentWon('tournament_won'),
   tournamentFinished('tournament_finished'),
+  tournamentCancelled('tournament_cancelled'),
   seasonEnd('season_end'),
+  seasonStarted('season_started'),
   levelUp('level_up'),
   moderationWarning('moderation_warning'),
   unknown('');
@@ -81,7 +83,8 @@ class AppNotification {
     NotificationType.tournamentRound ||
     NotificationType.tournamentEliminated ||
     NotificationType.tournamentWon ||
-    NotificationType.tournamentFinished => InboxTab.tournament,
+    NotificationType.tournamentFinished ||
+    NotificationType.tournamentCancelled => InboxTab.tournament,
     _ => InboxTab.all,
   };
 

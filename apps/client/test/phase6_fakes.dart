@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nard_client/analysis/analysis_engine.dart';
 import 'package:nard_client/analysis/analysis_providers.dart';
 import 'package:nard_client/l10n/gen/app_localizations.dart';
+import 'package:nard_client/notifications/live_notifications.dart';
 import 'package:nard_client/online/api_client.dart';
 import 'package:nard_client/puzzles/puzzle_models.dart';
 import 'package:nard_client/seasons/season_models.dart';
@@ -578,6 +579,15 @@ class FakeTournamentSocket extends TournamentSocket {
   }
 }
 
+/// Keeps the live-notification socket closed in tests (ADR-049).
+class QuietLiveNotifications extends LiveNotifications {
+  @override
+  void foreground() {}
+
+  @override
+  void background() {}
+}
+
 /// Runs analysis inline (no isolates in widget tests).
 Future<MoveEval> inlineAnalysis(AnalysisTask task) async =>
     Analyzer.analyse(task);
@@ -585,6 +595,7 @@ Future<MoveEval> inlineAnalysis(AnalysisTask task) async =>
 List<Override> phase6Overrides(FakeApi api) => [
   ...storeOverrides(api),
   tournamentSocketProvider.overrideWith(FakeTournamentSocket.new),
+  liveNotificationsProvider.overrideWith(QuietLiveNotifications.new),
   analysisRunnerProvider.overrideWithValue(inlineAnalysis),
 ];
 
