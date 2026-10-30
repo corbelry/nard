@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nardarena
+description: >
+  NardArena backend on Kubernetes (GKE): Laravel API with scheduler and queue
+  workers, the Dart game server, migrations as a pre-upgrade Job. MySQL and
+  Redis are external dependencies (ADR-043).
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

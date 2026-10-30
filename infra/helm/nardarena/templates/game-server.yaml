@@ -1,0 +1,93 @@
+# Authoritative game server (Dart). ADR-032: a single stateful pod for now —
+# matches, queues and private rooms live in its memory. Scaling out needs
+# the Redis queue, a matchId -> pod registry and routing by match id at the
+# ingress (spec §7.5); until then keep replicas at 1.
+{{- if gt (int .Values.gameServer.replicas) 1 }}
+{{- fail "gameServer.replicas > 1 needs the Redis registry and sticky routing by matchId (ADR-032)" }}
+{{- end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nardarena.fullname" . }}-game-server
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+    app.kubernetes.io/component: game-server
+spec:
+  replicas: {{ .Values.gameServer.replicas }}
+  # Never two pods at once: each would run its own matchmaker.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "nardarena.selector" (list . "game-server") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nardarena.selector" (list . "game-server") | nindent 8 }}
+      {{- if .Values.metrics.annotations }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: /metrics
+      {{- end }}
+    spec:
+      {{- include "nardarena.podCommon" . | nindent 6 }}
+      # SIGTERM: /readyz turns 503, then the server closes after the grace.
+      terminationGracePeriodSeconds: {{ .Values.gameServer.terminationGracePeriodSeconds }}
+      containers:
+        - name: game-server
+          image: {{ .Values.images.gameServer.repository }}:{{ .Values.images.gameServer.tag }}
+          imagePullPolicy: {{ .Values.images.gameServer.pullPolicy }}
+          env:
+            - name: PORT
+              value: "8080"
+            - name: API_URL
+              value: {{ printf "http://%s-api:8000" (include "nardarena.fullname" .) | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.gameServer.logLevel | quote }}
+            - name: SHUTDOWN_GRACE_SECONDS
+              value: {{ .Values.gameServer.shutdownGraceSeconds | quote }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .Values.gameServer.sentryEnvironment | quote }}
+            - name: GAME_TICKET_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: GAME_TICKET_SECRET
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: SENTRY_DSN
+                  optional: true
+            - name: REDIS_URL
+              value: {{ printf "redis://%s:%v" .Values.redis.host .Values.redis.port | quote }}
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet: { path: /readyz, port: http }
+            periodSeconds: 5
+            failureThreshold: 2
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            initialDelaySeconds: 5
+            periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.gameServer.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nardarena.fullname" . }}-game-server
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+    app.kubernetes.io/component: game-server
+spec:
+  selector:
+    {{- include "nardarena.selector" (list . "game-server") | nindent 4 }}
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

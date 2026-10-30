@@ -48,6 +48,12 @@ services:
       MAIL_FROM_ADDRESS: no-reply@nardarena.local
       # Local only: receipts "test-…" credit Yaqut (config/iap.php).
       IAP_FAKE: "true"
+      # Observability (ADR-043): JSON log lines on stderr; Prometheus text
+      # at /api/v1/internal/metrics with this bearer token (local default).
+      LOG_CHANNEL: stack
+      LOG_STACK: json
+      LOG_LEVEL: info
+      METRICS_TOKEN: ${METRICS_TOKEN:-local-dev-metrics-token}
     # `artisan serve` passes only a few variables to its child process, so
     # run PHP's server directly to keep DB_/REDIS_/MAIL_ settings.
     command: >
@@ -99,6 +105,8 @@ services:
       # Shared with the API, which signs game-server tickets. Local default
       # only; production reads it from a secret.
       GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
+      # JSON logs; /metrics and /readyz on the same port (ADR-043).
+      LOG_LEVEL: info
     ports: ["${NARD_GAME_PORT:-18080}:8080"]
     depends_on:
       redis: { condition: service_healthy }

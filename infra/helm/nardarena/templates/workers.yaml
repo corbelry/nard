@@ -1,0 +1,71 @@
+{{- if .Values.scheduler.enabled }}
+# Laravel scheduler: exactly one replica (Recreate), see routes/console.php.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nardarena.fullname" . }}-scheduler
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+    app.kubernetes.io/component: scheduler
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "nardarena.selector" (list . "scheduler") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nardarena.selector" (list . "scheduler") | nindent 8 }}
+      annotations:
+        checksum/config: {{ include "nardarena.apiConfig" . | sha256sum }}
+    spec:
+      {{- include "nardarena.podCommon" . | nindent 6 }}
+      containers:
+        - name: scheduler
+          image: {{ include "nardarena.apiImage" . }}
+          imagePullPolicy: {{ .Values.images.api.pullPolicy }}
+          command: ["php", "artisan", "schedule:work"]
+          envFrom:
+            {{- include "nardarena.apiEnvFrom" . | nindent 12 }}
+          resources:
+            {{- toYaml .Values.scheduler.resources | nindent 12 }}
+{{- end }}
+{{- if .Values.queue.enabled }}
+---
+# Database queue workers (push notifications, ADR-041).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nardarena.fullname" . }}-queue
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+    app.kubernetes.io/component: queue
+spec:
+  replicas: {{ .Values.queue.replicas }}
+  selector:
+    matchLabels:
+      {{- include "nardarena.selector" (list . "queue") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nardarena.selector" (list . "queue") | nindent 8 }}
+      annotations:
+        checksum/config: {{ include "nardarena.apiConfig" . | sha256sum }}
+    spec:
+      {{- include "nardarena.podCommon" . | nindent 6 }}
+      # Lets a running job finish (queue:work stops on SIGTERM after it).
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: queue
+          image: {{ include "nardarena.apiImage" . }}
+          imagePullPolicy: {{ .Values.images.api.pullPolicy }}
+          command: ["php", "artisan", "queue:work"]
+          args:
+            {{- toYaml .Values.queue.args | nindent 12 }}
+          envFrom:
+            {{- include "nardarena.apiEnvFrom" . | nindent 12 }}
+          resources:
+            {{- toYaml .Values.queue.resources | nindent 12 }}
+{{- end }}

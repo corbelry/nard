@@ -1,0 +1,9 @@
+NardArena {{ .Chart.AppVersion }} installed as {{ include "nardarena.fullname" . }}.
+
+API:        https://{{ .Values.ingress.api.host }}  (readiness /readyz, liveness /up)
+WebSocket:  wss://{{ .Values.ingress.ws.host }}{{ .Values.ingress.ws.path }}
+Game server: {{ .Values.gameServer.replicas }} replica (ADR-032, in-memory matches).
+
+The Secret "{{ .Values.secrets.name }}" must exist with APP_KEY, DB_PASSWORD,
+GAME_TICKET_SECRET and METRICS_TOKEN (optional: REDIS_PASSWORD, SENTRY_DSN).
+Migrations ran in the pre-install/pre-upgrade Job "{{ include "nardarena.fullname" . }}-migrate".

@@ -1,0 +1,65 @@
+{{- if .Values.ingress.enabled }}
+{{- $full := include "nardarena.fullname" . -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $full }}-api
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.ingress.tls.enabled }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer | quote }}
+    {{- end }}
+    {{- with .Values.ingress.apiAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts: [{{ .Values.ingress.api.host | quote }}]
+      secretName: {{ $full }}-api-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.api.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $full }}-api
+                port: { name: http }
+---
+# WebSocket entry: only the /ws path of the game server is public.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $full }}-ws
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.ingress.tls.enabled }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer | quote }}
+    {{- end }}
+    {{- with .Values.ingress.wsAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts: [{{ .Values.ingress.ws.host | quote }}]
+      secretName: {{ $full }}-ws-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.ws.host | quote }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.ws.path }}
+            pathType: Exact
+            backend:
+              service:
+                name: {{ $full }}-game-server
+                port: { name: http }
+{{- end }}
