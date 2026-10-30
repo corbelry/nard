@@ -1,8 +1,8 @@
-import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../l10n/gen/app_localizations.dart';
@@ -106,8 +106,8 @@ class _RenameBodyState extends ConsumerState<_RenameBody> {
   }
 }
 
-/// 15.2 Export my data. The API answers with JSON at once, so the sheet
-/// prepares it and offers to copy it (online.md §12.5 decision).
+/// 15.2 Export my data: the API e-mails a ZIP to the account address;
+/// accounts without one link an e-mail first (QUESTIONS #17).
 Future<void> showExportSheet(BuildContext context) =>
     showNardSheet<void>(context, builder: (_) => const _ExportBody());
 
@@ -120,7 +120,7 @@ class _ExportBody extends ConsumerStatefulWidget {
 
 class _ExportBodyState extends ConsumerState<_ExportBody> {
   bool _busy = false;
-  String? _json;
+  String? _sentTo;
   String? _error;
 
   Future<void> _start() async {
@@ -130,28 +130,13 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
       _error = null;
     });
     try {
-      final data = await ref.read(apiClientProvider).export();
-      if (!mounted) return;
-      setState(() {
-        _busy = false;
-        _json = const JsonEncoder.withIndent('  ').convert(data);
-      });
+      final email = await ref.read(apiClientProvider).requestExport();
+      if (mounted) setState(() => _sentTo = email);
     } on Object catch (e) {
-      if (mounted) {
-        setState(() {
-          _busy = false;
-          _error = authErrorText(l, e);
-        });
-      }
+      if (mounted) setState(() => _error = authErrorText(l, e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
-  }
-
-  Future<void> _copy() async {
-    final l = AppLocalizations.of(context);
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    await Clipboard.setData(ClipboardData(text: _json!));
-    messenger?.showSnackBar(SnackBar(content: Text(l.copied)));
-    if (mounted) Navigator.of(context).pop();
   }
 
   @override
@@ -159,6 +144,7 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
     final l = AppLocalizations.of(context);
     final c = context.nard;
     final account = ref.watch(accountProvider).value;
+    final email = account?.email;
     final matches = account?.ratings.values.fold<int>(
       0,
       (sum, r) => sum + r.matches,
@@ -204,11 +190,7 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
         ],
       ),
     );
-    final json = _json;
-    final kb =
-        json == null
-            ? ''
-            : (utf8.encode(json).length / 1024).toStringAsFixed(1);
+    final sentTo = _sentTo;
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -218,7 +200,7 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
           SheetTitle(l.exportTitle),
           const SizedBox(height: 14),
           Text(
-            l.exportBody,
+            email == null ? l.exportNeedsEmail : l.exportBody(email),
             style: NardType.body.copyWith(
               fontSize: 14,
               color: c.text.withValues(alpha: .7),
@@ -237,8 +219,9 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
                 row(
                   l.exportGames,
                   matches == null ? null : l.exportGamesCount(matches),
-                  last: true,
                 ),
+                row(l.exportPurchases, null),
+                row(l.exportSocial, null, last: true),
               ],
             ),
           ),
@@ -249,10 +232,10 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
               children: [
                 Expanded(
                   child: Text(
-                    json == null ? l.exportFormat : l.exportReady(kb),
+                    sentTo == null ? l.exportFormat : l.exportSent(sentTo),
                     style: NardType.bodyS.copyWith(
                       color:
-                          json == null
+                          sentTo == null
                               ? c.text.withValues(alpha: .6)
                               : c.successText,
                     ),
@@ -270,18 +253,32 @@ class _ExportBodyState extends ConsumerState<_ExportBody> {
           ),
           if (_error != null) ErrorLine(_error!),
           const SizedBox(height: 18),
-          NardButton(
-            label: json == null ? l.exportStart : l.exportCopy,
-            onPressed: _busy ? null : (json == null ? _start : _copy),
-          ),
-          const SizedBox(height: 10),
-          NardButton(
-            label: l.cancel,
-            variant: NardButtonVariant.ghost,
-            size: NardButtonSize.m,
-            labelColor: c.text.withValues(alpha: .7),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+          if (sentTo != null)
+            NardButton(
+              label: l.close,
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          else if (email == null)
+            NardButton(
+              label: l.exportLinkEmail,
+              onPressed: () {
+                final router = GoRouter.of(context);
+                Navigator.of(context).pop();
+                unawaited(router.push('/signin/email'));
+              },
+            )
+          else
+            NardButton(label: l.exportStart, onPressed: _busy ? null : _start),
+          if (sentTo == null) ...[
+            const SizedBox(height: 10),
+            NardButton(
+              label: l.cancel,
+              variant: NardButtonVariant.ghost,
+              size: NardButtonSize.m,
+              labelColor: c.text.withValues(alpha: .7),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
         ],
       ),
     );

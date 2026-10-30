@@ -1464,7 +1464,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exportTitle => 'Экспорт данных';
 
   @override
-  String get exportBody => 'Профиль и история матчей будут собраны в JSON-файл. Когда он будет готов, его можно скопировать.';
+  String exportBody(String email) {
+    return 'Мы отправим все ваши данные ZIP-файлом на $email в течение 24 часов.';
+  }
+
+  @override
+  String get exportNeedsEmail => 'Чтобы получить данные, сначала привяжите e-mail к аккаунту. Прогресс сохранится.';
+
+  @override
+  String get exportLinkEmail => 'Привязать e-mail';
 
   @override
   String get exportProfile => 'Профиль и аккаунт';
@@ -1486,21 +1494,24 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get exportPurchases => 'Покупки и баланс';
+
+  @override
+  String get exportSocial => 'Друзья и клан';
+
+  @override
   String get exportFormat => 'Формат';
 
   @override
-  String get exportFormatValue => 'JSON';
+  String get exportFormatValue => 'ZIP · JSON';
 
   @override
   String get exportStart => 'Начать экспорт';
 
   @override
-  String exportReady(String size) {
-    return 'Файл готов · $size КБ';
+  String exportSent(String email) {
+    return 'Отправлено на $email';
   }
-
-  @override
-  String get exportCopy => 'Скопировать JSON';
 
   @override
   String get deleteTitle => 'Удалить аккаунт?';

@@ -273,7 +273,10 @@ class ApiClient {
 
   Future<void> deleteMe() => _call('DELETE', '/me');
 
-  Future<Map<String, Object?>> export() => _call('GET', '/me/export');
+  /// 15.2: queues the e-mailed ZIP; returns the address it goes to
+  /// (`409 email_required` for accounts without one, QUESTIONS #17).
+  Future<String> requestExport() async =>
+      (await _call('POST', '/me/export'))['email']! as String;
 
   Future<List<Map<String, Object?>>> matches({int limit = 30}) async =>
       ((await _call('GET', '/me/matches?limit=$limit'))['matches']! as List)

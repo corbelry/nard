@@ -541,8 +541,12 @@ accent@.4`, handle 40×5 r3 `text@.25` — differs from `showNardSheet` (inset 8
    (`NardType.mono` 13) "ZIP · JSON + CSV".
 5. Buttons column gap 10, margin-top 4: primary l "İxracı başlat"; ghost h 48,
    15 w600 `text@.7` "Ləğv et".
-The API (`GET /me/export`) returns JSON immediately; mock copy promises an
-e-mailed ZIP within 24 h (§12).
+Built as the mock (QUESTIONS #17): `POST /me/export` queues an e-mailed
+ZIP (one JSON per section, docs/api/account.md); rows Profile · Matches ·
+Purchases and balance · Friends and clan; format "ZIP · JSON" (no CSV).
+After sending, the format line reads "Sent to {email}" (`successText`) and
+the buttons become one "Close". Without an e-mail (guest) the body asks to
+link one and the primary button opens 17.2.
 
 ### 6.3 15.3 Delete account (sheet)
 Same sheet frame; mock top hairline `dangerText@.5`. Column gap 14:

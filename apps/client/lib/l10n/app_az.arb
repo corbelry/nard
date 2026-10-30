@@ -1095,7 +1095,16 @@
   "accountExport": "Məlumatlarımı ixrac et",
   "accountDelete": "Hesabı sil",
   "exportTitle": "Məlumatlarını ixrac et",
-  "exportBody": "Profilin və matç tarixçən JSON faylı kimi hazırlanacaq. Hazır olanda onu kopyalaya bilərsən.",
+  "exportBody": "Bütün məlumatlarını ZIP faylı kimi 24 saat ərzində {email} ünvanına göndərəcəyik.",
+  "@exportBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "exportNeedsEmail": "Məlumatlarını almaq üçün əvvəlcə hesabına e-poçt bağla. İrəliləyişin olduğu kimi qalır.",
+  "exportLinkEmail": "E-poçt bağla",
   "exportProfile": "Profil və hesab",
   "exportGames": "Matç tarixçəsi",
   "exportGamesCount": "{n} matç",
@@ -1106,18 +1115,19 @@
       }
     }
   },
+  "exportPurchases": "Alışlar və balans",
+  "exportSocial": "Dostlar və klan",
   "exportFormat": "Format",
-  "exportFormatValue": "JSON",
+  "exportFormatValue": "ZIP · JSON",
   "exportStart": "İxracı başlat",
-  "exportReady": "Fayl hazırdır · {size} KB",
-  "@exportReady": {
+  "exportSent": "{email} ünvanına göndərildi",
+  "@exportSent": {
     "placeholders": {
-      "size": {
+      "email": {
         "type": "String"
       }
     }
   },
-  "exportCopy": "JSON-u kopyala",
   "deleteTitle": "Hesab silinsin?",
   "deleteItemRating": "Reytinq ({rating}), dərəcə və bütün matç tarixçəsi",
   "@deleteItemRating": {

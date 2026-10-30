@@ -1422,7 +1422,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportTitle => 'Export your data';
 
   @override
-  String get exportBody => 'Your profile and match history are packed into a JSON file. When it\'s ready you can copy it.';
+  String exportBody(String email) {
+    return 'We\'ll e-mail all your data as a ZIP file to $email within 24 hours.';
+  }
+
+  @override
+  String get exportNeedsEmail => 'To receive your data, link an e-mail to your account first. Your progress stays as it is.';
+
+  @override
+  String get exportLinkEmail => 'Link e-mail';
 
   @override
   String get exportProfile => 'Profile and account';
@@ -1442,21 +1450,24 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get exportPurchases => 'Purchases and balance';
+
+  @override
+  String get exportSocial => 'Friends and clan';
+
+  @override
   String get exportFormat => 'Format';
 
   @override
-  String get exportFormatValue => 'JSON';
+  String get exportFormatValue => 'ZIP · JSON';
 
   @override
   String get exportStart => 'Start export';
 
   @override
-  String exportReady(String size) {
-    return 'File ready · $size KB';
+  String exportSent(String email) {
+    return 'Sent to $email';
   }
-
-  @override
-  String get exportCopy => 'Copy JSON';
 
   @override
   String get deleteTitle => 'Delete your account?';

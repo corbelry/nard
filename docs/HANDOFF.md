@@ -113,10 +113,7 @@ Infra agent work is committed (ADR-043). #35 (3 min no-show) is done.
 and `room.create`, separate queues, room clock from the control, 2.2 tiles;
 the API ignores `MatchResult.timeControl` for now.
 - #45 DONE (59f2b73): `/delete-account` served by the API (docs/api/account.md).
-- #17 API DONE (37e66fd): `POST /me/export` → 202 e-mailed ZIP, 409
-  `email_required` for guests; `GET /me/export` is gone. CLIENT TODO (after
-  the #20 agent, it edits the ARB files): 15.2 calls POST, shows "sent to
-  {email}", guests get "link an e-mail" → 17.2 e-mail flow; fix copy.
+- #17 DONE: API 37e66fd, client 15.2 sheet (e-mailed ZIP, guests link an e-mail).
 
 ## Phase 7 plan (spec §12 phase 7, §8.11, §8.13, §8.14, §11, design 16.x)
 

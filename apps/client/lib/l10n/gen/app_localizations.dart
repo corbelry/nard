@@ -2388,8 +2388,20 @@ abstract class AppLocalizations {
   /// No description provided for @exportBody.
   ///
   /// In az, this message translates to:
-  /// **'Profilin və matç tarixçən JSON faylı kimi hazırlanacaq. Hazır olanda onu kopyalaya bilərsən.'**
-  String get exportBody;
+  /// **'Bütün məlumatlarını ZIP faylı kimi 24 saat ərzində {email} ünvanına göndərəcəyik.'**
+  String exportBody(String email);
+
+  /// No description provided for @exportNeedsEmail.
+  ///
+  /// In az, this message translates to:
+  /// **'Məlumatlarını almaq üçün əvvəlcə hesabına e-poçt bağla. İrəliləyişin olduğu kimi qalır.'**
+  String get exportNeedsEmail;
+
+  /// No description provided for @exportLinkEmail.
+  ///
+  /// In az, this message translates to:
+  /// **'E-poçt bağla'**
+  String get exportLinkEmail;
 
   /// No description provided for @exportProfile.
   ///
@@ -2409,6 +2421,18 @@ abstract class AppLocalizations {
   /// **'{n} matç'**
   String exportGamesCount(int n);
 
+  /// No description provided for @exportPurchases.
+  ///
+  /// In az, this message translates to:
+  /// **'Alışlar və balans'**
+  String get exportPurchases;
+
+  /// No description provided for @exportSocial.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostlar və klan'**
+  String get exportSocial;
+
   /// No description provided for @exportFormat.
   ///
   /// In az, this message translates to:
@@ -2418,7 +2442,7 @@ abstract class AppLocalizations {
   /// No description provided for @exportFormatValue.
   ///
   /// In az, this message translates to:
-  /// **'JSON'**
+  /// **'ZIP · JSON'**
   String get exportFormatValue;
 
   /// No description provided for @exportStart.
@@ -2427,17 +2451,11 @@ abstract class AppLocalizations {
   /// **'İxracı başlat'**
   String get exportStart;
 
-  /// No description provided for @exportReady.
+  /// No description provided for @exportSent.
   ///
   /// In az, this message translates to:
-  /// **'Fayl hazırdır · {size} KB'**
-  String exportReady(String size);
-
-  /// No description provided for @exportCopy.
-  ///
-  /// In az, this message translates to:
-  /// **'JSON-u kopyala'**
-  String get exportCopy;
+  /// **'{email} ünvanına göndərildi'**
+  String exportSent(String email);
 
   /// No description provided for @deleteTitle.
   ///

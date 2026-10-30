@@ -1314,7 +1314,15 @@ class AppLocalizationsAz extends AppLocalizations {
   String get exportTitle => 'Məlumatlarını ixrac et';
 
   @override
-  String get exportBody => 'Profilin və matç tarixçən JSON faylı kimi hazırlanacaq. Hazır olanda onu kopyalaya bilərsən.';
+  String exportBody(String email) {
+    return 'Bütün məlumatlarını ZIP faylı kimi 24 saat ərzində $email ünvanına göndərəcəyik.';
+  }
+
+  @override
+  String get exportNeedsEmail => 'Məlumatlarını almaq üçün əvvəlcə hesabına e-poçt bağla. İrəliləyişin olduğu kimi qalır.';
+
+  @override
+  String get exportLinkEmail => 'E-poçt bağla';
 
   @override
   String get exportProfile => 'Profil və hesab';
@@ -1328,21 +1336,24 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
+  String get exportPurchases => 'Alışlar və balans';
+
+  @override
+  String get exportSocial => 'Dostlar və klan';
+
+  @override
   String get exportFormat => 'Format';
 
   @override
-  String get exportFormatValue => 'JSON';
+  String get exportFormatValue => 'ZIP · JSON';
 
   @override
   String get exportStart => 'İxracı başlat';
 
   @override
-  String exportReady(String size) {
-    return 'Fayl hazırdır · $size KB';
+  String exportSent(String email) {
+    return '$email ünvanına göndərildi';
   }
-
-  @override
-  String get exportCopy => 'JSON-u kopyala';
 
   @override
   String get deleteTitle => 'Hesab silinsin?';
