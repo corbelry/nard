@@ -1,5 +1,17 @@
 # Changelog
 
+## Phase 5 — Social & clans (2026-11-01)
+- API: friends (codes, requests, search, presence), blocks, reports
+  (design reasons, daily limit), friend challenges; clans — membership,
+  roles, requests/invites, chat (polling + moderation), weekly chest, clan
+  XP/levels, leaderboard, weekly wars (`clans:pair-wars`) (ADR-036).
+- Game server: private rooms by code (15 min), spectators, presence
+  query, emotes/quick phrases by id with rate limit.
+- Client: friends, add friend, private room + challenges, spectator view,
+  emote wheel and bubbles, player menu / report / block, clan search,
+  profile, emblem builder, chat, members, war, leaderboard, create clan;
+  Klan tab (ADR-037).
+
 ## Phase 4 — Customization & store (2026-10-31)
 - API: cosmetics catalog (8 design board sets with full look data),
   inventory, loadouts, append-only idempotent wallet ledger (coins

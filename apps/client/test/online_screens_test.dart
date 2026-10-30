@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nard_client/app/providers.dart';
 import 'package:nard_client/data/app_settings.dart';
@@ -19,6 +20,8 @@ import 'package:nard_client/screens/online/online_setup_screen.dart';
 import 'package:nard_client/screens/online/profile_screen.dart';
 import 'package:nard_client/screens/online/searching_screen.dart';
 import 'package:nard_client/screens/online/versus_screen.dart';
+import 'package:nard_client/social/social_socket.dart';
+import 'package:nard_client/social/spectate.dart';
 import 'package:nard_client/theme/nard_colors.dart';
 import 'package:nard_client/theme/nard_theme.dart';
 import 'package:nard_core/nard_core.dart';
@@ -53,6 +56,22 @@ class _FixedLobby extends LobbyNotifier {
 
   @override
   Lobby build() => value;
+}
+
+class _FixedFeed extends EmoteFeed {
+  @override
+  Map<Side, ReceivedEmote> build() => {
+    Side.white: const ReceivedEmote('hello', 1),
+  };
+}
+
+class _FixedSpectator extends SpectatorController {
+  _FixedSpectator(this.view);
+
+  final GameView view;
+
+  @override
+  SpectatorState build() => SpectatorState(matchId: 'm', view: view);
 }
 
 class _FixedGame extends OnlineGameController {
@@ -137,6 +156,7 @@ Future<void> _show(
   Widget screen, {
   Lobby lobby = const Lobby(),
   GameView? game,
+  List<Override> extra = const [],
 }) async {
   tester.view.physicalSize = const Size(390, 844) * 3;
   tester.view.devicePixelRatio = 3;
@@ -149,6 +169,7 @@ Future<void> _show(
         currentSettingsProvider.overrideWithValue(const AppSettings()),
         lobbyProvider.overrideWith(() => _FixedLobby(lobby)),
         onlineGameProvider.overrideWith(() => _FixedGame(game)),
+        ...extra,
         matchHistoryProvider.overrideWith(
           (ref) async => [
             HistoryEntry(
@@ -295,6 +316,39 @@ void main() {
     expect(find.text('1866'), findsOneWidget);
     expect(find.text('1842 idi'), findsOneWidget);
     expect(find.text('Almaz III üçün 34 xal qaldı'), findsOneWidget);
+    await _close(tester);
+  });
+
+  testWidgets('2.7 emote button on my card; received phrase bubble', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    await _show(
+      tester,
+      const GameScreen(online: true),
+      game: _view(),
+      extra: [emoteFeedProvider.overrideWith(_FixedFeed.new)],
+    );
+    expect(find.bySemanticsLabel('Emosiya göndər'), findsOneWidget);
+    // Nigar (White) said hello.
+    expect(find.text('Salam!'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 3));
+    semantics.dispose();
+    await _close(tester);
+  });
+
+  testWidgets('6.4 spectator view: live pill, leave, no controls', (
+    tester,
+  ) async {
+    await _show(
+      tester,
+      const GameScreen(spectator: true),
+      extra: [spectatorProvider.overrideWith(() => _FixedSpectator(_view()))],
+    );
+    expect(tester.takeException(), isNull);
+    expect(find.text('İZLƏYİCİ'), findsOneWidget);
+    expect(find.text('Çıx'), findsOneWidget);
+    expect(find.text('Geri al'), findsNothing);
     await _close(tester);
   });
 }

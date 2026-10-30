@@ -1988,4 +1988,1038 @@ class AppLocalizationsEn extends AppLocalizations {
   String gemsSemantic(String amount) {
     return 'Rubies: $amount';
   }
+
+  @override
+  String get emoteWheelHint => 'Slide\nand release';
+
+  @override
+  String get emoteButton => 'Send an emote';
+
+  @override
+  String get gameChat => 'Chat';
+
+  @override
+  String get emoteSmile => 'Smile';
+
+  @override
+  String get emoteLaugh => 'Laugh';
+
+  @override
+  String get emoteWow => 'Wow';
+
+  @override
+  String get emoteThink => 'Thinking';
+
+  @override
+  String get emoteSad => 'Sad';
+
+  @override
+  String get emoteAngry => 'Angry';
+
+  @override
+  String get emoteTea => 'Tea';
+
+  @override
+  String get emoteClap => 'Well done';
+
+  @override
+  String get phraseHello => 'Hello!';
+
+  @override
+  String get phraseGoodLuck => 'Good luck';
+
+  @override
+  String get phraseNiceMove => 'Nice move';
+
+  @override
+  String get phraseDice => 'Those dice…';
+
+  @override
+  String get phraseThanks => 'Thanks';
+
+  @override
+  String get phraseGoodGame => 'Good game';
+
+  @override
+  String get phraseNiceRoll => 'Nice roll';
+
+  @override
+  String get phraseSorry => 'Sorry';
+
+  @override
+  String get tabClan => 'Clan';
+
+  @override
+  String get modePrivateRoom => 'Private room';
+
+  @override
+  String get modeFriends => 'Friends';
+
+  @override
+  String get socialAccountBody => 'Friends, clans and private rooms need an account.';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get friendsTitle => 'Friends';
+
+  @override
+  String get friendsAdd => 'Add';
+
+  @override
+  String get friendsSection => 'FRIENDS';
+
+  @override
+  String get presenceOnline => 'Online';
+
+  @override
+  String get presenceInGame => 'In a game';
+
+  @override
+  String get presenceOffline => 'Offline';
+
+  @override
+  String get friendInvite => 'Invite';
+
+  @override
+  String get friendWatch => 'Watch';
+
+  @override
+  String get friendRequestsTitle => 'REQUESTS';
+
+  @override
+  String get friendSentTitle => 'SENT';
+
+  @override
+  String get friendChallengesTitle => 'CHALLENGES';
+
+  @override
+  String get friendAccept => 'Accept';
+
+  @override
+  String get friendDismiss => 'Decline';
+
+  @override
+  String get friendCancelRequest => 'Cancel request';
+
+  @override
+  String challengeMeta(String variant, String format) {
+    return '$variant · $format';
+  }
+
+  @override
+  String get friendsEmptyTitle => 'No friends yet';
+
+  @override
+  String get friendsEmptyBody => 'Search by name or share your friend code.';
+
+  @override
+  String friendInviteSent(String name) {
+    return 'Invite sent: $name';
+  }
+
+  @override
+  String get friendRemoved => 'Removed from friends';
+
+  @override
+  String metaWithClan(String meta, String clan) {
+    return '$meta · $clan';
+  }
+
+  @override
+  String levelShort(int n) {
+    return 'Lv. $n';
+  }
+
+  @override
+  String get addFriendTitle => 'Add a friend';
+
+  @override
+  String get addFriendSearchHint => 'Search by name';
+
+  @override
+  String get addFriendSearchShort => 'Type at least 3 letters';
+
+  @override
+  String get addFriendAction => 'Add';
+
+  @override
+  String get addFriendOr => 'or';
+
+  @override
+  String get addFriendCodeLabel => 'YOUR FRIEND CODE';
+
+  @override
+  String get addFriendCodeCaption => 'Your friend enters this code';
+
+  @override
+  String get addFriendCopyCode => 'Copy code';
+
+  @override
+  String get addFriendEnterCode => 'ADD BY CODE';
+
+  @override
+  String get addFriendCodeHint => '8-character code';
+
+  @override
+  String get friendRequested => 'Sent';
+
+  @override
+  String get friendAccepted => 'Friends';
+
+  @override
+  String get friendErrNotFound => 'Player not found';
+
+  @override
+  String get friendErrBlocked => 'You can\'t contact this player';
+
+  @override
+  String get friendErrAlready => 'You\'re already friends';
+
+  @override
+  String get friendErrPending => 'Request already sent';
+
+  @override
+  String friendErrLimit(int max) {
+    return 'Friend limit reached ($max)';
+  }
+
+  @override
+  String get roomTitle => 'Private room';
+
+  @override
+  String get roomCodeLabel => 'ROOM CODE';
+
+  @override
+  String get roomCopy => 'Copy';
+
+  @override
+  String get roomShare => 'Share';
+
+  @override
+  String roomShareText(String code) {
+    return 'Play with me on NardArena. Room code: $code';
+  }
+
+  @override
+  String get roomWaiting => 'Waiting for a friend…';
+
+  @override
+  String roomExpiry(String time, String left) {
+    return 'Expires $time · $left left';
+  }
+
+  @override
+  String roomInvited(String name) {
+    return 'Invited: $name';
+  }
+
+  @override
+  String get roomSettingVariant => 'Variant';
+
+  @override
+  String get roomSettingFormat => 'Format';
+
+  @override
+  String get roomSettingTime => 'Time';
+
+  @override
+  String get roomSettingRating => 'Rating';
+
+  @override
+  String get roomUnrated => 'Not affected';
+
+  @override
+  String get roomExpired => 'The code expired';
+
+  @override
+  String get roomNewCode => 'New code';
+
+  @override
+  String get roomCreate => 'Create a room';
+
+  @override
+  String get roomCreateSub => 'Send the code; the game starts when your friend joins';
+
+  @override
+  String get roomJoinByCode => 'Join by code';
+
+  @override
+  String get roomJoinByCodeSub => 'Enter a friend\'s room with a 6-character code';
+
+  @override
+  String get roomJoin => 'Join';
+
+  @override
+  String get roomJoinTitle => 'Join a room';
+
+  @override
+  String get roomJoinHint => 'Enter the code your friend sent';
+
+  @override
+  String get roomJoining => 'Joining…';
+
+  @override
+  String get roomCreating => 'Creating the room…';
+
+  @override
+  String get roomNotFound => 'Room not found or expired';
+
+  @override
+  String get roomInviteFriend => 'Invite a friend';
+
+  @override
+  String get roomPickFriend => 'Who do you invite?';
+
+  @override
+  String get roomCancelTitle => 'Close the room?';
+
+  @override
+  String get roomCancelBody => 'The code will stop working.';
+
+  @override
+  String get roomCancelConfirm => 'Close';
+
+  @override
+  String get spectatorLive => 'SPECTATING';
+
+  @override
+  String get spectatorLeave => 'Leave';
+
+  @override
+  String get spectatorNoChat => 'The players\' emotes show here';
+
+  @override
+  String get spectatorUnavailable => 'This game can\'t be watched';
+
+  @override
+  String spectatorGameOver(String name, String score) {
+    return 'Winner: $name · $score';
+  }
+
+  @override
+  String get spectatorWaiting => 'Loading the game…';
+
+  @override
+  String get playerMenuAddFriend => 'Add friend';
+
+  @override
+  String get playerMenuInvite => 'Invite to a game';
+
+  @override
+  String get playerMenuMute => 'Mute chat';
+
+  @override
+  String get playerMenuUnmute => 'Unmute';
+
+  @override
+  String get playerMenuReport => 'Report';
+
+  @override
+  String get playerMenuBlock => 'Block';
+
+  @override
+  String get playerMenuUnblock => 'Unblock';
+
+  @override
+  String get playerMenuUnfriend => 'Remove friend';
+
+  @override
+  String get playerMenuInviteClan => 'Invite to clan';
+
+  @override
+  String reportTitle(String name) {
+    return 'Report $name';
+  }
+
+  @override
+  String get reportReasonLabel => 'REASON';
+
+  @override
+  String get reportReasonAbuse => 'Abusive chat';
+
+  @override
+  String get reportReasonName => 'Inappropriate name or avatar';
+
+  @override
+  String get reportReasonCheating => 'Using assistance software';
+
+  @override
+  String get reportReasonStalling => 'Stalling on purpose';
+
+  @override
+  String get reportReasonLeaving => 'Leaving games on purpose';
+
+  @override
+  String get reportReasonOther => 'Other';
+
+  @override
+  String get reportNoteHint => 'Extra note (optional)';
+
+  @override
+  String get reportAlsoBlock => 'Also block this player';
+
+  @override
+  String reportDisclosure(String name) {
+    return 'The record of your last game and the chat are attached automatically. $name won\'t see who reported them.';
+  }
+
+  @override
+  String get reportSend => 'Send report';
+
+  @override
+  String get reportLimit => 'You\'ve sent many reports today. Try again tomorrow.';
+
+  @override
+  String blockTitle(String name) {
+    return 'Block $name?';
+  }
+
+  @override
+  String get blockInfoMatchmaking => 'They won\'t be matched with you in casual games.';
+
+  @override
+  String get blockInfoContact => 'They can\'t send you messages, friend requests or game invites.';
+
+  @override
+  String blockInfoUndo(String path) {
+    return 'You can unblock them in $path.';
+  }
+
+  @override
+  String get privacyBlocked => 'Blocked players';
+
+  @override
+  String get blockConfirm => 'Block';
+
+  @override
+  String blockDone(String name) {
+    return '$name is blocked.';
+  }
+
+  @override
+  String get unblockDone => 'Unblocked';
+
+  @override
+  String get blockedEmpty => 'No blocked players';
+
+  @override
+  String get reportSentTitle => 'Report sent';
+
+  @override
+  String get reportSentBody => 'A moderator will review it within 24 hours. You\'ll be notified of the outcome.';
+
+  @override
+  String get mutedNote => 'Muted';
+
+  @override
+  String get unmutedNote => 'Unmuted';
+
+  @override
+  String get clansTitle => 'Clans';
+
+  @override
+  String get clanCreateShort => 'Create';
+
+  @override
+  String get clanSearchHint => 'Search name or tag';
+
+  @override
+  String clanFilterLanguage(String code) {
+    return 'Language: $code';
+  }
+
+  @override
+  String get clanFilterOpen => 'Open';
+
+  @override
+  String clanFilterMinRating(int rating) {
+    return 'Min. rating ≤ $rating';
+  }
+
+  @override
+  String clanTag(String tag) {
+    return '[$tag]';
+  }
+
+  @override
+  String clanListMeta(int level, int members, int max, String rating) {
+    return 'Lv. $level · $members/$max · $rating';
+  }
+
+  @override
+  String get clanJoin => 'Join';
+
+  @override
+  String get clanApply => 'Apply';
+
+  @override
+  String get clanFull => 'Full';
+
+  @override
+  String get clanInviteOnlyShort => 'Invite only';
+
+  @override
+  String get clanPending => 'Pending';
+
+  @override
+  String get clanEmpty => 'No clans found';
+
+  @override
+  String get clanEmptyBody => 'Try another name or create your own clan.';
+
+  @override
+  String get clanInvitesTitle => 'INVITES';
+
+  @override
+  String clanInviteFrom(String name) {
+    return 'Invited by $name';
+  }
+
+  @override
+  String get clanStatLevel => 'Level';
+
+  @override
+  String get clanStatMembers => 'Members';
+
+  @override
+  String get clanStatRating => 'Rating';
+
+  @override
+  String get clanStatLanguage => 'Language';
+
+  @override
+  String clanMembersValue(int members, int max) {
+    return '$members/$max';
+  }
+
+  @override
+  String get clanRequirements => 'REQUIREMENTS';
+
+  @override
+  String get clanReqMinRating => 'Min. rating';
+
+  @override
+  String get clanReqPolicy => 'Admission';
+
+  @override
+  String get clanReqNone => 'None';
+
+  @override
+  String get clanTopMembers => 'TOP MEMBERS';
+
+  @override
+  String clanMemberWithRole(String name, String role) {
+    return '$name · $role';
+  }
+
+  @override
+  String get clanApplyCta => 'Apply';
+
+  @override
+  String get clanJoinCta => 'Join';
+
+  @override
+  String get clanAppliedCta => 'Request sent';
+
+  @override
+  String get clanCancelApply => 'Withdraw request';
+
+  @override
+  String get clanInviteOnlyCta => 'Invite only';
+
+  @override
+  String get clanFullCta => 'The clan is full';
+
+  @override
+  String get clanReqNotMet => 'You don\'t meet the requirements';
+
+  @override
+  String get clanLeaveFirst => 'Leave your current clan first';
+
+  @override
+  String get clanOpenMine => 'Go to clan';
+
+  @override
+  String get clanAcceptInvite => 'Accept invite';
+
+  @override
+  String get clanErrRatingLow => 'Your rating is too low for this clan';
+
+  @override
+  String get clanErrInClan => 'You\'re already in a clan';
+
+  @override
+  String get policyOpen => 'Open';
+
+  @override
+  String get policyOpenSub => 'Anyone who meets the rating joins at once';
+
+  @override
+  String get policyRequest => 'By request';
+
+  @override
+  String get policyRequestSub => 'The leader, co-leaders and elders approve';
+
+  @override
+  String get policyInvite => 'Invite only';
+
+  @override
+  String get policyInviteSub => 'Listed, but joining needs an invite';
+
+  @override
+  String get roleLeader => 'Leader';
+
+  @override
+  String get roleCoLeader => 'Co-leader';
+
+  @override
+  String get roleElder => 'Elder';
+
+  @override
+  String get roleMember => 'Member';
+
+  @override
+  String get emblemTitle => 'Emblem';
+
+  @override
+  String get emblemSave => 'Save';
+
+  @override
+  String get emblemTabShape => 'Shape';
+
+  @override
+  String get emblemTabSymbol => 'Symbol';
+
+  @override
+  String get emblemTabColor => 'Colour';
+
+  @override
+  String get emblemTabPattern => 'Pattern';
+
+  @override
+  String get emblemPrimaryColor => 'MAIN COLOUR';
+
+  @override
+  String get emblemShapeShield => 'Shield';
+
+  @override
+  String get emblemShapeHexagon => 'Hexagon';
+
+  @override
+  String get emblemShapeOctagon => 'Octagon';
+
+  @override
+  String get emblemShapeCircle => 'Circle';
+
+  @override
+  String get emblemShapeDiamond => 'Diamond';
+
+  @override
+  String get emblemShapeBanner => 'Banner';
+
+  @override
+  String get emblemShapeStar => 'Star';
+
+  @override
+  String get emblemShapeArch => 'Arch';
+
+  @override
+  String get emblemSymbolDiamond => 'Diamond';
+
+  @override
+  String get emblemSymbolDiamondDot => 'Dotted diamond';
+
+  @override
+  String get emblemSymbolCircle => 'Ring';
+
+  @override
+  String get emblemSymbolSquare => 'Square';
+
+  @override
+  String get emblemSymbolInitials => 'Initials';
+
+  @override
+  String get emblemPatternNone => 'None';
+
+  @override
+  String get emblemPatternLattice => 'Lattice';
+
+  @override
+  String get emblemColorGarnet => 'Garnet';
+
+  @override
+  String get emblemColorIndigo => 'Indigo';
+
+  @override
+  String get emblemColorEmerald => 'Emerald';
+
+  @override
+  String get emblemColorBrass => 'Brass';
+
+  @override
+  String get emblemColorPurple => 'Purple';
+
+  @override
+  String get emblemColorSlate => 'Slate';
+
+  @override
+  String get emblemColorIvory => 'Ivory';
+
+  @override
+  String get emblemColorBlue => 'Blue';
+
+  @override
+  String get emblemColorWalnut => 'Walnut';
+
+  @override
+  String clanOnline(int n) {
+    return '$n online';
+  }
+
+  @override
+  String get clanTabChat => 'Chat';
+
+  @override
+  String get clanTabActivity => 'Activity';
+
+  @override
+  String get clanTabWar => 'War';
+
+  @override
+  String get clanTabChest => 'Chest';
+
+  @override
+  String get clanChestTitle => 'Weekly chest';
+
+  @override
+  String clanChestProgress(String current, String target) {
+    return '$current / $target';
+  }
+
+  @override
+  String get clanChatHint => 'Write a message…';
+
+  @override
+  String get clanChatEmpty => 'No messages yet. Be the first.';
+
+  @override
+  String get clanActivityEmpty => 'Nothing has happened yet';
+
+  @override
+  String get clanChatTooFast => 'You\'re writing too fast. Wait a moment.';
+
+  @override
+  String clanSysCreated(String name) {
+    return 'Clan created by $name';
+  }
+
+  @override
+  String clanSysJoined(String name) {
+    return '$name joined the clan';
+  }
+
+  @override
+  String clanSysLeft(String name) {
+    return '$name left the clan';
+  }
+
+  @override
+  String clanSysKicked(String name) {
+    return '$name was removed from the clan';
+  }
+
+  @override
+  String clanSysRole(String name, String role) {
+    return '$name is now $role';
+  }
+
+  @override
+  String clanSysLeader(String name) {
+    return 'New leader: $name';
+  }
+
+  @override
+  String clanSysRenamed(String name, String tag) {
+    return 'The clan is now $name [$tag]';
+  }
+
+  @override
+  String clanSysDonated(String name, String amount) {
+    return '$name put $amount coins in the chest';
+  }
+
+  @override
+  String get clanSysChestFull => 'The weekly chest is full';
+
+  @override
+  String clanSysWarStarted(String name, String tag) {
+    return 'Clan war started: $name [$tag]';
+  }
+
+  @override
+  String clanSysWarWin(String name, String points) {
+    return '$name won a war match · +$points';
+  }
+
+  @override
+  String clanSysWarEnded(String mine, String theirs) {
+    return 'Clan war over · $mine : $theirs';
+  }
+
+  @override
+  String get clanMenuMembers => 'Members';
+
+  @override
+  String get clanMenuLeaderboard => 'Clan ranking';
+
+  @override
+  String get clanMenuProfile => 'Clan profile';
+
+  @override
+  String get clanMenuEmblem => 'Change emblem';
+
+  @override
+  String get clanMenuRequests => 'Requests';
+
+  @override
+  String get clanMenuInvite => 'Invite friends';
+
+  @override
+  String get clanMenuLeave => 'Leave clan';
+
+  @override
+  String get clanLeaveTitle => 'Leave the clan?';
+
+  @override
+  String get clanLeaveBody => 'You\'ll lose access to the clan chat and chest.';
+
+  @override
+  String get clanLeaveLastBody => 'You\'re the last member: the clan will be disbanded.';
+
+  @override
+  String get clanTransferFirst => 'Hand over leadership before leaving.';
+
+  @override
+  String get chatDelete => 'Delete';
+
+  @override
+  String get clanChestDonate => 'Donate';
+
+  @override
+  String clanChestMine(String amount) {
+    return 'Your share this week: $amount';
+  }
+
+  @override
+  String clanChestReward(int xp) {
+    return 'When the chest is full, the clan gets $xp XP';
+  }
+
+  @override
+  String get clanChestFullNote => 'The chest is full this week';
+
+  @override
+  String get clanChestAmount => 'AMOUNT';
+
+  @override
+  String clanDonated(String amount) {
+    return 'You donated $amount coins';
+  }
+
+  @override
+  String get clanErrChestFull => 'The chest is already full';
+
+  @override
+  String get clanDonors => 'THIS WEEK\'S DONATIONS';
+
+  @override
+  String get membersTitle => 'Members';
+
+  @override
+  String membersCount(int members, int max) {
+    return '$members / $max';
+  }
+
+  @override
+  String memberMeta(String presence, String rating) {
+    return '$presence · $rating';
+  }
+
+  @override
+  String memberMe(String name) {
+    return '$name (you)';
+  }
+
+  @override
+  String get memberViewProfile => 'View profile';
+
+  @override
+  String get memberInviteFriendly => 'Invite to a friendly';
+
+  @override
+  String get memberPromoteCoLeader => 'Make co-leader';
+
+  @override
+  String get memberPromoteElder => 'Make elder';
+
+  @override
+  String get memberDemote => 'Make member';
+
+  @override
+  String get memberTransferLead => 'Make leader';
+
+  @override
+  String get memberKick => 'Remove from clan';
+
+  @override
+  String memberKickConfirm(String name) {
+    return 'Remove $name from the clan?';
+  }
+
+  @override
+  String memberTransferConfirm(String name) {
+    return 'Make $name the leader?';
+  }
+
+  @override
+  String get memberTransferBody => 'You\'ll become a co-leader.';
+
+  @override
+  String get requestsEmpty => 'No new requests';
+
+  @override
+  String get clanInvited => 'Invite sent';
+
+  @override
+  String warLive(String time) {
+    return 'LIVE · ENDS IN $time';
+  }
+
+  @override
+  String warCounted(int n, int max) {
+    return '$n / $max matches counted';
+  }
+
+  @override
+  String get warMatches => 'MATCHES';
+
+  @override
+  String warFinished(int a, int b) {
+    return 'Final $a–$b';
+  }
+
+  @override
+  String get warWon => 'OVER · VICTORY';
+
+  @override
+  String get warLost => 'OVER · DEFEAT';
+
+  @override
+  String get warDraw => 'OVER · DRAW';
+
+  @override
+  String get warNoneTitle => 'No war this week';
+
+  @override
+  String get warNoneBody => 'Clans are paired every Monday. A war needs at least 2 active members.';
+
+  @override
+  String get warNoOpponent => 'No opponent found';
+
+  @override
+  String warHowTo(int points) {
+    return 'Every online win against the rival clan\'s members scores +$points.';
+  }
+
+  @override
+  String get warMatchesEmpty => 'No matches counted yet';
+
+  @override
+  String get clanLeaderboardTitle => 'Clan ranking';
+
+  @override
+  String clanMyRank(int rank) {
+    return 'Your clan · #$rank';
+  }
+
+  @override
+  String get createClanTitle => 'Create a clan';
+
+  @override
+  String createStep(int step, int total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get createNameLabel => 'Clan name';
+
+  @override
+  String createNameCounter(int n, int max) {
+    return '$n / $max';
+  }
+
+  @override
+  String get createTagLabel => 'Tag (3–5 letters)';
+
+  @override
+  String get createTagFree => 'Available';
+
+  @override
+  String get createTagTaken => 'Taken';
+
+  @override
+  String get createTagInvalid => '3–5 Latin letters only';
+
+  @override
+  String get createNameInvalid => 'The name must be 3–24 characters';
+
+  @override
+  String get createEmblemLabel => 'EMBLEM';
+
+  @override
+  String get createEmblemMore => 'More';
+
+  @override
+  String get createColorLabel => 'COLOUR';
+
+  @override
+  String get createPolicyLabel => 'JOINING';
+
+  @override
+  String get createMinRatingLabel => 'MINIMUM RATING';
+
+  @override
+  String get createMinRatingAny => 'Anyone';
+
+  @override
+  String createMinRatingMax(int n) {
+    return '$n+';
+  }
+
+  @override
+  String get createLanguageLabel => 'LANGUAGE';
+
+  @override
+  String get createDescriptionLabel => 'Description (optional)';
+
+  @override
+  String createBalance(String from, String to) {
+    return 'Balance: $from → $to';
+  }
+
+  @override
+  String createRenameNote(String price) {
+    return 'Renaming later costs $price coins';
+  }
+
+  @override
+  String get createSubmit => 'Create clan';
+
+  @override
+  String get createErrNameTaken => 'This name is taken';
 }

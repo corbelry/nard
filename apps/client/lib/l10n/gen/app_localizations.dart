@@ -3320,6 +3320,1866 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'Yaqut: {amount}'**
   String gemsSemantic(String amount);
+
+  /// No description provided for @emoteWheelHint.
+  ///
+  /// In az, this message translates to:
+  /// **'Sürüşdür\nvə burax'**
+  String get emoteWheelHint;
+
+  /// No description provided for @emoteButton.
+  ///
+  /// In az, this message translates to:
+  /// **'Emosiya göndər'**
+  String get emoteButton;
+
+  /// No description provided for @gameChat.
+  ///
+  /// In az, this message translates to:
+  /// **'Söhbət'**
+  String get gameChat;
+
+  /// No description provided for @emoteSmile.
+  ///
+  /// In az, this message translates to:
+  /// **'Təbəssüm'**
+  String get emoteSmile;
+
+  /// No description provided for @emoteLaugh.
+  ///
+  /// In az, this message translates to:
+  /// **'Gülüş'**
+  String get emoteLaugh;
+
+  /// No description provided for @emoteWow.
+  ///
+  /// In az, this message translates to:
+  /// **'Heyrət'**
+  String get emoteWow;
+
+  /// No description provided for @emoteThink.
+  ///
+  /// In az, this message translates to:
+  /// **'Düşünürəm'**
+  String get emoteThink;
+
+  /// No description provided for @emoteSad.
+  ///
+  /// In az, this message translates to:
+  /// **'Kədər'**
+  String get emoteSad;
+
+  /// No description provided for @emoteAngry.
+  ///
+  /// In az, this message translates to:
+  /// **'Hirs'**
+  String get emoteAngry;
+
+  /// No description provided for @emoteTea.
+  ///
+  /// In az, this message translates to:
+  /// **'Çay'**
+  String get emoteTea;
+
+  /// No description provided for @emoteClap.
+  ///
+  /// In az, this message translates to:
+  /// **'Əhsən'**
+  String get emoteClap;
+
+  /// No description provided for @phraseHello.
+  ///
+  /// In az, this message translates to:
+  /// **'Salam!'**
+  String get phraseHello;
+
+  /// No description provided for @phraseGoodLuck.
+  ///
+  /// In az, this message translates to:
+  /// **'Uğurlar'**
+  String get phraseGoodLuck;
+
+  /// No description provided for @phraseNiceMove.
+  ///
+  /// In az, this message translates to:
+  /// **'Əla gediş'**
+  String get phraseNiceMove;
+
+  /// No description provided for @phraseDice.
+  ///
+  /// In az, this message translates to:
+  /// **'Zərlər…'**
+  String get phraseDice;
+
+  /// No description provided for @phraseThanks.
+  ///
+  /// In az, this message translates to:
+  /// **'Təşəkkürlər'**
+  String get phraseThanks;
+
+  /// No description provided for @phraseGoodGame.
+  ///
+  /// In az, this message translates to:
+  /// **'Yaxşı oyun'**
+  String get phraseGoodGame;
+
+  /// No description provided for @phraseNiceRoll.
+  ///
+  /// In az, this message translates to:
+  /// **'Gözəl zər'**
+  String get phraseNiceRoll;
+
+  /// No description provided for @phraseSorry.
+  ///
+  /// In az, this message translates to:
+  /// **'Bağışla'**
+  String get phraseSorry;
+
+  /// No description provided for @tabClan.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan'**
+  String get tabClan;
+
+  /// No description provided for @modePrivateRoom.
+  ///
+  /// In az, this message translates to:
+  /// **'Şəxsi otaq'**
+  String get modePrivateRoom;
+
+  /// No description provided for @modeFriends.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostlar'**
+  String get modeFriends;
+
+  /// No description provided for @socialAccountBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostlar, klanlar və şəxsi otaqlar üçün hesab lazımdır.'**
+  String get socialAccountBody;
+
+  /// No description provided for @send.
+  ///
+  /// In az, this message translates to:
+  /// **'Göndər'**
+  String get send;
+
+  /// No description provided for @close.
+  ///
+  /// In az, this message translates to:
+  /// **'Bağla'**
+  String get close;
+
+  /// No description provided for @friendsTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostlar'**
+  String get friendsTitle;
+
+  /// No description provided for @friendsAdd.
+  ///
+  /// In az, this message translates to:
+  /// **'Əlavə et'**
+  String get friendsAdd;
+
+  /// No description provided for @friendsSection.
+  ///
+  /// In az, this message translates to:
+  /// **'DOSTLAR'**
+  String get friendsSection;
+
+  /// No description provided for @presenceOnline.
+  ///
+  /// In az, this message translates to:
+  /// **'Onlayn'**
+  String get presenceOnline;
+
+  /// No description provided for @presenceInGame.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyunda'**
+  String get presenceInGame;
+
+  /// No description provided for @presenceOffline.
+  ///
+  /// In az, this message translates to:
+  /// **'Oflayn'**
+  String get presenceOffline;
+
+  /// No description provided for @friendInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'Çağır'**
+  String get friendInvite;
+
+  /// No description provided for @friendWatch.
+  ///
+  /// In az, this message translates to:
+  /// **'İzlə'**
+  String get friendWatch;
+
+  /// No description provided for @friendRequestsTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'SORĞULAR'**
+  String get friendRequestsTitle;
+
+  /// No description provided for @friendSentTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'GÖNDƏRİLƏNLƏR'**
+  String get friendSentTitle;
+
+  /// No description provided for @friendChallengesTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'ÇAĞIRIŞLAR'**
+  String get friendChallengesTitle;
+
+  /// No description provided for @friendAccept.
+  ///
+  /// In az, this message translates to:
+  /// **'Qəbul et'**
+  String get friendAccept;
+
+  /// No description provided for @friendDismiss.
+  ///
+  /// In az, this message translates to:
+  /// **'Rədd et'**
+  String get friendDismiss;
+
+  /// No description provided for @friendCancelRequest.
+  ///
+  /// In az, this message translates to:
+  /// **'Sorğunu ləğv et'**
+  String get friendCancelRequest;
+
+  /// No description provided for @challengeMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{variant} · {format}'**
+  String challengeMeta(String variant, String format);
+
+  /// No description provided for @friendsEmptyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ dostun yoxdur'**
+  String get friendsEmptyTitle;
+
+  /// No description provided for @friendsEmptyBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Adı ilə axtar və ya dost kodunu paylaş.'**
+  String get friendsEmptyBody;
+
+  /// No description provided for @friendInviteSent.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvət göndərildi: {name}'**
+  String friendInviteSent(String name);
+
+  /// No description provided for @friendRemoved.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostluqdan çıxarıldı'**
+  String get friendRemoved;
+
+  /// No description provided for @metaWithClan.
+  ///
+  /// In az, this message translates to:
+  /// **'{meta} · {clan}'**
+  String metaWithClan(String meta, String clan);
+
+  /// No description provided for @levelShort.
+  ///
+  /// In az, this message translates to:
+  /// **'Səv. {n}'**
+  String levelShort(int n);
+
+  /// No description provided for @addFriendTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Dost əlavə et'**
+  String get addFriendTitle;
+
+  /// No description provided for @addFriendSearchHint.
+  ///
+  /// In az, this message translates to:
+  /// **'Ad ilə axtar'**
+  String get addFriendSearchHint;
+
+  /// No description provided for @addFriendSearchShort.
+  ///
+  /// In az, this message translates to:
+  /// **'Ən azı 3 hərf yaz'**
+  String get addFriendSearchShort;
+
+  /// No description provided for @addFriendAction.
+  ///
+  /// In az, this message translates to:
+  /// **'Əlavə et'**
+  String get addFriendAction;
+
+  /// No description provided for @addFriendOr.
+  ///
+  /// In az, this message translates to:
+  /// **'və ya'**
+  String get addFriendOr;
+
+  /// No description provided for @addFriendCodeLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'DOST KODUN'**
+  String get addFriendCodeLabel;
+
+  /// No description provided for @addFriendCodeCaption.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostun bu kodu daxil etsin'**
+  String get addFriendCodeCaption;
+
+  /// No description provided for @addFriendCopyCode.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodu kopyala'**
+  String get addFriendCopyCode;
+
+  /// No description provided for @addFriendEnterCode.
+  ///
+  /// In az, this message translates to:
+  /// **'KODLA ƏLAVƏ ET'**
+  String get addFriendEnterCode;
+
+  /// No description provided for @addFriendCodeHint.
+  ///
+  /// In az, this message translates to:
+  /// **'8 simvollu kod'**
+  String get addFriendCodeHint;
+
+  /// No description provided for @friendRequested.
+  ///
+  /// In az, this message translates to:
+  /// **'Göndərildi'**
+  String get friendRequested;
+
+  /// No description provided for @friendAccepted.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostsunuz'**
+  String get friendAccepted;
+
+  /// No description provided for @friendErrNotFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyunçu tapılmadı'**
+  String get friendErrNotFound;
+
+  /// No description provided for @friendErrBlocked.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu oyunçu ilə əlaqə mümkün deyil'**
+  String get friendErrBlocked;
+
+  /// No description provided for @friendErrAlready.
+  ///
+  /// In az, this message translates to:
+  /// **'Artıq dostsunuz'**
+  String get friendErrAlready;
+
+  /// No description provided for @friendErrPending.
+  ///
+  /// In az, this message translates to:
+  /// **'Sorğu artıq göndərilib'**
+  String get friendErrPending;
+
+  /// No description provided for @friendErrLimit.
+  ///
+  /// In az, this message translates to:
+  /// **'Dost limiti dolub ({max})'**
+  String friendErrLimit(int max);
+
+  /// No description provided for @roomTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Şəxsi otaq'**
+  String get roomTitle;
+
+  /// No description provided for @roomCodeLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'OTAQ KODU'**
+  String get roomCodeLabel;
+
+  /// No description provided for @roomCopy.
+  ///
+  /// In az, this message translates to:
+  /// **'Kopyala'**
+  String get roomCopy;
+
+  /// No description provided for @roomShare.
+  ///
+  /// In az, this message translates to:
+  /// **'Paylaş'**
+  String get roomShare;
+
+  /// No description provided for @roomShareText.
+  ///
+  /// In az, this message translates to:
+  /// **'NardArena-da mənimlə oyna. Otaq kodu: {code}'**
+  String roomShareText(String code);
+
+  /// No description provided for @roomWaiting.
+  ///
+  /// In az, this message translates to:
+  /// **'Dost gözlənilir…'**
+  String get roomWaiting;
+
+  /// No description provided for @roomExpiry.
+  ///
+  /// In az, this message translates to:
+  /// **'Bitir: {time} · {left} qaldı'**
+  String roomExpiry(String time, String left);
+
+  /// No description provided for @roomInvited.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvət: {name}'**
+  String roomInvited(String name);
+
+  /// No description provided for @roomSettingVariant.
+  ///
+  /// In az, this message translates to:
+  /// **'Variant'**
+  String get roomSettingVariant;
+
+  /// No description provided for @roomSettingFormat.
+  ///
+  /// In az, this message translates to:
+  /// **'Format'**
+  String get roomSettingFormat;
+
+  /// No description provided for @roomSettingTime.
+  ///
+  /// In az, this message translates to:
+  /// **'Vaxt'**
+  String get roomSettingTime;
+
+  /// No description provided for @roomSettingRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq'**
+  String get roomSettingRating;
+
+  /// No description provided for @roomUnrated.
+  ///
+  /// In az, this message translates to:
+  /// **'Təsir etmir'**
+  String get roomUnrated;
+
+  /// No description provided for @roomExpired.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodun vaxtı bitdi'**
+  String get roomExpired;
+
+  /// No description provided for @roomNewCode.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni kod'**
+  String get roomNewCode;
+
+  /// No description provided for @roomCreate.
+  ///
+  /// In az, this message translates to:
+  /// **'Otaq yarat'**
+  String get roomCreate;
+
+  /// No description provided for @roomCreateSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Kodu dosta göndər, o qoşulan kimi oyun başlayır'**
+  String get roomCreateSub;
+
+  /// No description provided for @roomJoinByCode.
+  ///
+  /// In az, this message translates to:
+  /// **'Koda qoşul'**
+  String get roomJoinByCode;
+
+  /// No description provided for @roomJoinByCodeSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostunun otağına 6 simvollu kodla gir'**
+  String get roomJoinByCodeSub;
+
+  /// No description provided for @roomJoin.
+  ///
+  /// In az, this message translates to:
+  /// **'Qoşul'**
+  String get roomJoin;
+
+  /// No description provided for @roomJoinTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Otağa qoşul'**
+  String get roomJoinTitle;
+
+  /// No description provided for @roomJoinHint.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostunun göndərdiyi kodu yaz'**
+  String get roomJoinHint;
+
+  /// No description provided for @roomJoining.
+  ///
+  /// In az, this message translates to:
+  /// **'Qoşulur…'**
+  String get roomJoining;
+
+  /// No description provided for @roomCreating.
+  ///
+  /// In az, this message translates to:
+  /// **'Otaq yaradılır…'**
+  String get roomCreating;
+
+  /// No description provided for @roomNotFound.
+  ///
+  /// In az, this message translates to:
+  /// **'Otaq tapılmadı və ya vaxtı bitib'**
+  String get roomNotFound;
+
+  /// No description provided for @roomInviteFriend.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostu çağır'**
+  String get roomInviteFriend;
+
+  /// No description provided for @roomPickFriend.
+  ///
+  /// In az, this message translates to:
+  /// **'Kimi çağırırsan?'**
+  String get roomPickFriend;
+
+  /// No description provided for @roomCancelTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Otaq bağlansın?'**
+  String get roomCancelTitle;
+
+  /// No description provided for @roomCancelBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Kod etibarsız olacaq.'**
+  String get roomCancelBody;
+
+  /// No description provided for @roomCancelConfirm.
+  ///
+  /// In az, this message translates to:
+  /// **'Bağla'**
+  String get roomCancelConfirm;
+
+  /// No description provided for @spectatorLive.
+  ///
+  /// In az, this message translates to:
+  /// **'İZLƏYİCİ'**
+  String get spectatorLive;
+
+  /// No description provided for @spectatorLeave.
+  ///
+  /// In az, this message translates to:
+  /// **'Çıx'**
+  String get spectatorLeave;
+
+  /// No description provided for @spectatorNoChat.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyunçuların emosiyaları burada görünür'**
+  String get spectatorNoChat;
+
+  /// No description provided for @spectatorUnavailable.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu oyunu izləmək mümkün deyil'**
+  String get spectatorUnavailable;
+
+  /// No description provided for @spectatorGameOver.
+  ///
+  /// In az, this message translates to:
+  /// **'Qalib: {name} · {score}'**
+  String spectatorGameOver(String name, String score);
+
+  /// No description provided for @spectatorWaiting.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyun yüklənir…'**
+  String get spectatorWaiting;
+
+  /// No description provided for @playerMenuAddFriend.
+  ///
+  /// In az, this message translates to:
+  /// **'Dost əlavə et'**
+  String get playerMenuAddFriend;
+
+  /// No description provided for @playerMenuInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyuna çağır'**
+  String get playerMenuInvite;
+
+  /// No description provided for @playerMenuMute.
+  ///
+  /// In az, this message translates to:
+  /// **'Söhbəti səssizə al'**
+  String get playerMenuMute;
+
+  /// No description provided for @playerMenuUnmute.
+  ///
+  /// In az, this message translates to:
+  /// **'Səsini aç'**
+  String get playerMenuUnmute;
+
+  /// No description provided for @playerMenuReport.
+  ///
+  /// In az, this message translates to:
+  /// **'Şikayət et'**
+  String get playerMenuReport;
+
+  /// No description provided for @playerMenuBlock.
+  ///
+  /// In az, this message translates to:
+  /// **'Blokla'**
+  String get playerMenuBlock;
+
+  /// No description provided for @playerMenuUnblock.
+  ///
+  /// In az, this message translates to:
+  /// **'Bloku götür'**
+  String get playerMenuUnblock;
+
+  /// No description provided for @playerMenuUnfriend.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostluqdan çıxar'**
+  String get playerMenuUnfriend;
+
+  /// No description provided for @playerMenuInviteClan.
+  ///
+  /// In az, this message translates to:
+  /// **'Klana dəvət et'**
+  String get playerMenuInviteClan;
+
+  /// No description provided for @reportTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Şikayət: {name}'**
+  String reportTitle(String name);
+
+  /// No description provided for @reportReasonLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'SƏBƏB'**
+  String get reportReasonLabel;
+
+  /// No description provided for @reportReasonAbuse.
+  ///
+  /// In az, this message translates to:
+  /// **'Təhqiramiz söhbət'**
+  String get reportReasonAbuse;
+
+  /// No description provided for @reportReasonName.
+  ///
+  /// In az, this message translates to:
+  /// **'Qeyri-münasib ad və ya avatar'**
+  String get reportReasonName;
+
+  /// No description provided for @reportReasonCheating.
+  ///
+  /// In az, this message translates to:
+  /// **'Kömək proqramı istifadəsi'**
+  String get reportReasonCheating;
+
+  /// No description provided for @reportReasonStalling.
+  ///
+  /// In az, this message translates to:
+  /// **'Qəsdən vaxt uzatma'**
+  String get reportReasonStalling;
+
+  /// No description provided for @reportReasonLeaving.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyunu qəsdən tərk etmə'**
+  String get reportReasonLeaving;
+
+  /// No description provided for @reportReasonOther.
+  ///
+  /// In az, this message translates to:
+  /// **'Digər'**
+  String get reportReasonOther;
+
+  /// No description provided for @reportNoteHint.
+  ///
+  /// In az, this message translates to:
+  /// **'Əlavə qeyd (istəyə görə)'**
+  String get reportNoteHint;
+
+  /// No description provided for @reportAlsoBlock.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu oyunçunu da blokla'**
+  String get reportAlsoBlock;
+
+  /// No description provided for @reportDisclosure.
+  ///
+  /// In az, this message translates to:
+  /// **'Son oyunun qeydi və söhbət şikayətə avtomatik əlavə olunur. {name} şikayətçinin kim olduğunu görməyəcək.'**
+  String reportDisclosure(String name);
+
+  /// No description provided for @reportSend.
+  ///
+  /// In az, this message translates to:
+  /// **'Şikayəti göndər'**
+  String get reportSend;
+
+  /// No description provided for @reportLimit.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu gün çox şikayət göndərdin. Sabah yenidən yoxla.'**
+  String get reportLimit;
+
+  /// No description provided for @blockTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} bloklansın?'**
+  String blockTitle(String name);
+
+  /// No description provided for @blockInfoMatchmaking.
+  ///
+  /// In az, this message translates to:
+  /// **'Təsadüfi oyunlarda səninlə qarşılaşmayacaq.'**
+  String get blockInfoMatchmaking;
+
+  /// No description provided for @blockInfoContact.
+  ///
+  /// In az, this message translates to:
+  /// **'Sənə mesaj, dostluq və oyun dəvəti göndərə bilməyəcək.'**
+  String get blockInfoContact;
+
+  /// No description provided for @blockInfoUndo.
+  ///
+  /// In az, this message translates to:
+  /// **'Bloku {path} bölməsindən götürə bilərsən.'**
+  String blockInfoUndo(String path);
+
+  /// No description provided for @privacyBlocked.
+  ///
+  /// In az, this message translates to:
+  /// **'Bloklananlar'**
+  String get privacyBlocked;
+
+  /// No description provided for @blockConfirm.
+  ///
+  /// In az, this message translates to:
+  /// **'Blokla'**
+  String get blockConfirm;
+
+  /// No description provided for @blockDone.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} bloklandı.'**
+  String blockDone(String name);
+
+  /// No description provided for @unblockDone.
+  ///
+  /// In az, this message translates to:
+  /// **'Blok götürüldü'**
+  String get unblockDone;
+
+  /// No description provided for @blockedEmpty.
+  ///
+  /// In az, this message translates to:
+  /// **'Bloklanan oyunçu yoxdur'**
+  String get blockedEmpty;
+
+  /// No description provided for @reportSentTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Şikayət göndərildi'**
+  String get reportSentTitle;
+
+  /// No description provided for @reportSentBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Moderator 24 saat ərzində baxacaq. Nəticə barədə bildiriş alacaqsan.'**
+  String get reportSentBody;
+
+  /// No description provided for @mutedNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Səssizə alındı'**
+  String get mutedNote;
+
+  /// No description provided for @unmutedNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Səsi açıldı'**
+  String get unmutedNote;
+
+  /// No description provided for @clansTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Klanlar'**
+  String get clansTitle;
+
+  /// No description provided for @clanCreateShort.
+  ///
+  /// In az, this message translates to:
+  /// **'Yarat'**
+  String get clanCreateShort;
+
+  /// No description provided for @clanSearchHint.
+  ///
+  /// In az, this message translates to:
+  /// **'Ad və ya teq axtar'**
+  String get clanSearchHint;
+
+  /// No description provided for @clanFilterLanguage.
+  ///
+  /// In az, this message translates to:
+  /// **'Dil: {code}'**
+  String clanFilterLanguage(String code);
+
+  /// No description provided for @clanFilterOpen.
+  ///
+  /// In az, this message translates to:
+  /// **'Açıq'**
+  String get clanFilterOpen;
+
+  /// No description provided for @clanFilterMinRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Min. reytinq ≤ {rating}'**
+  String clanFilterMinRating(int rating);
+
+  /// No description provided for @clanTag.
+  ///
+  /// In az, this message translates to:
+  /// **'[{tag}]'**
+  String clanTag(String tag);
+
+  /// No description provided for @clanListMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'Səv. {level} · {members}/{max} · {rating}'**
+  String clanListMeta(int level, int members, int max, String rating);
+
+  /// No description provided for @clanJoin.
+  ///
+  /// In az, this message translates to:
+  /// **'Qoşul'**
+  String get clanJoin;
+
+  /// No description provided for @clanApply.
+  ///
+  /// In az, this message translates to:
+  /// **'Müraciət'**
+  String get clanApply;
+
+  /// No description provided for @clanFull.
+  ///
+  /// In az, this message translates to:
+  /// **'Dolu'**
+  String get clanFull;
+
+  /// No description provided for @clanInviteOnlyShort.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvətlə'**
+  String get clanInviteOnlyShort;
+
+  /// No description provided for @clanPending.
+  ///
+  /// In az, this message translates to:
+  /// **'Gözləyir'**
+  String get clanPending;
+
+  /// No description provided for @clanEmpty.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan tapılmadı'**
+  String get clanEmpty;
+
+  /// No description provided for @clanEmptyBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Başqa ad yoxla və ya öz klanını yarat.'**
+  String get clanEmptyBody;
+
+  /// No description provided for @clanInvitesTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'DƏVƏTLƏR'**
+  String get clanInvitesTitle;
+
+  /// No description provided for @clanInviteFrom.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvət edən: {name}'**
+  String clanInviteFrom(String name);
+
+  /// No description provided for @clanStatLevel.
+  ///
+  /// In az, this message translates to:
+  /// **'Səviyyə'**
+  String get clanStatLevel;
+
+  /// No description provided for @clanStatMembers.
+  ///
+  /// In az, this message translates to:
+  /// **'Üzv'**
+  String get clanStatMembers;
+
+  /// No description provided for @clanStatRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq'**
+  String get clanStatRating;
+
+  /// No description provided for @clanStatLanguage.
+  ///
+  /// In az, this message translates to:
+  /// **'Dil'**
+  String get clanStatLanguage;
+
+  /// No description provided for @clanMembersValue.
+  ///
+  /// In az, this message translates to:
+  /// **'{members}/{max}'**
+  String clanMembersValue(int members, int max);
+
+  /// No description provided for @clanRequirements.
+  ///
+  /// In az, this message translates to:
+  /// **'TƏLƏBLƏR'**
+  String get clanRequirements;
+
+  /// No description provided for @clanReqMinRating.
+  ///
+  /// In az, this message translates to:
+  /// **'Min. reytinq'**
+  String get clanReqMinRating;
+
+  /// No description provided for @clanReqPolicy.
+  ///
+  /// In az, this message translates to:
+  /// **'Qəbul'**
+  String get clanReqPolicy;
+
+  /// No description provided for @clanReqNone.
+  ///
+  /// In az, this message translates to:
+  /// **'Yoxdur'**
+  String get clanReqNone;
+
+  /// No description provided for @clanTopMembers.
+  ///
+  /// In az, this message translates to:
+  /// **'ƏN YAXŞI ÜZVLƏR'**
+  String get clanTopMembers;
+
+  /// No description provided for @clanMemberWithRole.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} · {role}'**
+  String clanMemberWithRole(String name, String role);
+
+  /// No description provided for @clanApplyCta.
+  ///
+  /// In az, this message translates to:
+  /// **'Müraciət et'**
+  String get clanApplyCta;
+
+  /// No description provided for @clanJoinCta.
+  ///
+  /// In az, this message translates to:
+  /// **'Qoşul'**
+  String get clanJoinCta;
+
+  /// No description provided for @clanAppliedCta.
+  ///
+  /// In az, this message translates to:
+  /// **'Müraciət göndərildi'**
+  String get clanAppliedCta;
+
+  /// No description provided for @clanCancelApply.
+  ///
+  /// In az, this message translates to:
+  /// **'Müraciəti geri götür'**
+  String get clanCancelApply;
+
+  /// No description provided for @clanInviteOnlyCta.
+  ///
+  /// In az, this message translates to:
+  /// **'Yalnız dəvətlə'**
+  String get clanInviteOnlyCta;
+
+  /// No description provided for @clanFullCta.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan doludur'**
+  String get clanFullCta;
+
+  /// No description provided for @clanReqNotMet.
+  ///
+  /// In az, this message translates to:
+  /// **'Tələblərə uyğun deyilsən'**
+  String get clanReqNotMet;
+
+  /// No description provided for @clanLeaveFirst.
+  ///
+  /// In az, this message translates to:
+  /// **'Əvvəlcə hazırkı klandan çıx'**
+  String get clanLeaveFirst;
+
+  /// No description provided for @clanOpenMine.
+  ///
+  /// In az, this message translates to:
+  /// **'Klana keç'**
+  String get clanOpenMine;
+
+  /// No description provided for @clanAcceptInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvəti qəbul et'**
+  String get clanAcceptInvite;
+
+  /// No description provided for @clanErrRatingLow.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinqin bu klan üçün azdır'**
+  String get clanErrRatingLow;
+
+  /// No description provided for @clanErrInClan.
+  ///
+  /// In az, this message translates to:
+  /// **'Artıq klandasan'**
+  String get clanErrInClan;
+
+  /// No description provided for @policyOpen.
+  ///
+  /// In az, this message translates to:
+  /// **'Açıq'**
+  String get policyOpen;
+
+  /// No description provided for @policyOpenSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Reytinq şərtinə uyğun hər kəs dərhal qoşulur'**
+  String get policyOpenSub;
+
+  /// No description provided for @policyRequest.
+  ///
+  /// In az, this message translates to:
+  /// **'Müraciət ilə'**
+  String get policyRequest;
+
+  /// No description provided for @policyRequestSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Lider, müavinlər və ağsaqqallar təsdiqləyir'**
+  String get policyRequestSub;
+
+  /// No description provided for @policyInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'Yalnız dəvət'**
+  String get policyInvite;
+
+  /// No description provided for @policyInviteSub.
+  ///
+  /// In az, this message translates to:
+  /// **'Siyahıda görünür, amma qoşulmaq üçün dəvət lazımdır'**
+  String get policyInviteSub;
+
+  /// No description provided for @roleLeader.
+  ///
+  /// In az, this message translates to:
+  /// **'Lider'**
+  String get roleLeader;
+
+  /// No description provided for @roleCoLeader.
+  ///
+  /// In az, this message translates to:
+  /// **'Müavin'**
+  String get roleCoLeader;
+
+  /// No description provided for @roleElder.
+  ///
+  /// In az, this message translates to:
+  /// **'Ağsaqqal'**
+  String get roleElder;
+
+  /// No description provided for @roleMember.
+  ///
+  /// In az, this message translates to:
+  /// **'Üzv'**
+  String get roleMember;
+
+  /// No description provided for @emblemTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Emblem'**
+  String get emblemTitle;
+
+  /// No description provided for @emblemSave.
+  ///
+  /// In az, this message translates to:
+  /// **'Saxla'**
+  String get emblemSave;
+
+  /// No description provided for @emblemTabShape.
+  ///
+  /// In az, this message translates to:
+  /// **'Forma'**
+  String get emblemTabShape;
+
+  /// No description provided for @emblemTabSymbol.
+  ///
+  /// In az, this message translates to:
+  /// **'Simvol'**
+  String get emblemTabSymbol;
+
+  /// No description provided for @emblemTabColor.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəng'**
+  String get emblemTabColor;
+
+  /// No description provided for @emblemTabPattern.
+  ///
+  /// In az, this message translates to:
+  /// **'Naxış'**
+  String get emblemTabPattern;
+
+  /// No description provided for @emblemPrimaryColor.
+  ///
+  /// In az, this message translates to:
+  /// **'ƏSAS RƏNG'**
+  String get emblemPrimaryColor;
+
+  /// No description provided for @emblemShapeShield.
+  ///
+  /// In az, this message translates to:
+  /// **'Qalxan'**
+  String get emblemShapeShield;
+
+  /// No description provided for @emblemShapeHexagon.
+  ///
+  /// In az, this message translates to:
+  /// **'Altıbucaq'**
+  String get emblemShapeHexagon;
+
+  /// No description provided for @emblemShapeOctagon.
+  ///
+  /// In az, this message translates to:
+  /// **'Səkkizbucaq'**
+  String get emblemShapeOctagon;
+
+  /// No description provided for @emblemShapeCircle.
+  ///
+  /// In az, this message translates to:
+  /// **'Dairə'**
+  String get emblemShapeCircle;
+
+  /// No description provided for @emblemShapeDiamond.
+  ///
+  /// In az, this message translates to:
+  /// **'Romb'**
+  String get emblemShapeDiamond;
+
+  /// No description provided for @emblemShapeBanner.
+  ///
+  /// In az, this message translates to:
+  /// **'Bayraq'**
+  String get emblemShapeBanner;
+
+  /// No description provided for @emblemShapeStar.
+  ///
+  /// In az, this message translates to:
+  /// **'Ulduz'**
+  String get emblemShapeStar;
+
+  /// No description provided for @emblemShapeArch.
+  ///
+  /// In az, this message translates to:
+  /// **'Tağ'**
+  String get emblemShapeArch;
+
+  /// No description provided for @emblemSymbolDiamond.
+  ///
+  /// In az, this message translates to:
+  /// **'Romb'**
+  String get emblemSymbolDiamond;
+
+  /// No description provided for @emblemSymbolDiamondDot.
+  ///
+  /// In az, this message translates to:
+  /// **'Nöqtəli romb'**
+  String get emblemSymbolDiamondDot;
+
+  /// No description provided for @emblemSymbolCircle.
+  ///
+  /// In az, this message translates to:
+  /// **'Halqa'**
+  String get emblemSymbolCircle;
+
+  /// No description provided for @emblemSymbolSquare.
+  ///
+  /// In az, this message translates to:
+  /// **'Kvadrat'**
+  String get emblemSymbolSquare;
+
+  /// No description provided for @emblemSymbolInitials.
+  ///
+  /// In az, this message translates to:
+  /// **'Hərflər'**
+  String get emblemSymbolInitials;
+
+  /// No description provided for @emblemPatternNone.
+  ///
+  /// In az, this message translates to:
+  /// **'Yoxdur'**
+  String get emblemPatternNone;
+
+  /// No description provided for @emblemPatternLattice.
+  ///
+  /// In az, this message translates to:
+  /// **'Şəbəkə'**
+  String get emblemPatternLattice;
+
+  /// No description provided for @emblemColorGarnet.
+  ///
+  /// In az, this message translates to:
+  /// **'Nar'**
+  String get emblemColorGarnet;
+
+  /// No description provided for @emblemColorIndigo.
+  ///
+  /// In az, this message translates to:
+  /// **'İndiqo'**
+  String get emblemColorIndigo;
+
+  /// No description provided for @emblemColorEmerald.
+  ///
+  /// In az, this message translates to:
+  /// **'Zümrüd'**
+  String get emblemColorEmerald;
+
+  /// No description provided for @emblemColorBrass.
+  ///
+  /// In az, this message translates to:
+  /// **'Tunc'**
+  String get emblemColorBrass;
+
+  /// No description provided for @emblemColorPurple.
+  ///
+  /// In az, this message translates to:
+  /// **'Bənövşəyi'**
+  String get emblemColorPurple;
+
+  /// No description provided for @emblemColorSlate.
+  ///
+  /// In az, this message translates to:
+  /// **'Şifer'**
+  String get emblemColorSlate;
+
+  /// No description provided for @emblemColorIvory.
+  ///
+  /// In az, this message translates to:
+  /// **'Fil sümüyü'**
+  String get emblemColorIvory;
+
+  /// No description provided for @emblemColorBlue.
+  ///
+  /// In az, this message translates to:
+  /// **'Mavi'**
+  String get emblemColorBlue;
+
+  /// No description provided for @emblemColorWalnut.
+  ///
+  /// In az, this message translates to:
+  /// **'Qoz'**
+  String get emblemColorWalnut;
+
+  /// No description provided for @clanOnline.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} onlayn'**
+  String clanOnline(int n);
+
+  /// No description provided for @clanTabChat.
+  ///
+  /// In az, this message translates to:
+  /// **'Söhbət'**
+  String get clanTabChat;
+
+  /// No description provided for @clanTabActivity.
+  ///
+  /// In az, this message translates to:
+  /// **'Fəaliyyət'**
+  String get clanTabActivity;
+
+  /// No description provided for @clanTabWar.
+  ///
+  /// In az, this message translates to:
+  /// **'Döyüş'**
+  String get clanTabWar;
+
+  /// No description provided for @clanTabChest.
+  ///
+  /// In az, this message translates to:
+  /// **'Sandıq'**
+  String get clanTabChest;
+
+  /// No description provided for @clanChestTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Həftəlik sandıq'**
+  String get clanChestTitle;
+
+  /// No description provided for @clanChestProgress.
+  ///
+  /// In az, this message translates to:
+  /// **'{current} / {target}'**
+  String clanChestProgress(String current, String target);
+
+  /// No description provided for @clanChatHint.
+  ///
+  /// In az, this message translates to:
+  /// **'Mesaj yaz…'**
+  String get clanChatHint;
+
+  /// No description provided for @clanChatEmpty.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ mesaj yoxdur. İlk sən yaz.'**
+  String get clanChatEmpty;
+
+  /// No description provided for @clanActivityEmpty.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ hadisə yoxdur'**
+  String get clanActivityEmpty;
+
+  /// No description provided for @clanChatTooFast.
+  ///
+  /// In az, this message translates to:
+  /// **'Çox tez yazırsan. Bir az gözlə.'**
+  String get clanChatTooFast;
+
+  /// No description provided for @clanSysCreated.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan yaradıldı: {name}'**
+  String clanSysCreated(String name);
+
+  /// No description provided for @clanSysJoined.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} klana qoşuldu'**
+  String clanSysJoined(String name);
+
+  /// No description provided for @clanSysLeft.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} klandan çıxdı'**
+  String clanSysLeft(String name);
+
+  /// No description provided for @clanSysKicked.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} klandan çıxarıldı'**
+  String clanSysKicked(String name);
+
+  /// No description provided for @clanSysRole.
+  ///
+  /// In az, this message translates to:
+  /// **'{name}: yeni rütbə · {role}'**
+  String clanSysRole(String name, String role);
+
+  /// No description provided for @clanSysLeader.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni lider: {name}'**
+  String clanSysLeader(String name);
+
+  /// No description provided for @clanSysRenamed.
+  ///
+  /// In az, this message translates to:
+  /// **'Klanın yeni adı: {name} [{tag}]'**
+  String clanSysRenamed(String name, String tag);
+
+  /// No description provided for @clanSysDonated.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} sandığa {amount} sikkə qoydu'**
+  String clanSysDonated(String name, String amount);
+
+  /// No description provided for @clanSysChestFull.
+  ///
+  /// In az, this message translates to:
+  /// **'Həftəlik sandıq doldu'**
+  String get clanSysChestFull;
+
+  /// No description provided for @clanSysWarStarted.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan döyüşü başladı: {name} [{tag}]'**
+  String clanSysWarStarted(String name, String tag);
+
+  /// No description provided for @clanSysWarWin.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} klan döyüşündə qalib gəldi · +{points}'**
+  String clanSysWarWin(String name, String points);
+
+  /// No description provided for @clanSysWarEnded.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan döyüşü bitdi · {mine} : {theirs}'**
+  String clanSysWarEnded(String mine, String theirs);
+
+  /// No description provided for @clanMenuMembers.
+  ///
+  /// In az, this message translates to:
+  /// **'Üzvlər'**
+  String get clanMenuMembers;
+
+  /// No description provided for @clanMenuLeaderboard.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan reytinqi'**
+  String get clanMenuLeaderboard;
+
+  /// No description provided for @clanMenuProfile.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan profili'**
+  String get clanMenuProfile;
+
+  /// No description provided for @clanMenuEmblem.
+  ///
+  /// In az, this message translates to:
+  /// **'Emblemi dəyiş'**
+  String get clanMenuEmblem;
+
+  /// No description provided for @clanMenuRequests.
+  ///
+  /// In az, this message translates to:
+  /// **'Müraciətlər'**
+  String get clanMenuRequests;
+
+  /// No description provided for @clanMenuInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'Dost dəvət et'**
+  String get clanMenuInvite;
+
+  /// No description provided for @clanMenuLeave.
+  ///
+  /// In az, this message translates to:
+  /// **'Klandan çıx'**
+  String get clanMenuLeave;
+
+  /// No description provided for @clanLeaveTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Klandan çıxırsan?'**
+  String get clanLeaveTitle;
+
+  /// No description provided for @clanLeaveBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan söhbəti və sandığa çıxışın bağlanacaq.'**
+  String get clanLeaveBody;
+
+  /// No description provided for @clanLeaveLastBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Sən sonuncu üzvsən: klan bağlanacaq.'**
+  String get clanLeaveLastBody;
+
+  /// No description provided for @clanTransferFirst.
+  ///
+  /// In az, this message translates to:
+  /// **'Çıxmazdan əvvəl liderliyi başqa üzvə ver.'**
+  String get clanTransferFirst;
+
+  /// No description provided for @chatDelete.
+  ///
+  /// In az, this message translates to:
+  /// **'Sil'**
+  String get chatDelete;
+
+  /// No description provided for @clanChestDonate.
+  ///
+  /// In az, this message translates to:
+  /// **'Sandığa qoy'**
+  String get clanChestDonate;
+
+  /// No description provided for @clanChestMine.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu həftə sənin payın: {amount}'**
+  String clanChestMine(String amount);
+
+  /// No description provided for @clanChestReward.
+  ///
+  /// In az, this message translates to:
+  /// **'Sandıq dolanda klan {xp} XP qazanır'**
+  String clanChestReward(int xp);
+
+  /// No description provided for @clanChestFullNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu həftə sandıq doldu'**
+  String get clanChestFullNote;
+
+  /// No description provided for @clanChestAmount.
+  ///
+  /// In az, this message translates to:
+  /// **'MƏBLƏĞ'**
+  String get clanChestAmount;
+
+  /// No description provided for @clanDonated.
+  ///
+  /// In az, this message translates to:
+  /// **'Sandığa {amount} sikkə qoydun'**
+  String clanDonated(String amount);
+
+  /// No description provided for @clanErrChestFull.
+  ///
+  /// In az, this message translates to:
+  /// **'Sandıq artıq doludur'**
+  String get clanErrChestFull;
+
+  /// No description provided for @clanDonors.
+  ///
+  /// In az, this message translates to:
+  /// **'BU HƏFTƏNİN PAYLARI'**
+  String get clanDonors;
+
+  /// No description provided for @membersTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Üzvlər'**
+  String get membersTitle;
+
+  /// No description provided for @membersCount.
+  ///
+  /// In az, this message translates to:
+  /// **'{members} / {max}'**
+  String membersCount(int members, int max);
+
+  /// No description provided for @memberMeta.
+  ///
+  /// In az, this message translates to:
+  /// **'{presence} · {rating}'**
+  String memberMeta(String presence, String rating);
+
+  /// No description provided for @memberMe.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} (sən)'**
+  String memberMe(String name);
+
+  /// No description provided for @memberViewProfile.
+  ///
+  /// In az, this message translates to:
+  /// **'Profilə bax'**
+  String get memberViewProfile;
+
+  /// No description provided for @memberInviteFriendly.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostluq matçına çağır'**
+  String get memberInviteFriendly;
+
+  /// No description provided for @memberPromoteCoLeader.
+  ///
+  /// In az, this message translates to:
+  /// **'Müavin et'**
+  String get memberPromoteCoLeader;
+
+  /// No description provided for @memberPromoteElder.
+  ///
+  /// In az, this message translates to:
+  /// **'Ağsaqqal et'**
+  String get memberPromoteElder;
+
+  /// No description provided for @memberDemote.
+  ///
+  /// In az, this message translates to:
+  /// **'Üzv et'**
+  String get memberDemote;
+
+  /// No description provided for @memberTransferLead.
+  ///
+  /// In az, this message translates to:
+  /// **'Liderliyi ver'**
+  String get memberTransferLead;
+
+  /// No description provided for @memberKick.
+  ///
+  /// In az, this message translates to:
+  /// **'Klandan çıxar'**
+  String get memberKick;
+
+  /// No description provided for @memberKickConfirm.
+  ///
+  /// In az, this message translates to:
+  /// **'{name} klandan çıxarılsın?'**
+  String memberKickConfirm(String name);
+
+  /// No description provided for @memberTransferConfirm.
+  ///
+  /// In az, this message translates to:
+  /// **'Liderliyi ver: {name}?'**
+  String memberTransferConfirm(String name);
+
+  /// No description provided for @memberTransferBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Sən müavin olacaqsan.'**
+  String get memberTransferBody;
+
+  /// No description provided for @requestsEmpty.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni müraciət yoxdur'**
+  String get requestsEmpty;
+
+  /// No description provided for @clanInvited.
+  ///
+  /// In az, this message translates to:
+  /// **'Dəvət göndərildi'**
+  String get clanInvited;
+
+  /// No description provided for @warLive.
+  ///
+  /// In az, this message translates to:
+  /// **'CANLI · BİTMƏSİNƏ {time}'**
+  String warLive(String time);
+
+  /// No description provided for @warCounted.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} / {max} matç sayıldı'**
+  String warCounted(int n, int max);
+
+  /// No description provided for @warMatches.
+  ///
+  /// In az, this message translates to:
+  /// **'MATÇLAR'**
+  String get warMatches;
+
+  /// No description provided for @warFinished.
+  ///
+  /// In az, this message translates to:
+  /// **'Bitdi {a}–{b}'**
+  String warFinished(int a, int b);
+
+  /// No description provided for @warWon.
+  ///
+  /// In az, this message translates to:
+  /// **'BİTDİ · QƏLƏBƏ'**
+  String get warWon;
+
+  /// No description provided for @warLost.
+  ///
+  /// In az, this message translates to:
+  /// **'BİTDİ · MƏĞLUBİYYƏT'**
+  String get warLost;
+
+  /// No description provided for @warDraw.
+  ///
+  /// In az, this message translates to:
+  /// **'BİTDİ · HEÇ-HEÇƏ'**
+  String get warDraw;
+
+  /// No description provided for @warNoneTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu həftə döyüş yoxdur'**
+  String get warNoneTitle;
+
+  /// No description provided for @warNoneBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Klanlar hər bazar ertəsi cütləşdirilir. Döyüş üçün ən azı 2 aktiv üzv lazımdır.'**
+  String get warNoneBody;
+
+  /// No description provided for @warNoOpponent.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqib tapılmadı'**
+  String get warNoOpponent;
+
+  /// No description provided for @warHowTo.
+  ///
+  /// In az, this message translates to:
+  /// **'Rəqib klanın üzvlərinə qarşı hər onlayn qələbə +{points} xal gətirir.'**
+  String warHowTo(int points);
+
+  /// No description provided for @warMatchesEmpty.
+  ///
+  /// In az, this message translates to:
+  /// **'Hələ matç sayılmayıb'**
+  String get warMatchesEmpty;
+
+  /// No description provided for @clanLeaderboardTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan reytinqi'**
+  String get clanLeaderboardTitle;
+
+  /// No description provided for @clanMyRank.
+  ///
+  /// In az, this message translates to:
+  /// **'Sənin klanın · #{rank}'**
+  String clanMyRank(int rank);
+
+  /// No description provided for @createClanTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan yarat'**
+  String get createClanTitle;
+
+  /// No description provided for @createStep.
+  ///
+  /// In az, this message translates to:
+  /// **'{step} / {total}'**
+  String createStep(int step, int total);
+
+  /// No description provided for @createNameLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'Klanın adı'**
+  String get createNameLabel;
+
+  /// No description provided for @createNameCounter.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} / {max}'**
+  String createNameCounter(int n, int max);
+
+  /// No description provided for @createTagLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'Teq (3–5 hərf)'**
+  String get createTagLabel;
+
+  /// No description provided for @createTagFree.
+  ///
+  /// In az, this message translates to:
+  /// **'Boşdur'**
+  String get createTagFree;
+
+  /// No description provided for @createTagTaken.
+  ///
+  /// In az, this message translates to:
+  /// **'Tutulub'**
+  String get createTagTaken;
+
+  /// No description provided for @createTagInvalid.
+  ///
+  /// In az, this message translates to:
+  /// **'Yalnız 3–5 latın hərfi'**
+  String get createTagInvalid;
+
+  /// No description provided for @createNameInvalid.
+  ///
+  /// In az, this message translates to:
+  /// **'Ad 3–24 simvol olmalıdır'**
+  String get createNameInvalid;
+
+  /// No description provided for @createEmblemLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'EMBLEM'**
+  String get createEmblemLabel;
+
+  /// No description provided for @createEmblemMore.
+  ///
+  /// In az, this message translates to:
+  /// **'Daha çox'**
+  String get createEmblemMore;
+
+  /// No description provided for @createColorLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'RƏNG'**
+  String get createColorLabel;
+
+  /// No description provided for @createPolicyLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'QOŞULMA'**
+  String get createPolicyLabel;
+
+  /// No description provided for @createMinRatingLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'MİNİMUM REYTİNQ'**
+  String get createMinRatingLabel;
+
+  /// No description provided for @createMinRatingAny.
+  ///
+  /// In az, this message translates to:
+  /// **'Hamı'**
+  String get createMinRatingAny;
+
+  /// No description provided for @createMinRatingMax.
+  ///
+  /// In az, this message translates to:
+  /// **'{n}+'**
+  String createMinRatingMax(int n);
+
+  /// No description provided for @createLanguageLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'DİL'**
+  String get createLanguageLabel;
+
+  /// No description provided for @createDescriptionLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'Təsvir (istəyə görə)'**
+  String get createDescriptionLabel;
+
+  /// No description provided for @createBalance.
+  ///
+  /// In az, this message translates to:
+  /// **'Balans: {from} → {to}'**
+  String createBalance(String from, String to);
+
+  /// No description provided for @createRenameNote.
+  ///
+  /// In az, this message translates to:
+  /// **'Ad sonra {price} sikkəyə dəyişir'**
+  String createRenameNote(String price);
+
+  /// No description provided for @createSubmit.
+  ///
+  /// In az, this message translates to:
+  /// **'Klanı yarat'**
+  String get createSubmit;
+
+  /// No description provided for @createErrNameTaken.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu ad artıq tutulub'**
+  String get createErrNameTaken;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

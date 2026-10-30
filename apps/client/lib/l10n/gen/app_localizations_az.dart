@@ -1872,4 +1872,1038 @@ class AppLocalizationsAz extends AppLocalizations {
   String gemsSemantic(String amount) {
     return 'Yaqut: $amount';
   }
+
+  @override
+  String get emoteWheelHint => 'Sürüşdür\nvə burax';
+
+  @override
+  String get emoteButton => 'Emosiya göndər';
+
+  @override
+  String get gameChat => 'Söhbət';
+
+  @override
+  String get emoteSmile => 'Təbəssüm';
+
+  @override
+  String get emoteLaugh => 'Gülüş';
+
+  @override
+  String get emoteWow => 'Heyrət';
+
+  @override
+  String get emoteThink => 'Düşünürəm';
+
+  @override
+  String get emoteSad => 'Kədər';
+
+  @override
+  String get emoteAngry => 'Hirs';
+
+  @override
+  String get emoteTea => 'Çay';
+
+  @override
+  String get emoteClap => 'Əhsən';
+
+  @override
+  String get phraseHello => 'Salam!';
+
+  @override
+  String get phraseGoodLuck => 'Uğurlar';
+
+  @override
+  String get phraseNiceMove => 'Əla gediş';
+
+  @override
+  String get phraseDice => 'Zərlər…';
+
+  @override
+  String get phraseThanks => 'Təşəkkürlər';
+
+  @override
+  String get phraseGoodGame => 'Yaxşı oyun';
+
+  @override
+  String get phraseNiceRoll => 'Gözəl zər';
+
+  @override
+  String get phraseSorry => 'Bağışla';
+
+  @override
+  String get tabClan => 'Klan';
+
+  @override
+  String get modePrivateRoom => 'Şəxsi otaq';
+
+  @override
+  String get modeFriends => 'Dostlar';
+
+  @override
+  String get socialAccountBody => 'Dostlar, klanlar və şəxsi otaqlar üçün hesab lazımdır.';
+
+  @override
+  String get send => 'Göndər';
+
+  @override
+  String get close => 'Bağla';
+
+  @override
+  String get friendsTitle => 'Dostlar';
+
+  @override
+  String get friendsAdd => 'Əlavə et';
+
+  @override
+  String get friendsSection => 'DOSTLAR';
+
+  @override
+  String get presenceOnline => 'Onlayn';
+
+  @override
+  String get presenceInGame => 'Oyunda';
+
+  @override
+  String get presenceOffline => 'Oflayn';
+
+  @override
+  String get friendInvite => 'Çağır';
+
+  @override
+  String get friendWatch => 'İzlə';
+
+  @override
+  String get friendRequestsTitle => 'SORĞULAR';
+
+  @override
+  String get friendSentTitle => 'GÖNDƏRİLƏNLƏR';
+
+  @override
+  String get friendChallengesTitle => 'ÇAĞIRIŞLAR';
+
+  @override
+  String get friendAccept => 'Qəbul et';
+
+  @override
+  String get friendDismiss => 'Rədd et';
+
+  @override
+  String get friendCancelRequest => 'Sorğunu ləğv et';
+
+  @override
+  String challengeMeta(String variant, String format) {
+    return '$variant · $format';
+  }
+
+  @override
+  String get friendsEmptyTitle => 'Hələ dostun yoxdur';
+
+  @override
+  String get friendsEmptyBody => 'Adı ilə axtar və ya dost kodunu paylaş.';
+
+  @override
+  String friendInviteSent(String name) {
+    return 'Dəvət göndərildi: $name';
+  }
+
+  @override
+  String get friendRemoved => 'Dostluqdan çıxarıldı';
+
+  @override
+  String metaWithClan(String meta, String clan) {
+    return '$meta · $clan';
+  }
+
+  @override
+  String levelShort(int n) {
+    return 'Səv. $n';
+  }
+
+  @override
+  String get addFriendTitle => 'Dost əlavə et';
+
+  @override
+  String get addFriendSearchHint => 'Ad ilə axtar';
+
+  @override
+  String get addFriendSearchShort => 'Ən azı 3 hərf yaz';
+
+  @override
+  String get addFriendAction => 'Əlavə et';
+
+  @override
+  String get addFriendOr => 'və ya';
+
+  @override
+  String get addFriendCodeLabel => 'DOST KODUN';
+
+  @override
+  String get addFriendCodeCaption => 'Dostun bu kodu daxil etsin';
+
+  @override
+  String get addFriendCopyCode => 'Kodu kopyala';
+
+  @override
+  String get addFriendEnterCode => 'KODLA ƏLAVƏ ET';
+
+  @override
+  String get addFriendCodeHint => '8 simvollu kod';
+
+  @override
+  String get friendRequested => 'Göndərildi';
+
+  @override
+  String get friendAccepted => 'Dostsunuz';
+
+  @override
+  String get friendErrNotFound => 'Oyunçu tapılmadı';
+
+  @override
+  String get friendErrBlocked => 'Bu oyunçu ilə əlaqə mümkün deyil';
+
+  @override
+  String get friendErrAlready => 'Artıq dostsunuz';
+
+  @override
+  String get friendErrPending => 'Sorğu artıq göndərilib';
+
+  @override
+  String friendErrLimit(int max) {
+    return 'Dost limiti dolub ($max)';
+  }
+
+  @override
+  String get roomTitle => 'Şəxsi otaq';
+
+  @override
+  String get roomCodeLabel => 'OTAQ KODU';
+
+  @override
+  String get roomCopy => 'Kopyala';
+
+  @override
+  String get roomShare => 'Paylaş';
+
+  @override
+  String roomShareText(String code) {
+    return 'NardArena-da mənimlə oyna. Otaq kodu: $code';
+  }
+
+  @override
+  String get roomWaiting => 'Dost gözlənilir…';
+
+  @override
+  String roomExpiry(String time, String left) {
+    return 'Bitir: $time · $left qaldı';
+  }
+
+  @override
+  String roomInvited(String name) {
+    return 'Dəvət: $name';
+  }
+
+  @override
+  String get roomSettingVariant => 'Variant';
+
+  @override
+  String get roomSettingFormat => 'Format';
+
+  @override
+  String get roomSettingTime => 'Vaxt';
+
+  @override
+  String get roomSettingRating => 'Reytinq';
+
+  @override
+  String get roomUnrated => 'Təsir etmir';
+
+  @override
+  String get roomExpired => 'Kodun vaxtı bitdi';
+
+  @override
+  String get roomNewCode => 'Yeni kod';
+
+  @override
+  String get roomCreate => 'Otaq yarat';
+
+  @override
+  String get roomCreateSub => 'Kodu dosta göndər, o qoşulan kimi oyun başlayır';
+
+  @override
+  String get roomJoinByCode => 'Koda qoşul';
+
+  @override
+  String get roomJoinByCodeSub => 'Dostunun otağına 6 simvollu kodla gir';
+
+  @override
+  String get roomJoin => 'Qoşul';
+
+  @override
+  String get roomJoinTitle => 'Otağa qoşul';
+
+  @override
+  String get roomJoinHint => 'Dostunun göndərdiyi kodu yaz';
+
+  @override
+  String get roomJoining => 'Qoşulur…';
+
+  @override
+  String get roomCreating => 'Otaq yaradılır…';
+
+  @override
+  String get roomNotFound => 'Otaq tapılmadı və ya vaxtı bitib';
+
+  @override
+  String get roomInviteFriend => 'Dostu çağır';
+
+  @override
+  String get roomPickFriend => 'Kimi çağırırsan?';
+
+  @override
+  String get roomCancelTitle => 'Otaq bağlansın?';
+
+  @override
+  String get roomCancelBody => 'Kod etibarsız olacaq.';
+
+  @override
+  String get roomCancelConfirm => 'Bağla';
+
+  @override
+  String get spectatorLive => 'İZLƏYİCİ';
+
+  @override
+  String get spectatorLeave => 'Çıx';
+
+  @override
+  String get spectatorNoChat => 'Oyunçuların emosiyaları burada görünür';
+
+  @override
+  String get spectatorUnavailable => 'Bu oyunu izləmək mümkün deyil';
+
+  @override
+  String spectatorGameOver(String name, String score) {
+    return 'Qalib: $name · $score';
+  }
+
+  @override
+  String get spectatorWaiting => 'Oyun yüklənir…';
+
+  @override
+  String get playerMenuAddFriend => 'Dost əlavə et';
+
+  @override
+  String get playerMenuInvite => 'Oyuna çağır';
+
+  @override
+  String get playerMenuMute => 'Söhbəti səssizə al';
+
+  @override
+  String get playerMenuUnmute => 'Səsini aç';
+
+  @override
+  String get playerMenuReport => 'Şikayət et';
+
+  @override
+  String get playerMenuBlock => 'Blokla';
+
+  @override
+  String get playerMenuUnblock => 'Bloku götür';
+
+  @override
+  String get playerMenuUnfriend => 'Dostluqdan çıxar';
+
+  @override
+  String get playerMenuInviteClan => 'Klana dəvət et';
+
+  @override
+  String reportTitle(String name) {
+    return 'Şikayət: $name';
+  }
+
+  @override
+  String get reportReasonLabel => 'SƏBƏB';
+
+  @override
+  String get reportReasonAbuse => 'Təhqiramiz söhbət';
+
+  @override
+  String get reportReasonName => 'Qeyri-münasib ad və ya avatar';
+
+  @override
+  String get reportReasonCheating => 'Kömək proqramı istifadəsi';
+
+  @override
+  String get reportReasonStalling => 'Qəsdən vaxt uzatma';
+
+  @override
+  String get reportReasonLeaving => 'Oyunu qəsdən tərk etmə';
+
+  @override
+  String get reportReasonOther => 'Digər';
+
+  @override
+  String get reportNoteHint => 'Əlavə qeyd (istəyə görə)';
+
+  @override
+  String get reportAlsoBlock => 'Bu oyunçunu da blokla';
+
+  @override
+  String reportDisclosure(String name) {
+    return 'Son oyunun qeydi və söhbət şikayətə avtomatik əlavə olunur. $name şikayətçinin kim olduğunu görməyəcək.';
+  }
+
+  @override
+  String get reportSend => 'Şikayəti göndər';
+
+  @override
+  String get reportLimit => 'Bu gün çox şikayət göndərdin. Sabah yenidən yoxla.';
+
+  @override
+  String blockTitle(String name) {
+    return '$name bloklansın?';
+  }
+
+  @override
+  String get blockInfoMatchmaking => 'Təsadüfi oyunlarda səninlə qarşılaşmayacaq.';
+
+  @override
+  String get blockInfoContact => 'Sənə mesaj, dostluq və oyun dəvəti göndərə bilməyəcək.';
+
+  @override
+  String blockInfoUndo(String path) {
+    return 'Bloku $path bölməsindən götürə bilərsən.';
+  }
+
+  @override
+  String get privacyBlocked => 'Bloklananlar';
+
+  @override
+  String get blockConfirm => 'Blokla';
+
+  @override
+  String blockDone(String name) {
+    return '$name bloklandı.';
+  }
+
+  @override
+  String get unblockDone => 'Blok götürüldü';
+
+  @override
+  String get blockedEmpty => 'Bloklanan oyunçu yoxdur';
+
+  @override
+  String get reportSentTitle => 'Şikayət göndərildi';
+
+  @override
+  String get reportSentBody => 'Moderator 24 saat ərzində baxacaq. Nəticə barədə bildiriş alacaqsan.';
+
+  @override
+  String get mutedNote => 'Səssizə alındı';
+
+  @override
+  String get unmutedNote => 'Səsi açıldı';
+
+  @override
+  String get clansTitle => 'Klanlar';
+
+  @override
+  String get clanCreateShort => 'Yarat';
+
+  @override
+  String get clanSearchHint => 'Ad və ya teq axtar';
+
+  @override
+  String clanFilterLanguage(String code) {
+    return 'Dil: $code';
+  }
+
+  @override
+  String get clanFilterOpen => 'Açıq';
+
+  @override
+  String clanFilterMinRating(int rating) {
+    return 'Min. reytinq ≤ $rating';
+  }
+
+  @override
+  String clanTag(String tag) {
+    return '[$tag]';
+  }
+
+  @override
+  String clanListMeta(int level, int members, int max, String rating) {
+    return 'Səv. $level · $members/$max · $rating';
+  }
+
+  @override
+  String get clanJoin => 'Qoşul';
+
+  @override
+  String get clanApply => 'Müraciət';
+
+  @override
+  String get clanFull => 'Dolu';
+
+  @override
+  String get clanInviteOnlyShort => 'Dəvətlə';
+
+  @override
+  String get clanPending => 'Gözləyir';
+
+  @override
+  String get clanEmpty => 'Klan tapılmadı';
+
+  @override
+  String get clanEmptyBody => 'Başqa ad yoxla və ya öz klanını yarat.';
+
+  @override
+  String get clanInvitesTitle => 'DƏVƏTLƏR';
+
+  @override
+  String clanInviteFrom(String name) {
+    return 'Dəvət edən: $name';
+  }
+
+  @override
+  String get clanStatLevel => 'Səviyyə';
+
+  @override
+  String get clanStatMembers => 'Üzv';
+
+  @override
+  String get clanStatRating => 'Reytinq';
+
+  @override
+  String get clanStatLanguage => 'Dil';
+
+  @override
+  String clanMembersValue(int members, int max) {
+    return '$members/$max';
+  }
+
+  @override
+  String get clanRequirements => 'TƏLƏBLƏR';
+
+  @override
+  String get clanReqMinRating => 'Min. reytinq';
+
+  @override
+  String get clanReqPolicy => 'Qəbul';
+
+  @override
+  String get clanReqNone => 'Yoxdur';
+
+  @override
+  String get clanTopMembers => 'ƏN YAXŞI ÜZVLƏR';
+
+  @override
+  String clanMemberWithRole(String name, String role) {
+    return '$name · $role';
+  }
+
+  @override
+  String get clanApplyCta => 'Müraciət et';
+
+  @override
+  String get clanJoinCta => 'Qoşul';
+
+  @override
+  String get clanAppliedCta => 'Müraciət göndərildi';
+
+  @override
+  String get clanCancelApply => 'Müraciəti geri götür';
+
+  @override
+  String get clanInviteOnlyCta => 'Yalnız dəvətlə';
+
+  @override
+  String get clanFullCta => 'Klan doludur';
+
+  @override
+  String get clanReqNotMet => 'Tələblərə uyğun deyilsən';
+
+  @override
+  String get clanLeaveFirst => 'Əvvəlcə hazırkı klandan çıx';
+
+  @override
+  String get clanOpenMine => 'Klana keç';
+
+  @override
+  String get clanAcceptInvite => 'Dəvəti qəbul et';
+
+  @override
+  String get clanErrRatingLow => 'Reytinqin bu klan üçün azdır';
+
+  @override
+  String get clanErrInClan => 'Artıq klandasan';
+
+  @override
+  String get policyOpen => 'Açıq';
+
+  @override
+  String get policyOpenSub => 'Reytinq şərtinə uyğun hər kəs dərhal qoşulur';
+
+  @override
+  String get policyRequest => 'Müraciət ilə';
+
+  @override
+  String get policyRequestSub => 'Lider, müavinlər və ağsaqqallar təsdiqləyir';
+
+  @override
+  String get policyInvite => 'Yalnız dəvət';
+
+  @override
+  String get policyInviteSub => 'Siyahıda görünür, amma qoşulmaq üçün dəvət lazımdır';
+
+  @override
+  String get roleLeader => 'Lider';
+
+  @override
+  String get roleCoLeader => 'Müavin';
+
+  @override
+  String get roleElder => 'Ağsaqqal';
+
+  @override
+  String get roleMember => 'Üzv';
+
+  @override
+  String get emblemTitle => 'Emblem';
+
+  @override
+  String get emblemSave => 'Saxla';
+
+  @override
+  String get emblemTabShape => 'Forma';
+
+  @override
+  String get emblemTabSymbol => 'Simvol';
+
+  @override
+  String get emblemTabColor => 'Rəng';
+
+  @override
+  String get emblemTabPattern => 'Naxış';
+
+  @override
+  String get emblemPrimaryColor => 'ƏSAS RƏNG';
+
+  @override
+  String get emblemShapeShield => 'Qalxan';
+
+  @override
+  String get emblemShapeHexagon => 'Altıbucaq';
+
+  @override
+  String get emblemShapeOctagon => 'Səkkizbucaq';
+
+  @override
+  String get emblemShapeCircle => 'Dairə';
+
+  @override
+  String get emblemShapeDiamond => 'Romb';
+
+  @override
+  String get emblemShapeBanner => 'Bayraq';
+
+  @override
+  String get emblemShapeStar => 'Ulduz';
+
+  @override
+  String get emblemShapeArch => 'Tağ';
+
+  @override
+  String get emblemSymbolDiamond => 'Romb';
+
+  @override
+  String get emblemSymbolDiamondDot => 'Nöqtəli romb';
+
+  @override
+  String get emblemSymbolCircle => 'Halqa';
+
+  @override
+  String get emblemSymbolSquare => 'Kvadrat';
+
+  @override
+  String get emblemSymbolInitials => 'Hərflər';
+
+  @override
+  String get emblemPatternNone => 'Yoxdur';
+
+  @override
+  String get emblemPatternLattice => 'Şəbəkə';
+
+  @override
+  String get emblemColorGarnet => 'Nar';
+
+  @override
+  String get emblemColorIndigo => 'İndiqo';
+
+  @override
+  String get emblemColorEmerald => 'Zümrüd';
+
+  @override
+  String get emblemColorBrass => 'Tunc';
+
+  @override
+  String get emblemColorPurple => 'Bənövşəyi';
+
+  @override
+  String get emblemColorSlate => 'Şifer';
+
+  @override
+  String get emblemColorIvory => 'Fil sümüyü';
+
+  @override
+  String get emblemColorBlue => 'Mavi';
+
+  @override
+  String get emblemColorWalnut => 'Qoz';
+
+  @override
+  String clanOnline(int n) {
+    return '$n onlayn';
+  }
+
+  @override
+  String get clanTabChat => 'Söhbət';
+
+  @override
+  String get clanTabActivity => 'Fəaliyyət';
+
+  @override
+  String get clanTabWar => 'Döyüş';
+
+  @override
+  String get clanTabChest => 'Sandıq';
+
+  @override
+  String get clanChestTitle => 'Həftəlik sandıq';
+
+  @override
+  String clanChestProgress(String current, String target) {
+    return '$current / $target';
+  }
+
+  @override
+  String get clanChatHint => 'Mesaj yaz…';
+
+  @override
+  String get clanChatEmpty => 'Hələ mesaj yoxdur. İlk sən yaz.';
+
+  @override
+  String get clanActivityEmpty => 'Hələ hadisə yoxdur';
+
+  @override
+  String get clanChatTooFast => 'Çox tez yazırsan. Bir az gözlə.';
+
+  @override
+  String clanSysCreated(String name) {
+    return 'Klan yaradıldı: $name';
+  }
+
+  @override
+  String clanSysJoined(String name) {
+    return '$name klana qoşuldu';
+  }
+
+  @override
+  String clanSysLeft(String name) {
+    return '$name klandan çıxdı';
+  }
+
+  @override
+  String clanSysKicked(String name) {
+    return '$name klandan çıxarıldı';
+  }
+
+  @override
+  String clanSysRole(String name, String role) {
+    return '$name: yeni rütbə · $role';
+  }
+
+  @override
+  String clanSysLeader(String name) {
+    return 'Yeni lider: $name';
+  }
+
+  @override
+  String clanSysRenamed(String name, String tag) {
+    return 'Klanın yeni adı: $name [$tag]';
+  }
+
+  @override
+  String clanSysDonated(String name, String amount) {
+    return '$name sandığa $amount sikkə qoydu';
+  }
+
+  @override
+  String get clanSysChestFull => 'Həftəlik sandıq doldu';
+
+  @override
+  String clanSysWarStarted(String name, String tag) {
+    return 'Klan döyüşü başladı: $name [$tag]';
+  }
+
+  @override
+  String clanSysWarWin(String name, String points) {
+    return '$name klan döyüşündə qalib gəldi · +$points';
+  }
+
+  @override
+  String clanSysWarEnded(String mine, String theirs) {
+    return 'Klan döyüşü bitdi · $mine : $theirs';
+  }
+
+  @override
+  String get clanMenuMembers => 'Üzvlər';
+
+  @override
+  String get clanMenuLeaderboard => 'Klan reytinqi';
+
+  @override
+  String get clanMenuProfile => 'Klan profili';
+
+  @override
+  String get clanMenuEmblem => 'Emblemi dəyiş';
+
+  @override
+  String get clanMenuRequests => 'Müraciətlər';
+
+  @override
+  String get clanMenuInvite => 'Dost dəvət et';
+
+  @override
+  String get clanMenuLeave => 'Klandan çıx';
+
+  @override
+  String get clanLeaveTitle => 'Klandan çıxırsan?';
+
+  @override
+  String get clanLeaveBody => 'Klan söhbəti və sandığa çıxışın bağlanacaq.';
+
+  @override
+  String get clanLeaveLastBody => 'Sən sonuncu üzvsən: klan bağlanacaq.';
+
+  @override
+  String get clanTransferFirst => 'Çıxmazdan əvvəl liderliyi başqa üzvə ver.';
+
+  @override
+  String get chatDelete => 'Sil';
+
+  @override
+  String get clanChestDonate => 'Sandığa qoy';
+
+  @override
+  String clanChestMine(String amount) {
+    return 'Bu həftə sənin payın: $amount';
+  }
+
+  @override
+  String clanChestReward(int xp) {
+    return 'Sandıq dolanda klan $xp XP qazanır';
+  }
+
+  @override
+  String get clanChestFullNote => 'Bu həftə sandıq doldu';
+
+  @override
+  String get clanChestAmount => 'MƏBLƏĞ';
+
+  @override
+  String clanDonated(String amount) {
+    return 'Sandığa $amount sikkə qoydun';
+  }
+
+  @override
+  String get clanErrChestFull => 'Sandıq artıq doludur';
+
+  @override
+  String get clanDonors => 'BU HƏFTƏNİN PAYLARI';
+
+  @override
+  String get membersTitle => 'Üzvlər';
+
+  @override
+  String membersCount(int members, int max) {
+    return '$members / $max';
+  }
+
+  @override
+  String memberMeta(String presence, String rating) {
+    return '$presence · $rating';
+  }
+
+  @override
+  String memberMe(String name) {
+    return '$name (sən)';
+  }
+
+  @override
+  String get memberViewProfile => 'Profilə bax';
+
+  @override
+  String get memberInviteFriendly => 'Dostluq matçına çağır';
+
+  @override
+  String get memberPromoteCoLeader => 'Müavin et';
+
+  @override
+  String get memberPromoteElder => 'Ağsaqqal et';
+
+  @override
+  String get memberDemote => 'Üzv et';
+
+  @override
+  String get memberTransferLead => 'Liderliyi ver';
+
+  @override
+  String get memberKick => 'Klandan çıxar';
+
+  @override
+  String memberKickConfirm(String name) {
+    return '$name klandan çıxarılsın?';
+  }
+
+  @override
+  String memberTransferConfirm(String name) {
+    return 'Liderliyi ver: $name?';
+  }
+
+  @override
+  String get memberTransferBody => 'Sən müavin olacaqsan.';
+
+  @override
+  String get requestsEmpty => 'Yeni müraciət yoxdur';
+
+  @override
+  String get clanInvited => 'Dəvət göndərildi';
+
+  @override
+  String warLive(String time) {
+    return 'CANLI · BİTMƏSİNƏ $time';
+  }
+
+  @override
+  String warCounted(int n, int max) {
+    return '$n / $max matç sayıldı';
+  }
+
+  @override
+  String get warMatches => 'MATÇLAR';
+
+  @override
+  String warFinished(int a, int b) {
+    return 'Bitdi $a–$b';
+  }
+
+  @override
+  String get warWon => 'BİTDİ · QƏLƏBƏ';
+
+  @override
+  String get warLost => 'BİTDİ · MƏĞLUBİYYƏT';
+
+  @override
+  String get warDraw => 'BİTDİ · HEÇ-HEÇƏ';
+
+  @override
+  String get warNoneTitle => 'Bu həftə döyüş yoxdur';
+
+  @override
+  String get warNoneBody => 'Klanlar hər bazar ertəsi cütləşdirilir. Döyüş üçün ən azı 2 aktiv üzv lazımdır.';
+
+  @override
+  String get warNoOpponent => 'Rəqib tapılmadı';
+
+  @override
+  String warHowTo(int points) {
+    return 'Rəqib klanın üzvlərinə qarşı hər onlayn qələbə +$points xal gətirir.';
+  }
+
+  @override
+  String get warMatchesEmpty => 'Hələ matç sayılmayıb';
+
+  @override
+  String get clanLeaderboardTitle => 'Klan reytinqi';
+
+  @override
+  String clanMyRank(int rank) {
+    return 'Sənin klanın · #$rank';
+  }
+
+  @override
+  String get createClanTitle => 'Klan yarat';
+
+  @override
+  String createStep(int step, int total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get createNameLabel => 'Klanın adı';
+
+  @override
+  String createNameCounter(int n, int max) {
+    return '$n / $max';
+  }
+
+  @override
+  String get createTagLabel => 'Teq (3–5 hərf)';
+
+  @override
+  String get createTagFree => 'Boşdur';
+
+  @override
+  String get createTagTaken => 'Tutulub';
+
+  @override
+  String get createTagInvalid => 'Yalnız 3–5 latın hərfi';
+
+  @override
+  String get createNameInvalid => 'Ad 3–24 simvol olmalıdır';
+
+  @override
+  String get createEmblemLabel => 'EMBLEM';
+
+  @override
+  String get createEmblemMore => 'Daha çox';
+
+  @override
+  String get createColorLabel => 'RƏNG';
+
+  @override
+  String get createPolicyLabel => 'QOŞULMA';
+
+  @override
+  String get createMinRatingLabel => 'MİNİMUM REYTİNQ';
+
+  @override
+  String get createMinRatingAny => 'Hamı';
+
+  @override
+  String createMinRatingMax(int n) {
+    return '$n+';
+  }
+
+  @override
+  String get createLanguageLabel => 'DİL';
+
+  @override
+  String get createDescriptionLabel => 'Təsvir (istəyə görə)';
+
+  @override
+  String createBalance(String from, String to) {
+    return 'Balans: $from → $to';
+  }
+
+  @override
+  String createRenameNote(String price) {
+    return 'Ad sonra $price sikkəyə dəyişir';
+  }
+
+  @override
+  String get createSubmit => 'Klanı yarat';
+
+  @override
+  String get createErrNameTaken => 'Bu ad artıq tutulub';
 }

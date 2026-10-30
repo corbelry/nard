@@ -13,8 +13,8 @@ import '../progression/streak_modal.dart';
 import '../ui/background.dart';
 import '../ui/layout.dart';
 
-/// Tab roots: Əsas, Mağaza and Profil (Phase 4 shows three of the five
-/// tabs). Runs the daily check-in once per app open while signed in and
+/// Tab roots: Əsas, Klan, Mağaza and Profil (Turnirlər stays hidden until
+/// Phase 6, social.md §8). Runs the daily check-in once per app open while signed in and
 /// shows the 12.2 streak modal when coins were credited.
 class TabShell extends ConsumerStatefulWidget {
   const TabShell({super.key, required this.shell});
@@ -63,6 +63,7 @@ class _TabShellState extends ConsumerState<TabShell> {
       bottomNavigationBar: NardTabBar(
         tabs: [
           NardTab(LucideIcons.home, l.tabHome),
+          NardTab(LucideIcons.shield, l.tabClan),
           NardTab(LucideIcons.shoppingBag, l.tabStore),
           NardTab(LucideIcons.user, l.tabProfile),
         ],

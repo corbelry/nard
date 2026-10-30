@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:nard_core/nard_core.dart' show Variant;
 
+import '../clans/clan_models.dart';
 import '../cosmetics/catalog.dart';
 import '../progression/progress_models.dart';
+import '../social/social_models.dart';
 import '../store/store_models.dart';
 
 /// An API error with its machine code (e.g. `code_invalid`).
@@ -32,6 +35,8 @@ class Account {
     this.country,
     this.locale = 'az',
     this.ratings = const {},
+    this.friendCode,
+    this.clan,
   });
 
   final String id;
@@ -44,8 +49,15 @@ class Account {
   /// variant name → {rating, peak, matches, wins, tier}.
   final Map<String, RatingInfo> ratings;
 
+  /// 8-character friend code (6.2).
+  final String? friendCode;
+
+  /// The player's clan with name and role, null when clanless.
+  final ClanBadge? clan;
+
   static Account fromJson(Map<String, Object?> j) {
     final ratings = j['ratings'];
+    final clan = j['clan'];
     return Account(
       id: j['id']! as String,
       name: j['name']! as String,
@@ -53,6 +65,8 @@ class Account {
       email: j['email'] as String?,
       country: j['country'] as String?,
       locale: j['locale'] as String? ?? 'az',
+      friendCode: j['friendCode'] as String?,
+      clan: clan is Map<String, Object?> ? ClanBadge.fromJson(clan) : null,
       ratings:
           ratings is Map<String, Object?>
               ? {
@@ -286,4 +300,240 @@ class ApiClient {
 
   Future<void> setTitle(String? itemId) =>
       _call('PUT', '/me/title', {'itemId': itemId});
+
+  // ---- Phase 5: friends, blocks, reports, challenges ------------------
+
+  Future<FriendsOverview> friends() async =>
+      FriendsOverview.fromJson(await _call('GET', '/friends'));
+
+  /// By 8-character [code] or [userId]. 422 `self` | `blocked` |
+  /// `already_friends` | `already_requested` | `too_many_friends`; 404.
+  Future<FriendRequestStatus> requestFriend({
+    String? code,
+    String? userId,
+  }) async {
+    final json = await _call('POST', '/friends/requests', {
+      if (code != null) 'code': code,
+      if (userId != null) 'userId': userId,
+    });
+    return json['status'] == 'accepted'
+        ? FriendRequestStatus.accepted
+        : FriendRequestStatus.requested;
+  }
+
+  Future<void> acceptFriend(int requestId) =>
+      _call('POST', '/friends/requests/$requestId/accept');
+
+  /// Declines an incoming or cancels an outgoing request.
+  Future<void> dismissFriend(int requestId) =>
+      _call('DELETE', '/friends/requests/$requestId');
+
+  Future<void> unfriend(String userId) => _call('DELETE', '/friends/$userId');
+
+  /// Prefix search on names ([query] 3–20 chars).
+  Future<List<PublicUser>> searchUsers(String query) async => [
+    for (final u
+        in ((await _call(
+                  'GET',
+                  '/users/search?q=${Uri.encodeQueryComponent(query)}',
+                ))['users']
+                as List?) ??
+            const [])
+      if (u is Map<String, Object?>) PublicUser.fromJson(u),
+  ];
+
+  Future<List<PublicUser>> blocks() async => [
+    for (final u in ((await _call('GET', '/blocks'))['users'] as List?) ?? [])
+      if (u is Map<String, Object?>) PublicUser.fromJson(u),
+  ];
+
+  /// Also ends a friendship (server side).
+  Future<void> block(String userId) => _call('POST', '/blocks/$userId');
+
+  Future<void> unblock(String userId) => _call('DELETE', '/blocks/$userId');
+
+  /// Returns the reference ("R-000123"). 429 `rate_limited`.
+  Future<String> report(
+    String userId,
+    ReportReason reason, {
+    String? matchId,
+    String? note,
+  }) async =>
+      (await _call('POST', '/reports', {
+            'userId': userId,
+            'reason': reason.name,
+            if (matchId != null) 'matchId': matchId,
+            if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
+          }))['reference']
+          as String? ??
+      '';
+
+  /// Invites a friend into my private room [code] (shown on their 6.1).
+  Future<void> challenge(
+    String userId,
+    String code,
+    Variant variant,
+    int matchLength,
+  ) => _call('POST', '/challenges', {
+    'userId': userId,
+    'code': code,
+    'variant': variant.name,
+    'matchLength': matchLength,
+  });
+
+  // ---- Phase 5: clans (docs/api/clans.md) ------------------------------
+
+  Future<List<ClanSummary>> clans({
+    String? query,
+    String? language,
+    JoinPolicy? policy,
+    int? maxMinRating,
+  }) async {
+    final params = {
+      if (query != null && query.trim().length >= 2) 'q': query.trim(),
+      if (language != null) 'language': language,
+      if (policy != null) 'policy': policy.name,
+      if (maxMinRating != null) 'maxMinRating': '$maxMinRating',
+    };
+    final qs = params.isEmpty ? '' : '?${Uri(queryParameters: params).query}';
+    return [
+      for (final c
+          in ((await _call('GET', '/clans$qs'))['clans'] as List?) ?? const [])
+        if (c is Map<String, Object?>) ClanSummary.fromJson(c),
+    ];
+  }
+
+  /// (valid, available) of a tag (19.1).
+  Future<(bool, bool)> tagAvailable(String tag) async {
+    final j = await _call(
+      'GET',
+      '/clans/tag-available?tag=${Uri.encodeQueryComponent(tag)}',
+    );
+    return (j['valid'] == true, j['available'] == true);
+  }
+
+  Future<ClanLeaderboard> clanLeaderboard() async =>
+      ClanLeaderboard.fromJson(await _call('GET', '/clans/leaderboard'));
+
+  /// 422 `already_in_clan` | `insufficient_funds` | `name_taken` |
+  /// `tag_taken`.
+  Future<(ClanSummary, Wallet)> createClan(
+    ClanDraft draft,
+    String idempotencyKey,
+  ) async {
+    final j = await _call('POST', '/clans', {
+      ...draft.toJson(),
+      'idempotencyKey': idempotencyKey,
+    });
+    return (
+      ClanSummary.fromJson(j['clan']! as Map<String, Object?>),
+      Wallet.fromJson(j['wallet']),
+    );
+  }
+
+  Future<ClanDetail> clan(String id) async => ClanDetail.fromJson(
+    (await _call('GET', '/clans/$id'))['clan']! as Map<String, Object?>,
+  );
+
+  /// Emblem, policy, rating, language, description (name/tag cost coins
+  /// and need [idempotencyKey]).
+  Future<void> updateClan(
+    String id,
+    Map<String, Object?> fields, {
+    String? idempotencyKey,
+  }) => _call('PATCH', '/clans/$id', {
+    ...fields,
+    if (idempotencyKey != null) 'idempotencyKey': idempotencyKey,
+  });
+
+  /// `joined` or `requested`; 422 `invite_only` | `rating_too_low` |
+  /// `clan_full` | `already_in_clan`.
+  Future<bool> joinClan(String id) async =>
+      (await _call('POST', '/clans/$id/join'))['status'] == 'joined';
+
+  Future<void> cancelClanRequest(String id) =>
+      _call('DELETE', '/clans/$id/join');
+
+  /// `left` or `disbanded`; 422 `transfer_first`.
+  Future<String> leaveClan(String id) async =>
+      (await _call('POST', '/clans/$id/leave'))['status'] as String? ?? 'left';
+
+  Future<List<JoinRequest>> clanRequests(String id) async => [
+    for (final r
+        in ((await _call('GET', '/clans/$id/requests'))['requests'] as List?) ??
+            const [])
+      if (r is Map<String, Object?>) JoinRequest.fromJson(r),
+  ];
+
+  Future<void> acceptClanRequest(String id, int requestId) =>
+      _call('POST', '/clans/$id/requests/$requestId/accept');
+
+  Future<void> declineClanRequest(String id, int requestId) =>
+      _call('DELETE', '/clans/$id/requests/$requestId');
+
+  Future<void> inviteToClan(String id, String userId) =>
+      _call('POST', '/clans/$id/invites', {'userId': userId});
+
+  Future<List<ClanInvite>> clanInvites() async => [
+    for (final i
+        in ((await _call('GET', '/me/clan-invites'))['invites'] as List?) ??
+            const [])
+      if (i is Map<String, Object?>) ClanInvite.fromJson(i),
+  ];
+
+  Future<void> acceptClanInvite(int inviteId) =>
+      _call('POST', '/me/clan-invites/$inviteId/accept');
+
+  Future<void> declineClanInvite(int inviteId) =>
+      _call('DELETE', '/me/clan-invites/$inviteId');
+
+  /// [role] `leader` transfers leadership.
+  Future<void> setClanRole(String id, String userId, ClanRole role) =>
+      _call('POST', '/clans/$id/members/$userId/role', {'role': role.api});
+
+  Future<void> kickMember(String id, String userId) =>
+      _call('DELETE', '/clans/$id/members/$userId');
+
+  /// The latest 50 messages after [after], oldest first.
+  Future<List<ClanMessage>> clanMessages(String id, {int? after}) async => [
+    for (final m
+        in ((await _call(
+                  'GET',
+                  '/clans/$id/messages${after == null ? '' : '?after=$after'}',
+                ))['messages']
+                as List?) ??
+            const [])
+      if (m is Map<String, Object?>) ClanMessage.fromJson(m),
+  ];
+
+  /// ≤ 300 chars, 10 per minute (429).
+  Future<ClanMessage> postClanMessage(String id, String text) async =>
+      ClanMessage.fromJson(
+        (await _call('POST', '/clans/$id/messages', {'text': text}))['message']!
+            as Map<String, Object?>,
+      );
+
+  Future<void> deleteClanMessage(String id, int messageId) =>
+      _call('DELETE', '/clans/$id/messages/$messageId');
+
+  /// 422 `chest_full` | `insufficient_funds`.
+  Future<(ClanChest, Wallet)> donate(
+    String id,
+    int coins,
+    String idempotencyKey,
+  ) async {
+    final j = await _call('POST', '/clans/$id/donate', {
+      'coins': coins,
+      'idempotencyKey': idempotencyKey,
+    });
+    return (
+      ClanChest.fromJson(j['chest']! as Map<String, Object?>),
+      Wallet.fromJson(j['wallet']),
+    );
+  }
+
+  Future<ClanWar?> clanWar(String id) async {
+    final war = (await _call('GET', '/clans/$id/war'))['war'];
+    return war is Map<String, Object?> ? ClanWar.fromJson(war) : null;
+  }
 }

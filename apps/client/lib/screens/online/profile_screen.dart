@@ -354,6 +354,32 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ],
             ),
           ),
+          // Phase 5 entries (not drawn on 8.1, social.md §13.9).
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _LinkTile(
+                    icon: LucideIcons.users,
+                    label: l.friendsTitle,
+                    onTap: () => context.push('/friends'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _LinkTile(
+                    icon: LucideIcons.shield,
+                    label:
+                        account.clan == null
+                            ? l.clansTitle
+                            : l.clanTag(account.clan!.tag),
+                    onTap: () => context.go('/clan'),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
             child: Overline(l.profileHistory),

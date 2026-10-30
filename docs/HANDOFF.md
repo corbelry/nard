@@ -1,6 +1,6 @@
 # Session handoff — start here
 
-Last updated: 2026-10-31. Next step: **Phase 5 – Social & clans**.
+Last updated: 2026-11-01. Next step: **Phase 6 – Tournaments & seasons**.
 
 ## Working with the product owner
 
@@ -34,28 +34,13 @@ next — without waiting for approval (start only after they say "başla").
   sleep) — resume from this file on "davam et". iOS can't be built on this
   Linux machine; verify with tests + Android.
 
-## Phase 5 progress (update after every step)
+## Phase 6 progress (update after every step)
 
-- [x] 1. Social API: friend codes (8 chars, no look-alikes), requests
-  (crossed requests auto-accept), accept/decline/cancel/unfriend, search
-  (prefix, hides blocks), blocks (end friendships), reports (reasons from
-  config, daily limit, reference R-000001), presence via `TouchLastSeen`
-  (online = seen within 120 s). 32 API tests.
-- [x] 2. Game server: private rooms (`room.create` → 6-char code, 10 min,
-  `room.join`, `room.cancel`; casual), spectators (`spectate.join/leave`,
-  white's view), `presence.query` (userId → matchId), emotes/quick phrases
-  by id only (`Emotes` in nard_protocol, 2 s gap). API: friend challenges
-  (`POST /challenges`, shown in `GET /friends` for 10 min). Tests: server 17,
-  API 33.
-- [x] 3. Clans API (ADR-036, contract `docs/api/clans.md`): clans, members
-  & roles, requests, invites, chat (polling), weekly chest, clan XP/levels,
-  leaderboard, weekly wars (`clans:pair-wars`). API 44 tests; migrated on
-  MySQL; e2e passes.
-- [ ] 4. Client social + clan screens — next (subagent; spec
-  `docs/design-notes/social.md`, contracts `docs/api/clans.md` + friends).
+- [ ] 1. Tournament + season design spec (subagent) and API — next.
 
-Phase 4 is done (CHANGELOG, ADR-034/035). Leftovers: texture packs, store
-receipt APIs, Apple/Google keys, iOS build, lesson content, Redis scaling.
+Phase 5 is done (CHANGELOG, ADR-036/037). Remember: after changing
+game_server, rebuild its compose container before testing on the emulator
+(`docker compose -f infra/docker-compose.yml up --build -d game_server`).
 
 ## Where things stand
 
@@ -85,29 +70,25 @@ receipt APIs, Apple/Google keys, iOS build, lesson content, Redis scaling.
 - gnu.org rate-limits fetches; the gnubg source mirror on GitHub
   (`mormegil-cz/gnubg`) worked.
 
-## Phase 5 plan (spec §8.4–8.5, design 2.7, 5.x, 6.1–6.4, 14.x, 19.x)
+## Phase 6 plan (spec §8.2–8.3, §6 v2, §8.9, design 4.x, 6.5, 7.1–7.2, 10.1, 13.x, 21–22)
 
-Done when: players add friends (search / invite code), see presence,
-challenge a friend or play in a private room with a code, spectate,
-send emotes and quick phrases in games (no free text in ranked), block and
-report; create/join clans (name, tag, emblem, join policy, roles), chat in
-the clan, see the clan leaderboard and play a clan war; tests green; docs.
+Done when: knockout / Swiss / round-robin / sit-and-go / scheduled
+tournaments run end to end on the game server (brackets, no-shows,
+walkovers, tie-breaks), players see live brackets and standings, seasons
+with soft reset and a season pass (free + premium track, Yaqut) exist,
+leaderboards per variant work, practice puzzles and post-game analysis
+(equity, blunders) are available; tests green; docs.
 
-1. **API social**: friends + friend requests, blocks, reports (14.x),
-   presence via game-server heartbeat (Redis-free: last-seen in DB/cache).
-2. **Private rooms & challenges**: game server rooms created by code
-   (`room.create` / `room.join`), friend challenge = private room invite.
-3. **Spectating**: read-only subscribers on `MatchRoom` (`spectate.join`),
-   delayed clocks hidden info none (backgammon has no hidden state).
-4. **Emotes & quick phrases** (2.7): `chat.emote` relayed by the room with
-   rate limit; default emote pack item; mute opponent.
-5. **Clans API**: clans (name, tag, emblem JSON from the 5.3 builder,
-   language, min rating, join policy open/request/invite, coin cost from
-   the wallet), members + roles, join requests, clan chat (HTTP + polling or
-   WS relay, moderation/report), clan XP and leaderboard, clan war
-   (pairings, assigned matches, scoring).
-6. **Client screens**: 6.1 friends, 6.2 add friend, 6.3 private room, 6.4
-   spectator, 2.7 emote wheel, 14.1–14.4 player menu/report/block, 5.1–5.7
-   clans, 19.1–19.2 create clan. Design spec first
-   (`docs/design-notes/social.md`, subagent), then implementation subagent.
-7. Tests (API features, room relay, e2e extension), docs, CHANGELOG.
+1. Design spec subagent → `docs/design-notes/tournaments.md` (4.1–4.5,
+   21.x, 22.x, 6.5, 7.1–7.2, 10.1 analysis, 13.x puzzles).
+2. API: tournaments (types, entry free/coins, prizes coins/items/titles,
+   registration, brackets/pairings, Buchholz), sit-and-go auto start,
+   scheduled tournaments (command), private tournaments (22.x); seasons
+   (~6 weeks, soft reset, season-end rewards), season pass (XP, tracks,
+   claims, premium unlock with Yaqut), leaderboards (variant, season).
+3. Game server: tournament matches (assigned pairings, no-show timers,
+   walkovers, result → API advances the bracket).
+4. AI v2 (spec §6): neural evaluator trained offline (`tools/train/`,
+   Python) — likely too heavy now: ship analysis with the heuristic 2-ply
+   bot first, log an ADR, keep the interface for a neural net.
+5. Client screens (subagent), e2e, docs.

@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../clans/clan_leaderboard_screen.dart';
+import '../clans/clan_members_screen.dart';
+import '../clans/clan_models.dart' show Emblem;
+import '../clans/clan_profile_screen.dart';
+import '../clans/clan_search_screen.dart';
+import '../clans/create_clan_screen.dart';
+import '../clans/emblem_builder_screen.dart';
 import '../cosmetics/locker_screen.dart';
 import '../game/game_screen.dart';
 import '../progression/achievements_screen.dart';
@@ -28,6 +35,10 @@ import '../screens/settings_screen.dart';
 import '../screens/setup_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/tab_shell.dart';
+import '../social/add_friend_screen.dart';
+import '../social/friends_screen.dart';
+import '../social/player_menu.dart';
+import '../social/room_screen.dart';
 import '../store/purchase_flow.dart';
 import '../store/store_screen.dart';
 import '../ui/background.dart';
@@ -78,6 +89,11 @@ final routerProvider = Provider<GoRouter>((ref) {
                   ),
                 ],
               ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(path: '/clan', builder: (_, _) => const ClanTab()),
             ],
           ),
           StatefulShellBranch(
@@ -152,6 +168,71 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
       ),
       GoRoute(path: '/replays', builder: (_, _) => const ReplayListScreen()),
+      // Phase 5: friends, rooms, spectating, reports (social.md §8).
+      GoRoute(path: '/friends', builder: (_, _) => const FriendsScreen()),
+      GoRoute(path: '/friends/add', builder: (_, _) => const AddFriendScreen()),
+      GoRoute(
+        path: '/friends/blocked',
+        builder: (_, _) => const BlockedScreen(),
+      ),
+      GoRoute(path: '/room', builder: (_, _) => const RoomScreen()),
+      GoRoute(
+        path: '/room/join',
+        builder: (_, s) => JoinRoomScreen(code: s.uri.queryParameters['code']),
+      ),
+      GoRoute(
+        path: '/spectate',
+        pageBuilder: (_, s) => _fade(s, const GameScreen(spectator: true)),
+      ),
+      GoRoute(
+        path: '/report',
+        builder:
+            (_, s) =>
+                s.extra is ReportArgs
+                    ? ReportScreen(args: s.extra! as ReportArgs)
+                    : const _Missing(),
+      ),
+      GoRoute(
+        path: '/report/sent',
+        builder: (_, s) {
+          final extra = s.extra;
+          return extra is ({String name, bool blocked})
+              ? ReportSentScreen(name: extra.name, blocked: extra.blocked)
+              : const _Missing();
+        },
+      ),
+      // Clans (5.x, 19.x); the Klan tab root is `/clan`.
+      GoRoute(
+        path: '/clans/create',
+        builder: (_, _) => const CreateClanScreen(),
+      ),
+      GoRoute(
+        path: '/clans/leaderboard',
+        builder: (_, _) => const ClanLeaderboardScreen(),
+      ),
+      GoRoute(
+        path: '/clans/emblem',
+        builder:
+            (_, s) => EmblemBuilderScreen(
+              initial: s.extra is Emblem ? s.extra! as Emblem : const Emblem(),
+            ),
+      ),
+      GoRoute(
+        path: '/clans/:id',
+        builder: (_, s) => ClanProfileScreen(clanId: s.pathParameters['id']!),
+        routes: [
+          GoRoute(
+            path: 'members',
+            builder:
+                (_, s) => ClanMembersScreen(clanId: s.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: 'requests',
+            builder:
+                (_, s) => ClanRequestsScreen(clanId: s.pathParameters['id']!),
+          ),
+        ],
+      ),
       // 7.5 and 12.3 cover the tab bar.
       GoRoute(
         path: '/purchased',

@@ -25,10 +25,14 @@ class PlayerCard extends StatelessWidget {
     this.bot = false,
     this.badge,
     this.offlineLabel,
+    this.action,
   });
 
   /// The clock (online games).
   final Widget? trailing;
+
+  /// Drawn before the clock in the row layout (my emote button, 2.7).
+  final Widget? action;
 
   /// The server's bot seat: grey avatar with the bot glyph (20.2).
   final bool bot;
@@ -225,6 +229,7 @@ class PlayerCard extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(child: dim(texts)),
                   if (pill != null) pill,
+                  if (action != null) ...[const SizedBox(width: 12), action!],
                   if (trailing != null) ...[
                     const SizedBox(width: 12),
                     trailing!,

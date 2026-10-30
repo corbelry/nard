@@ -244,6 +244,81 @@ extension NardExtras on NardColors {
 
   /// Lattice lines of the level-up screen.
   Color get levelUpLattice => accent.withValues(alpha: .08);
+
+  // ---- Social & clans (social.md §0) -----------------------------------
+
+  /// 2.7 emote wheel disc: walnut hub, raised ring.
+  Gradient get emoteWheelDisc => const RadialGradient(
+    colors: [Color(0xFF2B1D14), Color(0xFF2B1D14), Color(0xF534251A)],
+    stops: [0, .32, .325],
+  );
+  List<BoxShadow> get emoteWheelShadow => const [
+    BoxShadow(color: Color(0x80000000), offset: Offset(0, 20), blurRadius: 50),
+  ];
+
+  /// 6.3 private room background.
+  Gradient get roomBg => const RadialGradient(
+    center: Alignment(0, -.3),
+    radius: .9,
+    colors: [Color(0xFF4A321F), Color(0xFF1B120C)],
+    stops: [0, .7],
+  );
+
+  /// 5.2 clan profile background, tinted with the clan's colour.
+  Gradient clanProfileBg(Color tint) => RadialGradient(
+    center: const Alignment(0, -.64),
+    radius: .9,
+    colors: [
+      tint.withValues(alpha: .35),
+      const Color(0xFF2B1D14),
+      const Color(0xFF1B120C),
+    ],
+    stops: const [0, .6, 1],
+  );
+
+  /// 5.6 war background: my clan colour left, theirs right.
+  Gradient clanWarBg(Color mine, Color theirs) => LinearGradient(
+    colors: [
+      mine.withValues(alpha: .3),
+      mine.withValues(alpha: 0),
+      theirs.withValues(alpha: 0),
+      theirs.withValues(alpha: .35),
+    ],
+    stops: const [0, .45, .55, 1],
+  );
+
+  /// 5.7 leaderboard background.
+  Gradient get clanLeaderboardBg => RadialGradient(
+    center: const Alignment(0, -.6),
+    radius: .9,
+    colors: [accent.withValues(alpha: .22), const Color(0xFF1B120C)],
+    stops: const [0, .7],
+  );
+
+  /// 5.3 emblem preview glow.
+  Gradient get emblemGlow => RadialGradient(
+    radius: .6,
+    colors: [accent.withValues(alpha: .14), accent.withValues(alpha: 0)],
+  );
+
+  /// Presence dots: online, in game, offline.
+  Color get presenceOnline => successText;
+  Color get presenceInGame => accentHi;
+  Color get presenceOffline => text.withValues(alpha: .3);
+
+  /// Chat bubbles (5.4): others / mine.
+  Color get bubbleOther => text.withValues(alpha: .08);
+  Color get bubbleMine => accent;
+
+  /// 5.4 clan chest glyph.
+  Gradient get chestFill => const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFFC9A24A), Color(0xFF6E4224)],
+  );
+
+  /// Spectator / war "live" pill.
+  Color get liveFill => dangerText.withValues(alpha: .16);
 }
 
 /// Rarity colour of an item (`tokens/colors.css`); tournament items use

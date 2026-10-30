@@ -1551,5 +1551,748 @@
         "type": "String"
       }
     }
-  }
+  },
+  "emoteWheelHint": "Sürüşdür\nvə burax",
+  "emoteButton": "Emosiya göndər",
+  "gameChat": "Söhbət",
+  "emoteSmile": "Təbəssüm",
+  "emoteLaugh": "Gülüş",
+  "emoteWow": "Heyrət",
+  "emoteThink": "Düşünürəm",
+  "emoteSad": "Kədər",
+  "emoteAngry": "Hirs",
+  "emoteTea": "Çay",
+  "emoteClap": "Əhsən",
+  "phraseHello": "Salam!",
+  "phraseGoodLuck": "Uğurlar",
+  "phraseNiceMove": "Əla gediş",
+  "phraseDice": "Zərlər…",
+  "phraseThanks": "Təşəkkürlər",
+  "phraseGoodGame": "Yaxşı oyun",
+  "phraseNiceRoll": "Gözəl zər",
+  "phraseSorry": "Bağışla",
+  "tabClan": "Klan",
+  "modePrivateRoom": "Şəxsi otaq",
+  "modeFriends": "Dostlar",
+  "socialAccountBody": "Dostlar, klanlar və şəxsi otaqlar üçün hesab lazımdır.",
+  "send": "Göndər",
+  "close": "Bağla",
+  "friendsTitle": "Dostlar",
+  "friendsAdd": "Əlavə et",
+  "friendsSection": "DOSTLAR",
+  "presenceOnline": "Onlayn",
+  "presenceInGame": "Oyunda",
+  "presenceOffline": "Oflayn",
+  "friendInvite": "Çağır",
+  "friendWatch": "İzlə",
+  "friendRequestsTitle": "SORĞULAR",
+  "friendSentTitle": "GÖNDƏRİLƏNLƏR",
+  "friendChallengesTitle": "ÇAĞIRIŞLAR",
+  "friendAccept": "Qəbul et",
+  "friendDismiss": "Rədd et",
+  "friendCancelRequest": "Sorğunu ləğv et",
+  "challengeMeta": "{variant} · {format}",
+  "@challengeMeta": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      },
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "friendsEmptyTitle": "Hələ dostun yoxdur",
+  "friendsEmptyBody": "Adı ilə axtar və ya dost kodunu paylaş.",
+  "friendInviteSent": "Dəvət göndərildi: {name}",
+  "@friendInviteSent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "friendRemoved": "Dostluqdan çıxarıldı",
+  "metaWithClan": "{meta} · {clan}",
+  "@metaWithClan": {
+    "placeholders": {
+      "meta": {
+        "type": "String"
+      },
+      "clan": {
+        "type": "String"
+      }
+    }
+  },
+  "levelShort": "Səv. {n}",
+  "@levelShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "addFriendTitle": "Dost əlavə et",
+  "addFriendSearchHint": "Ad ilə axtar",
+  "addFriendSearchShort": "Ən azı 3 hərf yaz",
+  "addFriendAction": "Əlavə et",
+  "addFriendOr": "və ya",
+  "addFriendCodeLabel": "DOST KODUN",
+  "addFriendCodeCaption": "Dostun bu kodu daxil etsin",
+  "addFriendCopyCode": "Kodu kopyala",
+  "addFriendEnterCode": "KODLA ƏLAVƏ ET",
+  "addFriendCodeHint": "8 simvollu kod",
+  "friendRequested": "Göndərildi",
+  "friendAccepted": "Dostsunuz",
+  "friendErrNotFound": "Oyunçu tapılmadı",
+  "friendErrBlocked": "Bu oyunçu ilə əlaqə mümkün deyil",
+  "friendErrAlready": "Artıq dostsunuz",
+  "friendErrPending": "Sorğu artıq göndərilib",
+  "friendErrLimit": "Dost limiti dolub ({max})",
+  "@friendErrLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "roomTitle": "Şəxsi otaq",
+  "roomCodeLabel": "OTAQ KODU",
+  "roomCopy": "Kopyala",
+  "roomShare": "Paylaş",
+  "roomShareText": "NardArena-da mənimlə oyna. Otaq kodu: {code}",
+  "@roomShareText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "roomWaiting": "Dost gözlənilir…",
+  "roomExpiry": "Bitir: {time} · {left} qaldı",
+  "@roomExpiry": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "left": {
+        "type": "String"
+      }
+    }
+  },
+  "roomInvited": "Dəvət: {name}",
+  "@roomInvited": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "roomSettingVariant": "Variant",
+  "roomSettingFormat": "Format",
+  "roomSettingTime": "Vaxt",
+  "roomSettingRating": "Reytinq",
+  "roomUnrated": "Təsir etmir",
+  "roomExpired": "Kodun vaxtı bitdi",
+  "roomNewCode": "Yeni kod",
+  "roomCreate": "Otaq yarat",
+  "roomCreateSub": "Kodu dosta göndər, o qoşulan kimi oyun başlayır",
+  "roomJoinByCode": "Koda qoşul",
+  "roomJoinByCodeSub": "Dostunun otağına 6 simvollu kodla gir",
+  "roomJoin": "Qoşul",
+  "roomJoinTitle": "Otağa qoşul",
+  "roomJoinHint": "Dostunun göndərdiyi kodu yaz",
+  "roomJoining": "Qoşulur…",
+  "roomCreating": "Otaq yaradılır…",
+  "roomNotFound": "Otaq tapılmadı və ya vaxtı bitib",
+  "roomInviteFriend": "Dostu çağır",
+  "roomPickFriend": "Kimi çağırırsan?",
+  "roomCancelTitle": "Otaq bağlansın?",
+  "roomCancelBody": "Kod etibarsız olacaq.",
+  "roomCancelConfirm": "Bağla",
+  "spectatorLive": "İZLƏYİCİ",
+  "spectatorLeave": "Çıx",
+  "spectatorNoChat": "Oyunçuların emosiyaları burada görünür",
+  "spectatorUnavailable": "Bu oyunu izləmək mümkün deyil",
+  "spectatorGameOver": "Qalib: {name} · {score}",
+  "@spectatorGameOver": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "score": {
+        "type": "String"
+      }
+    }
+  },
+  "spectatorWaiting": "Oyun yüklənir…",
+  "playerMenuAddFriend": "Dost əlavə et",
+  "playerMenuInvite": "Oyuna çağır",
+  "playerMenuMute": "Söhbəti səssizə al",
+  "playerMenuUnmute": "Səsini aç",
+  "playerMenuReport": "Şikayət et",
+  "playerMenuBlock": "Blokla",
+  "playerMenuUnblock": "Bloku götür",
+  "playerMenuUnfriend": "Dostluqdan çıxar",
+  "playerMenuInviteClan": "Klana dəvət et",
+  "reportTitle": "Şikayət: {name}",
+  "@reportTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportReasonLabel": "SƏBƏB",
+  "reportReasonAbuse": "Təhqiramiz söhbət",
+  "reportReasonName": "Qeyri-münasib ad və ya avatar",
+  "reportReasonCheating": "Kömək proqramı istifadəsi",
+  "reportReasonStalling": "Qəsdən vaxt uzatma",
+  "reportReasonLeaving": "Oyunu qəsdən tərk etmə",
+  "reportReasonOther": "Digər",
+  "reportNoteHint": "Əlavə qeyd (istəyə görə)",
+  "reportAlsoBlock": "Bu oyunçunu da blokla",
+  "reportDisclosure": "Son oyunun qeydi və söhbət şikayətə avtomatik əlavə olunur. {name} şikayətçinin kim olduğunu görməyəcək.",
+  "@reportDisclosure": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportSend": "Şikayəti göndər",
+  "reportLimit": "Bu gün çox şikayət göndərdin. Sabah yenidən yoxla.",
+  "blockTitle": "{name} bloklansın?",
+  "@blockTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "blockInfoMatchmaking": "Təsadüfi oyunlarda səninlə qarşılaşmayacaq.",
+  "blockInfoContact": "Sənə mesaj, dostluq və oyun dəvəti göndərə bilməyəcək.",
+  "blockInfoUndo": "Bloku {path} bölməsindən götürə bilərsən.",
+  "@blockInfoUndo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "privacyBlocked": "Bloklananlar",
+  "blockConfirm": "Blokla",
+  "blockDone": "{name} bloklandı.",
+  "@blockDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockDone": "Blok götürüldü",
+  "blockedEmpty": "Bloklanan oyunçu yoxdur",
+  "reportSentTitle": "Şikayət göndərildi",
+  "reportSentBody": "Moderator 24 saat ərzində baxacaq. Nəticə barədə bildiriş alacaqsan.",
+  "mutedNote": "Səssizə alındı",
+  "unmutedNote": "Səsi açıldı",
+  "clansTitle": "Klanlar",
+  "clanCreateShort": "Yarat",
+  "clanSearchHint": "Ad və ya teq axtar",
+  "clanFilterLanguage": "Dil: {code}",
+  "@clanFilterLanguage": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "clanFilterOpen": "Açıq",
+  "clanFilterMinRating": "Min. reytinq ≤ {rating}",
+  "@clanFilterMinRating": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    }
+  },
+  "clanTag": "[{tag}]",
+  "@clanTag": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "clanListMeta": "Səv. {level} · {members}/{max} · {rating}",
+  "@clanListMeta": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "members": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      },
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "clanJoin": "Qoşul",
+  "clanApply": "Müraciət",
+  "clanFull": "Dolu",
+  "clanInviteOnlyShort": "Dəvətlə",
+  "clanPending": "Gözləyir",
+  "clanEmpty": "Klan tapılmadı",
+  "clanEmptyBody": "Başqa ad yoxla və ya öz klanını yarat.",
+  "clanInvitesTitle": "DƏVƏTLƏR",
+  "clanInviteFrom": "Dəvət edən: {name}",
+  "@clanInviteFrom": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clanStatLevel": "Səviyyə",
+  "clanStatMembers": "Üzv",
+  "clanStatRating": "Reytinq",
+  "clanStatLanguage": "Dil",
+  "clanMembersValue": "{members}/{max}",
+  "@clanMembersValue": {
+    "placeholders": {
+      "members": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "clanRequirements": "TƏLƏBLƏR",
+  "clanReqMinRating": "Min. reytinq",
+  "clanReqPolicy": "Qəbul",
+  "clanReqNone": "Yoxdur",
+  "clanTopMembers": "ƏN YAXŞI ÜZVLƏR",
+  "clanMemberWithRole": "{name} · {role}",
+  "@clanMemberWithRole": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "clanApplyCta": "Müraciət et",
+  "clanJoinCta": "Qoşul",
+  "clanAppliedCta": "Müraciət göndərildi",
+  "clanCancelApply": "Müraciəti geri götür",
+  "clanInviteOnlyCta": "Yalnız dəvətlə",
+  "clanFullCta": "Klan doludur",
+  "clanReqNotMet": "Tələblərə uyğun deyilsən",
+  "clanLeaveFirst": "Əvvəlcə hazırkı klandan çıx",
+  "clanOpenMine": "Klana keç",
+  "clanAcceptInvite": "Dəvəti qəbul et",
+  "clanErrRatingLow": "Reytinqin bu klan üçün azdır",
+  "clanErrInClan": "Artıq klandasan",
+  "policyOpen": "Açıq",
+  "policyOpenSub": "Reytinq şərtinə uyğun hər kəs dərhal qoşulur",
+  "policyRequest": "Müraciət ilə",
+  "policyRequestSub": "Lider, müavinlər və ağsaqqallar təsdiqləyir",
+  "policyInvite": "Yalnız dəvət",
+  "policyInviteSub": "Siyahıda görünür, amma qoşulmaq üçün dəvət lazımdır",
+  "roleLeader": "Lider",
+  "roleCoLeader": "Müavin",
+  "roleElder": "Ağsaqqal",
+  "roleMember": "Üzv",
+  "emblemTitle": "Emblem",
+  "emblemSave": "Saxla",
+  "emblemTabShape": "Forma",
+  "emblemTabSymbol": "Simvol",
+  "emblemTabColor": "Rəng",
+  "emblemTabPattern": "Naxış",
+  "emblemPrimaryColor": "ƏSAS RƏNG",
+  "emblemShapeShield": "Qalxan",
+  "emblemShapeHexagon": "Altıbucaq",
+  "emblemShapeOctagon": "Səkkizbucaq",
+  "emblemShapeCircle": "Dairə",
+  "emblemShapeDiamond": "Romb",
+  "emblemShapeBanner": "Bayraq",
+  "emblemShapeStar": "Ulduz",
+  "emblemShapeArch": "Tağ",
+  "emblemSymbolDiamond": "Romb",
+  "emblemSymbolDiamondDot": "Nöqtəli romb",
+  "emblemSymbolCircle": "Halqa",
+  "emblemSymbolSquare": "Kvadrat",
+  "emblemSymbolInitials": "Hərflər",
+  "emblemPatternNone": "Yoxdur",
+  "emblemPatternLattice": "Şəbəkə",
+  "emblemColorGarnet": "Nar",
+  "emblemColorIndigo": "İndiqo",
+  "emblemColorEmerald": "Zümrüd",
+  "emblemColorBrass": "Tunc",
+  "emblemColorPurple": "Bənövşəyi",
+  "emblemColorSlate": "Şifer",
+  "emblemColorIvory": "Fil sümüyü",
+  "emblemColorBlue": "Mavi",
+  "emblemColorWalnut": "Qoz",
+  "clanOnline": "{n} onlayn",
+  "@clanOnline": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "clanTabChat": "Söhbət",
+  "clanTabActivity": "Fəaliyyət",
+  "clanTabWar": "Döyüş",
+  "clanTabChest": "Sandıq",
+  "clanChestTitle": "Həftəlik sandıq",
+  "clanChestProgress": "{current} / {target}",
+  "@clanChestProgress": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "clanChatHint": "Mesaj yaz…",
+  "clanChatEmpty": "Hələ mesaj yoxdur. İlk sən yaz.",
+  "clanActivityEmpty": "Hələ hadisə yoxdur",
+  "clanChatTooFast": "Çox tez yazırsan. Bir az gözlə.",
+  "clanSysCreated": "Klan yaradıldı: {name}",
+  "@clanSysCreated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysJoined": "{name} klana qoşuldu",
+  "@clanSysJoined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysLeft": "{name} klandan çıxdı",
+  "@clanSysLeft": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysKicked": "{name} klandan çıxarıldı",
+  "@clanSysKicked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysRole": "{name}: yeni rütbə · {role}",
+  "@clanSysRole": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysLeader": "Yeni lider: {name}",
+  "@clanSysLeader": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysRenamed": "Klanın yeni adı: {name} [{tag}]",
+  "@clanSysRenamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysDonated": "{name} sandığa {amount} sikkə qoydu",
+  "@clanSysDonated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysChestFull": "Həftəlik sandıq doldu",
+  "clanSysWarStarted": "Klan döyüşü başladı: {name} [{tag}]",
+  "@clanSysWarStarted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysWarWin": "{name} klan döyüşündə qalib gəldi · +{points}",
+  "@clanSysWarWin": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "points": {
+        "type": "String"
+      }
+    }
+  },
+  "clanSysWarEnded": "Klan döyüşü bitdi · {mine} : {theirs}",
+  "@clanSysWarEnded": {
+    "placeholders": {
+      "mine": {
+        "type": "String"
+      },
+      "theirs": {
+        "type": "String"
+      }
+    }
+  },
+  "clanMenuMembers": "Üzvlər",
+  "clanMenuLeaderboard": "Klan reytinqi",
+  "clanMenuProfile": "Klan profili",
+  "clanMenuEmblem": "Emblemi dəyiş",
+  "clanMenuRequests": "Müraciətlər",
+  "clanMenuInvite": "Dost dəvət et",
+  "clanMenuLeave": "Klandan çıx",
+  "clanLeaveTitle": "Klandan çıxırsan?",
+  "clanLeaveBody": "Klan söhbəti və sandığa çıxışın bağlanacaq.",
+  "clanLeaveLastBody": "Sən sonuncu üzvsən: klan bağlanacaq.",
+  "clanTransferFirst": "Çıxmazdan əvvəl liderliyi başqa üzvə ver.",
+  "chatDelete": "Sil",
+  "clanChestDonate": "Sandığa qoy",
+  "clanChestMine": "Bu həftə sənin payın: {amount}",
+  "@clanChestMine": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "clanChestReward": "Sandıq dolanda klan {xp} XP qazanır",
+  "@clanChestReward": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "clanChestFullNote": "Bu həftə sandıq doldu",
+  "clanChestAmount": "MƏBLƏĞ",
+  "clanDonated": "Sandığa {amount} sikkə qoydun",
+  "@clanDonated": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "clanErrChestFull": "Sandıq artıq doludur",
+  "clanDonors": "BU HƏFTƏNİN PAYLARI",
+  "membersTitle": "Üzvlər",
+  "membersCount": "{members} / {max}",
+  "@membersCount": {
+    "placeholders": {
+      "members": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "memberMeta": "{presence} · {rating}",
+  "@memberMeta": {
+    "placeholders": {
+      "presence": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "memberMe": "{name} (sən)",
+  "@memberMe": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "memberViewProfile": "Profilə bax",
+  "memberInviteFriendly": "Dostluq matçına çağır",
+  "memberPromoteCoLeader": "Müavin et",
+  "memberPromoteElder": "Ağsaqqal et",
+  "memberDemote": "Üzv et",
+  "memberTransferLead": "Liderliyi ver",
+  "memberKick": "Klandan çıxar",
+  "memberKickConfirm": "{name} klandan çıxarılsın?",
+  "@memberKickConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "memberTransferConfirm": "Liderliyi ver: {name}?",
+  "@memberTransferConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "memberTransferBody": "Sən müavin olacaqsan.",
+  "requestsEmpty": "Yeni müraciət yoxdur",
+  "clanInvited": "Dəvət göndərildi",
+  "warLive": "CANLI · BİTMƏSİNƏ {time}",
+  "@warLive": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "warCounted": "{n} / {max} matç sayıldı",
+  "@warCounted": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "warMatches": "MATÇLAR",
+  "warFinished": "Bitdi {a}–{b}",
+  "@warFinished": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
+  "warWon": "BİTDİ · QƏLƏBƏ",
+  "warLost": "BİTDİ · MƏĞLUBİYYƏT",
+  "warDraw": "BİTDİ · HEÇ-HEÇƏ",
+  "warNoneTitle": "Bu həftə döyüş yoxdur",
+  "warNoneBody": "Klanlar hər bazar ertəsi cütləşdirilir. Döyüş üçün ən azı 2 aktiv üzv lazımdır.",
+  "warNoOpponent": "Rəqib tapılmadı",
+  "warHowTo": "Rəqib klanın üzvlərinə qarşı hər onlayn qələbə +{points} xal gətirir.",
+  "@warHowTo": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "warMatchesEmpty": "Hələ matç sayılmayıb",
+  "clanLeaderboardTitle": "Klan reytinqi",
+  "clanMyRank": "Sənin klanın · #{rank}",
+  "@clanMyRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      }
+    }
+  },
+  "createClanTitle": "Klan yarat",
+  "createStep": "{step} / {total}",
+  "@createStep": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "createNameLabel": "Klanın adı",
+  "createNameCounter": "{n} / {max}",
+  "@createNameCounter": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "createTagLabel": "Teq (3–5 hərf)",
+  "createTagFree": "Boşdur",
+  "createTagTaken": "Tutulub",
+  "createTagInvalid": "Yalnız 3–5 latın hərfi",
+  "createNameInvalid": "Ad 3–24 simvol olmalıdır",
+  "createEmblemLabel": "EMBLEM",
+  "createEmblemMore": "Daha çox",
+  "createColorLabel": "RƏNG",
+  "createPolicyLabel": "QOŞULMA",
+  "createMinRatingLabel": "MİNİMUM REYTİNQ",
+  "createMinRatingAny": "Hamı",
+  "createMinRatingMax": "{n}+",
+  "@createMinRatingMax": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "createLanguageLabel": "DİL",
+  "createDescriptionLabel": "Təsvir (istəyə görə)",
+  "createBalance": "Balans: {from} → {to}",
+  "@createBalance": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "createRenameNote": "Ad sonra {price} sikkəyə dəyişir",
+  "@createRenameNote": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "createSubmit": "Klanı yarat",
+  "createErrNameTaken": "Bu ad artıq tutulub"
 }

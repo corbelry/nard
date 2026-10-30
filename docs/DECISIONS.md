@@ -333,3 +333,18 @@ full chest, war wins (no XP from bots or in-clan games). Wars pair clans of
 similar level weekly; any online match between their members counts while
 the war is live. Spectators see emotes only, no chat (QUESTIONS #28).
 Contract: `docs/api/clans.md`.
+
+## ADR-037 — Social and clan screens: decisions (2026-11-01)
+Tab bar Əsas · Klan · Mağaza · Profil (social.md adds Klan; its root is the
+clan home when in a clan, else search). Home tiles add "Şəxsi otaq" and
+"Dostlar". A room match starts as soon as the guest joins (no "Başla");
+"Paylaş" copies an invite text; inviting a friend creates a room and posts
+a challenge that waits 10 minutes. Quick phrases show the design's six;
+emote art is Lucide line icons (no emoji) until an emote pack ships.
+Spectators see emotes only; seats are labelled by colour (names are not in
+the spectator protocol). Report also blocks by default. Clan language is a
+single choice; min rating 1000–2400 step 50 or none; donations use preset
+amounts; the war tab shows score and counted matches (no assigned
+pairings); the leaderboard ranks by clan XP. Not built yet: QR codes, last
+seen, spectator count, guest-joined card, clan rename/settings UI, deep
+links (Phase 7 with push).

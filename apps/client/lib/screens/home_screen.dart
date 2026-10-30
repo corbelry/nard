@@ -16,6 +16,7 @@ import '../online/online_text.dart';
 import '../online/rank.dart';
 import '../online/reachability.dart';
 import '../progression/home_progress.dart';
+import '../social/room_screen.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/background.dart';
@@ -256,7 +257,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 GridView.count(
-                  crossAxisCount: 3,
+                  crossAxisCount: 4,
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
@@ -264,7 +265,7 @@ class HomeScreen extends ConsumerWidget {
                   crossAxisSpacing: 8,
                   childAspectRatio: max(
                     .6,
-                    (MediaQuery.sizeOf(context).width - 48) / 3 / 74,
+                    (MediaQuery.sizeOf(context).width - 56) / 4 / 74,
                   ),
                   children: [
                     _ModeTile(
@@ -278,6 +279,30 @@ class HomeScreen extends ConsumerWidget {
                       label: l.modeRanked,
                       enabled: !offline,
                       onTap: () => online(QueueMode.ranked),
+                    ),
+                    _ModeTile(
+                      icon: LucideIcons.lock,
+                      label: l.modePrivateRoom,
+                      enabled: !offline,
+                      onTap: () async {
+                        if (!await ensureSignedIn(context, ref) ||
+                            !context.mounted) {
+                          return;
+                        }
+                        await showRoomChooser(context, ref);
+                      },
+                    ),
+                    _ModeTile(
+                      icon: LucideIcons.users,
+                      label: l.modeFriends,
+                      enabled: !offline,
+                      onTap: () async {
+                        if (!await ensureSignedIn(context, ref) ||
+                            !context.mounted) {
+                          return;
+                        }
+                        await context.push('/friends');
+                      },
                     ),
                     _ModeTile(
                       icon: LucideIcons.monitor,

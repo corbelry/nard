@@ -24,14 +24,21 @@ import '../online/online_text.dart';
 import '../progression/level_up_screen.dart';
 import '../progression/match_rewards.dart';
 import '../progression/progress.dart';
+import '../social/emotes.dart';
+import '../social/player_menu.dart';
+import '../social/social_providers.dart';
+import '../social/social_socket.dart';
+import '../social/spectate.dart';
 import '../store/inventory.dart';
 import '../theme/board_theme.dart';
 import '../theme/nard_colors.dart';
 import '../theme/nard_tokens.dart';
 import '../ui/background.dart';
 import '../ui/buttons.dart';
+import '../ui/extra_tokens.dart';
 import '../ui/identity.dart';
 import '../ui/layout.dart';
+import '../ui/social.dart';
 import 'game_actions.dart';
 import 'game_clock.dart';
 import 'game_controller.dart';
@@ -44,10 +51,13 @@ import 'session.dart';
 
 /// The in-game screen (game.md §1 portrait, §1L landscape).
 class GameScreen extends ConsumerStatefulWidget {
-  const GameScreen({super.key, this.online = false});
+  const GameScreen({super.key, this.online = false, this.spectator = false});
 
   /// Drives the screen from the game server instead of the local match.
   final bool online;
+
+  /// 6.4: watches someone else's game read-only (emotes only).
+  final bool spectator;
 
   @override
   ConsumerState<GameScreen> createState() => _GameScreenState();
@@ -62,6 +72,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   Timer? _resultTimer;
   Timer? _ratingTimer;
   Timer? _levelUpTimer;
+
+  /// Greys the emote controls for the client cooldown (2.7 proposal).
+  Timer? _emoteTimer;
+  bool _emoteCooling = false;
   BoardLook? _shownLook;
   Map<Side, BoardLook> _shownSides = const {};
 
@@ -74,6 +88,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   void initState() {
     super.initState();
     if (widget.online) _captureRewards();
+    // Emotes of this game arrive on the shared socket (2.7).
+    if (widget.online) ref.read(socialSocketProvider.notifier).attach();
   }
 
   void _captureRewards() {
@@ -86,6 +102,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     _resultTimer?.cancel();
     _ratingTimer?.cancel();
     _levelUpTimer?.cancel();
+    _emoteTimer?.cancel();
     super.dispose();
   }
 
@@ -121,10 +138,16 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }
 
   ProviderListenable<GameView?> get _provider =>
-      widget.online ? onlineGameProvider : gameControllerProvider;
+      widget.spectator
+          ? spectatorViewProvider
+          : widget.online
+          ? onlineGameProvider
+          : gameControllerProvider;
 
   GameActions get _ctrl =>
-      widget.online
+      widget.spectator
+          ? ref.read(spectatorProvider.notifier)
+          : widget.online
           ? ref.read(onlineGameProvider.notifier)
           : ref.read(gameControllerProvider.notifier);
 
@@ -139,7 +162,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       onDrop: (from, to) => _ctrl.drop(from, to),
       canDrag:
           (slot) =>
-              ref.read(_provider)?.session.movableFrom.contains(slot) ?? false,
+              !widget.spectator &&
+              (ref.read(_provider)?.session.movableFrom.contains(slot) ??
+                  false),
     );
   }
 
@@ -185,7 +210,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     }
     if (prev != null) _sounds(prev.session, s, next);
     final p = GamePresenter(next, settings, AppLocalizations.of(context));
-    if (p.mustAnswerDouble && !_offerOpen && !next.handoff) {
+    if (p.mustAnswerDouble &&
+        !_offerOpen &&
+        !next.handoff &&
+        !widget.spectator) {
       unawaited(_answerDouble(p));
     }
     if (s.isMatchOver && !_matchResultReady && _resultTimer == null) {
@@ -282,6 +310,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }
 
   Future<void> _leave(GamePresenter p) async {
+    if (widget.spectator) {
+      _ctrl.leave();
+      context.canPop() ? context.pop() : context.go('/home');
+      return;
+    }
     if (!p.s.isMatchOver && p.s.record.actions.isNotEmpty) {
       final ok = await showLeaveSheet(context);
       if (ok != true || !mounted) return;
@@ -316,14 +349,19 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final table = ref.watch(localTableProvider);
     final l = AppLocalizations.of(context);
     if (view == null) {
+      if (widget.spectator) return _spectatorPending(l);
       return const Scaffold(body: NardBackground(child: SizedBox.expand()));
     }
+    ref.watch(emoteFeedProvider);
+    ref.watch(mutedPlayersProvider);
     final p = GamePresenter(view, settings, l);
     final s = view.session;
 
     Widget body;
     if (view.handoff) {
       body = _handoff(p, l);
+    } else if (s.isMatchOver && _matchResultReady && widget.spectator) {
+      body = _spectatorOver(p, l);
     } else if (s.isMatchOver && _matchResultReady) {
       body = _matchResult(p, l);
     } else {
@@ -343,7 +381,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                   ? _landscape(p, l, game, box)
                   : _portrait(p, l, game, box);
           final online = view.online;
-          if (online == null) return screen;
+          if (online == null || widget.spectator) return screen;
           return Stack(
             children: [
               screen,
@@ -433,7 +471,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     AppLocalizations l,
   ) {
     final online = p.view.online;
-    if (online == null) return p.banner();
+    if (online == null || widget.spectator) return p.banner();
     return onlineBanner(
           online,
           p.viewer,
@@ -476,7 +514,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               body: l.noMovesBody(dice.die1, dice.die2, p.noMovesReason),
               duration: GameController.passDelay,
             ),
-          if (s.isGameOver && !s.isMatchOver) _gameOver(p, l),
+          if (s.isGameOver && !s.isMatchOver && !widget.spectator)
+            _gameOver(p, l),
           if (rule != null)
             Positioned(
               left: 24,
@@ -540,9 +579,18 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         !online.opponentConnected &&
         side != p.setup.localSide &&
         !bot;
-    return PlayerCard(
+    final human = online != null && seat != null && !bot && !widget.spectator;
+    final mine = side == p.setup.localSide;
+    final card = PlayerCard(
       name: p.name(side),
       meta: parts.join(' · '),
+      action:
+          human && mine && !column && !_opponentBot(p)
+              ? EmoteButton(
+                onSend: _sendEmote,
+                enabled: !_lost(p) && !_emoteCooling,
+              )
+              : null,
       active: active,
       ivory: side == Side.white,
       side: column,
@@ -559,9 +607,76 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 side: side,
                 receivedAt: online.receivedAt ?? DateTime.now(),
                 delayTotalMs: p.setup.online!.clock.delayMs,
-                haptics: settings.haptics && side == p.setup.localSide,
+                haptics:
+                    settings.haptics &&
+                    side == p.setup.localSide &&
+                    !widget.spectator,
                 compact: column,
               ),
+    );
+    return _withEmote(
+      p,
+      side,
+      card,
+      opponentTap: human && !mine,
+      column: column,
+    );
+  }
+
+  /// Sends an emote/phrase id (2.7); the socket enforces the cooldown.
+  void _sendEmote(String id) {
+    final sent = ref.read(socialSocketProvider.notifier).sendEmote(id);
+    if (!sent) return;
+    if (ref.read(currentSettingsProvider).haptics) {
+      unawaited(HapticFeedback.lightImpact());
+    }
+    setState(() => _emoteCooling = true);
+    _emoteTimer?.cancel();
+    _emoteTimer = Timer(SocialSocket.emoteCooldown, () {
+      if (mounted) setState(() => _emoteCooling = false);
+    });
+  }
+
+  /// The received emote bubble next to [side]'s card, and the 14.1 menu
+  /// on the opponent's card.
+  Widget _withEmote(
+    GamePresenter p,
+    Side side,
+    Widget card, {
+    required bool opponentTap,
+    required bool column,
+  }) {
+    final seat = p.setup.online?.player(side);
+    Widget result = card;
+    if (opponentTap && seat != null) {
+      result = GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap:
+            () => showPlayerMenu(
+              context,
+              PlayerRef(id: seat.userId, name: seat.name, rating: seat.rating),
+              matchId: p.setup.online?.matchId,
+              rankedGame: p.setup.online?.mode == QueueMode.ranked,
+            ),
+        child: result,
+      );
+    }
+    final emote = ref.read(emoteFeedProvider)[side];
+    final muted =
+        seat != null && ref.read(mutedPlayersProvider).contains(seat.userId);
+    if (emote == null || muted || p.view.online == null) return result;
+    final top = side != p.viewer;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        result,
+        Positioned(
+          left: column ? 8 : 64,
+          top: top ? null : -44,
+          bottom: top ? -44 : null,
+          child: EmoteBubble(key: ValueKey(emote.seq), id: emote.id),
+        ),
+      ],
     );
   }
 
@@ -699,7 +814,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     return SafeArea(
       child: Column(
         children: [
-          _topBar(p, l),
+          if (widget.spectator) _spectatorBar(p, l) else _topBar(p, l),
           if (p.crawford)
             Padding(
               padding: const EdgeInsets.only(bottom: 6),
@@ -723,28 +838,39 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: _card(p, l, me),
           ),
-          _lockable(
-            p,
-            SizedBox(
-              height: 62,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    _undoButton(p, l),
-                    const SizedBox(width: 10),
-                    Expanded(child: _primaryButton(p)),
-                    const SizedBox(width: 10),
-                    if (p.showDouble)
-                      _doubleButton(p, l)
-                    else
-                      const SizedBox(width: 66),
-                  ],
+          if (widget.spectator)
+            _spectatorPanel(p, l)
+          else ...[
+            _lockable(
+              p,
+              SizedBox(
+                height: 62,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      _undoButton(p, l),
+                      const SizedBox(width: 10),
+                      Expanded(child: _primaryButton(p)),
+                      const SizedBox(width: 10),
+                      if (p.showDouble)
+                        _doubleButton(p, l)
+                      else if (_canChat(p))
+                        // Long Nard "Söhbət" control (game.md §1).
+                        EmoteButton(
+                          onSend: _sendEmote,
+                          caption: l.gameChat,
+                          enabled: !_emoteCooling,
+                        )
+                      else
+                        const SizedBox(width: 66),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 8),
+            const SizedBox(height: 8),
+          ],
         ],
       ),
     );
@@ -848,32 +974,165 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             child: Column(
               children: [
                 NardIconButton(
-                  icon: LucideIcons.menu,
-                  semanticLabel: l.actionMenu,
+                  icon:
+                      widget.spectator ? LucideIcons.logOut : LucideIcons.menu,
+                  semanticLabel:
+                      widget.spectator ? l.spectatorLeave : l.actionMenu,
                   width: 96,
                   height: 44,
                   circle: true,
-                  onPressed: () => _openMenu(p),
+                  onPressed:
+                      widget.spectator ? () => _leave(p) : () => _openMenu(p),
                 ),
                 const Spacer(),
-                _lockable(
-                  p,
-                  Column(
-                    children: [
-                      _undoButton(p, l, width: 96, height: 60),
-                      if (p.showDouble) ...[
+                if (widget.spectator)
+                  LivePill(label: l.spectatorLive, compact: true)
+                else
+                  _lockable(
+                    p,
+                    Column(
+                      children: [
+                        _undoButton(p, l, width: 96, height: 60),
+                        if (p.showDouble) ...[
+                          const SizedBox(height: 10),
+                          _doubleButton(p, l, width: 96, height: 60),
+                        ],
                         const SizedBox(height: 10),
-                        _doubleButton(p, l, width: 96, height: 60),
+                        _primaryButton(p, height: 88, column: true),
                       ],
-                      const SizedBox(height: 10),
-                      _primaryButton(p, height: 88, column: true),
-                    ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// Emotes need a human online opponent (hidden vs the bot, 2.7).
+  bool _canChat(GamePresenter p) =>
+      widget.online && p.setup.online != null && !_opponentBot(p);
+
+  /// 6.4 top bar: the live pill and the score.
+  Widget _spectatorBar(GamePresenter p, AppLocalizations l) {
+    final c = context.nard;
+    return SizedBox(
+      height: 52,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          LivePill(label: l.spectatorLive),
+          const SizedBox(width: 12),
+          Text(
+            l.gameScore(p.score(Side.white), p.score(Side.black)),
+            style: NardType.score.copyWith(
+              color: c.text,
+              fontFeatures: tabular,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 6.4 bottom panel: spectators only see emotes (no chat, ADR-036).
+  Widget _spectatorPanel(GamePresenter p, AppLocalizations l) {
+    final c = context.nard;
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        16,
+        12,
+        16,
+        MediaQuery.paddingOf(context).bottom > 0 ? 12 : 20,
+      ),
+      decoration: BoxDecoration(
+        color: c.bg,
+        border: Border(top: BorderSide(color: c.lineSoft)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              l.spectatorNoChat,
+              style: NardType.bodyS.copyWith(
+                color: c.text.withValues(alpha: .55),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          SmallActionButton(
+            label: l.spectatorLeave,
+            style: SmallButtonStyle.outline,
+            height: 44,
+            onTap: () => _leave(p),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 6.4 before the first state, or when the game cannot be watched.
+  Widget _spectatorPending(AppLocalizations l) {
+    final c = context.nard;
+    final unavailable = ref.watch(
+      spectatorProvider.select((s) => s.unavailable),
+    );
+    void leave() {
+      _ctrl.leave();
+      context.canPop() ? context.pop() : context.go('/home');
+    }
+
+    return Scaffold(
+      body: NardBackground(
+        child: SafeArea(
+          child: Column(
+            children: [
+              ScreenHeader(title: '', bare: true, onBack: leave),
+              Expanded(
+                child:
+                    unavailable
+                        ? MessageState(
+                          title: l.spectatorUnavailable,
+                          body: '',
+                          danger: true,
+                          action: l.spectatorLeave,
+                          onAction: leave,
+                        )
+                        : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              color: c.accent,
+                              strokeWidth: 2,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              l.spectatorWaiting,
+                              style: NardType.body.copyWith(color: c.textDim),
+                            ),
+                          ],
+                        ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// 6.4 end of the watched match (not designed: winner + score + leave).
+  Widget _spectatorOver(GamePresenter p, AppLocalizations l) {
+    final winner = p.s.score.winner!;
+    return SafeArea(
+      child: MessageState(
+        title: l.spectatorGameOver(
+          p.name(winner),
+          l.gameScore(p.score(winner), p.score(winner.opponent)),
+        ),
+        body: '',
+        action: l.spectatorLeave,
+        onAction: () => _leave(p),
       ),
     );
   }
@@ -937,6 +1196,15 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           _levelUpTimer?.cancel();
           if (widget.online) _captureRewards();
         });
+        // A private-room match (no queue request) rematches in a new room.
+        if (widget.online && ref.read(lobbyProvider).request == null) {
+          _ctrl.leave();
+          ref
+              .read(socialSocketProvider.notifier)
+              .createRoom(p.setup.variant, p.setup.matchLength);
+          context.go('/room');
+          return;
+        }
         _ctrl.rematch();
         // Online rematch = queue again with the same settings.
         if (widget.online) context.go('/online/search');

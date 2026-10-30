@@ -2036,4 +2036,1038 @@ class AppLocalizationsRu extends AppLocalizations {
   String gemsSemantic(String amount) {
     return 'Рубины: $amount';
   }
+
+  @override
+  String get emoteWheelHint => 'Проведи\nи отпусти';
+
+  @override
+  String get emoteButton => 'Отправить эмоцию';
+
+  @override
+  String get gameChat => 'Чат';
+
+  @override
+  String get emoteSmile => 'Улыбка';
+
+  @override
+  String get emoteLaugh => 'Смех';
+
+  @override
+  String get emoteWow => 'Ого';
+
+  @override
+  String get emoteThink => 'Думаю';
+
+  @override
+  String get emoteSad => 'Грусть';
+
+  @override
+  String get emoteAngry => 'Злость';
+
+  @override
+  String get emoteTea => 'Чай';
+
+  @override
+  String get emoteClap => 'Браво';
+
+  @override
+  String get phraseHello => 'Привет!';
+
+  @override
+  String get phraseGoodLuck => 'Удачи';
+
+  @override
+  String get phraseNiceMove => 'Отличный ход';
+
+  @override
+  String get phraseDice => 'Ну и кости…';
+
+  @override
+  String get phraseThanks => 'Спасибо';
+
+  @override
+  String get phraseGoodGame => 'Хорошая игра';
+
+  @override
+  String get phraseNiceRoll => 'Хороший бросок';
+
+  @override
+  String get phraseSorry => 'Извини';
+
+  @override
+  String get tabClan => 'Клан';
+
+  @override
+  String get modePrivateRoom => 'Своя комната';
+
+  @override
+  String get modeFriends => 'Друзья';
+
+  @override
+  String get socialAccountBody => 'Для друзей, кланов и своих комнат нужен аккаунт.';
+
+  @override
+  String get send => 'Отправить';
+
+  @override
+  String get close => 'Закрыть';
+
+  @override
+  String get friendsTitle => 'Друзья';
+
+  @override
+  String get friendsAdd => 'Добавить';
+
+  @override
+  String get friendsSection => 'ДРУЗЬЯ';
+
+  @override
+  String get presenceOnline => 'В сети';
+
+  @override
+  String get presenceInGame => 'В игре';
+
+  @override
+  String get presenceOffline => 'Не в сети';
+
+  @override
+  String get friendInvite => 'Позвать';
+
+  @override
+  String get friendWatch => 'Смотреть';
+
+  @override
+  String get friendRequestsTitle => 'ЗАПРОСЫ';
+
+  @override
+  String get friendSentTitle => 'ОТПРАВЛЕННЫЕ';
+
+  @override
+  String get friendChallengesTitle => 'ВЫЗОВЫ';
+
+  @override
+  String get friendAccept => 'Принять';
+
+  @override
+  String get friendDismiss => 'Отклонить';
+
+  @override
+  String get friendCancelRequest => 'Отменить запрос';
+
+  @override
+  String challengeMeta(String variant, String format) {
+    return '$variant · $format';
+  }
+
+  @override
+  String get friendsEmptyTitle => 'Друзей пока нет';
+
+  @override
+  String get friendsEmptyBody => 'Найди по имени или поделись кодом друга.';
+
+  @override
+  String friendInviteSent(String name) {
+    return 'Приглашение отправлено: $name';
+  }
+
+  @override
+  String get friendRemoved => 'Удалён из друзей';
+
+  @override
+  String metaWithClan(String meta, String clan) {
+    return '$meta · $clan';
+  }
+
+  @override
+  String levelShort(int n) {
+    return 'Ур. $n';
+  }
+
+  @override
+  String get addFriendTitle => 'Добавить друга';
+
+  @override
+  String get addFriendSearchHint => 'Поиск по имени';
+
+  @override
+  String get addFriendSearchShort => 'Введи хотя бы 3 буквы';
+
+  @override
+  String get addFriendAction => 'Добавить';
+
+  @override
+  String get addFriendOr => 'или';
+
+  @override
+  String get addFriendCodeLabel => 'ТВОЙ КОД ДРУГА';
+
+  @override
+  String get addFriendCodeCaption => 'Пусть друг введёт этот код';
+
+  @override
+  String get addFriendCopyCode => 'Скопировать код';
+
+  @override
+  String get addFriendEnterCode => 'ДОБАВИТЬ ПО КОДУ';
+
+  @override
+  String get addFriendCodeHint => 'Код из 8 символов';
+
+  @override
+  String get friendRequested => 'Отправлено';
+
+  @override
+  String get friendAccepted => 'Вы друзья';
+
+  @override
+  String get friendErrNotFound => 'Игрок не найден';
+
+  @override
+  String get friendErrBlocked => 'С этим игроком нельзя связаться';
+
+  @override
+  String get friendErrAlready => 'Вы уже друзья';
+
+  @override
+  String get friendErrPending => 'Запрос уже отправлен';
+
+  @override
+  String friendErrLimit(int max) {
+    return 'Достигнут лимит друзей ($max)';
+  }
+
+  @override
+  String get roomTitle => 'Своя комната';
+
+  @override
+  String get roomCodeLabel => 'КОД КОМНАТЫ';
+
+  @override
+  String get roomCopy => 'Копировать';
+
+  @override
+  String get roomShare => 'Поделиться';
+
+  @override
+  String roomShareText(String code) {
+    return 'Сыграй со мной в NardArena. Код комнаты: $code';
+  }
+
+  @override
+  String get roomWaiting => 'Ждём друга…';
+
+  @override
+  String roomExpiry(String time, String left) {
+    return 'Истекает в $time · осталось $left';
+  }
+
+  @override
+  String roomInvited(String name) {
+    return 'Приглашён: $name';
+  }
+
+  @override
+  String get roomSettingVariant => 'Вариант';
+
+  @override
+  String get roomSettingFormat => 'Формат';
+
+  @override
+  String get roomSettingTime => 'Время';
+
+  @override
+  String get roomSettingRating => 'Рейтинг';
+
+  @override
+  String get roomUnrated => 'Не меняется';
+
+  @override
+  String get roomExpired => 'Срок кода истёк';
+
+  @override
+  String get roomNewCode => 'Новый код';
+
+  @override
+  String get roomCreate => 'Создать комнату';
+
+  @override
+  String get roomCreateSub => 'Отправь код: игра начнётся, когда друг войдёт';
+
+  @override
+  String get roomJoinByCode => 'Войти по коду';
+
+  @override
+  String get roomJoinByCodeSub => 'Войди в комнату друга по коду из 6 символов';
+
+  @override
+  String get roomJoin => 'Войти';
+
+  @override
+  String get roomJoinTitle => 'Войти в комнату';
+
+  @override
+  String get roomJoinHint => 'Введи код, который прислал друг';
+
+  @override
+  String get roomJoining => 'Подключение…';
+
+  @override
+  String get roomCreating => 'Создаём комнату…';
+
+  @override
+  String get roomNotFound => 'Комната не найдена или истекла';
+
+  @override
+  String get roomInviteFriend => 'Позвать друга';
+
+  @override
+  String get roomPickFriend => 'Кого позовёшь?';
+
+  @override
+  String get roomCancelTitle => 'Закрыть комнату?';
+
+  @override
+  String get roomCancelBody => 'Код перестанет действовать.';
+
+  @override
+  String get roomCancelConfirm => 'Закрыть';
+
+  @override
+  String get spectatorLive => 'ЗРИТЕЛЬ';
+
+  @override
+  String get spectatorLeave => 'Выйти';
+
+  @override
+  String get spectatorNoChat => 'Здесь видны эмоции игроков';
+
+  @override
+  String get spectatorUnavailable => 'Эту игру нельзя смотреть';
+
+  @override
+  String spectatorGameOver(String name, String score) {
+    return 'Победа: $name · $score';
+  }
+
+  @override
+  String get spectatorWaiting => 'Загрузка игры…';
+
+  @override
+  String get playerMenuAddFriend => 'Добавить в друзья';
+
+  @override
+  String get playerMenuInvite => 'Позвать в игру';
+
+  @override
+  String get playerMenuMute => 'Отключить чат';
+
+  @override
+  String get playerMenuUnmute => 'Включить чат';
+
+  @override
+  String get playerMenuReport => 'Пожаловаться';
+
+  @override
+  String get playerMenuBlock => 'Заблокировать';
+
+  @override
+  String get playerMenuUnblock => 'Разблокировать';
+
+  @override
+  String get playerMenuUnfriend => 'Удалить из друзей';
+
+  @override
+  String get playerMenuInviteClan => 'Пригласить в клан';
+
+  @override
+  String reportTitle(String name) {
+    return 'Жалоба: $name';
+  }
+
+  @override
+  String get reportReasonLabel => 'ПРИЧИНА';
+
+  @override
+  String get reportReasonAbuse => 'Оскорбления в чате';
+
+  @override
+  String get reportReasonName => 'Неприемлемое имя или аватар';
+
+  @override
+  String get reportReasonCheating => 'Использование программ-помощников';
+
+  @override
+  String get reportReasonStalling => 'Намеренное затягивание';
+
+  @override
+  String get reportReasonLeaving => 'Намеренный выход из игры';
+
+  @override
+  String get reportReasonOther => 'Другое';
+
+  @override
+  String get reportNoteHint => 'Комментарий (необязательно)';
+
+  @override
+  String get reportAlsoBlock => 'Также заблокировать игрока';
+
+  @override
+  String reportDisclosure(String name) {
+    return 'Запись последней игры и чат прикрепляются автоматически. $name не узнает, кто пожаловался.';
+  }
+
+  @override
+  String get reportSend => 'Отправить жалобу';
+
+  @override
+  String get reportLimit => 'Сегодня ты отправил много жалоб. Попробуй завтра.';
+
+  @override
+  String blockTitle(String name) {
+    return 'Заблокировать $name?';
+  }
+
+  @override
+  String get blockInfoMatchmaking => 'Вы не встретитесь в случайных играх.';
+
+  @override
+  String get blockInfoContact => 'Не сможет отправлять тебе сообщения, запросы в друзья и приглашения.';
+
+  @override
+  String blockInfoUndo(String path) {
+    return 'Снять блокировку можно в разделе $path.';
+  }
+
+  @override
+  String get privacyBlocked => 'Заблокированные';
+
+  @override
+  String get blockConfirm => 'Заблокировать';
+
+  @override
+  String blockDone(String name) {
+    return 'Игрок $name заблокирован.';
+  }
+
+  @override
+  String get unblockDone => 'Блокировка снята';
+
+  @override
+  String get blockedEmpty => 'Заблокированных игроков нет';
+
+  @override
+  String get reportSentTitle => 'Жалоба отправлена';
+
+  @override
+  String get reportSentBody => 'Модератор рассмотрит её в течение 24 часов. Ты получишь уведомление о решении.';
+
+  @override
+  String get mutedNote => 'Чат отключён';
+
+  @override
+  String get unmutedNote => 'Чат включён';
+
+  @override
+  String get clansTitle => 'Кланы';
+
+  @override
+  String get clanCreateShort => 'Создать';
+
+  @override
+  String get clanSearchHint => 'Поиск по названию или тегу';
+
+  @override
+  String clanFilterLanguage(String code) {
+    return 'Язык: $code';
+  }
+
+  @override
+  String get clanFilterOpen => 'Открытые';
+
+  @override
+  String clanFilterMinRating(int rating) {
+    return 'Мин. рейтинг ≤ $rating';
+  }
+
+  @override
+  String clanTag(String tag) {
+    return '[$tag]';
+  }
+
+  @override
+  String clanListMeta(int level, int members, int max, String rating) {
+    return 'Ур. $level · $members/$max · $rating';
+  }
+
+  @override
+  String get clanJoin => 'Вступить';
+
+  @override
+  String get clanApply => 'Заявка';
+
+  @override
+  String get clanFull => 'Полон';
+
+  @override
+  String get clanInviteOnlyShort => 'По приглашению';
+
+  @override
+  String get clanPending => 'Ожидает';
+
+  @override
+  String get clanEmpty => 'Кланы не найдены';
+
+  @override
+  String get clanEmptyBody => 'Попробуй другое название или создай свой клан.';
+
+  @override
+  String get clanInvitesTitle => 'ПРИГЛАШЕНИЯ';
+
+  @override
+  String clanInviteFrom(String name) {
+    return 'Приглашение от $name';
+  }
+
+  @override
+  String get clanStatLevel => 'Уровень';
+
+  @override
+  String get clanStatMembers => 'Участники';
+
+  @override
+  String get clanStatRating => 'Рейтинг';
+
+  @override
+  String get clanStatLanguage => 'Язык';
+
+  @override
+  String clanMembersValue(int members, int max) {
+    return '$members/$max';
+  }
+
+  @override
+  String get clanRequirements => 'ТРЕБОВАНИЯ';
+
+  @override
+  String get clanReqMinRating => 'Мин. рейтинг';
+
+  @override
+  String get clanReqPolicy => 'Приём';
+
+  @override
+  String get clanReqNone => 'Нет';
+
+  @override
+  String get clanTopMembers => 'ЛУЧШИЕ УЧАСТНИКИ';
+
+  @override
+  String clanMemberWithRole(String name, String role) {
+    return '$name · $role';
+  }
+
+  @override
+  String get clanApplyCta => 'Подать заявку';
+
+  @override
+  String get clanJoinCta => 'Вступить';
+
+  @override
+  String get clanAppliedCta => 'Заявка отправлена';
+
+  @override
+  String get clanCancelApply => 'Отозвать заявку';
+
+  @override
+  String get clanInviteOnlyCta => 'Только по приглашению';
+
+  @override
+  String get clanFullCta => 'Клан заполнен';
+
+  @override
+  String get clanReqNotMet => 'Ты не подходишь по требованиям';
+
+  @override
+  String get clanLeaveFirst => 'Сначала выйди из текущего клана';
+
+  @override
+  String get clanOpenMine => 'Перейти в клан';
+
+  @override
+  String get clanAcceptInvite => 'Принять приглашение';
+
+  @override
+  String get clanErrRatingLow => 'Твой рейтинг ниже требуемого';
+
+  @override
+  String get clanErrInClan => 'Ты уже в клане';
+
+  @override
+  String get policyOpen => 'Открытый';
+
+  @override
+  String get policyOpenSub => 'Любой, кто подходит по рейтингу, вступает сразу';
+
+  @override
+  String get policyRequest => 'По заявке';
+
+  @override
+  String get policyRequestSub => 'Одобряют лидер, заместители и старейшины';
+
+  @override
+  String get policyInvite => 'Только приглашение';
+
+  @override
+  String get policyInviteSub => 'Виден в списке, но вступить можно только по приглашению';
+
+  @override
+  String get roleLeader => 'Лидер';
+
+  @override
+  String get roleCoLeader => 'Заместитель';
+
+  @override
+  String get roleElder => 'Старейшина';
+
+  @override
+  String get roleMember => 'Участник';
+
+  @override
+  String get emblemTitle => 'Эмблема';
+
+  @override
+  String get emblemSave => 'Сохранить';
+
+  @override
+  String get emblemTabShape => 'Форма';
+
+  @override
+  String get emblemTabSymbol => 'Символ';
+
+  @override
+  String get emblemTabColor => 'Цвет';
+
+  @override
+  String get emblemTabPattern => 'Узор';
+
+  @override
+  String get emblemPrimaryColor => 'ОСНОВНОЙ ЦВЕТ';
+
+  @override
+  String get emblemShapeShield => 'Щит';
+
+  @override
+  String get emblemShapeHexagon => 'Шестиугольник';
+
+  @override
+  String get emblemShapeOctagon => 'Восьмиугольник';
+
+  @override
+  String get emblemShapeCircle => 'Круг';
+
+  @override
+  String get emblemShapeDiamond => 'Ромб';
+
+  @override
+  String get emblemShapeBanner => 'Знамя';
+
+  @override
+  String get emblemShapeStar => 'Звезда';
+
+  @override
+  String get emblemShapeArch => 'Арка';
+
+  @override
+  String get emblemSymbolDiamond => 'Ромб';
+
+  @override
+  String get emblemSymbolDiamondDot => 'Ромб с точкой';
+
+  @override
+  String get emblemSymbolCircle => 'Кольцо';
+
+  @override
+  String get emblemSymbolSquare => 'Квадрат';
+
+  @override
+  String get emblemSymbolInitials => 'Инициалы';
+
+  @override
+  String get emblemPatternNone => 'Нет';
+
+  @override
+  String get emblemPatternLattice => 'Решётка';
+
+  @override
+  String get emblemColorGarnet => 'Гранат';
+
+  @override
+  String get emblemColorIndigo => 'Индиго';
+
+  @override
+  String get emblemColorEmerald => 'Изумруд';
+
+  @override
+  String get emblemColorBrass => 'Латунь';
+
+  @override
+  String get emblemColorPurple => 'Фиолетовый';
+
+  @override
+  String get emblemColorSlate => 'Сланец';
+
+  @override
+  String get emblemColorIvory => 'Слоновая кость';
+
+  @override
+  String get emblemColorBlue => 'Синий';
+
+  @override
+  String get emblemColorWalnut => 'Орех';
+
+  @override
+  String clanOnline(int n) {
+    return 'В сети: $n';
+  }
+
+  @override
+  String get clanTabChat => 'Чат';
+
+  @override
+  String get clanTabActivity => 'События';
+
+  @override
+  String get clanTabWar => 'Война';
+
+  @override
+  String get clanTabChest => 'Сундук';
+
+  @override
+  String get clanChestTitle => 'Сундук недели';
+
+  @override
+  String clanChestProgress(String current, String target) {
+    return '$current / $target';
+  }
+
+  @override
+  String get clanChatHint => 'Напиши сообщение…';
+
+  @override
+  String get clanChatEmpty => 'Сообщений пока нет. Напиши первым.';
+
+  @override
+  String get clanActivityEmpty => 'Пока ничего не произошло';
+
+  @override
+  String get clanChatTooFast => 'Слишком часто. Подожди немного.';
+
+  @override
+  String clanSysCreated(String name) {
+    return 'Клан создан: $name';
+  }
+
+  @override
+  String clanSysJoined(String name) {
+    return 'Новый участник: $name';
+  }
+
+  @override
+  String clanSysLeft(String name) {
+    return 'Покинул клан: $name';
+  }
+
+  @override
+  String clanSysKicked(String name) {
+    return 'Исключён из клана: $name';
+  }
+
+  @override
+  String clanSysRole(String name, String role) {
+    return '$name: новая роль · $role';
+  }
+
+  @override
+  String clanSysLeader(String name) {
+    return 'Новый лидер: $name';
+  }
+
+  @override
+  String clanSysRenamed(String name, String tag) {
+    return 'Новое название клана: $name [$tag]';
+  }
+
+  @override
+  String clanSysDonated(String name, String amount) {
+    return '$name: +$amount монет в сундук';
+  }
+
+  @override
+  String get clanSysChestFull => 'Сундук недели заполнен';
+
+  @override
+  String clanSysWarStarted(String name, String tag) {
+    return 'Война кланов началась: $name [$tag]';
+  }
+
+  @override
+  String clanSysWarWin(String name, String points) {
+    return 'Победа в войне: $name · +$points';
+  }
+
+  @override
+  String clanSysWarEnded(String mine, String theirs) {
+    return 'Война кланов окончена · $mine : $theirs';
+  }
+
+  @override
+  String get clanMenuMembers => 'Участники';
+
+  @override
+  String get clanMenuLeaderboard => 'Рейтинг кланов';
+
+  @override
+  String get clanMenuProfile => 'Профиль клана';
+
+  @override
+  String get clanMenuEmblem => 'Сменить эмблему';
+
+  @override
+  String get clanMenuRequests => 'Заявки';
+
+  @override
+  String get clanMenuInvite => 'Пригласить друзей';
+
+  @override
+  String get clanMenuLeave => 'Покинуть клан';
+
+  @override
+  String get clanLeaveTitle => 'Покинуть клан?';
+
+  @override
+  String get clanLeaveBody => 'Ты потеряешь доступ к чату и сундуку клана.';
+
+  @override
+  String get clanLeaveLastBody => 'Ты последний участник: клан будет распущен.';
+
+  @override
+  String get clanTransferFirst => 'Перед выходом передай лидерство.';
+
+  @override
+  String get chatDelete => 'Удалить';
+
+  @override
+  String get clanChestDonate => 'Пожертвовать';
+
+  @override
+  String clanChestMine(String amount) {
+    return 'Твой вклад за неделю: $amount';
+  }
+
+  @override
+  String clanChestReward(int xp) {
+    return 'Полный сундук даёт клану $xp XP';
+  }
+
+  @override
+  String get clanChestFullNote => 'Сундук на этой неделе заполнен';
+
+  @override
+  String get clanChestAmount => 'СУММА';
+
+  @override
+  String clanDonated(String amount) {
+    return 'Пожертвовано монет: $amount';
+  }
+
+  @override
+  String get clanErrChestFull => 'Сундук уже полон';
+
+  @override
+  String get clanDonors => 'ВКЛАДЫ НЕДЕЛИ';
+
+  @override
+  String get membersTitle => 'Участники';
+
+  @override
+  String membersCount(int members, int max) {
+    return '$members / $max';
+  }
+
+  @override
+  String memberMeta(String presence, String rating) {
+    return '$presence · $rating';
+  }
+
+  @override
+  String memberMe(String name) {
+    return '$name (ты)';
+  }
+
+  @override
+  String get memberViewProfile => 'Открыть профиль';
+
+  @override
+  String get memberInviteFriendly => 'Позвать на товарищеский матч';
+
+  @override
+  String get memberPromoteCoLeader => 'Сделать заместителем';
+
+  @override
+  String get memberPromoteElder => 'Сделать старейшиной';
+
+  @override
+  String get memberDemote => 'Сделать участником';
+
+  @override
+  String get memberTransferLead => 'Передать лидерство';
+
+  @override
+  String get memberKick => 'Исключить из клана';
+
+  @override
+  String memberKickConfirm(String name) {
+    return 'Исключить $name из клана?';
+  }
+
+  @override
+  String memberTransferConfirm(String name) {
+    return 'Передать лидерство: $name?';
+  }
+
+  @override
+  String get memberTransferBody => 'Ты станешь заместителем.';
+
+  @override
+  String get requestsEmpty => 'Новых заявок нет';
+
+  @override
+  String get clanInvited => 'Приглашение отправлено';
+
+  @override
+  String warLive(String time) {
+    return 'ИДЁТ · ДО КОНЦА $time';
+  }
+
+  @override
+  String warCounted(int n, int max) {
+    return 'Засчитано матчей: $n / $max';
+  }
+
+  @override
+  String get warMatches => 'МАТЧИ';
+
+  @override
+  String warFinished(int a, int b) {
+    return 'Итог $a–$b';
+  }
+
+  @override
+  String get warWon => 'ОКОНЧЕНА · ПОБЕДА';
+
+  @override
+  String get warLost => 'ОКОНЧЕНА · ПОРАЖЕНИЕ';
+
+  @override
+  String get warDraw => 'ОКОНЧЕНА · НИЧЬЯ';
+
+  @override
+  String get warNoneTitle => 'На этой неделе войны нет';
+
+  @override
+  String get warNoneBody => 'Кланы подбираются каждый понедельник. Для войны нужно минимум 2 активных участника.';
+
+  @override
+  String get warNoOpponent => 'Соперник не найден';
+
+  @override
+  String warHowTo(int points) {
+    return 'Каждая онлайн-победа над участниками клана-соперника приносит +$points.';
+  }
+
+  @override
+  String get warMatchesEmpty => 'Засчитанных матчей пока нет';
+
+  @override
+  String get clanLeaderboardTitle => 'Рейтинг кланов';
+
+  @override
+  String clanMyRank(int rank) {
+    return 'Твой клан · #$rank';
+  }
+
+  @override
+  String get createClanTitle => 'Создать клан';
+
+  @override
+  String createStep(int step, int total) {
+    return '$step / $total';
+  }
+
+  @override
+  String get createNameLabel => 'Название клана';
+
+  @override
+  String createNameCounter(int n, int max) {
+    return '$n / $max';
+  }
+
+  @override
+  String get createTagLabel => 'Тег (3–5 букв)';
+
+  @override
+  String get createTagFree => 'Свободен';
+
+  @override
+  String get createTagTaken => 'Занят';
+
+  @override
+  String get createTagInvalid => 'Только 3–5 латинских букв';
+
+  @override
+  String get createNameInvalid => 'Название: от 3 до 24 символов';
+
+  @override
+  String get createEmblemLabel => 'ЭМБЛЕМА';
+
+  @override
+  String get createEmblemMore => 'Ещё';
+
+  @override
+  String get createColorLabel => 'ЦВЕТ';
+
+  @override
+  String get createPolicyLabel => 'ВСТУПЛЕНИЕ';
+
+  @override
+  String get createMinRatingLabel => 'МИНИМАЛЬНЫЙ РЕЙТИНГ';
+
+  @override
+  String get createMinRatingAny => 'Все';
+
+  @override
+  String createMinRatingMax(int n) {
+    return '$n+';
+  }
+
+  @override
+  String get createLanguageLabel => 'ЯЗЫК';
+
+  @override
+  String get createDescriptionLabel => 'Описание (необязательно)';
+
+  @override
+  String createBalance(String from, String to) {
+    return 'Баланс: $from → $to';
+  }
+
+  @override
+  String createRenameNote(String price) {
+    return 'Смена названия потом: $price монет';
+  }
+
+  @override
+  String get createSubmit => 'Создать клан';
+
+  @override
+  String get createErrNameTaken => 'Это название занято';
 }

@@ -97,13 +97,27 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
       request: request,
       searchStartedAt: DateTime.now(),
     );
-    final socket = _socket ??= _createSocket();
+    final socket = this.socket();
     if (socket.current == SocketStatus.online) {
       socket.send(MessageType.queueJoin, request.toJson());
       _lobby = _lobby.copyWith(phase: LobbyPhase.searching, connected: true);
     } else if (socket.current == SocketStatus.offline) {
       await socket.open();
     }
+  }
+
+  /// The one game-server connection (the server keeps a single socket per
+  /// user, so rooms, spectating, presence and emotes share it). Created on
+  /// first use; [open] it when [GameSocket.current] is offline.
+  GameSocket socket() => _socket ??= _createSocket();
+
+  /// Clears the previous match before a private room (6.3) pairs us: the
+  /// following `match.found` starts a fresh game without a queue request.
+  void resetForRoom() {
+    state = null;
+    _lastSeq = -1;
+    _setup = null;
+    _lobby = const Lobby();
   }
 
   GameSocket _createSocket() {
