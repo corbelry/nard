@@ -9,6 +9,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'bot_driver.dart';
 import 'error_reporter.dart';
+import 'limits.dart';
 import 'log.dart';
 import 'match_room.dart';
 import 'matchmaker.dart';
@@ -37,13 +38,23 @@ class MemoryResultSink implements ResultSink {
 }
 
 class _Connection {
-  _Connection(this.channel, this.onSend);
+  _Connection(this.channel, this.onSend, this.remote, this.bucket);
 
   final WebSocketChannel channel;
   final void Function(Envelope) onSend;
+
+  /// Client address, for the per-address connection cap.
+  final String remote;
+  final TokenBucket bucket;
+
+  /// Refused messages in a row (rate limit).
+  int strikes = 0;
+  Timer? authDeadline;
+  bool closed = false;
   Ticket? user;
 
   void send(Envelope e) {
+    if (closed) return;
     onSend(e);
     channel.sink.add(jsonEncode(e.toJson()));
   }
@@ -104,6 +115,7 @@ class Hub {
     Metrics? metrics,
     Logger? log,
     this.errors = const NoopErrorReporter(),
+    this.limits = const WsLimits(),
   }) : _random = random ?? Random.secure(),
        _now = now ?? (() => DateTime.now().millisecondsSinceEpoch),
        metrics = metrics ?? Metrics(),
@@ -132,6 +144,9 @@ class Hub {
   /// Unexpected errors (a bug, not a refused intent) go here and to [log].
   final ErrorReporter errors;
 
+  /// Frame size, auth deadline, message rate and connection caps (ADR-045).
+  final WsLimits limits;
+
   final _connections = <_Connection>{};
   final _online = <String, _Connection>{};
   final _seats = <String, _Seat>{};
@@ -140,6 +155,16 @@ class Hub {
   final _live = <String, MatchRoom>{};
   final _watching = <_Connection, MatchRoom>{};
   final _assignments = <String, _Assignment>{};
+  final _perRemote = <String, int>{};
+
+  /// The latest moderation push per user with the time it arrived (ms):
+  /// applied to tickets presented within [moderationMemory] (ADR-045).
+  final _moderation = <String, (ModerationPayload, int)>{};
+
+  /// How long a pushed moderation state overrides presented tickets: longer
+  /// than the API's ticket lifetime (5 min), so a ticket signed before a
+  /// ban cannot be used after it.
+  static const moderationMemory = Duration(minutes: 10);
 
   /// Tournament matches already played or decided here (the API may push a
   /// pairing again until it has the result).
@@ -151,6 +176,9 @@ class Hub {
 
   int get activeMatches => _seats.values.map((s) => s.room).toSet().length;
 
+  /// Open WebSocket connections.
+  int get connectionCount => _connections.length;
+
   /// Tournament matches waiting for their players.
   int get pendingTournamentMatches => _assignments.length;
 
@@ -158,6 +186,7 @@ class Hub {
 
   late final Counter _connectionsOpened;
   late final Counter _authFailures;
+  late final Counter _rejected;
   late final Counter _messagesIn;
   late final Counter _messagesOut;
   late final Counter _errorsOut;
@@ -231,6 +260,11 @@ class Hub {
       'nard_ws_auth_failures_total',
       'Rejected auth messages (bad or expired ticket).',
     );
+    _rejected = m.counter(
+      'nard_ws_rejected_total',
+      'Connections refused or closed by an abuse limit, by reason '
+          '(ip_limit, frame_too_large, auth_timeout, rate_limited).',
+    );
     _messagesIn = m.counter(
       'nard_ws_messages_received_total',
       'WebSocket frames received from clients.',
@@ -270,12 +304,33 @@ class Hub {
     }
   }
 
-  void attach(WebSocketChannel channel) {
-    final conn = _Connection(channel, _counted);
+  /// Whether another connection from [remote] is allowed (checked before
+  /// the WebSocket upgrade; refusals are counted).
+  bool admits(String remote) {
+    final cap = limits.maxConnectionsPerIp;
+    if (cap <= 0 || (_perRemote[remote] ?? 0) < cap) return true;
+    _rejected.inc({'reason': 'ip_limit'});
+    return false;
+  }
+
+  void attach(WebSocketChannel channel, {String remote = ''}) {
+    final conn = _Connection(
+      channel,
+      _counted,
+      remote,
+      TokenBucket(limits.messagesPerSecond, limits.burst, _now()),
+    );
     _connections.add(conn);
+    _perRemote[remote] = (_perRemote[remote] ?? 0) + 1;
     _connectionsOpened.inc();
+    if (limits.authTimeout > Duration.zero) {
+      conn.authDeadline = Timer(limits.authTimeout, () {
+        if (conn.user == null) _reject(conn, 'auth_timeout', CloseCode.policy);
+      });
+    }
     channel.stream.listen(
       (frame) {
+        if (conn.closed) return;
         try {
           _onFrame(conn, frame);
         } on Object catch (e, stack) {
@@ -292,8 +347,46 @@ class Hub {
     );
   }
 
+  /// Closes [conn] for breaking a limit ([reason] is the metric label and
+  /// the close reason).
+  void _reject(_Connection conn, String reason, int code) {
+    _rejected.inc({'reason': reason});
+    log.info('connection rejected', {
+      'reason': reason,
+      'userId': conn.user?.userId,
+    });
+    _close(conn, code, reason);
+  }
+
+  /// Tears the connection down at once (like a disconnect) and closes the
+  /// socket; frames still in flight are ignored.
+  void _close(_Connection conn, int code, String reason) {
+    _onClose(conn);
+    unawaited(conn.channel.sink.close(code, reason));
+  }
+
   void _onFrame(_Connection conn, Object? frame) {
     _messagesIn.inc();
+    if (limits.messagesPerSecond > 0 && !conn.bucket.take(_now())) {
+      conn.strikes++;
+      if (conn.strikes > limits.burst) {
+        _reject(conn, 'rate_limited', CloseCode.policy);
+      } else if (conn.strikes == 1) {
+        conn.send(_error('rate_limited', ErrorCode.rateLimited));
+      }
+      return;
+    }
+    conn.strikes = 0;
+    final size =
+        frame is String
+            ? frame.length
+            : frame is List<int>
+            ? frame.length
+            : 0;
+    if (limits.maxFrameBytes > 0 && size > limits.maxFrameBytes) {
+      _reject(conn, 'frame_too_large', CloseCode.tooLarge);
+      return;
+    }
     Envelope msg;
     try {
       if (frame is! String) throw const FormatException('Text frames only');
@@ -406,7 +499,7 @@ class Hub {
 
   void _auth(_Connection conn, Envelope msg) {
     final token = msg.payload['ticket'];
-    final ticket =
+    var ticket =
         token is String
             ? Ticket.verify(token, ticketSecret, nowSeconds: _now() ~/ 1000)
             : null;
@@ -415,6 +508,21 @@ class Hub {
       conn.send(_error(msg.id, ErrorCode.unauthorized));
       return;
     }
+    // A moderation push newer than the ticket wins (ADR-045).
+    final pushed = _pushedState(ticket.userId);
+    if (pushed != null && pushed.banned) {
+      _authFailures.inc();
+      conn.send(_error(msg.id, ErrorCode.banned));
+      _close(conn, CloseCode.policy, 'banned');
+      return;
+    }
+    if (pushed != null) {
+      ticket = ticket.moderated(
+        muted: pushed.muted,
+        queueCooldownUntil: pushed.queueCooldownUntil,
+      );
+    }
+    conn.authDeadline?.cancel();
     conn.user = ticket;
     final previous = _online[ticket.userId];
     _online[ticket.userId] = conn;
@@ -438,6 +546,64 @@ class Hub {
       final side = a.sideOf(ticket.userId);
       if (side != null) _arrive(a, side);
     }
+  }
+
+  // ---- Moderation (pushed by the API, ADR-045) ----------------------------
+
+  /// Applies a moderation push (`POST /internal/moderation`) to the user's
+  /// live session: a ban closes it (the match continues as a disconnect), a
+  /// mute drops emotes, a cooldown refuses `queue.join` and takes the player
+  /// out of the queue. Remembered for [moderationMemory] so a ticket signed
+  /// before the push cannot undo it. Returns whether the user was connected.
+  bool moderate(ModerationPayload m) {
+    final now = _now();
+    _moderation
+      ..removeWhere((_, e) => now - e.$2 > moderationMemory.inMilliseconds)
+      ..[m.userId] = (m, now);
+    final conn = _online[m.userId];
+    final user = conn?.user;
+    log.info('moderation push', {
+      'userId': m.userId,
+      'banned': m.banned,
+      'muted': m.muted,
+      'queueCooldownUntil': m.queueCooldownUntil,
+      'connected': user != null,
+    });
+    if (m.banned) {
+      matchmaker.leave(m.userId);
+      _cancelRooms(m.userId);
+      if (conn == null || user == null) return false;
+      conn.send(_error('s-moderation', ErrorCode.banned));
+      _close(conn, CloseCode.policy, 'banned');
+      return true;
+    }
+    if (conn == null || user == null) return false;
+    final updated =
+        conn.user = user.moderated(
+          muted: m.muted,
+          queueCooldownUntil: m.queueCooldownUntil,
+        );
+    if (updated.inQueueCooldown(now ~/ 1000) && matchmaker.isQueued(m.userId)) {
+      matchmaker.leave(m.userId);
+      conn.send(
+        _error(
+          's-moderation',
+          ErrorCode.queueCooldown,
+          '${updated.queueCooldownUntil}',
+        ),
+      );
+    }
+    return true;
+  }
+
+  ModerationPayload? _pushedState(String userId) {
+    final e = _moderation[userId];
+    if (e == null) return null;
+    if (_now() - e.$2 > moderationMemory.inMilliseconds) {
+      _moderation.remove(userId);
+      return null;
+    }
+    return e.$1;
   }
 
   // ---- Tournament matches (assigned by the API) ----------------------------
@@ -602,6 +768,15 @@ class Hub {
   );
 
   void _onClose(_Connection conn) {
+    if (conn.closed) return;
+    conn.closed = true;
+    conn.authDeadline?.cancel();
+    final left = (_perRemote[conn.remote] ?? 1) - 1;
+    if (left <= 0) {
+      _perRemote.remove(conn.remote);
+    } else {
+      _perRemote[conn.remote] = left;
+    }
     _connections.remove(conn);
     _watching.remove(conn)?.removeSpectator(conn);
     final user = conn.user;
@@ -860,6 +1035,9 @@ class Hub {
 
   void dispose() {
     matchmaker.dispose();
+    for (final c in _connections) {
+      c.authDeadline?.cancel();
+    }
     for (final r in _privateRooms.values) {
       r.expires.cancel();
     }

@@ -38,6 +38,19 @@ class Ticket {
   /// this time, in seconds since epoch.
   final int? queueCooldownUntil;
 
+  /// This ticket with a newer moderation state (ADR-045).
+  Ticket moderated({required bool muted, required int? queueCooldownUntil}) =>
+      Ticket(
+        userId: userId,
+        name: name,
+        expiresAt: expiresAt,
+        country: country,
+        ratings: ratings,
+        cosmetics: cosmetics,
+        muted: muted,
+        queueCooldownUntil: queueCooldownUntil,
+      );
+
   bool inQueueCooldown(int nowSeconds) =>
       queueCooldownUntil != null && queueCooldownUntil! > nowSeconds;
 

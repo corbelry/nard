@@ -6,7 +6,10 @@ import 'package:shelf/shelf_io.dart' as io;
 
 /// Environment: `PORT`, `GAME_TICKET_SECRET` (required), `API_URL`,
 /// `LOG_LEVEL` (debug|info|warn|error), `SENTRY_DSN` / `SENTRY_ENVIRONMENT`
-/// (optional error reporting, ADR-043), `SHUTDOWN_GRACE_SECONDS`.
+/// (optional error reporting, ADR-043), `SHUTDOWN_GRACE_SECONDS`, and the
+/// WebSocket abuse limits (ADR-045, [WsLimits.fromEnv]):
+/// `WS_MAX_FRAME_BYTES`, `WS_AUTH_TIMEOUT_SECONDS`, `WS_MESSAGES_PER_SECOND`,
+/// `WS_BURST`, `WS_MAX_CONNECTIONS_PER_IP`, `WS_PING_SECONDS`, `TRUST_PROXY`.
 Future<void> main() async {
   final env = Platform.environment;
   final log = Logger(level: LogLevel.parse(env['LOG_LEVEL']));
@@ -60,6 +63,7 @@ Future<void> _serve(
     metrics: metrics,
     log: log,
     errors: errors,
+    limits: WsLimits.fromEnv(env),
   );
   var ready = false;
   final server = await io.serve(
