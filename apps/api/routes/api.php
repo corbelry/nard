@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\IapController;
 use App\Http\Controllers\Api\MatchResultController;
 use App\Http\Controllers\Api\MeController;
 use App\Http\Controllers\Api\ProgressController;
+use App\Http\Controllers\Api\PuzzleController;
+use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\SocialController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\TournamentController;
@@ -88,6 +90,22 @@ Route::prefix('v1')->group(function (): void {
             Route::post('/start', [TournamentController::class, 'start']);
             Route::delete('/entrants/{userId}', [TournamentController::class, 'kick'])->whereNumber('userId');
         });
+
+        // Seasons, season pass, leaderboards (docs/api/seasons.md).
+        Route::get('/season', [SeasonController::class, 'show']);
+        Route::get('/seasons', [SeasonController::class, 'index']);
+        Route::get('/season/summary/{number?}', [SeasonController::class, 'summary'])->whereNumber('number');
+        Route::post('/season/pass/premium', [SeasonController::class, 'premium'])->middleware('throttle:10,1');
+        Route::post('/season/pass/claim', [SeasonController::class, 'claim'])->middleware('throttle:60,1');
+        Route::post('/season/pass/claim-all', [SeasonController::class, 'claimAll'])->middleware('throttle:10,1');
+        Route::get('/leaderboard', [SeasonController::class, 'leaderboard'])->middleware('throttle:60,1');
+
+        // Practice puzzles (13.x).
+        Route::get('/puzzles/next', [PuzzleController::class, 'next']);
+        Route::get('/puzzles/daily', [PuzzleController::class, 'daily']);
+        Route::post('/puzzles/{id}/attempt', [PuzzleController::class, 'attempt'])
+            ->where('id', '[a-z0-9-]{1,16}')->middleware('throttle:60,1');
+        Route::post('/puzzles/{id}/reveal', [PuzzleController::class, 'reveal'])->where('id', '[a-z0-9-]{1,16}');
 
         Route::get('/me/progress', [ProgressController::class, 'show']);
         Route::post('/me/checkin', [ProgressController::class, 'checkIn']);

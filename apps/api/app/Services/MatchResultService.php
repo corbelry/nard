@@ -78,6 +78,8 @@ class MatchResultService
                     $rating->experience += $length;
                     $rating->matches += 1;
                     $rating->wins += $won ? 1 : 0;
+                    $rating->season_matches += 1;
+                    $rating->season_wins += $won ? 1 : 0;
                     $rating->save();
                 }
                 $match->white_rating_after = $w->rating;

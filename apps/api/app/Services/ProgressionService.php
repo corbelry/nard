@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
  */
 class ProgressionService
 {
-    public function __construct(private WalletService $wallet) {}
+    public function __construct(private WalletService $wallet, private SeasonPassService $pass) {}
 
     public static function xpForLevel(int $level): int
     {
@@ -104,8 +104,13 @@ class ProgressionService
         ];
     }
 
+    /**
+     * The single entry point for player XP (matches, missions); the same XP
+     * also fills the running season pass (ADR-039).
+     */
     public function addXp(User $user, int $xp): void
     {
+        $this->pass->addXp($user, $xp);
         $user->xp += $xp;
         $level = $user->level;
         $spent = $this->xpBefore($level);
@@ -133,6 +138,12 @@ class ProgressionService
     public static function periods(Carbon $at): array
     {
         return ['daily' => $at->toDateString(), 'weekly' => $at->format('o-\WW')];
+    }
+
+    /** A practice puzzle solved (13.2): counts for the puzzle mission. */
+    public function onPuzzleSolved(User $user, Carbon $at): void
+    {
+        $this->advanceMissions($user, ['puzzle_solved' => 1], $at);
     }
 
     /** @param array<string, int> $events */
@@ -284,6 +295,8 @@ class ProgressionService
             'achievements' => DB::table('user_achievements')->where('user_id', $user->id)->pluck('achievement_id')->all(),
             'title' => $user->title_item_id,
             'dailyBonus' => (int) config('progression.daily_bonus_coins'),
+            // Home season card (2.1): running season pass, null between seasons.
+            'season' => $this->pass->brief($user, $now),
             // Missions reset at midnight UTC (daily) and Monday (weekly).
             'resetsAt' => [
                 'daily' => $now->copy()->utc()->addDay()->startOfDay()->toIso8601String(),

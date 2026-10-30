@@ -4,10 +4,12 @@ return [
     'currencies' => ['coins', 'gems'],
 
     // Reasons that may credit each currency. Coins are earn-only: no reason
-    // tied to money may grant them (ADR-022).
+    // tied to money may grant them (ADR-022). `season` = free pass track and
+    // season-end rewards; `season_premium` = the paid premium track, never
+    // allowed for coins (ADR-039).
     'credit_reasons' => [
-        'coins' => ['match_reward', 'mission', 'achievement', 'streak', 'level_up', 'tournament', 'refund', 'admin'],
-        'gems' => ['iap', 'refund', 'admin'],
+        'coins' => ['match_reward', 'mission', 'achievement', 'streak', 'level_up', 'tournament', 'season', 'refund', 'admin'],
+        'gems' => ['iap', 'season', 'season_premium', 'refund', 'admin'],
     ],
 
     'item_categories' => [

@@ -47,6 +47,27 @@ class ItemCatalogSeeder extends Seeder
         foreach (['friday_champion' => ['Cümə Çempionu', 'Friday Champion'], 'league_champion' => ['Liqa Çempionu', 'League Champion']] as $id => [$az, $en]) {
             $defaults[] = ["title.$id", 'title', ['name' => ['az' => $az, 'en' => $en], 'obtain' => 'tournament', 'rarity' => 'tournament']];
         }
+        // Season rewards (config/seasons.php): pass titles/frames and the
+        // season-end frames by tier. Not for sale; `look.ring` is the frame's
+        // gradient (#AARRGGBB) until frame art ships with the asset packs.
+        $season = [
+            ['title.caspian_voyager', 'title', 'seasonal', ['az' => 'Xəzər səyyahı', 'en' => 'Caspian Voyager'], null],
+            ['avatar_frame.caspian', 'avatar_frame', 'seasonal', ['az' => 'Xəzər çərçivəsi', 'en' => 'Caspian Frame'], ['#FF1D6577', '#FF0F3D48']],
+            ['avatar_frame.caspian_pearl', 'avatar_frame', 'seasonal', ['az' => 'Sədəf çərçivə', 'en' => 'Pearl Frame'], ['#FFFFFFFF', '#FFB8B6C4']],
+            ['avatar_frame.season_diamond', 'avatar_frame', 'seasonal', ['az' => 'Almaz çərçivə', 'en' => 'Diamond Frame'], ['#FFCFE6FF', '#FF5B8BC9']],
+            ['avatar_frame.season_master', 'avatar_frame', 'seasonal', ['az' => 'Master çərçivə', 'en' => 'Master Frame'], ['#FFE6C8FF', '#FF7A4BB0']],
+            ['avatar_frame.season_grandmaster', 'avatar_frame', 'seasonal', ['az' => 'Qrossmeyster çərçivə', 'en' => 'Grandmaster Frame'], ['#FFFFE7A3', '#FFC9A24A']],
+        ];
+        foreach ($season as $i => [$id, $category, $rarity, $name, $ring]) {
+            Item::query()->updateOrCreate(['id' => $id], [
+                'category' => $category,
+                'rarity' => $rarity,
+                'is_default' => false,
+                'available' => true,
+                'sort' => 100 + $i,
+                'data' => array_filter(['name' => $name, 'obtain' => 'season', 'look' => $ring === null ? null : ['ring' => $ring]]),
+            ]);
+        }
         foreach ($defaults as $i => [$id, $category, $data]) {
             $rarity = $data['rarity'] ?? 'common';
             $data = array_diff_key($data, ['rarity' => true]);

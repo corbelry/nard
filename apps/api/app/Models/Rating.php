@@ -15,8 +15,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $experience
  * @property int $matches
  * @property int $wins
+ * @property int $season_start_rating
+ * @property int $season_matches
+ * @property int $season_wins
  */
-#[Fillable(['variant', 'rating', 'peak', 'experience', 'matches', 'wins'])]
+#[Fillable(['variant', 'rating', 'peak', 'experience', 'matches', 'wins', 'season_start_rating', 'season_matches', 'season_wins'])]
 class Rating extends Model
 {
     /** Visible tiers (spec §8.2): lower bound => tier. */

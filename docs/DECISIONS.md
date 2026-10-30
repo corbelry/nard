@@ -375,3 +375,41 @@ rewards or clan XP; played tournament matches pay like casual ones.
 Sit-and-go: Short Nard to 3, 500 coins at every size (8/16/32), joined over
 REST rather than WS so the ledger stays in the API. Bracket changes reach
 clients by polling for now. Contract: `docs/api/tournaments.md`.
+
+## ADR-039 — Seasons, season pass, leaderboards and puzzles backend (2026-11-04)
+Product answers assumed (QUESTIONS #37). **Seasons** last 42 days and end at
+00:00 UTC; the daily `seasons:roll` freezes final ranks per variant (players
+with ≥ 5 ranked matches that season; global and country rank), grants one
+season-end reward per player by the **best final tier over both variants**
+(coins 100 … 5 000, plus a frame from Almaz up, design 7.1 "Almaz: Çərçivə +
+2 000"), applies the soft reset `1500 + (r − 1500) × 0.5` (peak kept) and
+starts the next season. Rewards are granted at the roll — 7.2 "Mükafatları
+al" only acknowledges. Each season copies the pass and end-reward tables
+from `config/seasons.php` when it starts, so a running season never changes.
+**Pass**: 50 levels × 1 000 XP; season XP is every player-XP grant while the
+season runs (one hook in `ProgressionService::addXp`: matches and missions;
+idempotent match ingestion keeps it single-counted). Free track = coins on
+every level (design 200/300 on odd levels, 100 even, 500 every 10th);
+premium track = 950 Yaqut once per season (ADR-025), 50 Yaqut on levels
+ending in 3/8 (500 in total) and cosmetics on 10/20/30/40/50; other premium
+levels are empty until more seasonal cosmetics exist (the design's "Emote",
+"Zər · Nadir", "Daşlar · Epik" tiles need categories that are not
+equippable yet, ADR-034). **Caspian is premium level 30** (Locker/3.2 "Sezon
+· Səv. 30"; the pass mock's 19 is a sample window), Marble Royale level 40
+(3.2). Premium-track rewards are credited with ledger reason
+`season_premium`, which `economy.credit_reasons.coins` does not allow, so a
+paid track can never mint coins (ADR-022); free track and season-end coins
+use `season`. Unlocking premium later makes already-reached premium rewards
+claimable. **Leaderboards** rank live ratings for the current season (≥ 5
+rated matches to be listed; `ratings(variant, rating)` index) and frozen
+`season_results` for past seasons, scopes global / country / friends /
+clan, ranks within the scope. **Puzzles**: generated offline by
+`nard_ai/tool/gen_puzzles.dart` (heuristic self-play, 2-ply best ≥ 0.06
+equity ahead of the second best; only a clearly best turn is correct,
+tournaments.md §19.23); an attempt is checked by the resulting **position**
+(the client sends the board after its moves; any move order is accepted), 2
+attempts, puzzle rating 1500 with +12/+6 correct and −8/−4 wrong (design
++12/−8; second attempt halved), "Həllə bax" counts as a failed attempt, the
+solution is returned only once finished, daily puzzle = one per UTC day,
+mission `daily_puzzle_2` (×2 → 30 coins). Not tracked yet for 7.2: mars
+count and longest win streak per season. Contract: `docs/api/seasons.md`.

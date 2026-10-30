@@ -35,6 +35,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $games_total
  * @property string|null $friend_code
  * @property Carbon|null $last_seen_at
+ * @property int $puzzle_rating
  * @property-read ClanMember|null $clanMembership
  */
 #[Fillable(['name', 'email', 'password', 'device_id', 'country', 'avatar', 'locale', 'is_guest'])]
@@ -56,6 +57,7 @@ class User extends Authenticatable
         'mars_total' => 0,
         'ranked_wins_total' => 0,
         'games_total' => 0,
+        'puzzle_rating' => 1500,
     ];
 
     /**
@@ -159,6 +161,9 @@ class User extends Authenticatable
                 'experience' => 0,
                 'matches' => 0,
                 'wins' => 0,
+                'season_start_rating' => config('nard.rating.initial'),
+                'season_matches' => 0,
+                'season_wins' => 0,
             ],
         );
     }

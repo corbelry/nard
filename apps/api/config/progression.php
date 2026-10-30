@@ -25,14 +25,15 @@ return [
     // "Sandıq": fixed, visible contents (no loot boxes, spec §8.7).
     'streak_coins' => [20, 30, 40, 50, 60, 80, 150],
 
-    // Missions: event => counted per finished match (12.1). The design's
-    // practice-puzzle mission waits for Phase 6 puzzles.
+    // Missions: event => counted per finished match (12.1); `puzzle_solved`
+    // per practice puzzle solved (13.x).
     'missions' => [
         'daily' => [
             'daily_doubles_3' => ['event' => 'doubles', 'target' => 3, 'coins' => 40, 'xp' => 20],
             'daily_ranked_win_3' => ['event' => 'ranked_win', 'target' => 3, 'coins' => 60, 'xp' => 30],
             'daily_cube_take_win_1' => ['event' => 'cube_take_win', 'target' => 1, 'coins' => 80, 'xp' => 40],
             'daily_long_play_1' => ['event' => 'long_play', 'target' => 1, 'coins' => 30, 'xp' => 15],
+            'daily_puzzle_2' => ['event' => 'puzzle_solved', 'target' => 2, 'coins' => 30, 'xp' => 15],
         ],
         'weekly' => [
             'weekly_ranked_win_5' => ['event' => 'ranked_win', 'target' => 5, 'coins' => 400, 'xp' => 200],
