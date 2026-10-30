@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendDeletionCode;
 use App\Models\User;
 use App\Services\LoginCodes;
 use Illuminate\Contracts\View\View;
@@ -25,14 +26,11 @@ class AccountDeletionController extends Controller
         return $this->page('email');
     }
 
-    public function sendCode(Request $request, LoginCodes $codes): View
+    public function sendCode(Request $request): View
     {
         $locale = $this->useLocale($request);
         $email = $this->email($request);
-        $user = User::query()->firstWhere('email', $email);
-        if ($user !== null && $user->deletion_requested_at === null) {
-            $codes->issue($email, $locale, 'deletion');
-        }
+        SendDeletionCode::dispatch($email, $locale);
 
         return $this->page('code', ['email' => $email]);
     }
@@ -42,7 +40,7 @@ class AccountDeletionController extends Controller
         $locale = $this->useLocale($request);
         $email = $this->email($request);
         $data = $request->validate(['code' => ['required', 'string', 'size:6']]);
-        $error = $codes->check($email, $data['code']);
+        $error = $codes->check($email, $data['code'], 'deletion');
         $user = User::query()->firstWhere('email', $email);
         if ($error !== null || $user === null) {
             return $this->page('code', [

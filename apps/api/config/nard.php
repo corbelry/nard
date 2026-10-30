@@ -21,6 +21,10 @@ return [
 
     'login_code_ttl' => 600,
     'login_code_attempts' => 5,
+    // Per address, across codes and IPs (security review 2026-10-30): codes
+    // mailed per hour, and wrong guesses per day before the address locks.
+    'login_code_hourly_issues' => 5,
+    'login_code_daily_failures' => 10,
 
     // Apple / Google sign-in stay off until the owner adds keys (ADR-030).
     'providers' => [
