@@ -192,6 +192,7 @@ class HomeScreen extends ConsumerWidget {
                         ],
                         stops: const [0, .6],
                       ),
+                      image: grainImage,
                     ),
                     child: Stack(
                       children: [

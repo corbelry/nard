@@ -41,6 +41,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/sounds/
+    # Grain tile that dithers soft gradients (no banding on 8-bit screens).
+    - assets/textures/
   # Fonts: OFL (see assets/fonts/OFL-*.txt). Static instances of the Google
   # Fonts variable files; IBMPlexSansCondensed has no Cyrillic (komur only).
   # The theme's display family is served by Noto Serif (the text cut): the

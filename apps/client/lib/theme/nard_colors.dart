@@ -27,9 +27,23 @@ class NardColors extends ThemeExtension<NardColors> {
     required this.uppercaseLabels,
   });
 
-  final Color bg, bgDeep, surface, surfaceRaised, text, textDim, line, accent, accentHi;
+  final Color bg,
+      bgDeep,
+      surface,
+      surfaceRaised,
+      text,
+      textDim,
+      line,
+      accent,
+      accentHi;
   final Gradient primaryFill;
-  final Color primaryText, danger, dangerText, success, successText, clockActiveBg, clockActiveText;
+  final Color primaryText,
+      danger,
+      dangerText,
+      success,
+      successText,
+      clockActiveBg,
+      clockActiveText;
   final double cardRadius, buttonRadius;
   final bool uppercaseLabels;
 
@@ -45,7 +59,12 @@ class NardColors extends ThemeExtension<NardColors> {
     line: Color(0x3DC9A24A),
     accent: NardPalette.brass500,
     accentHi: NardPalette.brass300,
-    primaryFill: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFFDCB862), Color(0xFFC29A43), Color(0xFFA8822F)], stops: [0, .55, 1]),
+    primaryFill: LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [Color(0xFFDCB862), Color(0xFFC29A43), Color(0xFFA8822F)],
+      stops: [0, .55, 1],
+    ),
     primaryText: Color(0xFF231709),
     danger: NardPalette.garnet600,
     dangerText: NardPalette.garnet400,
@@ -68,7 +87,9 @@ class NardColors extends ThemeExtension<NardColors> {
     line: Color(0x1AECE7DE),
     accent: NardPalette.brass500,
     accentHi: NardPalette.brass300,
-    primaryFill: LinearGradient(colors: [NardPalette.brass500, NardPalette.brass500]),
+    primaryFill: LinearGradient(
+      colors: [NardPalette.brass500, NardPalette.brass500],
+    ),
     primaryText: NardPalette.charcoal900,
     danger: NardPalette.garnet600,
     dangerText: NardPalette.garnet400,
@@ -91,7 +112,12 @@ class NardColors extends ThemeExtension<NardColors> {
     line: Color(0x52D4AE58),
     accent: Color(0xFFD4AE58),
     accentHi: NardPalette.brass300,
-    primaryFill: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFFB52A45), Color(0xFF9E1B32), Color(0xFF86152A)], stops: [0, .6, 1]),
+    primaryFill: LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [Color(0xFFB52A45), Color(0xFF9E1B32), Color(0xFF86152A)],
+      stops: [0, .6, 1],
+    ),
     primaryText: Color(0xFFF8F1E4),
     danger: NardPalette.garnet600,
     dangerText: NardPalette.garnet400,
@@ -114,7 +140,12 @@ class NardColors extends ThemeExtension<NardColors> {
     line: Color(0x242B1D14),
     accent: NardPalette.brass700,
     accentHi: NardPalette.brass600,
-    primaryFill: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFFDCB862), Color(0xFFC29A43), Color(0xFFA8822F)], stops: [0, .55, 1]),
+    primaryFill: LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [Color(0xFFDCB862), Color(0xFFC29A43), Color(0xFFA8822F)],
+      stops: [0, .55, 1],
+    ),
     primaryText: Color(0xFF231709),
     danger: NardPalette.garnet600,
     dangerText: NardPalette.garnet600,
@@ -128,40 +159,63 @@ class NardColors extends ThemeExtension<NardColors> {
   );
 
   @override
-  NardColors copyWith({Color? bg, Color? surface, Color? text, Color? accent, Gradient? primaryFill, Color? primaryText, double? cardRadius, double? buttonRadius, bool? uppercaseLabels}) => NardColors(
-        bg: bg ?? this.bg,
-        bgDeep: bgDeep,
-        surface: surface ?? this.surface,
-        surfaceRaised: surfaceRaised,
-        text: text ?? this.text,
-        textDim: textDim,
-        line: line,
-        accent: accent ?? this.accent,
-        accentHi: accentHi,
-        primaryFill: primaryFill ?? this.primaryFill,
-        primaryText: primaryText ?? this.primaryText,
-        danger: danger,
-        dangerText: dangerText,
-        success: success,
-        successText: successText,
-        clockActiveBg: clockActiveBg,
-        clockActiveText: clockActiveText,
-        cardRadius: cardRadius ?? this.cardRadius,
-        buttonRadius: buttonRadius ?? this.buttonRadius,
-        uppercaseLabels: uppercaseLabels ?? this.uppercaseLabels,
-      );
+  NardColors copyWith({
+    Color? bg,
+    Color? surface,
+    Color? text,
+    Color? accent,
+    Gradient? primaryFill,
+    Color? primaryText,
+    double? cardRadius,
+    double? buttonRadius,
+    bool? uppercaseLabels,
+  }) => NardColors(
+    bg: bg ?? this.bg,
+    bgDeep: bgDeep,
+    surface: surface ?? this.surface,
+    surfaceRaised: surfaceRaised,
+    text: text ?? this.text,
+    textDim: textDim,
+    line: line,
+    accent: accent ?? this.accent,
+    accentHi: accentHi,
+    primaryFill: primaryFill ?? this.primaryFill,
+    primaryText: primaryText ?? this.primaryText,
+    danger: danger,
+    dangerText: dangerText,
+    success: success,
+    successText: successText,
+    clockActiveBg: clockActiveBg,
+    clockActiveText: clockActiveText,
+    cardRadius: cardRadius ?? this.cardRadius,
+    buttonRadius: buttonRadius ?? this.buttonRadius,
+    uppercaseLabels: uppercaseLabels ?? this.uppercaseLabels,
+  );
 
   @override
   NardColors lerp(NardColors? o, double t) {
     if (o == null) return this;
     Color c(Color a, Color b) => Color.lerp(a, b, t)!;
     return NardColors(
-      bg: c(bg, o.bg), bgDeep: c(bgDeep, o.bgDeep), surface: c(surface, o.surface), surfaceRaised: c(surfaceRaised, o.surfaceRaised),
-      text: c(text, o.text), textDim: c(textDim, o.textDim), line: c(line, o.line), accent: c(accent, o.accent), accentHi: c(accentHi, o.accentHi),
-      primaryFill: Gradient.lerp(primaryFill, o.primaryFill, t)!, primaryText: c(primaryText, o.primaryText),
-      danger: c(danger, o.danger), dangerText: c(dangerText, o.dangerText), success: c(success, o.success), successText: c(successText, o.successText),
-      clockActiveBg: c(clockActiveBg, o.clockActiveBg), clockActiveText: c(clockActiveText, o.clockActiveText),
-      cardRadius: lerpDouble(cardRadius, o.cardRadius, t), buttonRadius: lerpDouble(buttonRadius, o.buttonRadius, t),
+      bg: c(bg, o.bg),
+      bgDeep: c(bgDeep, o.bgDeep),
+      surface: c(surface, o.surface),
+      surfaceRaised: c(surfaceRaised, o.surfaceRaised),
+      text: c(text, o.text),
+      textDim: c(textDim, o.textDim),
+      line: c(line, o.line),
+      accent: c(accent, o.accent),
+      accentHi: c(accentHi, o.accentHi),
+      primaryFill: Gradient.lerp(primaryFill, o.primaryFill, t)!,
+      primaryText: c(primaryText, o.primaryText),
+      danger: c(danger, o.danger),
+      dangerText: c(dangerText, o.dangerText),
+      success: c(success, o.success),
+      successText: c(successText, o.successText),
+      clockActiveBg: c(clockActiveBg, o.clockActiveBg),
+      clockActiveText: c(clockActiveText, o.clockActiveText),
+      cardRadius: lerpDouble(cardRadius, o.cardRadius, t),
+      buttonRadius: lerpDouble(buttonRadius, o.buttonRadius, t),
       uppercaseLabels: t < .5 ? uppercaseLabels : o.uppercaseLabels,
     );
   }

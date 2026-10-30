@@ -52,6 +52,16 @@ class NardBackground extends StatelessWidget {
   }
 }
 
+/// A faint grain over soft gradients: breaks the 8-bit colour steps
+/// (diagonal banding) that dim gradients show on phone screens.
+const grainImage = DecorationImage(
+  image: AssetImage('assets/textures/grain.png'),
+  repeat: ImageRepeat.repeat,
+  opacity: .035,
+  scale: 2,
+  filterQuality: FilterQuality.none,
+);
+
 /// ±60° hairlines every [spacing] pt, optionally with horizontal lines.
 class LatticePainter extends CustomPainter {
   const LatticePainter({
