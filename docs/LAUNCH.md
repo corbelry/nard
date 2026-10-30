@@ -10,6 +10,10 @@ are unchecked.
   company's name** (organisation accounts): company name on the store
   pages, no Google 12-tester / 14-day closed-test rule for new personal
   accounts. Needs a D-U-N-S number for both stores.
+- 2026-10-30 — The owner has a registered company. Next: look the
+  company up / request its D-U-N-S number on Apple's D-U-N-S page (free;
+  ready at once if D&B already lists it, else ~1–2 weeks), then enrol both
+  stores. Infrastructure and store material go ahead meanwhile.
 
 ## Steps (critical path first)
 
