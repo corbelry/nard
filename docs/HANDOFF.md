@@ -115,6 +115,13 @@ the API ignores `MatchResult.timeControl` for now.
 - #45 DONE (59f2b73): `/delete-account` served by the API (docs/api/account.md).
 - #17 DONE: API 37e66fd, client 15.2 sheet (e-mailed ZIP, guests link an e-mail).
 
+### Security review (2026-10-30, Phase 7 item 6)
+Findings 1,2,5,6,7,8,9,10,11,12 fixed by me (528b80a, 4c6260d, 1c51e69,
+6328c2f). Findings 3 (live-session moderation push) and 4 (WS DoS limits)
+are with a background agent (game_server + ModerationService/AntiCheat).
+TODO after it reports: verify, one ADR for the whole review (next free
+number), docs/api/admin.md (MFA, allowlist), CHANGELOG, close Phase 7.
+
 ## Phase 7 plan (spec §12 phase 7, §8.11, §8.13, §8.14, §11, design 16.x)
 
 Done when: admins can moderate and run the game from Filament, cheating
