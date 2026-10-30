@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -170,18 +171,22 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           ),
                         ),
                       ),
-                    AuthButton(
-                      label: l.authApple,
-                      light: true,
-                      busy: _busy == _Method.apple,
-                      leading: Icon(
-                        LucideIcons.apple,
-                        size: 18,
-                        color: c.appleText,
+                    // Apple sign-in on iOS only (QUESTIONS #22; required
+                    // there next to Google by App Store guideline 4.8).
+                    if (defaultTargetPlatform == TargetPlatform.iOS) ...[
+                      AuthButton(
+                        label: l.authApple,
+                        light: true,
+                        busy: _busy == _Method.apple,
+                        leading: Icon(
+                          LucideIcons.apple,
+                          size: 18,
+                          color: c.appleText,
+                        ),
+                        onPressed: idle ? () => _run(_Method.apple) : null,
                       ),
-                      onPressed: idle ? () => _run(_Method.apple) : null,
-                    ),
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 10),
+                    ],
                     AuthButton(
                       label: l.authGoogle,
                       busy: _busy == _Method.google,

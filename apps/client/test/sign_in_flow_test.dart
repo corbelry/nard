@@ -146,23 +146,35 @@ void main() {
     await h.dispose(tester);
   });
 
-  testWidgets('Apple / Google show "not available yet" without crashing', (
+  testWidgets('Apple sign-in is offered on iOS only (QUESTIONS #22)', (
     tester,
   ) async {
     final h = _Harness();
     await h.pump(tester);
-    await tester.tap(find.text('Apple ilə davam et'));
-    await tester.pumpAndSettle();
-    expect(
-      find.text(
-        'Bu giriş üsulu hələ hazır deyil. E-poçt ilə və ya qonaq kimi davam et.',
-      ),
-      findsOneWidget,
-    );
-    expect(h.result, isNull);
-    expect(h.container.read(accountProvider).value, isNull);
+    expect(find.text('Apple ilə davam et'), findsNothing);
+    expect(find.text('Google ilə davam et'), findsOneWidget);
     await h.dispose(tester);
   });
+
+  testWidgets(
+    'Apple / Google show "not available yet" without crashing',
+    (tester) async {
+      final h = _Harness();
+      await h.pump(tester);
+      await tester.tap(find.text('Apple ilə davam et'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          'Bu giriş üsulu hələ hazır deyil. E-poçt ilə və ya qonaq kimi davam et.',
+        ),
+        findsOneWidget,
+      );
+      expect(h.result, isNull);
+      expect(h.container.read(accountProvider).value, isNull);
+      await h.dispose(tester);
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+  );
 
   testWidgets('e-mail: invalid address blocks, wrong code errors, right '
       'code signs in and closes the whole flow', (tester) async {
