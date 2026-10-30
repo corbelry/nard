@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\PushTournamentUpdate;
 use App\Models\GameMatch;
 use App\Models\Item;
 use App\Models\Tournament;
@@ -76,13 +77,16 @@ class TournamentService
                 }
             }
 
-            return TournamentEntry::query()->create([
+            $entry = TournamentEntry::query()->create([
                 'tournament_id' => $t->id,
                 'user_id' => $user->id,
                 'rating' => $rating,
                 'entry_coins' => $t->entry_coins,
                 'entry_key' => $key,
             ]);
+            $this->changed($t);
+
+            return $entry;
         });
         $tournament->refresh();
         if ($tournament->kind === 'sit_and_go' && $tournament->status === 'registering'
@@ -105,6 +109,7 @@ class TournamentService
                 ?? throw new TournamentException('not_registered');
             $this->refund($t, $entry);
             $entry->delete();
+            $this->changed($t);
         });
     }
 
@@ -238,6 +243,7 @@ class TournamentService
                 ?? throw new TournamentException('not_registered');
             $this->refund($t, $entry);
             $entry->delete();
+            $this->changed($t);
         });
     }
 
@@ -302,6 +308,7 @@ class TournamentService
             $this->notifier->notifyMany($entries->pluck('user_id')->map(fn ($id) => (int) $id), 'tournament_started',
                 $this->about($t), "tournament_started:{$t->id}");
             $this->createRound($t, 1);
+            $this->changed($t);
 
             return true;
         });
@@ -322,15 +329,39 @@ class TournamentService
         });
     }
 
-    /** Cancels and refunds every entry fee (the 'refund' credit path). */
+    /**
+     * Cancels and refunds every entry fee (the 'refund' credit path); every
+     * entrant but the organiser who cancelled is notified with the refund.
+     */
     private function cancelLocked(Tournament $t, string $reason): void
     {
         $t->status = 'cancelled';
         $t->cancel_reason = $reason;
         $t->expires_at = null;
         $t->save();
+        $byRefund = [];
         foreach ($t->entries()->get() as $entry) {
             $this->refund($t, $entry);
+            if ($reason === 'organizer' && $entry->user_id === $t->created_by) {
+                continue;
+            }
+            $byRefund[$entry->refunded ? $entry->entry_coins : 0][] = $entry->user_id;
+        }
+        foreach ($byRefund as $refund => $userIds) {
+            $this->notifier->notifyMany($userIds, 'tournament_cancelled',
+                [...$this->about($t), 'reason' => $reason, 'refund' => $refund], "tournament_cancelled:{$t->id}");
+        }
+        $this->changed($t);
+    }
+
+    /**
+     * Live refresh (ADR-049): after the commit the game server tells the
+     * connected entrants to refetch [t]; screens still poll as a fallback.
+     */
+    private function changed(Tournament $t): void
+    {
+        if (GameServerClient::configured()) {
+            PushTournamentUpdate::dispatch($t->id)->afterCommit();
         }
     }
 
@@ -625,13 +656,16 @@ class TournamentService
                 $entry->losses += 1;
                 if ($t->format === 'knockout') {
                     $entry->eliminated_round = $p->round;
-                    $this->notifier->notify($userId, 'tournament_eliminated', [...$this->about($t), 'round' => $p->round],
-                        "tournament_eliminated:{$t->id}");
+                    $this->notifier->notify($userId, 'tournament_eliminated', [
+                        ...$this->about($t), 'round' => $p->round,
+                        'place' => PairingEngine::knockoutPlace((int) $t->total_rounds, $p->round),
+                    ], "tournament_eliminated:{$t->id}");
                 }
             }
             $entry->save();
         }
         $this->advance($t);
+        $this->changed($t);
     }
 
     // ---- game server ----------------------------------------------------------------

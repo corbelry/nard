@@ -7,7 +7,6 @@ use App\Models\Tournament;
 use App\Models\TournamentEntry;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Tests\TournamentTestCase;
 
 class TournamentBracketTest extends TournamentTestCase
@@ -105,7 +104,7 @@ class TournamentBracketTest extends TournamentTestCase
         // Seed 1 has a bye; it is never pushed.
         $this->assertSame([true, 'finished', $u[0]->id, null], [$bye->bye, $bye->status, $bye->white_user_id, $bye->black_user_id]);
         $this->assertSame([$u[1]->id, $u[2]->id], [$m->white_user_id, $m->black_user_id]);
-        Http::assertSentCount(1);
+        $this->assertCount(1, $this->posted('/internal/tournament-matches'));
 
         // Nobody came: both are out and seed 1 takes the final by a bye.
         $this->noShow($m)->assertCreated();

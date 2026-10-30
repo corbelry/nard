@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Jobs\PushLiveNotifications;
 use App\Jobs\SendPushNotification;
 use App\Models\User;
 use App\Services\Push\PushSender;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -28,6 +30,21 @@ class Notifier
      * @param  array<string, mixed>  $data
      */
     public function notify(User|int $to, string $type, array $data = [], ?string $dedupe = null, ?int $from = null): ?int
+    {
+        $id = $this->record($to, $type, $data, $dedupe, $from);
+        if ($id !== null) {
+            $this->live([$id]);
+        }
+
+        return $id;
+    }
+
+    /**
+     * Stores the row and queues its push; no live delivery yet.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    private function record(User|int $to, string $type, array $data, ?string $dedupe, ?int $from): ?int
     {
         $toId = $to instanceof User ? $to->id : $to;
         if ($from !== null && ($from === $toId || $this->blocked($toId, $from))) {
@@ -62,14 +79,32 @@ class Notifier
      */
     public function notifyMany(iterable $userIds, string $type, array $data, string $dedupe): int
     {
-        $sent = 0;
-        foreach ($userIds as $id) {
-            if ($this->notify((int) $id, $type, $data, $dedupe) !== null) {
-                $sent++;
+        $ids = [];
+        foreach ($userIds as $userId) {
+            $id = $this->record((int) $userId, $type, $data, $dedupe, null);
+            if ($id !== null) {
+                $ids[] = $id;
             }
         }
+        $this->live($ids);
 
-        return $sent;
+        return count($ids);
+    }
+
+    /**
+     * Live delivery (ADR-049): after the surrounding transaction commits, the
+     * rows go to the players' open sockets through the game server (queued,
+     * so a slow game server never delays the action). Nothing is queued
+     * without a configured game server.
+     *
+     * @param  list<int>  $ids
+     */
+    private function live(array $ids): void
+    {
+        if ($ids === [] || ! GameServerClient::configured()) {
+            return;
+        }
+        PushLiveNotifications::dispatch($ids)->afterCommit();
     }
 
     private function blocked(int $a, int $b): bool
@@ -264,6 +299,18 @@ class Notifier
         $rows = $this->visible($user->id)
             ->when($after !== null, fn ($q) => $q->where('id', '>', $after))
             ->orderByDesc('id')->limit($limit)->get();
+
+        return $this->present($rows);
+    }
+
+    /**
+     * Notification objects (docs/api/notifications.md) for rows, in order.
+     *
+     * @param  Collection<int, \stdClass>  $rows
+     * @return array<int, array<string, mixed>>
+     */
+    public function present(Collection $rows): array
+    {
         $users = User::query()->whereIn('id', $rows->pluck('from_user_id')->filter()->unique())->get()->keyBy('id');
 
         return $rows->map(function (\stdClass $r) use ($users): array {
@@ -333,14 +380,17 @@ class Notifier
             'time' => __('notifications.times.'.($text('timeControl') ?: 'rapid'), [], $locale),
         ];
         foreach (['points' => 'matchLength', 'clan' => 'clan', 'tag' => 'tag', 'opponent' => 'opponent', 'round' => 'round',
-            'place' => 'place', 'season' => 'season', 'level' => 'level', 'minutes' => 'minutes', 'reason' => 'reason'] as $placeholder => $key) {
+            'place' => 'place', 'season' => 'season', 'level' => 'level', 'minutes' => 'minutes', 'reason' => 'reason',
+            'rank' => 'rank', 'coins' => 'coins', 'refund' => 'refund'] as $placeholder => $key) {
             $replace[$placeholder] = $text($key);
         }
         $type = (string) $row->type;
+        // A cancelled paid tournament says how many coins came back.
+        $body = $type === 'tournament_cancelled' && (int) $text('refund') > 0 ? 'body_refund' : 'body';
 
         return [
             __("notifications.$type.title", $replace, $locale),
-            __("notifications.$type.body", $replace, $locale),
+            __("notifications.$type.$body", $replace, $locale),
         ];
     }
 }

@@ -42,16 +42,47 @@ class GameServerClient
     }
 
     /**
+     * Inbox rows for the players' open sockets (Notify,
+     * packages/nard_protocol/schema/notify.schema.json, ADR-049):
+     * `[{userId, notification}]`, at most 500. Best effort: a failure is
+     * logged; the inbox still has the rows.
+     *
+     * @param  list<array{userId: string, notification: array<string, mixed>}>  $items
+     */
+    public function pushNotifications(array $items): bool
+    {
+        return $this->post('/internal/notify', ['notifications' => $items], 3, 'notify', ['count' => count($items)]);
+    }
+
+    /**
+     * A tournament changed: its connected entrants refetch it
+     * (TournamentUpdated, schema/tournament_updated.schema.json, ADR-049).
+     *
+     * @param  list<string>  $userIds
+     */
+    public function pushTournamentUpdate(string $tournamentId, array $userIds): bool
+    {
+        return $this->post('/internal/tournament-updated', ['tournamentId' => $tournamentId, 'userIds' => $userIds], 3,
+            'tournament update', ['tournamentId' => $tournamentId]);
+    }
+
+    /** A game server URL and a usable secret are configured. */
+    public static function configured(): bool
+    {
+        return rtrim((string) config('nard.game_server_url'), '/') !== '' && strlen((string) config('nard.ticket_secret')) >= 32;
+    }
+
+    /**
      * @param  array<string, mixed>  $payload
      * @param  array<string, mixed>  $context
      */
     private function post(string $path, array $payload, int $timeout, string $what, array $context): bool
     {
-        $base = rtrim((string) config('nard.game_server_url'), '/');
-        $secret = (string) config('nard.ticket_secret');
-        if ($base === '' || strlen($secret) < 32) {
+        if (! self::configured()) {
             return false;
         }
+        $base = rtrim((string) config('nard.game_server_url'), '/');
+        $secret = (string) config('nard.ticket_secret');
         $body = (string) json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         try {
             $response = Http::timeout($timeout)->connectTimeout(min(2, $timeout))

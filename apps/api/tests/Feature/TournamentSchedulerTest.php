@@ -48,16 +48,16 @@ class TournamentSchedulerTest extends TournamentTestCase
         $this->command('tournaments:tick');
         $p = TournamentPairing::query()->sole();
         $this->assertSame(['running', 'pending'], [$t->refresh()->status, $p->status]);
-        Http::assertSentCount(2);
+        $this->assertCount(2, $this->posted('/internal/tournament-matches'));
         $this->command('tournaments:tick');
         $this->assertSame('pushed', $p->refresh()->status);
-        Http::assertSentCount(3);
+        $this->assertCount(3, $this->posted('/internal/tournament-matches'));
         // Pushed again only when stale (the game server ignores known matches).
         $this->command('tournaments:tick');
-        Http::assertSentCount(3);
+        $this->assertCount(3, $this->posted('/internal/tournament-matches'));
         $this->travel(11)->minutes();
         $this->command('tournaments:tick');
-        Http::assertSentCount(4);
+        $this->assertCount(4, $this->posted('/internal/tournament-matches'));
     }
 
     public function test_without_a_game_server_url_pairings_stay_pending(): void

@@ -33,7 +33,9 @@ return [
         'tournament_eliminated' => 'tournament_round',
         'tournament_won' => 'tournament_round',
         'tournament_finished' => 'tournament_round',
+        'tournament_cancelled' => 'tournament_start',
         'season_end' => 'rewards',
+        'season_started' => 'rewards',
         // Earned with the app open (match end screen): inbox only.
         'level_up' => null,
         // Admin warning (ADR-042): inbox only.

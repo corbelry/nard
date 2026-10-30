@@ -32,7 +32,11 @@ abstract class TournamentTestCase extends TestCase
         parent::setUp();
         Carbon::setTestNow('2026-11-03 12:00:00');
         config(['nard.game_server_url' => 'http://game.test']);
-        Http::fake(['game.test/*' => fn () => Http::response(['status' => 'assigned'], array_shift($this->gameServerStatuses) ?? 201)]);
+        Http::fake([
+            'game.test/internal/tournament-matches' => fn () => Http::response(['status' => 'assigned'], array_shift($this->gameServerStatuses) ?? 201),
+            // Live pushes (ADR-049).
+            'game.test/*' => Http::response(['delivered' => 0]),
+        ]);
         $this->seed(ItemCatalogSeeder::class);
     }
 
@@ -73,6 +77,26 @@ abstract class TournamentTestCase extends TestCase
     protected function command(string $command): void
     {
         $this->assertSame(0, Artisan::call($command));
+    }
+
+    /**
+     * Bodies the API posted to the game server's [path], oldest first.
+     *
+     * @return list<array<string, mixed>>
+     */
+    protected function posted(string $path): array
+    {
+        $bodies = [];
+        foreach (Http::recorded() as [$request]) {
+            /** @var Request $request */
+            if ($request->url() === "http://game.test$path") {
+                /** @var array<string, mixed> $body */
+                $body = (array) json_decode($request->body(), true);
+                $bodies[] = $body;
+            }
+        }
+
+        return $bodies;
     }
 
     /** @param array<int, User> $users */

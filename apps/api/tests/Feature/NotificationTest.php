@@ -363,8 +363,9 @@ class NotificationTest extends TestCase
         $seasons->roll();
         $seasons->roll();
         $rows = $this->inbox($user);
-        $this->assertSame(['season_end'], array_column($rows, 'type'));
-        $this->assertSame([1, 'diamond'], [$rows[0]['data']['season'], $rows[0]['data']['tier']]);
+        // Newest first: the next season's start (ADR-049), then the result.
+        $this->assertSame(['season_started', 'season_end'], array_column($rows, 'type'));
+        $this->assertSame([1, 'diamond'], [$rows[1]['data']['season'], $rows[1]['data']['tier']]);
 
         $fresh = User::factory()->create();
         app(ProgressionService::class)->addXp($fresh, ProgressionService::xpForLevel(1) + ProgressionService::xpForLevel(2));

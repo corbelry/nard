@@ -108,9 +108,15 @@ class SeasonService
             }
             $this->snapshot($locked);
             $this->grantEndRewards($locked);
+            // Everyone who played this season hears about the next one.
+            $players = DB::table('ratings')->where('season_matches', '>', 0)->distinct()->orderBy('user_id')
+                ->pluck('user_id')->map(fn ($id) => (int) $id);
             $this->softReset();
             $locked->forceFill(['status' => 'finished', 'finished_at' => $now])->save();
-            $this->create($locked->number + 1, $locked->ends_at, $now);
+            $next = $this->create($locked->number + 1, $locked->ends_at, $now);
+            $this->notifier->notifyMany($players, 'season_started', [
+                'season' => $next->number, 'name' => $next->name, 'endsAt' => $next->ends_at->toIso8601String(),
+            ], "season_started:{$next->id}");
         });
     }
 
@@ -178,8 +184,12 @@ class SeasonService
             if ($new === 0) {
                 continue;
             }
+            // The rank of the variant the tier came from (best rating).
+            $best = DB::table('season_results')->where(['season_id' => $season->id, 'user_id' => $user->id])
+                ->orderByDesc('rating')->orderBy('rank')->first();
             $this->notifier->notify($user, 'season_end', [
                 'season' => $season->number, 'tier' => $tier, 'coins' => $reward['coins'], 'itemId' => $item,
+                'rank' => $best === null ? null : (int) $best->rank, 'variant' => $best?->variant,
             ], "season_end:{$season->id}");
             if ($reward['coins'] > 0) {
                 $this->wallet->credit($user, 'coins', $reward['coins'], 'season', "season-end:{$season->id}:{$user->id}", "season:{$season->number}");
