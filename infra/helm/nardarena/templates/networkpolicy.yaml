@@ -1,0 +1,72 @@
+{{- if .Values.networkPolicy.enabled }}
+{{- $ns := .Values.networkPolicy }}
+# Security review 2026-10-30: only the ingress controller, NardArena pods and
+# monitoring reach the API and the game server (internal endpoints, metrics,
+# X-Forwarded-For trust); workers and the migrate Job accept nothing.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "nardarena.fullname" . }}-api
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "nardarena.selector" (list . "api") | nindent 6 }}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: {{ $ns.ingressNamespace }} }
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: {{ $ns.monitoringNamespace }} }
+        - podSelector:
+            matchLabels:
+              {{- include "nardarena.selector" (list . "game-server") | nindent 14 }}
+      ports:
+        - port: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "nardarena.fullname" . }}-game-server
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "nardarena.selector" (list . "game-server") | nindent 6 }}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: {{ $ns.ingressNamespace }} }
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: {{ $ns.monitoringNamespace }} }
+        # The API, scheduler and queue push pairings, moderation and live
+        # notifications (ADR-049).
+        {{- range list "api" "scheduler" "queue" }}
+        - podSelector:
+            matchLabels:
+              {{- include "nardarena.selector" (list $ .) | nindent 14 }}
+        {{- end }}
+      ports:
+        - port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "nardarena.fullname" . }}-no-ingress
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/instance
+        operator: In
+        values: [{{ .Release.Name | quote }}]
+      - key: app.kubernetes.io/component
+        operator: In
+        values: [scheduler, queue, migrate]
+  policyTypes: [Ingress]
+{{- end }}

@@ -1,0 +1,315 @@
+<!-- @dsCard group="Screens" viewport="1440x900" name="BOT, Bir cihaz, Klan yarat, SnG, Özəl turnir, Qaydalar" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Serif+Display:ital,wght@0,400;0,600;0,700;1,500&display=swap"><style>html,body{margin:0;background:#0f0d0c;color:#F3EBDD;font-family:'IBM Plex Sans',system-ui,sans-serif}a{color:#E8C468}a:hover{color:#F3EBDD}</style></helmet>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px;border-bottom:1px solid rgba(201,162,74,.16)">
+<span style="font:600 26px/1.2 'Noto Serif Display',serif">Oyun ekranı · BOT · Crawford · Uzun nərd qaydaları</span>
+<div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+<sc-for list="{{ games }}" as="g" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">{{ g.l }}</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 14px">
+<div style="width:42px;height:42px;border-radius:999px;border:1px solid rgba(212,174,88,.32);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px"><span style="font-size:11px;line-height:13px;color:rgba(243,235,221,.66);letter-spacing:.06em;text-transform:uppercase;font-weight:500">{{ g.mode }}</span><span style="font:600 22px/24px 'Noto Serif Display',serif;font-variant-numeric:tabular-nums">{{ g.score }}</span></div>
+<div style="width:42px;height:42px;border-radius:999px;border:1px solid rgba(212,174,88,.32);display:flex;align-items:center;justify-content:center;color:#D4AE58"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+</div>
+<sc-if value="{{ g.crawford }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding:0 0 6px"><div style="height:28px;padding:0 12px;border-radius:999px;background:rgba(212,174,88,.14);box-shadow:inset 0 0 0 1px rgba(212,174,88,.5);display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#E8C468"><div style="width:14px;height:14px;border-radius:3px;box-shadow:inset 0 0 0 1.5px #E8C468;position:relative"><div style="position:absolute;left:-2px;right:-2px;top:6px;height:1.5px;background:#E8C468;transform:rotate(-45deg)"></div></div>Crawford oyunu · kub yoxdur</div></div></sc-if>
+<div style="padding:4px 10px 0;flex:none">
+<div style="height:66px;border-radius:14px;padding:0 12px;display:flex;align-items:center;gap:12px;background:rgba(158,27,50,.18);box-shadow:inset 0 0 0 1px rgba(212,174,88,.32)">
+<div style="width:44px;height:44px;flex:none;border-radius:50%;background:{{ g.opp.av }};display:flex;align-items:center;justify-content:center;font:600 18px 'Noto Serif Display',serif;box-shadow:inset 0 0 0 1.5px rgba(212,174,88,.6)">{{ g.opp.i }}</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px;font-weight:600">{{ g.opp.n }}</span><sc-if value="{{ g.opp.bot }}" hint-placeholder-val="{{ false }}"><span style="height:20px;padding:0 7px;border-radius:5px;background:#F3EBDD;color:#1d1316;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;letter-spacing:.06em"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 9h14v10H5zM12 5v4M9 14h.01M15 14h.01"></path></svg>BOT</span></sc-if></div><span style="font-size:12px;color:rgba(243,235,221,.66)">{{ g.opp.r }}</span></div>
+<div style="height:36px;min-width:70px;padding:0 10px;box-sizing:border-box;border-radius:10px;background:{{ g.opp.cbg }};color:{{ g.opp.cc }};display:flex;align-items:center;justify-content:center;font:600 20px/20px 'IBM Plex Sans',sans-serif;font-variant-numeric:tabular-nums">{{ g.opp.clock }}</div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;min-height:0;position:relative">
+<div style="height:26px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px"><div style="width:7px;height:7px;border-radius:50%;background:{{ g.tone }};box-shadow:0 0 8px {{ g.tone }}"></div><span style="font-weight:600">{{ g.bt }}</span><span style="color:rgba(243,235,221,.66)">{{ g.bs }}</span></div>
+<div style="position:relative;display:flex;justify-content:center"><dc-import name="Board" theme="walnut" w="{{ 378 }}" h="{{ 566 }}" pos="{{ g.pos }}" dice="{{ g.dice }}" sel="{{ g.sel }}" hl="{{ g.hl }}" bad="{{ g.bad }}" hide-cube="{{ g.hideCube }}" hint-size="378px,334px"></dc-import>
+<sc-if value="{{ g.err }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:24px;right:24px;bottom:-14px;padding:12px 14px;border-radius:14px;background:#2a1a20;box-shadow:inset 0 0 0 1.5px #E0566C,0 12px 30px rgba(0,0,0,.55);display:flex;gap:12px;align-items:flex-start"><div style="width:26px;height:26px;flex:none;border-radius:50%;background:#9E1B32;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F3EBDD" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></div><div style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-size:14px;font-weight:600;color:#F3B0BC">{{ g.et }}</span><span style="font-size:12px;line-height:17px;color:rgba(243,235,221,.75)">{{ g.ed }}</span></div></div></sc-if>
+</div>
+</div>
+<div style="padding:0 10px 12px;flex:none">
+<div style="height:66px;border-radius:14px;padding:0 12px;display:flex;align-items:center;gap:12px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(212,174,88,.2)">
+<div style="width:44px;height:44px;flex:none;border-radius:50%;background:linear-gradient(150deg,#2f4a52,#162428);display:flex;align-items:center;justify-content:center;font:600 18px 'Noto Serif Display',serif;box-shadow:inset 0 0 0 1.5px rgba(212,174,88,.6)">E</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-size:16px;font-weight:600">Elvin</span><span style="font-size:12px;color:rgba(243,235,221,.66)">{{ g.me }}</span></div>
+<div style="height:36px;min-width:70px;border-radius:10px;background:#D4AE58;color:#1d1316;display:flex;align-items:center;justify-content:center;font:600 20px/20px 'IBM Plex Sans',sans-serif;font-variant-numeric:tabular-nums">{{ g.myClock }}</div>
+</div>
+</div>
+<div style="height:24px"></div>
+</div>
+</div>
+</sc-for>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">20.1 · Rəqib tapıldı · BOT</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#2a2a30 0%,#2B1D14 48%,#1c2a2c 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:30px 24px 44px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+<div style="width:110px;height:110px;border-radius:50%;background:rgba(243,235,221,.2);padding:4px;box-sizing:border-box;position:relative"><div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(150deg,#3a3a44,#1d1d22);display:flex;align-items:center;justify-content:center"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#F3EBDD" stroke-width="1.6" stroke-linecap="round"><path d="M5 9h14v10H5zM12 5v4M9 14h.01M15 14h.01"></path></svg></div><span style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);height:24px;padding:0 10px;border-radius:6px;background:#F3EBDD;color:#1d1316;display:flex;align-items:center;font-size:12px;font-weight:700;letter-spacing:.08em">BOT</span></div>
+<span style="font:600 24px 'Noto Serif Display',serif;margin-top:6px">Kompüter · Orta</span>
+<span style="font-size:13px;color:rgba(243,235,221,.7)">Reytinqə təsir etmir</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px"><div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,#C9A24A)"></div><div style="width:76px;height:76px;transform:rotate(45deg);box-shadow:inset 0 0 0 1.5px #C9A24A;display:flex;align-items:center;justify-content:center;background:#2B1D14"><span style="transform:rotate(-45deg);font:600 italic 30px 'Noto Serif Display',serif;color:#E8C468">vs</span></div><div style="flex:1;height:1px;background:linear-gradient(90deg,#C9A24A,transparent)"></div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+<span style="font-size:13px;color:rgba(243,235,221,.7)">Platin II · 1842</span>
+<span style="font:600 24px 'Noto Serif Display',serif">Elvin</span>
+<div style="width:110px;height:110px;border-radius:50%;background:conic-gradient(from 210deg,#8a6a22,#E8C468,#a07c30,#E8C468,#8a6a22);padding:4px;box-sizing:border-box"><div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(150deg,#2f4a52,#162428);display:flex;align-items:center;justify-content:center;font:600 40px 'Noto Serif Display',serif">E</div></div>
+</div>
+<div style="padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px rgba(243,235,221,.18);font-size:13px;line-height:19px;color:rgba(243,235,221,.8);text-align:center">30 saniyədə canlı rəqib tapılmadı. Bot ilə oynayırsan, axtarış arxa fonda davam edir.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px;border-bottom:1px solid rgba(201,162,74,.16)">
+<span style="font:600 26px/1.2 'Noto Serif Display',serif">Bir cihazda oyun</span>
+<div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">18.1 · Bir cihazda · quraşdırma</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="font:600 20px 'Noto Serif Display',serif">Bir cihazda</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;padding:6px 16px 0">
+<sc-for list="{{ hotseatPlayers }}" as="p" hint-placeholder-count="2"><div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(201,162,74,.18)"><div style="width:32px;height:32px;border-radius:50%;background:{{ p.c }};box-shadow:inset 0 -3px 0 rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.4)"></div><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:rgba(243,235,221,.55)">{{ p.k }}</span><span style="font-size:16px;font-weight:600">{{ p.n }}</span></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(243,235,221,.5)" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg></div></sc-for>
+<span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55);padding:6px 4px 0">OYUN</span>
+<div style="padding:3px;border-radius:999px;background:rgba(243,235,221,.06);display:flex"><div style="flex:1;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:rgba(243,235,221,.7)">Qısa nərd</div><div style="flex:1;height:36px;border-radius:999px;background:#D4AE58;color:#1d1316;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600">Uzun nərd</div></div>
+<div style="border-radius:16px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(201,162,74,.14);overflow:hidden">
+<sc-for list="{{ hotseatOpts }}" as="r" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:4px 14px;box-sizing:border-box;border-bottom:1px solid rgba(201,162,74,.08)"><div style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font-size:15px">{{ r.n }}</span><span style="font-size:12px;color:rgba(243,235,221,.55)">{{ r.s }}</span></div><div style="width:44px;height:26px;border-radius:999px;background:{{ r.tbg }};position:relative;flex:none"><div style="position:absolute;top:3px;left:{{ r.tx }}px;width:20px;height:20px;border-radius:50%;background:{{ r.tk }}"></div></div></div></sc-for>
+</div>
+</div>
+<div style="padding:16px 16px 40px"><div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Oyuna başla</div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">18.2 · Telefonu rəqibə ver</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:radial-gradient(80% 50% at 50% 45%,#4a321f,#2B1D14 55%,#120c08);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="position:absolute;inset:0;background:repeating-linear-gradient(60deg,rgba(212,174,88,.07) 0 1px,transparent 1px 18px),repeating-linear-gradient(-60deg,rgba(212,174,88,.07) 0 1px,transparent 1px 18px)"></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 28px;position:relative;text-align:center">
+<div style="width:120px;height:120px;border-radius:50%;background:#2b2724;box-shadow:inset 0 -8px 0 rgba(0,0,0,.35),0 0 0 4px rgba(212,174,88,.5),0 20px 40px rgba(0,0,0,.5)"></div>
+<span style="font-size:12px;font-weight:600;letter-spacing:.08em;color:#D4AE58;margin-top:10px">NÖVBƏ DƏYİŞDİ</span>
+<span style="font:600 32px/38px 'Noto Serif Display',serif">Telefonu Nigar-a ver</span>
+<span style="font-size:15px;line-height:22px;color:rgba(243,235,221,.7)">Qara daşlar. Elvin son gedişi etdi: 24/18 18/13. Taxta Nigar tərəfə çevriləcək.</span>
+</div>
+<div style="padding:0 16px 40px;display:flex;flex-direction:column;gap:10px;position:relative">
+<div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Nigar, hazıram</div>
+<div style="height:48px;display:flex;align-items:center;justify-content:center;font-size:15px;color:rgba(243,235,221,.7);font-weight:600">Elvin: gedişi geri al</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px;border-bottom:1px solid rgba(201,162,74,.16)">
+<span style="font:600 26px/1.2 'Noto Serif Display',serif">Klan yarat</span>
+<div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">19.1 · Ad, teq, emblem</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="font:600 20px 'Noto Serif Display',serif;flex:1">Klan yarat</span><span style="font-size:12px;font-weight:600;letter-spacing:.08em;color:#C9A24A">1 / 2</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;padding:6px 16px 0">
+<div style="display:flex;justify-content:center;padding:6px 0"><div style="width:96px;height:96px;border-radius:24px;background:#9E1B32;box-shadow:inset 0 0 0 2px #D4AE58;display:flex;align-items:center;justify-content:center"><div style="width:40px;height:40px;transform:rotate(45deg);border:4px solid #F3EBDD;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><div style="width:10px;height:10px;background:#E8C468"></div></div></div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);padding-left:4px">Klanın adı</span><div style="height:52px;border-radius:14px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1.5px #D4AE58;font-size:16px"><span>Şirvan Ustaları</span><span style="font-size:12px;color:rgba(243,235,221,.5)">15 / 24</span></div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);padding-left:4px">Teq (3–5 hərf)</span><div style="height:52px;border-radius:14px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px rgba(201,162,74,.24);font:600 16px 'IBM Plex Mono',monospace;letter-spacing:.1em"><span>[ŞRV]</span><span style="font:500 12px 'IBM Plex Sans',sans-serif;letter-spacing:0;color:#3FB57F">Boşdur</span></div></div>
+<span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55);padding:4px 4px 0">EMBLEM</span>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px"><sc-for list="{{ emblems }}" as="e" hint-placeholder-count="5"><div style="aspect-ratio:1;border-radius:14px;background:{{ e.bg }};box-shadow:{{ e.ring }};display:flex;align-items:center;justify-content:center"><div style="width:20px;height:20px;transform:rotate({{ e.rot }});border:3px solid {{ e.fg }};border-radius:{{ e.r }};box-sizing:border-box"></div></div></sc-for></div>
+<span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55);padding:4px 4px 0">RƏNG</span>
+<div style="display:flex;gap:10px"><sc-for list="{{ clanColors }}" as="c" hint-placeholder-count="6"><div style="width:36px;height:36px;border-radius:50%;background:{{ c.c }};box-shadow:{{ c.ring }}"></div></sc-for></div>
+</div>
+<div style="padding:16px 16px 40px"><div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Davam et</div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">19.2 · Qoşulma, reytinq, dil · qiymət</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="font:600 20px 'Noto Serif Display',serif;flex:1">Klan yarat</span><span style="font-size:12px;font-weight:600;letter-spacing:.08em;color:#C9A24A">2 / 2</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;padding:6px 16px 0">
+<span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55);padding-left:4px">QOŞULMA</span>
+<div style="border-radius:16px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(201,162,74,.14);overflow:hidden">
+<sc-for list="{{ joinModes }}" as="j" hint-placeholder-count="3"><div style="min-height:56px;display:flex;align-items:center;gap:12px;padding:6px 14px;box-sizing:border-box;border-bottom:1px solid rgba(201,162,74,.08);background:{{ j.bg }}"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:600">{{ j.n }}</span><span style="font-size:12px;color:rgba(243,235,221,.6)">{{ j.s }}</span></div><div style="width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 2px {{ j.dot }};display:flex;align-items:center;justify-content:center"><div style="width:10px;height:10px;border-radius:50%;background:{{ j.fill }}"></div></div></div></sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 4px 0"><span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55)">MİNİMUM REYTİNQ</span><span style="font-size:15px;font-weight:700;font-variant-numeric:tabular-nums">1400</span></div>
+<div style="height:24px;position:relative;display:flex;align-items:center;margin:0 4px"><div style="position:absolute;left:0;right:0;height:4px;border-radius:2px;background:rgba(243,235,221,.12)"></div><div style="position:absolute;left:0;width:40%;height:4px;border-radius:2px;background:#D4AE58"></div><div style="position:absolute;left:40%;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:#F3EBDD;box-shadow:0 2px 6px rgba(0,0,0,.4)"></div></div>
+<div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(243,235,221,.5);padding:0 4px;font-variant-numeric:tabular-nums"><span>Hamı</span><span>2400+</span></div>
+<span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55);padding:6px 4px 0">DİL</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ clanLangs }}" as="c" hint-placeholder-count="4"><span style="height:34px;padding:0 14px;border-radius:999px;display:flex;align-items:center;font-size:13px;font-weight:600;background:{{ c.bg }};color:{{ c.c }};box-shadow:{{ c.ring }}">{{ c.n }}</span></sc-for></div>
+</div>
+<div style="padding:16px 16px 40px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;font-size:13px;color:rgba(243,235,221,.65);padding:0 4px;font-variant-numeric:tabular-nums"><span>Balans: 3 450 → 450</span><span>Ad sonra 1 000 sikkəyə dəyişir</span></div>
+<div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Klanı yarat ·<div style="width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#F4DC8E,#C9A24A 60%,#7A5C1E)"></div>3 000</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px;border-bottom:1px solid rgba(201,162,74,.16)">
+<span style="font:600 26px/1.2 'Noto Serif Display',serif">Sit-and-go · Gözləmə · No-show</span>
+<div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">21.1 · Gözləmə lobbisi · 11 / 16</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="font:600 20px 'Noto Serif Display',serif">Sit-and-go · 16</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;padding:6px 16px 0">
+<div style="display:flex;gap:8px"><sc-for list="{{ sngSizes }}" as="s" hint-placeholder-count="3"><span style="flex:1;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;background:{{ s.bg }};color:{{ s.c }};box-shadow:{{ s.ring }}">{{ s.n }}</span></sc-for></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 4px"><span style="font:600 48px/1 'Noto Serif Display',serif;font-variant-numeric:tabular-nums">11<span style="color:rgba(243,235,221,.4)"> / 16</span></span><span style="font-size:13px;color:rgba(243,235,221,.65)">Dolan kimi başlayır · orta gözləmə 1 dəq</span></div>
+<div style="display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px"><sc-for list="{{ seats }}" as="s" hint-placeholder-count="16"><div style="aspect-ratio:1;border-radius:50%;background:{{ s.bg }};box-shadow:{{ s.ring }};display:flex;align-items:center;justify-content:center;font:600 13px 'Noto Serif Display',serif">{{ s.i }}</div></sc-for></div>
+<div style="border-radius:16px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(201,162,74,.14);overflow:hidden">
+<sc-for list="{{ sngInfo }}" as="r" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:0 14px;border-bottom:1px solid rgba(201,162,74,.08);font-size:14px"><span style="color:rgba(243,235,221,.65)">{{ r.k }}</span><span style="font-weight:600;font-variant-numeric:tabular-nums">{{ r.v }}</span></div></sc-for>
+</div>
+<span style="font-size:12px;line-height:17px;color:rgba(243,235,221,.55);padding:0 4px">Başlayanda 30 saniyə ərzində hazır olmayan oyunçu raundu texniki məğlubiyyətlə verir.</span>
+</div>
+<div style="padding:16px 16px 40px"><div style="height:56px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.3);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600">Çıx · giriş haqqı qaytarılır</div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">21.2 · Rəqib qoşulmayıb</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 28px;text-align:center">
+<span style="font-size:12px;font-weight:600;letter-spacing:.08em;color:#D4AE58">RAUND 1 · MASA 4</span>
+<div style="display:flex;align-items:center;gap:18px">
+<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(150deg,#2f4a52,#162428);box-shadow:inset 0 0 0 2px #D4AE58;display:flex;align-items:center;justify-content:center;font:600 28px 'Noto Serif Display',serif">E</div>
+<span style="font:600 italic 22px 'Noto Serif Display',serif;color:#E8C468">vs</span>
+<div style="width:72px;height:72px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(243,235,221,.25);display:flex;align-items:center;justify-content:center;font:600 28px 'Noto Serif Display',serif;color:rgba(243,235,221,.4);background:repeating-linear-gradient(135deg,rgba(243,235,221,.07) 0 4px,transparent 4px 8px)">R</div>
+</div>
+<span style="font:600 26px/32px 'Noto Serif Display',serif;margin-top:6px">Rəqib hələ qoşulmayıb</span>
+<span style="font-size:14px;line-height:21px;color:rgba(243,235,221,.7)">Rauf_88 vaxt bitənə qədər gəlməsə, raund sənin xeyrinə texniki qələbə ilə bitəcək.</span>
+<div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(#D4AE58 0 78%,rgba(243,235,221,.1) 0);display:flex;align-items:center;justify-content:center;margin-top:8px"><div style="width:104px;height:104px;border-radius:50%;background:#1d1418;display:flex;align-items:center;justify-content:center;font:600 30px 'IBM Plex Sans',sans-serif;font-variant-numeric:tabular-nums">0:47</div></div>
+</div>
+<div style="padding:0 16px 40px"><div style="height:56px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.3);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600">Turnir cədvəli</div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">21.3 · Texniki qələbə</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:radial-gradient(80% 45% at 50% 35%,#24402f,#17121a 60%,#120c0e);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:0 32px;text-align:center">
+<div style="width:96px;height:96px;border-radius:50%;background:rgba(31,138,91,.16);box-shadow:inset 0 0 0 1px rgba(63,181,127,.4);display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3FB57F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></div>
+<span style="font:600 26px 'Noto Serif Display',serif">Növbəti raunda keçdin</span>
+<span style="font-size:14px;line-height:21px;color:rgba(243,235,221,.7)">Rauf_88 vaxtında qoşulmadı. Raund texniki qələbə ilə sənə verildi. Reytinq dəyişmir.</span>
+<div style="width:100%;margin-top:8px;padding:14px;border-radius:14px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(201,162,74,.18);display:flex;justify-content:space-between;font-size:14px;box-sizing:border-box"><span style="color:rgba(243,235,221,.65)">Raund 2 başlayır</span><span style="font-weight:700;font-variant-numeric:tabular-nums">2:10</span></div>
+</div>
+<div style="padding:0 16px 40px"><div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Cədvələ bax</div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">21.4 · Turnir dolmadı</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:0 32px;text-align:center">
+<div style="width:96px;height:96px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(201,162,74,.3);display:flex;align-items:center;justify-content:center"><div style="width:34px;height:34px;transform:rotate(45deg);border:3px solid #C9A24A;box-sizing:border-box"></div></div>
+<span style="font:600 24px 'Noto Serif Display',serif">Turnir başlamadı</span>
+<span style="font-size:14px;line-height:21px;color:rgba(243,235,221,.7)">10 dəqiqədə 32 oyunçudan yalnız 19-u qoşuldu. Giriş haqqı balansına qaytarıldı.</span>
+<div style="height:36px;padding:0 14px;border-radius:999px;background:rgba(31,138,91,.16);box-shadow:inset 0 0 0 1px rgba(63,181,127,.4);display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#3FB57F"><div style="width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#F4DC8E,#C9A24A 60%,#7A5C1E)"></div>+500 qaytarıldı</div>
+</div>
+<div style="padding:0 16px 40px;display:flex;flex-direction:column;gap:10px"><div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">16 nəfərlikə qoşul</div><div style="height:48px;display:flex;align-items:center;justify-content:center;font-size:15px;color:rgba(243,235,221,.7);font-weight:600">Turnirlərə qayıt</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding:48px 56px;background:#0f0d0c;display:flex;flex-direction:column;gap:28px">
+<span style="font:600 26px/1.2 'Noto Serif Display',serif">Özəl turnir yarat</span>
+<div style="display:flex;flex-wrap:wrap;gap:56px 44px;align-items:flex-start">
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">22.1 · Parametrlər</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:#1b120c;color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="font:600 20px 'Noto Serif Display',serif">Özəl turnir</span></div>
+<div style="flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:6px 16px 0">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:600;color:rgba(243,235,221,.6);padding-left:4px">Ad</span><div style="height:52px;border-radius:14px;padding:0 16px;display:flex;align-items:center;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1.5px #D4AE58;font-size:16px">Ofis Kuboku · Noyabr</div></div>
+<span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55);padding:4px 4px 0">OYUNÇU SAYI</span>
+<div style="display:flex;gap:8px"><sc-for list="{{ ptSizes }}" as="s" hint-placeholder-count="4"><span style="flex:1;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;background:{{ s.bg }};color:{{ s.c }};box-shadow:{{ s.ring }}">{{ s.n }}</span></sc-for></div>
+<div style="border-radius:16px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(201,162,74,.14);overflow:hidden">
+<sc-for list="{{ ptRows }}" as="r" hint-placeholder-count="6"><div style="display:flex;align-items:center;gap:12px;min-height:48px;padding:0 14px;border-bottom:1px solid rgba(201,162,74,.08)"><span style="flex:1;font-size:15px">{{ r.n }}</span>
+<sc-if value="{{ r.tg }}" hint-placeholder-val="{{ false }}"><div style="width:44px;height:26px;border-radius:999px;background:{{ r.tbg }};position:relative;flex:none"><div style="position:absolute;top:3px;left:{{ r.tx }}px;width:20px;height:20px;border-radius:50%;background:{{ r.tk }}"></div></div></sc-if>
+<sc-if value="{{ r.arrow }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px;color:rgba(243,235,221,.6)">{{ r.v }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(243,235,221,.5)" stroke-width="2.5"><path d="M9 5l7 7-7 7"></path></svg></sc-if>
+</div></sc-for>
+</div>
+</div>
+<div style="padding:16px 16px 40px;display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;color:rgba(243,235,221,.55);text-align:center">Yaratmaq pulsuzdur. Özəl turnirlər reytinqə təsir etmir.</span><div style="height:56px;border-radius:999px;background:linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a);color:#F8F1E4;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.65),0 6px 18px rgba(158,27,50,.35)">Turniri yarat</div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font:500 12px 'IBM Plex Mono',monospace;color:#C9A24A">22.2 · Dəvət et · qeydiyyat</span>
+<div style="width:390px;height:844px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%);color:#F3EBDD;box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column">
+<dc-import name="StatusBar" hint-size="100%,50px"></dc-import>
+<div style="height:48px;display:flex;align-items:center;gap:12px;padding:0 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="font:600 20px 'Noto Serif Display',serif;flex:1">Ofis Kuboku · Noyabr</span><span style="font-size:14px;font-weight:600;color:#E8C468">Düzəliş</span></div>
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;padding:6px 16px 0">
+<div style="padding:16px;border-radius:18px;background:rgba(158,27,50,.18);box-shadow:inset 0 0 0 1px rgba(212,174,88,.32);display:flex;flex-direction:column;gap:12px">
+<span style="font-size:12px;font-weight:600;letter-spacing:.08em;color:#D4AE58">DƏVƏT KODU</span>
+<span style="font:600 34px/1 'IBM Plex Mono',monospace;letter-spacing:.16em">K7Q-29M</span>
+<span style="font-size:13px;color:rgba(243,235,221,.7)">Şənbə, 2 noyabr · 20:00 · Qısa nərd, 5 xal</span>
+<div style="display:flex;gap:8px"><div style="flex:1;height:44px;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(201,162,74,.3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600">Kopyala</div><div style="flex:1;height:44px;border-radius:12px;background:#D4AE58;color:#1d1316;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600">Linki paylaş</div></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 4px"><span style="font-size:12px;font-weight:600;letter-spacing:.06em;color:rgba(243,235,221,.55)">QEYDİYYAT</span><span style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums">5 / 8</span></div>
+<div style="border-radius:16px;background:rgba(243,235,221,.04);box-shadow:inset 0 0 0 1px rgba(201,162,74,.14);overflow:hidden">
+<sc-for list="{{ ptPlayers }}" as="p" hint-placeholder-count="5"><div style="display:flex;align-items:center;gap:12px;height:50px;padding:0 14px;border-bottom:1px solid rgba(201,162,74,.08)"><div style="width:32px;height:32px;border-radius:50%;background:{{ p.av }};display:flex;align-items:center;justify-content:center;font:600 14px 'Noto Serif Display',serif;box-shadow:inset 0 0 0 1px rgba(212,174,88,.5)">{{ p.i }}</div><span style="flex:1;font-size:15px">{{ p.n }}</span><span style="font-size:12px;color:{{ p.sc }}">{{ p.s }}</span></div></sc-for>
+</div>
+</div>
+<div style="padding:16px 16px 40px;display:flex;flex-direction:column;gap:10px"><div style="height:56px;border-radius:999px;background:rgba(158,27,50,.35);color:rgba(248,241,228,.5);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;box-shadow:inset 0 0 0 1px rgba(212,174,88,.3)">İndi başlat · ən az 8 oyunçu</div><div style="height:44px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#E0566C;font-weight:600">Turniri ləğv et</div></div>
+</div>
+</div>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const G = '#D4AE58';
+    const tg = (n, on, s) => ({ n, s, tg: true, arrow: false, tbg: on ? G : 'rgba(243,235,221,.14)', tx: on ? 21 : 3, tk: on ? '#1d1316' : '#F3EBDD' });
+    const val = (n, v) => ({ n, v, tg: false, arrow: true });
+    const chip = (arr, act) => arr.map((n, i) => ({ n, bg: i === act ? G : 'rgba(243,235,221,.06)', c: i === act ? '#1d1316' : 'rgba(243,235,221,.75)', ring: i === act ? 'none' : 'inset 0 0 0 1px rgba(201,162,74,.2)' }));
+    const short = [[24,2],[13,5],[8,3],[6,4],[4,1],[1,-2],[12,-5],[17,-3],[19,-4],[20,-1]];
+    const oppIdle = { cbg: 'rgba(0,0,0,.3)', cc: 'rgba(243,235,221,.8)' };
+    const nonmatch = { av: 'linear-gradient(150deg,#5b2a2a,#2a1414)', i: 'K', n: 'Kerem_TR', r: 'Platin I · 1867 · pip 151', bot: false, clock: '1:12', ...oppIdle };
+    return {
+      games: [
+        { l: '20.2 · Oyun ekranı · BOT rəqib', mode: 'Təsadüfi · reytinqsiz', score: '0 – 0', crawford: false, opp: { av: 'linear-gradient(150deg,#3a3a44,#1d1d22)', i: 'B', n: 'Kompüter · Orta', r: 'Reytinqə təsir etmir · pip 158', bot: true, clock: '—', ...oppIdle }, tone: G, bt: 'Sənin növbən', bs: '6 – 2 · 2 gediş', pos: short, dice: [6, 2], sel: null, hl: [], hideCube: false, err: false, me: 'Platin II · pip 146', myClock: '0:54' },
+        { l: '23.1 · Matç · Crawford oyunu', mode: 'Matç · 7 xala qədər', score: '6 – 4', crawford: true, opp: nonmatch, tone: G, bt: 'Sənin növbən', bs: 'Rəqibə 1 xal qalıb', pos: short, dice: [5, 3], sel: null, hl: [], hideCube: true, err: false, me: 'Platin II · pip 146', myClock: '0:41' },
+        { l: '23.2 · Uzun nərd · başdan bir daş', mode: 'Uzun nərd · 3 xala qədər', score: '1 – 0', crawford: false, opp: { ...nonmatch, r: 'Platin I · 1867 · pip 312' }, tone: '#E0566C', bt: 'Qeyri-qanuni gediş', bs: '5 – 2', pos: [[24,14],[19,1],[12,-14],[7,-1]], dice: [5, 2], sel: 24, hl: [], hideCube: true, err: true, et: 'Başdan yalnız bir daş götürmək olar', ed: 'Bu növbədə başdan artıq bir daş oynadın. İstisna: ilk atışda 6-6, 4-4 və ya 3-3 düşəndə iki daş götürmək olar.', me: 'Platin II · pip 305', myClock: '0:38' },
+        { l: '23.3 · Uzun nərd · 6 bağlı xana', mode: 'Uzun nərd · 3 xala qədər', score: '1 – 0', crawford: false, opp: { ...nonmatch, r: 'Platin I · 1867 · pip 198' }, tone: '#E0566C', bt: 'Qeyri-qanuni gediş', bs: '3 – 1', pos: [[24,5],[18,2],[17,2],[16,2],[15,2],[14,2],[12,-6],[1,-4],[2,-3],[3,-2]], dice: [3, 1], sel: 16, hl: [], bad: [13], hideCube: true, err: true, et: 'Ardıcıl 6 xananı bağlamaq olmaz', ed: '16 → 13 gedişi 18–13 xanalarında 6 xanalıq sədd qurur, qabağında isə rəqibin heç bir daşı yoxdur. Başqa gediş seç.', me: 'Platin II · pip 210', myClock: '0:29' }
+      ],
+      hotseatPlayers: [{ k: 'Ağ daşlar', n: 'Elvin', c: '#efe4cf' }, { k: 'Qara daşlar', n: 'Nigar', c: '#2b2724' }],
+      hotseatOpts: [{ ...tg('Növbələr arası ekranı gizlət', true), s: '“Telefonu rəqibə ver” ekranı' }, { ...tg('Taxtanı çevir', true), s: 'Hər növbədə növbəti oyunçuya tərəf' }, { ...tg('Gedişi geri almaq', false), s: 'Rəqib hazıram deyənə qədər' }],
+      emblems: ['rhomb', 'circle', 'rhomb', 'square', 'circle'].map((s, i) => ({ rot: s === 'rhomb' ? '45deg' : '0deg', r: s === 'circle' ? '50%' : '2px', bg: i === 0 ? '#9E1B32' : 'rgba(243,235,221,.05)', fg: i === 0 ? '#F3EBDD' : 'rgba(243,235,221,.6)', ring: i === 0 ? 'inset 0 0 0 2px #D4AE58' : 'inset 0 0 0 1px rgba(201,162,74,.2)' })),
+      clanColors: ['#9E1B32', '#1F8A5B', '#C9A24A', '#4f7fd1', '#7d4fc4', '#2B1D14'].map((c, i) => ({ c, ring: i === 0 ? '0 0 0 2px #1b120c,0 0 0 4px #D4AE58' : 'inset 0 0 0 1px rgba(243,235,221,.2)' })),
+      joinModes: [['Açıq', 'Reytinq şərtinə uyğun hər kəs dərhal qoşulur'], ['Müraciət ilə', 'Rəhbər və köməkçilər təsdiqləyir'], ['Yalnız dəvət', 'Siyahıda görünür, amma qoşulmaq üçün dəvət lazımdır']].map(([n, s], i) => ({ n, s, bg: i === 1 ? 'rgba(212,174,88,.1)' : 'transparent', dot: i === 1 ? G : 'rgba(243,235,221,.3)', fill: i === 1 ? G : 'transparent' })),
+      clanLangs: chip(['Azərbaycanca', 'Türkçe', 'Русский', 'English'], 0).map((c, i) => i === 1 ? { ...c, bg: G, c: '#1d1316', ring: 'none' } : c),
+      sngSizes: chip(['8 oyunçu', '16 oyunçu', '32 oyunçu'], 1),
+      seats: Array.from({ length: 16 }, (_, i) => i < 11 ? { i: 'EKNRAFLSTMZ'[i], bg: i === 0 ? 'linear-gradient(150deg,#2f4a52,#162428)' : 'rgba(243,235,221,.08)', ring: i === 0 ? 'inset 0 0 0 1.5px #D4AE58' : 'inset 0 0 0 1px rgba(201,162,74,.3)' } : { i: '', bg: 'transparent', ring: 'inset 0 0 0 1px rgba(243,235,221,.14)' }),
+      sngInfo: [{ k: 'Format', v: 'Qısa nərd · 3 xal' }, { k: 'Giriş haqqı', v: '500 sikkə' }, { k: 'Mükafat fondu', v: '7 200 sikkə' }, { k: 'Vaxt nəzarəti', v: '12 san + 2 dəq bank' }],
+      ptSizes: chip(['4', '8', '16', '32'], 1),
+      ptRows: [val('Oyun', 'Qısa nərd'), val('Matç uzunluğu', '5 xal'), val('Vaxt nəzarəti', '15 san + 3 dəq'), val('Başlama vaxtı', 'Şənbə, 20:00'), val('Giriş haqqı', 'Pulsuz'), tg('Yalnız dəvət kodu ilə', true), tg('Kub istifadəsi', true)],
+      ptPlayers: [['E', 'Elvin', 'Təşkilatçı', G, 'linear-gradient(150deg,#2f4a52,#162428)'], ['N', 'Nigar', 'Qoşuldu', 'rgba(243,235,221,.55)', 'rgba(243,235,221,.08)'], ['R', 'Rauf_88', 'Qoşuldu', 'rgba(243,235,221,.55)', 'rgba(243,235,221,.08)'], ['A', 'Aysel', 'Qoşuldu', 'rgba(243,235,221,.55)', 'rgba(243,235,221,.08)'], ['F', 'Farid.B', 'Qoşuldu', 'rgba(243,235,221,.55)', 'rgba(243,235,221,.08)']].map(([i, n, s, sc, av]) => ({ i, n, s, sc, av }))
+    };
+  }
+}
+</script>
+</body>
+</html>

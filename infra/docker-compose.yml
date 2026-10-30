@@ -1,0 +1,119 @@
+# Local stack: docker compose -f infra/docker-compose.yml up --build
+# Host ports default to 13306/16379/18000/18080 to avoid clashing with
+# locally installed services; override with NARD_*_PORT variables.
+name: nard-arena
+
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: nard
+      MYSQL_USER: nard
+      MYSQL_PASSWORD: nard
+      MYSQL_ROOT_PASSWORD: root
+    ports: ["${NARD_MYSQL_PORT:-13306}:3306"]
+    volumes: [mysql-data:/var/lib/mysql]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-unard", "-pnard"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  redis:
+    image: redis:7.4-alpine
+    ports: ["${NARD_REDIS_PORT:-16379}:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Development mail catcher for sign-in codes (ADR-030): UI on :18025.
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports: ["${NARD_MAIL_UI_PORT:-18025}:8025"]
+
+  api:
+    build: ../apps/api
+    environment: &api-env
+      APP_ENV: local
+      GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
+      # Tournament pairings are pushed here (signed, docs/api/tournaments.md).
+      GAME_SERVER_URL: http://game_server:8080
+      DB_HOST: mysql
+      REDIS_HOST: redis
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: "1025"
+      MAIL_FROM_ADDRESS: no-reply@nardarena.local
+      # Local only: receipts "test-…" credit Yaqut (config/iap.php).
+      IAP_FAKE: "true"
+      # Observability (ADR-043): JSON log lines on stderr; Prometheus text
+      # at /api/v1/internal/metrics with this bearer token (local default).
+      LOG_CHANNEL: stack
+      LOG_STACK: json
+      LOG_LEVEL: info
+      METRICS_TOKEN: ${METRICS_TOKEN:-local-dev-metrics-token}
+    # `artisan serve` passes only a few variables to its child process, so
+    # run PHP's server directly to keep DB_/REDIS_/MAIL_ settings.
+    command: >
+      sh -c "cp -n .env.example .env &&
+             php artisan key:generate --force -q &&
+             php artisan migrate --force &&
+             php artisan db:seed --force &&
+             cd public && php -S 0.0.0.0:8000 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
+    ports: ["${NARD_API_PORT:-18000}:8000"]
+    depends_on:
+      mysql: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  # Laravel scheduler (routes/console.php): tournaments:tick every minute,
+  # tournaments:schedule hourly, weekly clan wars. Waits for the api's
+  # migrations on the first start.
+  scheduler:
+    build: ../apps/api
+    environment: *api-env
+    command: >
+      sh -c "cp -n .env.example .env &&
+             php artisan key:generate --force -q &&
+             sleep 30 &&
+             php artisan schedule:work"
+    depends_on:
+      api: { condition: service_started }
+
+  # Database queue worker: push notifications (ADR-041; sending is
+  # disabled until FCM_PROJECT_ID / FCM_CREDENTIALS are set) and live
+  # notifications / tournament refreshes to the game server (ADR-049).
+  queue:
+    build: ../apps/api
+    environment: *api-env
+    command: >
+      sh -c "cp -n .env.example .env &&
+             php artisan key:generate --force -q &&
+             sleep 30 &&
+             php artisan queue:work --tries=1 --sleep=3"
+    depends_on:
+      api: { condition: service_started }
+
+  game_server:
+    build:
+      context: ..
+      dockerfile: apps/game_server/Dockerfile
+    environment:
+      PORT: "8080"
+      REDIS_URL: redis://redis:6379
+      API_URL: http://api:8000
+      # Shared with the API, which signs game-server tickets. Local default
+      # only; production reads it from a secret.
+      GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
+      # JSON logs; /metrics and /readyz on the same port (ADR-043).
+      LOG_LEVEL: info
+      # ADR-045 cap; the load test (docs/LOAD_TEST.md) runs every client
+      # from one address and sets it to 0 (off).
+      WS_MAX_CONNECTIONS_PER_IP: ${WS_MAX_CONNECTIONS_PER_IP:-20}
+    ports: ["${NARD_GAME_PORT:-18080}:8080"]
+    depends_on:
+      redis: { condition: service_healthy }
+
+volumes:
+  mysql-data:

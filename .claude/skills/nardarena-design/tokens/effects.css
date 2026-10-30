@@ -1,0 +1,20 @@
+:root {
+  --elev-1: 0 2px 6px rgba(0, 0, 0, 0.35); /* @kind shadow */
+  --elev-2: 0 12px 30px rgba(0, 0, 0, 0.5); /* @kind shadow */
+  --elev-3: 0 20px 60px rgba(0, 0, 0, 0.6); /* @kind shadow */
+  --ring-line: inset 0 0 0 1px var(--line); /* @kind shadow */
+  --ring-accent: inset 0 0 0 1.5px var(--accent); /* @kind shadow */
+  --glow-legal: 0 0 0 3px #F0CD6E, 0 0 18px 5px rgba(240, 205, 110, 0.55); /* @kind shadow */
+  --glow-danger: 0 0 0 3px rgba(224, 86, 108, 0.3), 0 0 20px rgba(224, 86, 108, 0.45); /* @kind shadow */
+  --scrim: rgba(8, 6, 5, 0.6); /* @kind color */
+  --vignette-lowtime: inset 0 0 90px rgba(224, 86, 108, 0.38), inset 0 0 0 2px rgba(224, 86, 108, 0.5); /* @kind shadow */
+  --placeholder-stripes: repeating-linear-gradient(135deg, rgba(243, 235, 221, 0.07) 0 4px, transparent 4px 8px); /* @kind color */
+
+  --z-board: 0; /* @kind other */
+  --z-checkers: 10; /* @kind other */
+  --z-dice: 20; /* @kind other */
+  --z-hud: 30; /* @kind other */
+  --z-toast: 40; /* @kind other */
+  --z-sheet: 50; /* @kind other */
+  --z-modal: 60; /* @kind other */
+}

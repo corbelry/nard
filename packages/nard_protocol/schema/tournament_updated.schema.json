@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nardarena.app/schema/tournament_updated.json",
+  "title": "TournamentUpdated",
+  "type": "object",
+  "required": [
+    "tournamentId",
+    "userIds"
+  ],
+  "properties": {
+    "tournamentId": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "userIds": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": {
+        "type": "string",
+        "maxLength": 64
+      }
+    }
+  }
+}

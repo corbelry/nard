@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nardarena.fullname" . }}-api
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+    app.kubernetes.io/component: api
+spec:
+  {{- if not .Values.api.autoscaling.enabled }}
+  replicas: {{ .Values.api.replicas }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "nardarena.selector" (list . "api") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nardarena.selector" (list . "api") | nindent 8 }}
+      annotations:
+        checksum/config: {{ include "nardarena.apiConfig" . | sha256sum }}
+    spec:
+      {{- include "nardarena.podCommon" . | nindent 6 }}
+      containers:
+        - name: api
+          image: {{ include "nardarena.apiImage" . }}
+          imagePullPolicy: {{ .Values.images.api.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.containerSecurityContext.api | nindent 12 }}
+          # The image's default command serves public/ with FrankenPHP.
+          env:
+            - name: FRANKENPHP_NUM_THREADS
+              value: {{ .Values.api.threads | quote }}
+          envFrom:
+            {{- include "nardarena.apiEnvFrom" . | nindent 12 }}
+          volumeMounts:
+            {{- include "nardarena.apiVolumeMounts" . | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: 8000
+          # /readyz checks MySQL and Redis; /up only says PHP answers.
+          readinessProbe:
+            httpGet: { path: /readyz, port: http }
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet: { path: /up, port: http }
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+      volumes:
+        {{- include "nardarena.apiVolumes" . | nindent 8 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nardarena.fullname" . }}-api
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+    app.kubernetes.io/component: api
+spec:
+  selector:
+    {{- include "nardarena.selector" (list . "api") | nindent 4 }}
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
+{{- if .Values.api.autoscaling.enabled }}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "nardarena.fullname" . }}-api
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "nardarena.fullname" . }}-api
+  minReplicas: {{ .Values.api.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.api.autoscaling.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.api.autoscaling.targetCPUUtilizationPercentage }}
+{{- end }}
+{{- with .Values.api.pdb }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "nardarena.fullname" $ }}-api
+  labels:
+    {{- include "nardarena.labels" $ | nindent 4 }}
+spec:
+  minAvailable: {{ .minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "nardarena.selector" (list $ "api") | nindent 6 }}
+{{- end }}

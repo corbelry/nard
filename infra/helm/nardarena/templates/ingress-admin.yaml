@@ -1,0 +1,35 @@
+{{- if and .Values.ingress.enabled .Values.ingress.adminAllowlist }}
+{{- $full := include "nardarena.fullname" . -}}
+# Filament admin limited to known networks. ingress-nginx serves the longer
+# /admin prefix from this Ingress, so the allowlist applies only there.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $full }}-admin
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.adminAllowlist | quote }}
+    {{- with .Values.ingress.apiAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts: [{{ .Values.ingress.api.host | quote }}]
+      secretName: {{ $full }}-api-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.api.host | quote }}
+      http:
+        paths:
+          {{- range list "/admin" "/livewire" }}
+          - path: {{ . }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $full }}-api
+                port: { name: http }
+          {{- end }}
+{{- end }}

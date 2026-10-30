@@ -1,0 +1,204 @@
+# NardArena chart values (ADR-043). No secret values live here: every secret
+# comes from an existing Kubernetes Secret (`secrets.name`), e.g. created by
+# External Secrets from Google Secret Manager.
+
+nameOverride: ""
+fullnameOverride: ""
+
+images:
+  # Production target of apps/api/Dockerfile (ADR-047):
+  #   docker build --target production -t <repository>:<tag> apps/api
+  # The same image runs the API, scheduler, queue workers and migrations.
+  api:
+    repository: europe-docker.pkg.dev/PROJECT/nardarena/api
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+  gameServer:
+    repository: europe-docker.pkg.dev/PROJECT/nardarena/game-server
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+imagePullSecrets: []
+
+# Existing Secret with these keys (values never in the chart):
+#   APP_KEY, DB_PASSWORD, GAME_TICKET_SECRET (>= 32 chars, shared by the API
+#   and the game server), METRICS_TOKEN; optional: REDIS_PASSWORD,
+#   SENTRY_DSN, MAIL_PASSWORD, FCM_CREDENTIALS_JSON.
+secrets:
+  name: nardarena-secrets
+
+# External dependencies (not deployed by this chart).
+mysql:
+  host: mysql.example.internal
+  port: 3306
+  database: nard
+  username: nard
+redis:
+  host: redis.example.internal
+  port: 6379
+
+# Non-secret API configuration, rendered into a ConfigMap (and inline into
+# the migration Job, which runs before the ConfigMap exists on install).
+api:
+  # Owner's choice (docs/LAUNCH.md): one subdomain of the owner's domain for
+  # the API, admin, web pages and the game server (/ws). Set the real host.
+  url: https://nard.example.com
+  env:
+    APP_ENV: production
+    APP_DEBUG: "false"
+    LOG_CHANNEL: stack
+    # JSON lines on stderr + errors to Sentry when SENTRY_DSN is set.
+    LOG_STACK: json,sentry
+    LOG_LEVEL: info
+    CACHE_STORE: redis
+    QUEUE_CONNECTION: database
+    SESSION_DRIVER: database
+    # Only the ingress reaches the pods (networkPolicy below): trust it for
+    # X-Forwarded-For so per-IP rate limits see the player's address. With
+    # networkPolicy disabled, set the ingress pod CIDR instead of "*", and
+    # keep ingress-nginx `use-forwarded-headers` off (its default).
+    TRUSTED_PROXIES: "*"
+    # Session cookies (Filament admin) only over HTTPS.
+    SESSION_SECURE_COOKIE: "true"
+    READINESS_CHECKS: database,redis
+    MAIL_MAILER: smtp
+    MAIL_FROM_ADDRESS: no-reply@example.com
+    APPLE_SIGNIN_ENABLED: "false"
+    GOOGLE_SIGNIN_ENABLED: "false"
+  # FrankenPHP PHP threads per API pod (ADR-047): concurrent requests
+  # in classic mode; each may use up to PHP's memory_limit (128M), so keep
+  # it in line with resources.limits.memory.
+  threads: 8
+  # Writable volumes on the read-only root (ADR-047): /app/storage
+  # (compiled views, file cache, logs) and /tmp (uploads, export ZIPs,
+  # Caddy state). Memory-backed would count against the memory limit, so
+  # they use node disk.
+  storageSizeLimit: 256Mi
+  tmpSizeLimit: 256Mi
+  replicas: 2
+  resources:
+    requests: { cpu: 250m, memory: 256Mi }
+    limits: { memory: 512Mi }
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+  pdb:
+    minAvailable: 1
+
+scheduler:
+  # Exactly one: `schedule:work` runs tournaments:tick, seasons, clan wars.
+  enabled: true
+  resources:
+    requests: { cpu: 50m, memory: 128Mi }
+    limits: { memory: 256Mi }
+
+queue:
+  enabled: true
+  replicas: 1
+  args: ["--tries=1", "--sleep=3", "--max-time=3600"]
+  resources:
+    requests: { cpu: 100m, memory: 128Mi }
+    limits: { memory: 256Mi }
+
+migrations:
+  # pre-install/pre-upgrade hook: `php artisan migrate --force`.
+  enabled: true
+  backoffLimit: 1
+  activeDeadlineSeconds: 600
+
+gameServer:
+  # ADR-032: one pod holds every match, queue and room in memory. Do not
+  # raise this until the Redis queue + matchId registry (spec §7.5) exist;
+  # the Recreate strategy avoids two pods splitting the matchmaker.
+  replicas: 1
+  logLevel: info
+  shutdownGraceSeconds: 5
+  terminationGracePeriodSeconds: 20
+  sentryEnvironment: production
+  # Behind the ingress the TCP peer is the controller: the per-address
+  # WebSocket cap (ADR-045) reads the last X-Forwarded-For hop instead.
+  trustProxy: true
+  resources:
+    requests: { cpu: 500m, memory: 256Mi }
+    limits: { memory: 1Gi }
+
+ingress:
+  enabled: true
+  className: nginx
+  tls:
+    enabled: true
+    # cert-manager issuer (annotation) or an existing TLS secret per host.
+    clusterIssuer: letsencrypt
+  api:
+    host: nard.example.com
+  ws:
+    # Empty = the API host (one subdomain); set a host for a separate one.
+    host: ""
+    # Only the WebSocket path is public; /metrics, /readyz and the signed
+    # /internal/* endpoint stay inside the cluster.
+    path: /ws
+  # WebSockets: long timeouts. With more than one game-server replica,
+  # route by match (ADR-032), e.g.
+  #   nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_match"
+  wsAnnotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # Per client IP (ADR-045): concurrent WebSockets and new upgrade
+    # requests per second (a WebSocket is one request; frames are limited
+    # by the game server). Mobile carriers NAT many players behind one
+    # address: raise these before lowering them.
+    nginx.ingress.kubernetes.io/limit-connections: "20"
+    nginx.ingress.kubernetes.io/limit-rps: "5"
+  apiAnnotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 2m
+  # Filament admin (/admin): comma-separated CIDRs allowed to reach it, e.g.
+  # the office or VPN. Empty = public (password + Filament's login limit
+  # only); set it before launch (security review 2026-10-30).
+  adminAllowlist: ""
+
+metrics:
+  # prometheus.io/* annotations on the game-server pods (no auth needed;
+  # the port is cluster-internal). The API endpoint needs the bearer
+  # METRICS_TOKEN, so scrape it with a ServiceMonitor.
+  annotations: true
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    labels: {}
+
+podSecurityContext:
+  seccompProfile: { type: RuntimeDefault }
+
+# Security review 2026-10-30. Both images run as unprivileged users on a
+# read-only root: the game server (`FROM scratch`, a static binary) as
+# 65532, the API image (FrankenPHP, ADR-047) as 10001 with emptyDir volumes
+# for /app/storage and /tmp. The API, scheduler, queue and migrate
+# containers share `api`.
+containerSecurityContext:
+  api:
+    allowPrivilegeEscalation: false
+    capabilities: { drop: [ALL] }
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+    readOnlyRootFilesystem: true
+  gameServer:
+    allowPrivilegeEscalation: false
+    capabilities: { drop: [ALL] }
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    readOnlyRootFilesystem: true
+
+# Only the ingress controller, the other NardArena pods and the monitoring
+# namespace may open connections to the pods; scheduler, queue and migrate
+# pods accept none. This is what makes TRUSTED_PROXIES="*" safe: nothing but
+# the ingress can reach the API with a forged X-Forwarded-For.
+networkPolicy:
+  enabled: true
+  ingressNamespace: ingress-nginx
+  monitoringNamespace: monitoring
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -1,0 +1,69 @@
+{{- if .Values.ingress.enabled }}
+{{- $full := include "nardarena.fullname" . -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $full }}-api
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.ingress.tls.enabled }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer | quote }}
+    {{- end }}
+    {{- with .Values.ingress.apiAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts: [{{ .Values.ingress.api.host | quote }}]
+      secretName: {{ $full }}-api-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.api.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $full }}-api
+                port: { name: http }
+---
+# WebSocket entry: only the /ws path of the game server is public. With an
+# empty ingress.ws.host it shares the API host (one subdomain, one
+# certificate: the API Ingress owns it, so no second cert-manager request).
+{{- $wsHost := .Values.ingress.ws.host | default .Values.ingress.api.host }}
+{{- $shared := eq $wsHost .Values.ingress.api.host }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $full }}-ws
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+  annotations:
+    {{- if and .Values.ingress.tls.enabled (not $shared) }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.clusterIssuer | quote }}
+    {{- end }}
+    {{- with .Values.ingress.wsAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts: [{{ $wsHost | quote }}]
+      secretName: {{ if $shared }}{{ $full }}-api-tls{{ else }}{{ $full }}-ws-tls{{ end }}
+  {{- end }}
+  rules:
+    - host: {{ $wsHost | quote }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.ws.path }}
+            pathType: Exact
+            backend:
+              service:
+                name: {{ $full }}-game-server
+                port: { name: http }
+{{- end }}

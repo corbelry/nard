@@ -1,0 +1,15 @@
+name: nard_arena_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.7.0
+
+workspace:
+  - packages/nard_core
+  - packages/nard_ai
+  - packages/nard_protocol
+  - apps/game_server
+  - apps/client
+
+dev_dependencies:
+  lints: ^5.1.1

@@ -1,0 +1,39 @@
+:root {
+  /* Base palette */
+  --walnut-950: #1B120C;
+  --walnut-900: #2B1D14;
+  --walnut-800: #34251A;
+  --walnut-700: #3B2819;
+  --charcoal-900: #16181D;
+  --charcoal-800: #1F2128;
+  --charcoal-700: #202329;
+  --ivory-50: #FBF7F0;
+  --ivory-100: #F3EBDD;
+  --ivory-dim: #A89C8B;
+  --brass-300: #E8C468;
+  --brass-500: #C9A24A;
+  --brass-600: #A8822F;
+  --brass-700: #7A5C1E;
+  --garnet-400: #E0566C;
+  --garnet-600: #9E1B32;
+  --garnet-700: #86152A;
+  --emerald-400: #3FB57F;
+  --emerald-600: #1F8A5B;
+  --ink-onyx: #151312;
+
+  /* Rarity — same L/C, hue varies */
+  --rarity-common: oklch(0.75 0.01 80);
+  --rarity-rare: oklch(0.72 0.13 245);
+  --rarity-epic: oklch(0.72 0.13 305);
+  --rarity-legendary: oklch(0.80 0.13 85);
+  --rarity-seasonal: oklch(0.72 0.13 20);
+
+  /* Rank tiers (badge fill gradients) */
+  --rank-bronze: linear-gradient(160deg, #e0a77a, #8a5330); /* @kind color */
+  --rank-silver: linear-gradient(160deg, #eef0f2, #8d939b); /* @kind color */
+  --rank-gold: linear-gradient(160deg, #f4dc8e, #b0852c); /* @kind color */
+  --rank-platinum: linear-gradient(160deg, #d6f1ee, #6aa9a5); /* @kind color */
+  --rank-diamond: linear-gradient(160deg, #bfe0ff, #4f7fd1); /* @kind color */
+  --rank-master: linear-gradient(160deg, #e2c6ff, #7d4fc4); /* @kind color */
+  --rank-grandmaster: conic-gradient(from 200deg, #9E1B32, #E8C468, #9E1B32, #E8C468, #9E1B32); /* @kind color */
+}

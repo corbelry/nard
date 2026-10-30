@@ -1,0 +1,6 @@
+{"userId": "{A}", "matches": 14, "games": 31, "decisions": 420, "agreement": 0.92, "avgLoss": 0.002}
+{"userId": "{B}", "matches": 14, "games": 30, "decisions": 400, "agreement": 0.70, "avgLoss": 0.021}
+{"userId": "{C}", "matches": 3, "games": 6, "decisions": 90, "agreement": 0.95, "avgLoss": 0.001}
+{"userId": "{D}", "matches": 20, "games": 44, "decisions": 610, "agreement": 0.86, "avgLoss": 0.004}
+not json
+{"userId": "999999", "matches": 20, "games": 40, "decisions": 600, "agreement": 0.99, "avgLoss": 0.0}

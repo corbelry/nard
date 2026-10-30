@@ -1,0 +1,97 @@
+/* Base layer = "ceviz" (1a). Default theme is sebeke (1c), applied below. */
+:root, [data-theme="ceviz"] {
+  --bg: var(--walnut-900);
+  --bg-deep: var(--walnut-950);
+  --bg-gradient: radial-gradient(130% 70% at 50% 46%, #3b2819 0%, #2B1D14 50%, #1b120c 100%); /* @kind color */
+  --surface: rgba(243, 235, 221, 0.06);
+  --surface-raised: var(--walnut-800);
+  --surface-sunken: rgba(0, 0, 0, 0.25);
+  --text: var(--ivory-100);
+  --text-dim: rgba(243, 235, 221, 0.64);
+  --text-faint: rgba(243, 235, 221, 0.45);
+  --line: rgba(201, 162, 74, 0.24);
+  --line-soft: rgba(201, 162, 74, 0.12);
+  --accent: var(--brass-500);
+  --accent-hi: var(--brass-300);
+  --on-accent: #231709;
+  --primary-fill: linear-gradient(180deg, #dcb862 0%, #c29a43 55%, #a8822f 100%); /* @kind color */
+  --primary-text: #231709;
+  --primary-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.55), 0 6px 18px rgba(201, 162, 74, 0.28); /* @kind shadow */
+  --danger: var(--garnet-600);
+  --danger-text: var(--garnet-400);
+  --success: var(--emerald-600);
+  --success-text: var(--emerald-400);
+  --clock-active-bg: var(--ivory-100);
+  --clock-active-text: var(--walnut-900);
+  --radius-card: 16px;
+  --radius-button: 16px;
+  --label-case: none; /* @kind other */
+  --label-tracking: 0; /* @kind font */
+  --font-button: var(--font-ui); /* @kind font */
+  --ornament-pattern: radial-gradient(80% 60% at 50% 0%, rgba(201, 162, 74, 0.12), transparent 70%); /* @kind color */
+}
+
+/* Direction 1b: charcoal tournament */
+[data-theme="komur"] {
+  --bg: var(--charcoal-900);
+  --bg-deep: #101216;
+  --bg-gradient: var(--charcoal-900); /* @kind color */
+  --surface: var(--charcoal-800);
+  --surface-raised: var(--charcoal-700);
+  --text: #ECE7DE;
+  --text-dim: #A19D95;
+  --line: rgba(236, 231, 222, 0.10);
+  --line-soft: rgba(236, 231, 222, 0.06);
+  --primary-fill: var(--brass-500); /* @kind color */
+  --primary-text: var(--charcoal-900);
+  --primary-shadow: none; /* @kind shadow */
+  --clock-active-bg: var(--brass-500);
+  --clock-active-text: var(--charcoal-900);
+  --radius-card: 8px;
+  --radius-button: 8px;
+  --label-case: uppercase; /* @kind other */
+  --label-tracking: 0.08em; /* @kind font */
+  --font-button: var(--font-ui-condensed); /* @kind font */
+  --ornament-pattern: none; /* @kind color */
+}
+
+/* DEFAULT — Direction 1c: şəbəkə / garnet */
+:root:not([data-theme]), [data-theme="sebeke"] {
+  --bg-gradient: linear-gradient(180deg, #24161b 0%, #17121a 50%, #1f1317 100%); /* @kind color */
+  --surface: rgba(158, 27, 50, 0.18);
+  --surface-raised: #2a1a20;
+  --text-dim: rgba(243, 235, 221, 0.66);
+  --line: rgba(212, 174, 88, 0.32);
+  --accent: #D4AE58;
+  --primary-fill: linear-gradient(180deg, #b52a45, #9E1B32 60%, #86152a); /* @kind color */
+  --primary-text: #F8F1E4;
+  --primary-shadow: inset 0 0 0 1px rgba(212, 174, 88, 0.65), 0 6px 18px rgba(158, 27, 50, 0.35); /* @kind shadow */
+  --clock-active-bg: #D4AE58;
+  --clock-active-text: #1d1316;
+  --radius-card: 14px;
+  --radius-button: 999px;
+  --font-button: var(--font-display); /* @kind font */
+  --ornament-pattern: repeating-linear-gradient(60deg, rgba(212,174,88,.11) 0 1px, transparent 1px 18px), repeating-linear-gradient(-60deg, rgba(212,174,88,.11) 0 1px, transparent 1px 18px), repeating-linear-gradient(0deg, rgba(212,174,88,.06) 0 1px, transparent 1px 15.6px); /* @kind color */
+}
+
+/* Light mode (menus only — the board keeps its cosmetic theme) */
+[data-theme="light"] {
+  --bg: var(--ivory-100);
+  --bg-deep: #E9DFCD;
+  --bg-gradient: var(--ivory-100); /* @kind color */
+  --surface: var(--ivory-50);
+  --surface-raised: #FFFFFF;
+  --surface-sunken: rgba(43, 29, 20, 0.06);
+  --text: var(--walnut-900);
+  --text-dim: #6B5A49;
+  --text-faint: #8C7B69;
+  --line: rgba(43, 29, 20, 0.14);
+  --line-soft: rgba(43, 29, 20, 0.08);
+  --accent: var(--brass-700);
+  --accent-hi: var(--brass-600);
+  --danger-text: var(--garnet-600);
+  --success-text: var(--emerald-600);
+  --clock-active-bg: var(--walnut-900);
+  --clock-active-text: var(--ivory-100);
+  --ornament-pattern: none; /* @kind color */
+}

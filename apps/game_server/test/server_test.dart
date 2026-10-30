@@ -1,0 +1,624 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:game_server/server.dart';
+import 'package:http/http.dart' as http;
+import 'package:nard_core/nard_core.dart';
+import 'package:nard_protocol/nard_protocol.dart';
+import 'package:shelf/shelf_io.dart' as io;
+import 'package:test/test.dart';
+import 'package:web_socket_channel/io.dart';
+
+const secret = 'test-secret-test-secret-test-secret!';
+
+class Client {
+  Client(int port)
+    : ws = IOWebSocketChannel.connect('ws://localhost:$port/ws') {
+    it = StreamIterator(
+      ws.stream.map((f) => Envelope.fromJson(jsonDecode(f as String))),
+    );
+  }
+
+  final IOWebSocketChannel ws;
+  late final StreamIterator<Envelope> it;
+  int _id = 0;
+
+  void send(String type, [Map<String, Object?> payload = const {}]) =>
+      ws.sink.add(
+        jsonEncode(
+          Envelope(
+            type: type,
+            id: 'c${_id++}',
+            ts: 0,
+            payload: payload,
+          ).toJson(),
+        ),
+      );
+
+  /// Next message of [type], skipping others.
+  Future<Envelope> next(String type) async {
+    while (await it.moveNext().timeout(const Duration(seconds: 5))) {
+      if (it.current.type == type) return it.current;
+    }
+    throw StateError('Stream closed');
+  }
+
+  void auth(
+    String user, {
+    bool muted = false,
+    int? queueCooldownUntil,
+    Set<String> features = const {},
+  }) => send(MessageType.auth, {
+    if (features.isNotEmpty) 'features': features.toList(),
+    'ticket': Ticket.sign(
+      Ticket(
+        userId: user,
+        name: user,
+        expiresAt: DateTime.now().millisecondsSinceEpoch ~/ 1000 + 60,
+        muted: muted,
+        queueCooldownUntil: queueCooldownUntil,
+      ),
+      secret,
+    ),
+  });
+}
+
+void main() {
+  late HttpServer server;
+  late Hub hub;
+  late MemoryResultSink results;
+
+  setUp(() async {
+    results = MemoryResultSink();
+    hub = Hub(ticketSecret: secret, results: results);
+    server = await io.serve(buildHandler(hub), InternetAddress.loopbackIPv4, 0);
+  });
+
+  tearDown(() async {
+    hub.dispose();
+    await server.close(force: true);
+  });
+
+  test('health check', () async {
+    final res = await http.get(
+      Uri.parse('http://localhost:${server.port}/healthz'),
+    );
+    expect(res.statusCode, 200);
+    expect(res.body, 'ok');
+  });
+
+  test('ping, bad frames and unauthenticated intents', () async {
+    final c = Client(server.port);
+    c.send(MessageType.ping);
+    expect((await c.next(MessageType.pong)).id, 'c0');
+    c.ws.sink.add('garbage');
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.badRequest,
+    );
+    c.send(MessageType.gameRoll);
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.unauthorized,
+    );
+    c.send(MessageType.auth, {'ticket': 'forged.ticket'});
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.unauthorized,
+    );
+    c.auth('u1');
+    expect((await c.next(MessageType.hello)).payload['userId'], 'u1');
+    c.send(MessageType.gameRoll);
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.notInMatch,
+    );
+    c.send(MessageType.queueJoin, {'variant': 'x'});
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.badRequest,
+    );
+    await c.ws.sink.close();
+  });
+
+  test(
+    'two players are matched and play on the authoritative server',
+    () async {
+      final a = Client(server.port)..auth('alice');
+      final b = Client(server.port)..auth('bob');
+      await a.next(MessageType.hello);
+      await b.next(MessageType.hello);
+      const join = QueueJoinPayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+        mode: QueueMode.casual,
+      );
+      a.send(MessageType.queueJoin, join.toJson());
+      b.send(MessageType.queueJoin, join.toJson());
+      final fa = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      final fb = MatchFoundPayload.fromJson(
+        (await b.next(MessageType.matchFound)).payload,
+      );
+      expect(fa.matchId, fb.matchId);
+      expect(fa.you, fb.you.opponent);
+      a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+      b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+      GameStatePayload s;
+      do {
+        s = GameStatePayload.fromJson(
+          (await a.next(MessageType.gameState)).payload,
+        );
+      } while (s.state.phase == GamePhase.opening);
+      // Short Nard: the opening dice are played (SN-02).
+      expect(s.state.phase, GamePhase.awaitingMove);
+      final mover = s.state.turn == fa.you ? a : b;
+      final turn = s.state.legalTurns.first;
+      for (final m in turn.moves) {
+        mover.send(
+          MessageType.gameMove,
+          MovePayload(m.from, m.to, die: m.die).toJson(),
+        );
+      }
+      mover.send(MessageType.gameConfirmTurn);
+      do {
+        s = GameStatePayload.fromJson(
+          (await a.next(MessageType.gameState)).payload,
+        );
+      } while (s.state.phase == GamePhase.awaitingMove);
+      expect(s.state.phase, GamePhase.awaitingRoll);
+      expect(s.record.actions.whereType<PlayTurn>(), hasLength(1));
+      // Reconnect: a new connection takes over and gets the state again.
+      final loser = s.state.turn == fa.you ? a : b;
+      final user = loser == a ? 'alice' : 'bob';
+      final again = Client(server.port)..auth(user);
+      await again.next(MessageType.hello);
+      final resumed = GameStatePayload.fromJson(
+        (await again.next(MessageType.gameState)).payload,
+      );
+      expect(resumed.matchId, fa.matchId);
+      again.send(
+        MessageType.gameResign,
+        const ResignPayload(WinKind.single).toJson(),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+      expect(results.results.single.reason, MatchEndReason.resigned);
+      expect(hub.activeMatches, 0);
+      for (final c in [a, b, again]) {
+        await c.ws.sink.close();
+      }
+    },
+  );
+
+  test('private room by code, spectator, presence and emotes', () async {
+    final a = Client(server.port)..auth('alice');
+    final b = Client(server.port)..auth('bob');
+    final c = Client(server.port)..auth('carol');
+    for (final x in [a, b, c]) {
+      await x.next(MessageType.hello);
+    }
+    a.send(
+      MessageType.roomCreate,
+      const RoomCreatePayload(
+        variant: Variant.longNard,
+        matchLength: 1,
+      ).toJson(),
+    );
+    final code =
+        RoomCodePayload.fromJson(
+          (await a.next(MessageType.roomCreated)).payload,
+        ).code;
+    expect(code, matches(RegExp(r'^[A-Z2-9]{6}$')));
+    b.send(MessageType.roomJoin, {'code': 'ZZZZZZ'});
+    expect(
+      (await b.next(MessageType.error)).payload['code'],
+      ErrorCode.notInMatch,
+    );
+    b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+    final found = MatchFoundPayload.fromJson(
+      (await a.next(MessageType.matchFound)).payload,
+    );
+    expect(found.mode, QueueMode.casual);
+    expect(found.variant, Variant.longNard);
+    await b.next(MessageType.matchFound);
+    // Carol finds Alice's match and watches it.
+    c.send(MessageType.presenceQuery, {
+      'userIds': ['alice', 'bob', 'nobody'],
+    });
+    final presence = PresencePayload.fromJson(
+      (await c.next(MessageType.presence)).payload,
+    );
+    expect(presence.matches, {'alice': found.matchId, 'bob': found.matchId});
+    c.send(MessageType.spectateJoin, {'matchId': found.matchId});
+    final watched = GameStatePayload.fromJson(
+      (await c.next(MessageType.gameState)).payload,
+    );
+    expect(watched.matchId, found.matchId);
+    // Emotes reach the opponent and spectators; free text is refused.
+    a.send(MessageType.chatEmote, const EmotePayload('good_luck').toJson());
+    final heard = EmotePayload.fromJson(
+      (await b.next(MessageType.chatEmote)).payload,
+    );
+    expect((heard.id, heard.from), ('good_luck', found.you));
+    expect(
+      EmotePayload.fromJson((await c.next(MessageType.chatEmote)).payload).id,
+      'good_luck',
+    );
+    a.send(MessageType.chatEmote, {'id': 'some insult'});
+    expect(
+      (await a.next(MessageType.error)).payload['code'],
+      ErrorCode.badRequest,
+    );
+    // Spectators cannot act.
+    c.send(MessageType.gameRoll);
+    expect(
+      (await c.next(MessageType.error)).payload['code'],
+      ErrorCode.notInMatch,
+    );
+    c.send(MessageType.spectateLeave);
+    for (final x in [a, b, c]) {
+      await x.ws.sink.close();
+    }
+  });
+
+  test('muted players\' emotes are dropped (ADR-042)', () async {
+    final a = Client(server.port)..auth('alice', muted: true);
+    final b = Client(server.port)..auth('bob');
+    for (final x in [a, b]) {
+      await x.next(MessageType.hello);
+    }
+    a.send(
+      MessageType.roomCreate,
+      const RoomCreatePayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+      ).toJson(),
+    );
+    final code =
+        RoomCodePayload.fromJson(
+          (await a.next(MessageType.roomCreated)).payload,
+        ).code;
+    b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+    final found = MatchFoundPayload.fromJson(
+      (await b.next(MessageType.matchFound)).payload,
+    );
+    await a.next(MessageType.matchFound);
+    // Alice's emote never arrives; Bob's (sent after it) does, to both.
+    a.send(MessageType.chatEmote, const EmotePayload('good_luck').toJson());
+    b.send(MessageType.chatEmote, const EmotePayload('well_played').toJson());
+    final heard = EmotePayload.fromJson(
+      (await b.next(MessageType.chatEmote)).payload,
+    );
+    expect((heard.id, heard.from), ('well_played', found.you));
+    final echoed = EmotePayload.fromJson(
+      (await a.next(MessageType.chatEmote)).payload,
+    );
+    expect(echoed.id, 'well_played');
+    for (final x in [a, b]) {
+      await x.ws.sink.close();
+    }
+  });
+
+  test('a queue cooldown refuses matchmaking until it ends', () async {
+    final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final a = Client(server.port)..auth('alice', queueCooldownUntil: now + 600);
+    await a.next(MessageType.hello);
+    const join = QueueJoinPayload(
+      variant: Variant.shortNard,
+      matchLength: 1,
+      mode: QueueMode.ranked,
+    );
+    a.send(MessageType.queueJoin, join.toJson());
+    final error = await a.next(MessageType.error);
+    expect(error.payload['code'], ErrorCode.queueCooldown);
+    expect(error.payload['message'], '${now + 600}');
+    // Private rooms stay open.
+    a.send(
+      MessageType.roomCreate,
+      const RoomCreatePayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+      ).toJson(),
+    );
+    await a.next(MessageType.roomCreated);
+    // An expired cooldown no longer applies.
+    final b = Client(server.port)..auth('bob', queueCooldownUntil: now - 1);
+    await b.next(MessageType.hello);
+    b.send(MessageType.queueJoin, join.toJson());
+    b.send(MessageType.queueLeave);
+    b.send(MessageType.ping);
+    final seen = <String>[];
+    while (await b.it.moveNext().timeout(const Duration(seconds: 5))) {
+      seen.add(b.it.current.type);
+      if (b.it.current.type == MessageType.pong) break;
+    }
+    expect(seen, isNot(contains(MessageType.error)));
+    for (final x in [a, b]) {
+      await x.ws.sink.close();
+    }
+  });
+
+  group('game.state deltas (ADR-048)', () {
+    /// The next `game.state` payload of [c].
+    Future<Map<String, Object?>> nextState(Client c) async =>
+        (await c.next(MessageType.gameState)).payload;
+
+    test('announced clients get deltas; old clients and resyncs get full '
+        'states', () async {
+      const deltas = {ProtocolFeature.stateDelta};
+      final a = Client(server.port)..auth('alice', features: deltas);
+      final b = Client(server.port)..auth('bob'); // an old client
+      final c = Client(server.port)..auth('carol', features: deltas);
+      final hello = await a.next(MessageType.hello);
+      expect(hello.payload['features'], [ProtocolFeature.stateDelta]);
+      expect(
+        (await b.next(MessageType.hello)).payload.containsKey('features'),
+        isFalse,
+      );
+      await c.next(MessageType.hello);
+      a.send(
+        MessageType.roomCreate,
+        const RoomCreatePayload(
+          variant: Variant.shortNard,
+          matchLength: 1,
+        ).toJson(),
+      );
+      final code =
+          RoomCodePayload.fromJson(
+            (await a.next(MessageType.roomCreated)).payload,
+          ).code;
+      b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+      final found = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      await b.next(MessageType.matchFound);
+      final syncA = GameStateSync();
+      final syncC = GameStateSync();
+      // The first state of a game is full for everyone.
+      final firstA = await nextState(a);
+      expect(firstA.containsKey('record'), isTrue);
+      syncA.accept(GameStateFrame.fromJson(firstA));
+      c.send(MessageType.spectateJoin, {'matchId': found.matchId});
+      final joined = await nextState(c);
+      expect(joined.containsKey('record'), isTrue, reason: 'spectator join');
+      syncC.accept(GameStateFrame.fromJson(joined));
+
+      a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+      b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+      GameStatePayload? s;
+      final fromB = <Map<String, Object?>>[];
+      var last = <String, Object?>{};
+      while (s == null || s.state.phase == GamePhase.opening) {
+        // Seats connecting at the start each get the (empty) full state.
+        last = await nextState(a);
+        s = syncA.accept(GameStateFrame.fromJson(last)) ?? s;
+      }
+      // The opening roll came as a delta.
+      expect(last.containsKey('delta'), isTrue);
+      expect(last.containsKey('record'), isFalse);
+      // Every frame the old client got is full, and they agree.
+      while (fromB.isEmpty ||
+          GameStatePayload.fromJson(fromB.last).seq < s.seq) {
+        fromB.add(await nextState(b));
+      }
+      expect(fromB.every((f) => f.containsKey('record')), isTrue);
+      expect(
+        GameStatePayload.fromJson(fromB.last).record.toJson(),
+        s.record.toJson(),
+      );
+      // The spectator follows by deltas too.
+      GameStatePayload? watched = syncC.current;
+      while (watched!.seq < s.seq) {
+        final frame = await nextState(c);
+        expect(frame.containsKey('delta'), isTrue);
+        watched = syncC.accept(GameStateFrame.fromJson(frame)) ?? watched;
+      }
+      expect(watched.record.toJson(), s.record.toJson());
+
+      // game.sync: a full state again, for the player and the spectator.
+      a.send(MessageType.gameSync, {'matchId': found.matchId});
+      final resent = await nextState(a);
+      expect(resent.containsKey('record'), isTrue);
+      expect(GameStatePayload.fromJson(resent).seq, s.seq);
+      c.send(MessageType.gameSync, {'matchId': found.matchId});
+      expect((await nextState(c)).containsKey('record'), isTrue);
+      c.send(MessageType.gameSync, {'matchId': 'other'});
+      expect(
+        (await c.next(MessageType.error)).payload['code'],
+        ErrorCode.notInMatch,
+      );
+
+      // Reconnect: the new socket starts from a full state.
+      final again = Client(server.port)..auth('alice', features: deltas);
+      await again.next(MessageType.hello);
+      expect((await nextState(again)).containsKey('record'), isTrue);
+      for (final x in [a, b, c, again]) {
+        await x.ws.sink.close();
+      }
+    });
+  });
+
+  group('time controls (ADR-044)', () {
+    Future<(MatchFoundPayload, GameStatePayload)> start(
+      Client a,
+      Client b,
+    ) async {
+      final found = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      await b.next(MessageType.matchFound);
+      a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+      b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+      final state = GameStatePayload.fromJson(
+        (await a.next(MessageType.gameState)).payload,
+      );
+      return (found, state);
+    }
+
+    test('the queue sets the room clock; controls never mix', () async {
+      final a = Client(server.port)..auth('alice');
+      final b = Client(server.port)..auth('bob');
+      final c = Client(server.port)..auth('carol');
+      for (final x in [a, b, c]) {
+        await x.next(MessageType.hello);
+      }
+      const join = QueueJoinPayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+        mode: QueueMode.casual,
+      );
+      a.send(
+        MessageType.queueJoin,
+        join.copyWith(timeControl: TimeControl.blitz).toJson(),
+      );
+      c.send(MessageType.queueJoin, join.toJson());
+      b.send(
+        MessageType.queueJoin,
+        join.copyWith(timeControl: TimeControl.blitz).toJson(),
+      );
+      final (found, state) = await start(a, b);
+      expect(found.clock.reserveMs, 60000);
+      expect(found.clock.delayMs, 8000);
+      expect(state.clock.whiteMs, 60000);
+      expect(state.clock.blackMs, 60000);
+      expect(hub.matchmaker.isQueued('carol'), isTrue);
+      var s = state;
+      while (s.state.phase == GamePhase.opening) {
+        s = GameStatePayload.fromJson(
+          (await a.next(MessageType.gameState)).payload,
+        );
+      }
+      a.send(MessageType.gameResign, {'kind': 'single'});
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+      expect(results.results.single.timeControl, TimeControl.blitz);
+      // Unknown controls are refused.
+      a.send(MessageType.queueJoin, {...join.toJson(), 'timeControl': 'daily'});
+      expect(
+        (await a.next(MessageType.error)).payload['code'],
+        ErrorCode.badRequest,
+      );
+      for (final x in [a, b, c]) {
+        await x.ws.sink.close();
+      }
+    });
+
+    test('a private room plays the clock it was created with', () async {
+      final a = Client(server.port)..auth('alice');
+      final b = Client(server.port)..auth('bob');
+      for (final x in [a, b]) {
+        await x.next(MessageType.hello);
+      }
+      a.send(
+        MessageType.roomCreate,
+        const RoomCreatePayload(
+          variant: Variant.shortNard,
+          matchLength: 1,
+          timeControl: TimeControl.classic,
+        ).toJson(),
+      );
+      final code =
+          RoomCodePayload.fromJson(
+            (await a.next(MessageType.roomCreated)).payload,
+          ).code;
+      b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+      final (found, state) = await start(a, b);
+      expect(found.clock.reserveMs, 300000);
+      expect(found.clock.delayMs, 15000);
+      expect(state.clock.whiteMs, 300000);
+      for (final x in [a, b]) {
+        await x.ws.sink.close();
+      }
+    });
+
+    test(
+      'the guest plays the host room clock, whatever it queued for',
+      () async {
+        final a = Client(server.port)..auth('alice');
+        final b = Client(server.port)..auth('bob');
+        for (final x in [a, b]) {
+          await x.next(MessageType.hello);
+        }
+        a.send(
+          MessageType.roomCreate,
+          const RoomCreatePayload(
+            variant: Variant.longNard,
+            matchLength: 3,
+            timeControl: TimeControl.blitz,
+          ).toJson(),
+        );
+        final code =
+            RoomCodePayload.fromJson(
+              (await a.next(MessageType.roomCreated)).payload,
+            ).code;
+        // The joiner's own queue preference does not matter: the room wins.
+        b.send(
+          MessageType.queueJoin,
+          const QueueJoinPayload(
+            variant: Variant.shortNard,
+            matchLength: 1,
+            mode: QueueMode.casual,
+            timeControl: TimeControl.classic,
+          ).toJson(),
+        );
+        b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+        final hostFound = MatchFoundPayload.fromJson(
+          (await a.next(MessageType.matchFound)).payload,
+        );
+        final guestFound = MatchFoundPayload.fromJson(
+          (await b.next(MessageType.matchFound)).payload,
+        );
+        for (final found in [hostFound, guestFound]) {
+          expect(found.variant, Variant.longNard);
+          expect(found.matchLength, 3);
+          expect(found.clock.reserveMs, TimeControl.blitz.clock.reserveMs);
+          expect(found.clock.delayMs, TimeControl.blitz.clock.delayMs);
+        }
+        a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+        b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+        final state = GameStatePayload.fromJson(
+          (await b.next(MessageType.gameState)).payload,
+        );
+        expect(state.clock.whiteMs, TimeControl.blitz.clock.reserveMs);
+        expect(state.clock.blackMs, TimeControl.blitz.clock.reserveMs);
+        for (final x in [a, b]) {
+          await x.ws.sink.close();
+        }
+      },
+    );
+
+    test('the bot fallback keeps the chosen control', () async {
+      final quick = Hub(
+        ticketSecret: secret,
+        results: results,
+        botAfter: Duration.zero,
+      );
+      final s = await io.serve(
+        buildHandler(quick),
+        InternetAddress.loopbackIPv4,
+        0,
+      );
+      final a = Client(s.port)..auth('alice');
+      await a.next(MessageType.hello);
+      a.send(
+        MessageType.queueJoin,
+        const QueueJoinPayload(
+          variant: Variant.shortNard,
+          matchLength: 1,
+          mode: QueueMode.casual,
+          timeControl: TimeControl.classic,
+        ).toJson(),
+      );
+      final found = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      expect(found.white.bot || found.black.bot, isTrue);
+      expect(found.clock.reserveMs, TimeControl.classic.clock.reserveMs);
+      expect(found.clock.delayMs, TimeControl.classic.clock.delayMs);
+      await a.ws.sink.close();
+      quick.dispose();
+      await s.close(force: true);
+    });
+  });
+}

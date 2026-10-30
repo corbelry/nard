@@ -1,0 +1,40 @@
+<?php
+
+return [
+    // Shared with the game server, which verifies tickets (docs/PROTOCOL.md).
+    'ticket_secret' => env('GAME_TICKET_SECRET', ''),
+    'ticket_ttl' => 300,
+
+    // 15.3: an account is deleted this many days after the request.
+    'deletion_grace_days' => 30,
+
+    // Shown on the banned screen and the web deletion page (QUESTIONS #41;
+    // the owner confirms the mailbox before release).
+    'support_email' => env('SUPPORT_EMAIL', 'support@nardarena.app'),
+
+    // Where the API pushes tournament pairings (signed with the same secret).
+    'game_server_url' => env('GAME_SERVER_URL', ''),
+
+    // Proxies whose X-Forwarded-For is trusted ("*" = the immediate peer,
+    // or a comma-separated IP/CIDR list); the ingress in Kubernetes.
+    'trusted_proxies' => env('TRUSTED_PROXIES', ''),
+
+    'login_code_ttl' => 600,
+    'login_code_attempts' => 5,
+    // Per address, across codes and IPs (security review 2026-10-30): codes
+    // mailed per hour, and wrong guesses per day before the address locks.
+    'login_code_hourly_issues' => 5,
+    'login_code_daily_failures' => 10,
+
+    // Apple / Google sign-in stay off until the owner adds keys (ADR-030).
+    'providers' => [
+        'apple' => (bool) env('APPLE_SIGNIN_ENABLED', false),
+        'google' => (bool) env('GOOGLE_SIGNIN_ENABLED', false),
+    ],
+
+    'rating' => [
+        'initial' => 1500,
+    ],
+
+    'variants' => ['shortNard', 'longNard'],
+];

@@ -1,0 +1,225 @@
+<!-- @dsCard group="Game" viewport="410x864" name="GameScreen" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=Noto+Serif+Display:ital,wght@0,400;0,600;0,700;1,500&display=swap"></helmet>
+<div style="width:{{ sw }}px;height:{{ sh }}px;border-radius:50px;overflow:hidden;position:relative;flex:none;background:{{ P.bg }};color:{{ P.text }};font-family:{{ P.ui }};box-shadow:0 0 0 10px #0c0b0b,0 0 0 11px #3a3633,0 40px 80px rgba(0,0,0,.35)">
+  <div style="position:absolute;left:0;right:0;top:0;height:300px;background:{{ P.pattern }};pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000,transparent);mask-image:linear-gradient(180deg,#000,transparent)"></div>
+
+  <sc-if value="{{ portrait }}" hint-placeholder-val="{{ true }}">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column">
+    <div style="height:50px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:4px 32px 0 40px;font:600 15px/1 'IBM Plex Sans',sans-serif;position:relative">
+      <span>9:41</span>
+      <div style="position:absolute;left:50%;top:11px;width:120px;height:34px;margin-left:-60px;border-radius:20px;background:#000"></div>
+      <div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border-radius:2px;background:currentColor;opacity:.9"></div><div style="width:25px;height:12px;border-radius:4px;border:1px solid currentColor;padding:1.5px;box-sizing:border-box;opacity:.85"><div style="width:72%;height:100%;border-radius:1.5px;background:currentColor"></div></div></div>
+    </div>
+    <div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 14px">
+      <div style="width:42px;height:42px;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;align-items:center;justify-content:center;color:{{ P.text }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+        <span style="font-size:11px;line-height:13px;color:{{ P.dim }};letter-spacing:.06em;text-transform:uppercase;font-weight:500">{{ modeLabel }}</span>
+        <span style="font:600 22px/24px {{ P.display }};font-variant-numeric:tabular-nums;letter-spacing:.02em">{{ score }}</span>
+      </div>
+      <div style="width:42px;height:42px;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;align-items:center;justify-content:center;color:{{ P.brass }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+    </div>
+    <div style="padding:6px 10px 0;flex:none"><dc-import name="PlayerCard" pl="{{ opp }}" pal="{{ P }}" layout="row" hint-size="100%,66px"></dc-import></div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;min-height:0">
+      <div style="height:26px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;line-height:16px">
+        <sc-if value="{{ P.orn }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:5px"><div style="width:28px;height:1px;background:{{ P.line }}"></div><div style="width:5px;height:5px;transform:rotate(45deg);background:{{ P.brass }};opacity:.7"></div></div></sc-if>
+        <div style="width:7px;height:7px;border-radius:50%;background:{{ toneColor }};box-shadow:0 0 8px {{ toneColor }}"></div>
+        <span style="font-weight:600;color:{{ toneText }};text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">{{ banner.t }}</span>
+        <span style="color:{{ P.dim }}">{{ banner.s }}</span>
+        <sc-if value="{{ P.orn }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:5px"><div style="width:5px;height:5px;transform:rotate(45deg);background:{{ P.brass }};opacity:.7"></div><div style="width:28px;height:1px;background:{{ P.line }}"></div></div></sc-if>
+      </div>
+      <div style="position:relative;display:flex;justify-content:center">
+        <dc-import name="Board" theme="{{ P.board }}" w="{{ bw }}" h="{{ bh }}" pos="{{ s.pos }}" hl="{{ s.hl }}" sel="{{ s.sel }}" last-from="{{ s.lastFrom }}" last-to="{{ s.lastTo }}" dice="{{ s.dice }}" dice-side="{{ s.diceSide }}" dice-state="{{ s.diceState }}" cube="{{ s.cube }}" hide-cube="{{ s.long }}" bar-me="{{ s.barMe }}" off-me="{{ s.offMe }}" hint-size="378px,354px"></dc-import>
+        <sc-if value="{{ ovNoMoves }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:250px;padding:14px 18px;border-radius:{{ P.r }}px;background:{{ P.sheetBg }};box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 0 0 1px {{ P.line }};display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center">
+            <span style="font:600 17px/22px {{ P.display }}">Mümkün gediş yoxdur</span>
+            <span style="font-size:13px;line-height:18px;color:{{ P.dim }}">5 – 5 · bar bağlıdır. Növbə 2 saniyəyə rəqibə keçir.</span>
+            <div style="width:100%;height:3px;border-radius:2px;background:{{ P.line }};overflow:hidden"><div style="width:60%;height:100%;background:{{ P.brass }}"></div></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ ovReconnect }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:270px;padding:14px 18px;border-radius:{{ P.r }}px;background:{{ P.sheetBg }};box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 0 0 1px {{ P.line }};display:flex;gap:14px;align-items:center">
+            <div style="width:26px;height:26px;flex:none;border-radius:50%;border:2.5px solid {{ P.line }};border-top-color:{{ P.brass }};box-sizing:border-box"></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600;font-size:15px;line-height:19px">Kerem_TR yenidən qoşulur…</span><span style="font-size:12px;line-height:16px;color:{{ P.dim }};font-variant-numeric:tabular-nums">0:42 qaldı · vaxt bitsə, qələbə sənindir</span></div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <div style="padding:0 10px 10px;flex:none"><dc-import name="PlayerCard" pl="{{ me }}" pal="{{ P }}" layout="row" hint-size="100%,66px"></dc-import></div>
+    <div style="height:62px;flex:none;display:flex;gap:10px;padding:0 16px">
+      <div style="width:66px;flex:none;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:{{ undoOp }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"></path><path d="M4 9h11a5 5 0 0 1 0 10h-3"></path></svg>
+        <span style="font-size:11px;line-height:12px;color:{{ P.dim }}">Geri al</span>
+      </div>
+      <div style="flex:1;border-radius:{{ P.rb }}px;background:{{ pr.bg }};color:{{ pr.color }};box-shadow:{{ pr.shadow }};border:{{ pr.border }};transform:{{ pr.transform }};display:flex;align-items:center;justify-content:center;gap:10px;box-sizing:border-box">
+        <span style="font:600 17px/20px {{ P.btnFont }};text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">{{ s.prim.l }}</span>
+        <span style="font-size:13px;line-height:16px;opacity:.75;font-variant-numeric:tabular-nums">{{ s.prim.s }}</span>
+      </div>
+      <sc-if value="{{ showCube }}" hint-placeholder-val="{{ true }}">
+        <div style="width:66px;flex:none;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:{{ cubeOp }}">
+          <div style="width:20px;height:20px;border-radius:4px;border:2px solid currentColor;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font:700 9px/1 'IBM Plex Sans',sans-serif">2</div>
+          <span style="font-size:11px;line-height:12px;color:{{ P.dim }}">İkiqat</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ s.long }}" hint-placeholder-val="{{ false }}">
+        <div style="width:66px;flex:none;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"></path></svg>
+          <span style="font-size:11px;line-height:12px;color:{{ P.dim }}">Söhbət</span>
+        </div>
+      </sc-if>
+    </div>
+    <div style="height:34px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:134px;height:5px;border-radius:3px;background:{{ P.text }};opacity:.85"></div></div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ landscape }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;display:flex;gap:14px;padding:14px 18px 14px 50px">
+    <div style="width:158px;flex:none;display:flex;flex-direction:column;justify-content:space-between;gap:10px">
+      <dc-import name="PlayerCard" pl="{{ opp }}" pal="{{ P }}" layout="side" hint-size="158px,104px"></dc-import>
+      <div style="display:flex;flex-direction:column;gap:6px;padding:0 4px">
+        <span style="font-size:10px;line-height:12px;color:{{ P.dim }};letter-spacing:.06em;text-transform:uppercase;font-weight:500">{{ modeLabel }}</span>
+        <span style="font:600 24px/26px {{ P.display }};font-variant-numeric:tabular-nums">{{ score }}</span>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;line-height:15px"><div style="width:6px;height:6px;flex:none;border-radius:50%;background:{{ toneColor }};box-shadow:0 0 8px {{ toneColor }}"></div><span style="font-weight:600;color:{{ toneText }};text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">{{ banner.t }}</span></div>
+      </div>
+      <dc-import name="PlayerCard" pl="{{ me }}" pal="{{ P }}" layout="side" hint-size="158px,104px"></dc-import>
+    </div>
+    <div style="flex:1;min-width:0;position:relative;display:flex;align-items:center;justify-content:center">
+      <dc-import name="Board" theme="{{ P.board }}" w="{{ bw }}" h="{{ bh }}" pos="{{ s.pos }}" hl="{{ s.hl }}" sel="{{ s.sel }}" last-from="{{ s.lastFrom }}" last-to="{{ s.lastTo }}" dice="{{ s.dice }}" dice-side="{{ s.diceSide }}" dice-state="{{ s.diceState }}" cube="{{ s.cube }}" hide-cube="{{ s.long }}" bar-me="{{ s.barMe }}" off-me="{{ s.offMe }}" hint-size="480px,345px"></dc-import>
+      <sc-if value="{{ ovNoMoves }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:250px;padding:14px 18px;border-radius:{{ P.r }}px;background:{{ P.sheetBg }};box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 0 0 1px {{ P.line }};display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center"><span style="font:600 17px/22px {{ P.display }}">Mümkün gediş yoxdur</span><span style="font-size:13px;line-height:18px;color:{{ P.dim }}">Növbə 2 saniyəyə rəqibə keçir.</span></div>
+      </sc-if>
+      <sc-if value="{{ ovReconnect }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:270px;padding:14px 18px;border-radius:{{ P.r }}px;background:{{ P.sheetBg }};box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 0 0 1px {{ P.line }};display:flex;gap:14px;align-items:center"><div style="width:26px;height:26px;flex:none;border-radius:50%;border:2.5px solid {{ P.line }};border-top-color:{{ P.brass }};box-sizing:border-box"></div><div style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600;font-size:15px;line-height:19px">Kerem_TR yenidən qoşulur…</span><span style="font-size:12px;line-height:16px;color:{{ P.dim }}">0:42 qaldı</span></div></div>
+      </sc-if>
+    </div>
+    <div style="width:96px;flex:none;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;height:44px;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></div>
+        <div style="flex:1;height:44px;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;align-items:center;justify-content:center;color:{{ P.brass }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+      </div>
+      <div style="flex:1"></div>
+      <div style="height:60px;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:{{ undoOp }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"></path><path d="M4 9h11a5 5 0 0 1 0 10h-3"></path></svg><span style="font-size:11px;line-height:12px;color:{{ P.dim }}">Geri al</span></div>
+      <sc-if value="{{ showCube }}" hint-placeholder-val="{{ true }}">
+        <div style="height:60px;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:{{ cubeOp }}"><div style="width:20px;height:20px;border-radius:4px;border:2px solid currentColor;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font:700 9px/1 'IBM Plex Sans',sans-serif">2</div><span style="font-size:11px;line-height:12px;color:{{ P.dim }}">İkiqat</span></div>
+      </sc-if>
+      <div style="height:88px;border-radius:{{ P.rb }}px;background:{{ pr.bg }};color:{{ pr.color }};box-shadow:{{ pr.shadow }};border:{{ pr.border }};transform:{{ pr.transform }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-sizing:border-box;text-align:center">
+        <span style="font:600 15px/18px {{ P.btnFont }};text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">{{ s.prim.l }}</span>
+        <span style="font-size:12px;line-height:14px;opacity:.75;font-variant-numeric:tabular-nums">{{ s.prim.s }}</span>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ lowVignette }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 90px rgba(224,86,108,.38),inset 0 0 0 2px rgba(224,86,108,.5);border-radius:50px"></div>
+  </sc-if>
+
+  <sc-if value="{{ ovCube }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(8,6,5,.6)"></div>
+    <div style="{{ sheetPos }}">
+      <div style="padding:20px;border-radius:{{ P.sheetR }};background:{{ P.sheetBg }};box-shadow:0 -10px 40px rgba(0,0,0,.5),inset 0 0 0 1px {{ P.line }};display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;gap:16px;align-items:center">
+          <div style="width:60px;height:60px;flex:none;border-radius:11px;background:linear-gradient(145deg,#fbf5e8,#ddcdaa);box-shadow:0 6px 14px rgba(0,0,0,.45),inset 0 -3px 4px rgba(0,0,0,.18),0 0 0 2px {{ P.brass }},0 0 26px rgba(232,196,104,.4);display:flex;align-items:center;justify-content:center;font:700 30px/1 'Noto Serif Display',serif;color:#2B1D14">2</div>
+          <div style="display:flex;flex-direction:column;gap:5px;min-width:0">
+            <span style="font:600 19px/24px {{ P.display }};text-wrap:pretty">Kerem_TR ikiqat təklif edir</span>
+            <span style="font-size:13px;line-height:18px;color:{{ P.dim }}">Oyunun dəyəri 1 → 2 xal. Qəbul etsən, kub sənə keçir.</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;line-height:14px;color:{{ P.dim }}"><span>Cavab vaxtı</span><span style="font-variant-numeric:tabular-nums;color:{{ P.text }};font-weight:600">0:14</span></div>
+          <div style="height:4px;border-radius:2px;background:{{ P.line }};overflow:hidden"><div style="width:46%;height:100%;background:{{ P.brass }}"></div></div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div style="flex:1;height:56px;border-radius:{{ P.rb }}px;border:1.5px solid rgba(224,86,108,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#E0566C"><span style="font-weight:600;font-size:16px;line-height:19px;text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">İmtina et</span><span style="font-size:11px;line-height:13px;opacity:.85">−1 xal, oyun bitir</span></div>
+          <div style="flex:1;height:56px;border-radius:{{ P.rb }}px;background:{{ P.prim }};color:{{ P.primText }};box-shadow:{{ P.primShadow }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-weight:600;font-size:16px;line-height:19px;text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">Qəbul et</span><span style="font-size:11px;line-height:13px;opacity:.8">Dəyər 2 xal</span></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ ovWon }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 50%, rgba(201,162,74,.18), rgba(8,6,5,.78) 70%)"></div>
+    <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:318px;padding:22px 22px 20px;border-radius:{{ P.r }}px;background:{{ P.sheetBg }};box-shadow:0 20px 60px rgba(0,0,0,.6),inset 0 0 0 1px {{ P.line }};display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+      <div style="display:flex;align-items:center;gap:8px"><div style="width:44px;height:1px;background:{{ P.brass }};opacity:.6"></div><div style="width:6px;height:6px;transform:rotate(45deg);border:1px solid {{ P.brass }}"></div><div style="width:8px;height:8px;transform:rotate(45deg);background:{{ P.brass }}"></div><div style="width:6px;height:6px;transform:rotate(45deg);border:1px solid {{ P.brass }}"></div><div style="width:44px;height:1px;background:{{ P.brass }};opacity:.6"></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+        <span style="font:600 38px/42px {{ P.display }};letter-spacing:.06em;color:{{ P.brass }}">QƏLƏBƏ</span>
+        <span style="font-size:13px;line-height:16px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(63,181,127,.16);color:#3FB57F">Mars · +2 xal</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;font-variant-numeric:tabular-nums">
+        <span style="font-size:13px;line-height:16px;color:{{ P.dim }}">Elvin</span>
+        <span style="font:600 30px/34px {{ P.display }}">5 – 1</span>
+        <span style="font-size:13px;line-height:16px;color:{{ P.dim }}">Kerem_TR</span>
+      </div>
+      <span style="font-size:12px;line-height:14px;color:{{ P.dim }}">7 xala qədər · matça 2 xal qaldı</span>
+      <div style="display:flex;gap:10px;width:100%">
+        <div style="flex:1;height:50px;border-radius:{{ P.rb }}px;border:1px solid {{ P.line }};display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">Təhlil</div>
+        <div style="flex:1.6;height:50px;border-radius:{{ P.rb }}px;background:{{ P.prim }};color:{{ P.primText }};box-shadow:{{ P.primShadow }};display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;text-transform:{{ P.cap }};letter-spacing:{{ P.ls }}">Növbəti oyun</div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:410,&quot;height&quot;:864},&quot;dir&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;1a&quot;,&quot;1b&quot;,&quot;1c&quot;],&quot;default&quot;:&quot;1a&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;myturn&quot;,&quot;opp&quot;,&quot;rolling&quot;,&quot;cube&quot;,&quot;nomoves&quot;,&quot;lowtime&quot;,&quot;reconnect&quot;,&quot;won&quot;,&quot;longnard&quot;],&quot;default&quot;:&quot;myturn&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;orient&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;portrait&quot;,&quot;landscape&quot;],&quot;default&quot;:&quot;portrait&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const PAL = {
+  '1a': { bg: 'radial-gradient(130% 70% at 50% 46%, #3b2819 0%, #2B1D14 50%, #1b120c 100%)', text: '#F3EBDD', dim: 'rgba(243,235,221,.64)', line: 'rgba(201,162,74,.24)', surface: 'rgba(243,235,221,.06)', brass: '#C9A24A', prim: 'linear-gradient(180deg,#dcb862 0%,#c29a43 55%,#a8822f 100%)', primText: '#231709', primShadow: 'inset 0 1px 0 rgba(255,240,200,.55), 0 6px 18px rgba(201,162,74,.28)', display: "'Noto Serif Display',Georgia,serif", btnFont: "'IBM Plex Sans',sans-serif", ui: "'IBM Plex Sans',system-ui,sans-serif", r: 16, rb: 16, cap: 'none', ls: '0', pattern: 'radial-gradient(80% 60% at 50% 0%, rgba(201,162,74,.12), transparent 70%)', board: 'walnut', clockActiveBg: '#F3EBDD', clockActiveText: '#2B1D14', sheetBg: '#34251a', sheetR: '24px', orn: true },
+  '1b': { bg: '#16181D', text: '#ECE7DE', dim: '#A19D95', line: 'rgba(236,231,222,.10)', surface: '#1F2128', brass: '#C9A24A', prim: '#C9A24A', primText: '#16181D', primShadow: 'none', display: "'IBM Plex Sans Condensed',sans-serif", btnFont: "'IBM Plex Sans Condensed',sans-serif", ui: "'IBM Plex Sans',system-ui,sans-serif", r: 8, rb: 8, cap: 'uppercase', ls: '.08em', pattern: 'transparent', board: 'dark', clockActiveBg: '#C9A24A', clockActiveText: '#16181D', sheetBg: '#202329', sheetR: '12px', orn: false },
+  '1c': { bg: 'linear-gradient(180deg,#24161b 0%,#17121a 50%,#1f1317 100%)', text: '#F3EBDD', dim: 'rgba(243,235,221,.66)', line: 'rgba(212,174,88,.32)', surface: 'rgba(158,27,50,.18)', brass: '#D4AE58', prim: 'linear-gradient(180deg,#b52a45,#9E1B32 60%,#86152a)', primText: '#F8F1E4', primShadow: 'inset 0 0 0 1px rgba(212,174,88,.65), 0 6px 18px rgba(158,27,50,.35)', display: "'Noto Serif Display',Georgia,serif", btnFont: "'Noto Serif Display',Georgia,serif", ui: "'IBM Plex Sans',system-ui,sans-serif", r: 14, rb: 999, cap: 'none', ls: '.01em', pattern: 'repeating-linear-gradient(60deg, rgba(212,174,88,.11) 0 1px, transparent 1px 18px), repeating-linear-gradient(-60deg, rgba(212,174,88,.11) 0 1px, transparent 1px 18px), repeating-linear-gradient(0deg, rgba(212,174,88,.06) 0 1px, transparent 1px 15.6px)', board: 'xatam', clockActiveBg: '#D4AE58', clockActiveText: '#1d1316', sheetBg: '#2a1a20', sheetR: '22px', orn: true }
+};
+const BASE = [[24,1],[13,4],[8,3],[6,4],[5,2],[4,1],[1,-2],[12,-5],[17,-3],[18,-2],[19,-3]];
+const AFTER = [[24,1],[13,2],[10,1],[8,3],[7,1],[6,4],[5,2],[4,1],[1,-2],[12,-5],[17,-3],[18,-2],[19,-3]];
+const NOMOVE = [[13,3],[8,3],[6,5],[5,2],[4,1],[12,-3],[17,-1],[19,-3],[20,-2],[21,-2],[22,-2],[23,-2]];
+const WON = [[12,-2],[17,-3],[19,-4],[20,-3],[22,-3]];
+const LONG = [[24,11],[20,1],[19,1],[16,1],[11,1],[12,-10],[9,-2],[6,-1],[3,-1],[22,-1]];
+const ST = {
+  myturn: { pos: BASE, dice: [6,3], sel: 13, hl: [7,10,4], lastFrom: [12], lastTo: [17,18], turn: 'me', banner: { t: 'Sənin növbən', s: '3 mümkün gediş', tone: 'brass' }, prim: { l: 'Təsdiqlə', s: '0 / 2' }, pm: 'wait', undo: true, clocks: ['3:24','4:02'], delay: [.7,1] },
+  opp: { pos: AFTER, dice: [5,2], diceSide: 'opp', lastFrom: [13], lastTo: [10,7], turn: 'opp', banner: { t: 'Rəqib düşünür', s: 'Zərlər 5 – 2', tone: 'dim' }, prim: { l: 'Zər at', s: '' }, pm: 'off', clocks: ['3:18','3:51'], delay: [1,.45] },
+  rolling: { pos: BASE, dice: [4,1], diceState: 'rolling', lastFrom: [12], lastTo: [17,18], turn: 'me', banner: { t: 'Zərlər atılır', s: '', tone: 'brass' }, prim: { l: 'Zər at', s: '' }, pm: 'pressed', clocks: ['3:24','4:02'], delay: [1,1] },
+  cube: { pos: BASE, cube: 'offer', turn: 'opp', banner: { t: 'İkiqat təklifi', s: 'Kerem_TR-dən', tone: 'brass' }, prim: { l: 'Zər at', s: '' }, pm: 'off', ov: 'cube', clocks: ['3:24','3:58'], delay: [1,1] },
+  nomoves: { pos: NOMOVE, barMe: 1, dice: [5,5], diceState: 'used', turn: 'me', banner: { t: 'Gediş yoxdur', s: 'Bar bağlıdır', tone: 'dim' }, prim: { l: 'Keç', s: '0:02' }, pm: 'wait', ov: 'nomoves', clocks: ['2:51','3:40'], delay: [.9,1] },
+  lowtime: { pos: BASE, dice: [2,1], lastFrom: [12], lastTo: [17,18], turn: 'me', low: true, banner: { t: 'Vaxt azalır', s: '0:09 qaldı', tone: 'danger' }, prim: { l: 'Təsdiqlə', s: '0 / 2' }, pm: 'wait', clocks: ['0:09','2:47'], delay: [0,1] },
+  reconnect: { pos: AFTER, lastFrom: [13], lastTo: [10,7], turn: 'opp', offline: true, banner: { t: 'Oyun dayandırılıb', s: 'Bağlantı kəsildi', tone: 'dim' }, prim: { l: 'Zər at', s: '' }, pm: 'off', ov: 'reconnect', clocks: ['3:18','3:51'], delay: [1,1] },
+  won: { pos: WON, offMe: 15, turn: 'none', banner: { t: 'Oyun bitdi', s: 'Mars', tone: 'ok' }, prim: { l: 'Növbəti oyun', s: '' }, pm: 'on', ov: 'won', score: '5 – 1', clocks: ['2:12','3:05'], delay: [1,1] },
+  longnard: { pos: LONG, long: true, dice: [6,4], sel: 24, hl: [18,20,14], turn: 'me', banner: { t: 'Sənin növbən', s: 'Başdan yalnız bir daş', tone: 'brass' }, prim: { l: 'Təsdiqlə', s: '0 / 2' }, pm: 'wait', undo: true, mode: 'Uzun nərd · 5 xala qədər', score: '2 – 2', clocks: ['4:40','4:31'], delay: [.8,1] }
+};
+class Component extends DCLogic {
+  renderVals() {
+    const dir = this.props.dir || '1c', P = PAL[dir] || PAL['1a'];
+    const st = ST[this.props.state] || ST.myturn;
+    const portrait = (this.props.orient || 'portrait') === 'portrait';
+    let pm = 0, po = 0;
+    st.pos.forEach(([pt, n]) => { if (n > 0) pm += pt * n; else po += (st.long ? (pt <= 12 ? pt + 12 : pt - 12) : 25 - pt) * -n; });
+    pm += (st.barMe || 0) * 25;
+    const s = Object.assign({ hl: [], lastFrom: [], lastTo: [], diceSide: 'me', diceState: 'idle', cube: 'mid', long: false, barMe: 0, offMe: 0 }, st);
+    const tones = { brass: [P.brass, P.brass], dim: ['#8f877b', P.text], danger: ['#E0566C', '#E0566C'], ok: ['#3FB57F', '#3FB57F'] };
+    const [toneColor, toneText] = tones[st.banner.tone] || tones.dim;
+    const prs = {
+      on: { bg: P.prim, color: P.primText, shadow: P.primShadow, border: 'none', transform: 'none' },
+      pressed: { bg: P.prim, color: P.primText, shadow: 'inset 0 3px 8px rgba(0,0,0,.3)', border: 'none', transform: 'scale(.97)' },
+      wait: { bg: 'transparent', color: P.brass, shadow: 'none', border: `1.5px solid ${P.brass}`, transform: 'none' },
+      off: { bg: P.surface, color: P.dim, shadow: 'none', border: `1px solid ${P.line}`, transform: 'none' }
+    };
+    const me = { name: 'Elvin', initials: 'E', flag: 'az', rating: 1842, rank: 'Platin II', rankBg: 'linear-gradient(160deg,#d6f1ee,#6aa9a5)', pip: pm, clock: st.clocks[0], delay: st.delay[0], delayS: 12, active: st.turn === 'me', low: !!st.low, emote: portrait };
+    const opp = { name: 'Kerem_TR', initials: 'K', flag: 'tr', rating: 1867, rank: 'Platin I', rankBg: 'linear-gradient(160deg,#e3f6f3,#7fbab5)', pip: po, clock: st.clocks[1], delay: st.delay[1], delayS: 12, active: st.turn === 'opp', offline: !!st.offline };
+    return {
+      P, s, me, opp, portrait, landscape: !portrait,
+      sw: portrait ? 390 : 844, sh: portrait ? 844 : 390,
+      bw: portrait ? 378 : 480, bh: portrait ? 566 : 460,
+      banner: st.banner, toneColor, toneText, pr: prs[st.pm],
+      modeLabel: st.mode || 'Qısa nərd · 7 xala qədər', score: st.score || '3 – 1',
+      undoOp: st.undo ? 1 : .35, cubeOp: st.turn === 'me' && !st.dice ? 1 : .35, showCube: !st.long,
+      ovCube: st.ov === 'cube', ovNoMoves: st.ov === 'nomoves', ovReconnect: st.ov === 'reconnect', ovWon: st.ov === 'won', lowVignette: !!st.low,
+      sheetPos: portrait ? { position: 'absolute', left: 8, right: 8, bottom: 8 } : { position: 'absolute', left: '50%', top: '50%', width: 380, transform: 'translate(-50%,-50%)' }
+    };
+  }
+}
+</script>
+</body>
+</html>

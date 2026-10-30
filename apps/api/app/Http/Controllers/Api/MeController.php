@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Jobs\SendDataExport;
+use App\Models\GameMatch;
+use App\Models\User;
+use App\Services\AccountBanned;
+use App\Services\TicketSigner;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+/** Profile, account & privacy (8.1, 15.1–15.3) and game tickets. */
+class MeController extends Controller
+{
+    public function show(Request $request): JsonResponse
+    {
+        return response()->json(['user' => $this->user($request)->profile()]);
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'name' => ['sometimes', 'string', 'min:3', 'max:20', 'regex:/^[\pL\pN_]+$/u'],
+            'country' => ['sometimes', 'nullable', 'string', 'size:2', 'alpha'],
+            'avatar' => ['sometimes', 'nullable', 'string', 'max:64'],
+            'locale' => ['sometimes', 'string', 'in:az,en,ru,tr'],
+        ]);
+        if (isset($data['country'])) {
+            $data['country'] = strtoupper($data['country']);
+        }
+        $user = $this->user($request);
+        $user->fill($data)->save();
+
+        return response()->json(['user' => $user->profile()]);
+    }
+
+    /** 15.3: deletes the account; finished matches keep anonymous names. */
+    /** 15.3: schedules deletion after the grace period; signing in cancels it. */
+    public function destroy(Request $request): JsonResponse
+    {
+        $user = $this->user($request);
+
+        return response()->json(['ok' => true, 'deletesAt' => $user->requestDeletion()->toIso8601String()]);
+    }
+
+    /**
+     * 15.2: queues the data export as an e-mailed ZIP (QUESTIONS #17);
+     * guests link an e-mail first.
+     */
+    public function export(Request $request): JsonResponse
+    {
+        $user = $this->user($request);
+        if ($user->email === null) {
+            return response()->json(['code' => 'email_required'], 409);
+        }
+        SendDataExport::dispatch($user->id);
+
+        return response()->json(['email' => $user->email], 202);
+    }
+
+    public function matches(Request $request): JsonResponse
+    {
+        $user = $this->user($request);
+        app()->setLocale($user->locale);
+        $limit = min(100, max(1, (int) $request->query('limit', '30')));
+
+        return response()->json([
+            'matches' => $this->matchesOf($user)->limit($limit)->get()
+                ->map(fn (GameMatch $m) => $m->summary($user->id))->all(),
+        ]);
+    }
+
+    public function match(Request $request, string $id): JsonResponse
+    {
+        $user = $this->user($request);
+        app()->setLocale($user->locale);
+        $match = $this->matchesOf($user)->where('id', $id)->first();
+        if ($match === null) {
+            return response()->json(['code' => 'not_found'], 404);
+        }
+
+        return response()->json(['match' => $match->summary($user->id, true)]);
+    }
+
+    public function ticket(Request $request, TicketSigner $signer): JsonResponse
+    {
+        $now = now()->getTimestamp();
+        $user = $this->user($request);
+        try {
+            $ticket = $signer->sign($user, $now);
+        } catch (AccountBanned) {
+            return response()->json(['code' => 'banned', 'until' => $user->banned_until?->toIso8601String()], 403);
+        }
+
+        return response()->json([
+            'ticket' => $ticket,
+            'expiresAt' => $now + (int) config('nard.ticket_ttl'),
+            // The game server refuses the public queue until then (abandonment).
+            'queueCooldownUntil' => $user->queueCooldownUntil()?->toIso8601String(),
+        ]);
+    }
+
+    /** @return Builder<GameMatch> */
+    private function matchesOf(User $user): Builder
+    {
+        return GameMatch::query()
+            ->where(fn ($q) => $q->where('white_user_id', $user->id)->orWhere('black_user_id', $user->id))
+            ->orderByDesc('ended_at');
+    }
+
+    private function user(Request $request): User
+    {
+        /** @var User $user */
+        $user = $request->user();
+
+        return $user;
+    }
+}

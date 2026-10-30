@@ -1,0 +1,92 @@
+<!-- @dsCard group="Game" viewport="390x90" name="PlayerCard" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<sc-if value="{{ isRow }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:{{ pal.r }}px;background:{{ v.cardBg }};box-shadow:{{ v.cardRing }};font-family:{{ pal.ui }};color:{{ pal.text }}">
+  <div style="position:relative;width:46px;height:46px;flex:none;opacity:{{ v.op }};filter:{{ v.filter }}">
+    <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 210deg,#8a6a22,#E8C468,#a07c30,#E8C468,#8a6a22);box-shadow:{{ v.avGlow }}"></div>
+    <div style="position:absolute;inset:3px;border-radius:50%;background:{{ v.avBg }};display:flex;align-items:center;justify-content:center;font:600 18px/1 'Noto Serif Display',serif;color:#F3EBDD">{{ pl.initials }}</div>
+  </div>
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;opacity:{{ v.op }}">
+    <div style="display:flex;align-items:center;gap:7px;min-width:0">
+      <span style="font-weight:600;font-size:15px;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pl.name }}</span>
+      <div style="width:18px;height:12px;flex:none;border-radius:2px;overflow:hidden;background:{{ v.flagBg }};box-shadow:0 0 0 1px rgba(0,0,0,.3)"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;line-height:14px;color:{{ pal.dim }};font-variant-numeric:tabular-nums;white-space:nowrap">
+      <div style="width:14px;height:16px;flex:none;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:{{ pl.rankBg }}"></div>
+      <span style="color:{{ pal.text }};font-weight:500">{{ pl.rating }}</span>
+      <span>{{ pl.rank }}</span>
+      <span style="opacity:.5">·</span>
+      <span>Pip {{ pl.pip }}</span>
+    </div>
+  </div>
+  <sc-if value="{{ pl.offline }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:none;font-size:11px;line-height:14px;font-weight:600;color:#E0566C;padding:4px 8px;border-radius:999px;background:rgba(224,86,108,.14)">Oflayn</div>
+  </sc-if>
+  <sc-if value="{{ pl.emote }}" hint-placeholder-val="{{ false }}">
+    <div style="width:40px;height:40px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid {{ pal.line }};color:{{ pal.dim }}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 14.5c1 1.3 2.2 2 3.5 2s2.5-.7 3.5-2"></path><path d="M9 9.5h.01M15 9.5h.01"></path></svg>
+    </div>
+  </sc-if>
+  <div style="flex:none;min-width:74px;padding:6px 10px 7px;border-radius:{{ v.clockR }}px;background:{{ v.clockBg }};color:{{ v.clockText }};display:flex;flex-direction:column;align-items:flex-end;gap:4px;box-shadow:{{ v.clockRing }}">
+    <span style="font:600 20px/20px 'IBM Plex Sans',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.01em">{{ pl.clock }}</span>
+    <div style="width:100%;height:3px;border-radius:2px;background:{{ v.delayTrack }};overflow:hidden"><div style="height:100%;width:{{ v.delayW }};background:{{ v.delayFill }}"></div></div>
+  </div>
+</div>
+</sc-if>
+<sc-if value="{{ isSide }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:10px;padding:12px;border-radius:{{ pal.r }}px;background:{{ v.cardBg }};box-shadow:{{ v.cardRing }};font-family:{{ pal.ui }};color:{{ pal.text }}">
+  <div style="display:flex;align-items:center;gap:10px;min-width:0;opacity:{{ v.op }};filter:{{ v.filter }}">
+    <div style="position:relative;width:38px;height:38px;flex:none">
+      <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 210deg,#8a6a22,#E8C468,#a07c30,#E8C468,#8a6a22);box-shadow:{{ v.avGlow }}"></div>
+      <div style="position:absolute;inset:2.5px;border-radius:50%;background:{{ v.avBg }};display:flex;align-items:center;justify-content:center;font:600 15px/1 'Noto Serif Display',serif;color:#F3EBDD">{{ pl.initials }}</div>
+    </div>
+    <div style="min-width:0;display:flex;flex-direction:column;gap:3px">
+      <div style="display:flex;align-items:center;gap:6px;min-width:0"><span style="font-weight:600;font-size:13px;line-height:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ pl.name }}</span><div style="width:16px;height:11px;flex:none;border-radius:2px;background:{{ v.flagBg }}"></div></div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;line-height:13px;color:{{ pal.dim }};font-variant-numeric:tabular-nums;white-space:nowrap"><div style="width:11px;height:13px;flex:none;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:{{ pl.rankBg }}"></div><span style="color:{{ pal.text }}">{{ pl.rating }}</span><span>Pip {{ pl.pip }}</span></div>
+    </div>
+  </div>
+  <div style="padding:7px 10px 8px;border-radius:{{ v.clockR }}px;background:{{ v.clockBg }};color:{{ v.clockText }};display:flex;flex-direction:column;gap:5px;box-shadow:{{ v.clockRing }}">
+    <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 22px/22px 'IBM Plex Sans',sans-serif;font-variant-numeric:tabular-nums">{{ pl.clock }}</span><span style="font-size:11px;line-height:13px;opacity:.75;font-variant-numeric:tabular-nums">+{{ pl.delayS }}s</span></div>
+    <div style="height:3px;border-radius:2px;background:{{ v.delayTrack }};overflow:hidden"><div style="height:100%;width:{{ v.delayW }};background:{{ v.delayFill }}"></div></div>
+  </div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:90},&quot;pl&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;pal&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;row&quot;,&quot;side&quot;],&quot;default&quot;:&quot;row&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const FLAGS = { az: 'linear-gradient(180deg,#00B5E2 0 33.3%,#EF3340 33.3% 66.6%,#509E2F 66.6%)', tr: 'radial-gradient(circle at 42% 50%, #fff 0 22%, transparent 23%), #E30A17', ru: 'linear-gradient(180deg,#fff 0 33.3%,#1C3578 33.3% 66.6%,#E4181C 66.6%)' };
+const DEF_PAL = { r: 16, ui: "'IBM Plex Sans',sans-serif", text: '#F3EBDD', dim: 'rgba(243,235,221,.64)', line: 'rgba(201,162,74,.22)', surface: 'rgba(243,235,221,.055)', brass: '#C9A24A', clockActiveBg: '#F3EBDD', clockActiveText: '#2B1D14' };
+class Component extends DCLogic {
+  renderVals() {
+    const pal = Object.assign({}, DEF_PAL, this.props.pal || {});
+    const pl = Object.assign({ name: 'Elvin', initials: 'E', flag: 'az', rating: 1842, rank: 'Platin II', rankBg: 'linear-gradient(160deg,#d6f1ee,#6aa9a5)', pip: 167, clock: '3:24', delay: 1, delayS: 12 }, this.props.pl || {});
+    const layout = this.props.layout || 'row';
+    const active = !!pl.active, low = !!pl.low, off = !!pl.offline;
+    const v = {
+      cardBg: active ? pal.surface : 'transparent',
+      cardRing: active ? `inset 0 0 0 1px ${pal.line}` : 'none',
+      op: off ? .45 : 1, filter: off ? 'grayscale(1)' : 'none',
+      avGlow: active ? `0 0 0 2px ${pal.brass}33, 0 0 16px ${pal.brass}66` : 'none',
+      avBg: pl.flag === 'tr' ? 'linear-gradient(150deg,#5b2a2a,#2a1414)' : 'linear-gradient(150deg,#2f4a52,#162428)',
+      flagBg: FLAGS[pl.flag] || FLAGS.az,
+      clockBg: low ? '#9E1B32' : active ? pal.clockActiveBg : pal.surface,
+      clockText: low ? '#FBEFEF' : active ? pal.clockActiveText : pal.dim,
+      clockRing: low ? '0 0 0 3px rgba(224,86,108,.3), 0 0 20px rgba(224,86,108,.45)' : 'none',
+      clockR: Math.min(pal.r, 10),
+      delayTrack: low ? 'rgba(255,255,255,.25)' : active ? 'rgba(0,0,0,.15)' : 'rgba(255,255,255,.08)',
+      delayFill: low ? '#FBEFEF' : active ? pal.clockActiveText : pal.dim,
+      delayW: Math.round((pl.delay ?? 1) * 100) + '%'
+    };
+    return { pal, pl, v, isRow: layout === 'row', isSide: layout === 'side' };
+  }
+}
+</script>
+</body>
+</html>

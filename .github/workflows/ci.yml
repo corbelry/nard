@@ -1,0 +1,189 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  dart:
+    name: Dart packages (format, analyze, test, coverage)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The pub workspace contains the Flutter client, so resolve it with the
+      # Flutter SDK (its Dart is 3.7.2).
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.2
+          channel: stable
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed packages apps/game_server
+      - run: dart analyze --fatal-infos
+      - name: nard_core tests + coverage gate (>= 95%)
+        working-directory: packages/nard_core
+        run: |
+          dart run coverage:test_with_coverage
+          dart run tool/check_coverage.dart 95
+      - working-directory: packages/nard_ai
+        run: dart test
+      - working-directory: packages/nard_protocol
+        run: dart test
+      - working-directory: apps/game_server
+        run: dart test
+
+  client:
+    name: Flutter client (format, analyze, l10n, test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.2
+          channel: stable
+      - run: flutter pub get
+      - name: Format (theme is vendored, generated code excluded)
+        run: >
+          dart format --output=none --set-exit-if-changed
+          $(find lib test -name '*.dart' -not -path '*/theme/*'
+          -not -path '*/gen/*' -not -name '*.g.dart')
+      - name: Generated localizations are up to date
+        run: flutter gen-l10n && git diff --exit-code lib/l10n/gen
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
+
+  api:
+    name: Laravel API (pint, phpstan, tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring, dom, intl, pdo_sqlite, pdo_mysql, redis, bcmath, zip
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - run: vendor/bin/pint --test
+      - run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+      - run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan test
+
+  api-mysql:
+    name: Laravel API tests on MySQL 8.4
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: nard_test
+          MYSQL_USER: nard
+          MYSQL_PASSWORD: nard
+          MYSQL_ROOT_PASSWORD: root
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -unard -pnard"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring, dom, intl, pdo_mysql, redis, bcmath, zip
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      # phpunit.xml defaults to SQLite; real environment variables win.
+      - name: Tests against MySQL
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: "3306"
+          DB_DATABASE: nard_test
+          DB_USERNAME: nard
+          DB_PASSWORD: nard
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan test
+
+  helm:
+    name: Helm chart (lint, template, schema)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.16.4
+      - run: helm lint infra/helm/nardarena
+      - run: |
+          helm template nard infra/helm/nardarena --set metrics.serviceMonitor.enabled=true > /tmp/nardarena.yaml
+          docker run --rm -v /tmp:/w ghcr.io/yannh/kubeconform:v0.6.7 -strict -summary -ignore-missing-schemas /w/nardarena.yaml
+
+  docker:
+    name: Docker images build
+    runs-on: ubuntu-latest
+    needs: [dart, client, api, api-mysql]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -f apps/game_server/Dockerfile -t nard-game-server:ci .
+      - run: docker build -t nard-api:ci apps/api
+      # Production API image (ADR-047): FrankenPHP, non-root, read-only root.
+      - run: docker build --target production -t nard-api:prod-ci apps/api
+      - name: Production API image answers /up on a read-only root
+        run: |
+          docker run -d --name api-prod --read-only --user 10001:10001 \
+            --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:mode=1777 --tmpfs /app/storage:mode=1777 \
+            -e APP_KEY="base64:$(head -c 32 /dev/urandom | base64)" \
+            -p 18001:8000 nard-api:prod-ci
+          for i in $(seq 1 30); do
+            curl -fs -o /dev/null localhost:18001/up && exit 0
+            sleep 1
+          done
+          docker logs api-prod
+          exit 1
+
+  e2e:
+    name: End-to-end on docker compose
+    runs-on: ubuntu-latest
+    needs: [dart, api]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.2
+          channel: stable
+      - run: flutter pub get
+      - name: Start the stack
+        run: docker compose -f infra/docker-compose.yml up --build -d --wait
+      - name: Wait for the API
+        run: |
+          for i in $(seq 1 60); do
+            curl -fs localhost:18000/up && break
+            sleep 2
+          done
+      - name: Two guests play a ranked match; ratings and e-mail codes
+        working-directory: apps/game_server
+        run: dart run tool/e2e.dart
+      - name: Readiness and metrics endpoints (ADR-043)
+        run: |
+          curl -fs localhost:18000/readyz
+          curl -fs localhost:18080/readyz
+          curl -fs localhost:18080/metrics | grep -q '^nard_matches_finished_total'
+          curl -fs -H 'Authorization: Bearer local-dev-metrics-token' \
+            localhost:18000/api/v1/internal/metrics | grep -q '^nard_api_users'
+      - name: Load test smoke (2 concurrent matches, docs/LOAD_TEST.md)
+        working-directory: apps/game_server
+        run: dart run tool/load_test.dart --matches 2 --duration 20 --think 200 --ramp 2 --workers 2
+      - if: failure()
+        run: docker compose -f infra/docker-compose.yml logs --tail=200

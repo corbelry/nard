@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nardarena.app/schema/moderation.json",
+  "title": "Moderation",
+  "type": "object",
+  "required": [
+    "userId",
+    "banned",
+    "muted"
+  ],
+  "properties": {
+    "userId": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "banned": {
+      "type": "boolean"
+    },
+    "muted": {
+      "type": "boolean"
+    },
+    "queueCooldownUntil": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  }
+}

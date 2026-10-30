@@ -1,0 +1,46 @@
+{{- if .Values.migrations.enabled }}
+# Runs before the new release's pods (and before this chart's ConfigMap
+# exists on a first install), so its settings are rendered inline.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "nardarena.fullname" . }}-migrate
+  labels:
+    {{- include "nardarena.labels" . | nindent 4 }}
+    app.kubernetes.io/component: migrate
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: {{ .Values.migrations.backoffLimit }}
+  activeDeadlineSeconds: {{ .Values.migrations.activeDeadlineSeconds }}
+  template:
+    metadata:
+      labels:
+        {{- include "nardarena.selector" (list . "migrate") | nindent 8 }}
+    spec:
+      {{- include "nardarena.podCommon" . | nindent 6 }}
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: {{ include "nardarena.apiImage" . }}
+          imagePullPolicy: {{ .Values.images.api.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.containerSecurityContext.api | nindent 12 }}
+          # args, not command: the image's entrypoint prepares storage/.
+          args: ["php", "artisan", "migrate", "--force"]
+          env:
+            {{- range $line := splitList "\n" (include "nardarena.apiConfig" .) }}
+            {{- $kv := splitn ": " 2 $line }}
+            - name: {{ $kv._0 }}
+              value: {{ $kv._1 }}
+            {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secrets.name }}
+          volumeMounts:
+            {{- include "nardarena.apiVolumeMounts" . | nindent 12 }}
+      volumes:
+        {{- include "nardarena.apiVolumes" . | nindent 8 }}
+{{- end }}
