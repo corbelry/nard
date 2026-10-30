@@ -107,6 +107,9 @@ services:
       GAME_TICKET_SECRET: ${GAME_TICKET_SECRET:-local-dev-ticket-secret-change-me-0001}
       # JSON logs; /metrics and /readyz on the same port (ADR-043).
       LOG_LEVEL: info
+      # ADR-045 cap; the load test (docs/LOAD_TEST.md) runs every client
+      # from one address and sets it to 0 (off).
+      WS_MAX_CONNECTIONS_PER_IP: ${WS_MAX_CONNECTIONS_PER_IP:-20}
     ports: ["${NARD_GAME_PORT:-18080}:8080"]
     depends_on:
       redis: { condition: service_healthy }

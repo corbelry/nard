@@ -26,6 +26,7 @@ class MatchRoom {
     this.nextGameDelay = const Duration(seconds: 4),
     this.tournamentId,
     this.timeControl,
+    this.deltas = _noDeltas,
     int Function()? now,
   }) : _now = now ?? (() => DateTime.now().millisecondsSinceEpoch),
        _match = MatchState.start(length: matchLength),
@@ -54,7 +55,13 @@ class MatchRoom {
   /// The control [clock] came from (ADR-044); carried into the
   /// [MatchResult].
   final TimeControl? timeControl;
+
+  /// Whether [side]'s current connection announced
+  /// [ProtocolFeature.stateDelta] (ADR-048); asked at every send.
+  final bool Function(Side side) deltas;
   final int Function() _now;
+
+  static bool _noDeltas(Side _) => false;
 
   MatchState _match;
   late GameState _game;
@@ -114,6 +121,8 @@ class MatchRoom {
 
   void connected(Side side) {
     if (_ended) return;
+    // A new socket holds nothing yet: its next state is a full one.
+    _sent.remove(side);
     _connected[side] = true;
     _reconnectTimers.remove(side)?.cancel();
     _reconnectDeadline.remove(side);
@@ -202,23 +211,39 @@ class MatchRoom {
       send(s, out);
     }
     for (final spectator in _spectators.values) {
-      spectator(out);
+      spectator.sink(out);
     }
   }
 
   // ---- Spectators (6.4) ----------------------------------------------------
 
-  final _spectators = <Object, void Function(Envelope)>{};
+  final _spectators = <Object, _Spectator>{};
 
   int get spectatorCount => _spectators.length;
 
-  /// Adds a read-only viewer keyed by [key] and sends the current state.
-  void addSpectator(Object key, void Function(Envelope) sink) {
-    _spectators[key] = sink;
-    sink(_envelope(MessageType.gameState, stateFor(Side.white).toJson()));
+  /// Adds a read-only viewer keyed by [key] and sends it the full current
+  /// state; later states are deltas when [deltas] (ADR-048).
+  void addSpectator(
+    Object key,
+    void Function(Envelope) sink, {
+    bool deltas = false,
+  }) {
+    _spectators[key] = _Spectator(sink, deltas: deltas);
+    resendSpectator(key);
   }
 
-  void removeSpectator(Object key) => _spectators.remove(key);
+  void removeSpectator(Object key) {
+    _spectators.remove(key);
+    _sent.remove(key);
+  }
+
+  /// Sends spectator [key] the full current state (`game.sync`).
+  void resendSpectator(Object key) {
+    final spectator = _spectators[key];
+    if (spectator == null) return;
+    _sent.remove(key);
+    spectator.sink(_stateFrame(key, Side.white, deltas: false));
+  }
 
   void _requireTurn(Side side, Envelope msg, GamePhase phase) {
     if (_game.phase != phase) {
@@ -475,26 +500,80 @@ class MatchRoom {
     reconnectDeadline: _reconnectDeadline[side.opponent],
   );
 
+  /// Receiver (a [Side] or a spectator key) → what the last state it was
+  /// sent held: the base of its next delta (ADR-048).
+  final _sent = <Object, _Sent>{};
+
   void _broadcast() {
     if (!_started) return;
     _seq++;
+    final frames = <String, Envelope>{};
     for (final side in Side.values) {
-      send(side, _envelope(MessageType.gameState, stateFor(side).toJson()));
+      send(side, _stateFrame(side, side, deltas: deltas(side), cache: frames));
     }
-    if (_spectators.isNotEmpty) {
-      final view = _envelope(
-        MessageType.gameState,
-        stateFor(Side.white).toJson(),
+    for (final e in _spectators.entries) {
+      e.value.sink(
+        _stateFrame(e.key, Side.white, deltas: e.value.deltas, cache: frames),
       );
-      for (final spectator in _spectators.values) {
-        spectator(view);
-      }
     }
   }
 
-  /// Sends the current state to [side] only (after a reconnect).
-  void resend(Side side) =>
-      send(side, _envelope(MessageType.gameState, stateFor(side).toJson()));
+  /// The `game.state` for [receiver] seen from [view]: a delta when it
+  /// takes them and already holds a state of this game, else the full
+  /// state. Frames are shared through [cache] within one broadcast.
+  Envelope _stateFrame(
+    Object receiver,
+    Side view, {
+    required bool deltas,
+    Map<String, Envelope>? cache,
+  }) {
+    final now = _Sent(
+      _gameIndex,
+      _record.actions.length,
+      _clientSeeds.length,
+      _match,
+    );
+    final sent = _sent[receiver];
+    _sent[receiver] = now;
+    final base =
+        deltas &&
+                sent != null &&
+                sent.gameIndex == now.gameIndex &&
+                sent.actions <= now.actions
+            ? sent
+            : null;
+    // Seeds only grow and the score object is replaced when it changes.
+    final withSeeds = base == null || base.seeds != now.seeds;
+    final withMatch = base == null || !identical(base.match, now.match);
+    Envelope build() {
+      final state = stateFor(view);
+      return _envelope(
+        MessageType.gameState,
+        base == null
+            ? state.toJson()
+            : state
+                .deltaSince(
+                  base.actions,
+                  withMatch: withMatch,
+                  withSeeds: withSeeds,
+                )
+                .toJson(),
+      );
+    }
+
+    if (cache == null) return build();
+    final key =
+        base == null
+            ? '${view.name}/full'
+            : '${view.name}/${base.actions}/$withSeeds/$withMatch';
+    return cache[key] ??= build();
+  }
+
+  /// Sends the full current state to [side] only (`game.sync`, ADR-048).
+  void resend(Side side) {
+    _sent.remove(side);
+    send(side, _stateFrame(side, side, deltas: false));
+  }
 
   int _ids = 0;
 
@@ -527,6 +606,26 @@ class MatchRoom {
       t?.cancel();
     }
   }
+}
+
+class _Sent {
+  const _Sent(this.gameIndex, this.actions, this.seeds, this.match);
+
+  final int gameIndex;
+
+  /// Record length.
+  final int actions;
+
+  /// Number of client seeds.
+  final int seeds;
+  final MatchState match;
+}
+
+class _Spectator {
+  _Spectator(this.sink, {required this.deltas});
+
+  final void Function(Envelope) sink;
+  final bool deltas;
 }
 
 class _Refused implements Exception {

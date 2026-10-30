@@ -53,6 +53,9 @@ class _Connection {
   bool closed = false;
   Ticket? user;
 
+  /// Announced [ProtocolFeature.stateDelta] in `auth` (ADR-048).
+  bool stateDeltas = false;
+
   void send(Envelope e) {
     if (closed) return;
     onSend(e);
@@ -444,9 +447,25 @@ class Hub {
         }
         _watching.remove(conn)?.removeSpectator(conn);
         _watching[conn] = room;
-        room.addSpectator(conn, conn.send);
+        room.addSpectator(conn, conn.send, deltas: conn.stateDeltas);
       case MessageType.spectateLeave:
         _watching.remove(conn)?.removeSpectator(conn);
+      // A delta did not fit the client's state: resend the full one of the
+      // match it plays or watches (ADR-048).
+      case MessageType.gameSync:
+        final matchId = msg.payload['matchId'];
+        final watched = _watching[conn];
+        if (seat != null &&
+            !seat.room.isOver &&
+            (matchId == null || matchId == seat.room.matchId)) {
+          seat.room.resend(seat.side);
+        } else if (watched != null &&
+            !watched.isOver &&
+            (matchId == null || matchId == watched.matchId)) {
+          watched.resendSpectator(conn);
+        } else {
+          conn.send(_error(msg.id, ErrorCode.notInMatch));
+        }
       case MessageType.tournamentReady:
         final String matchId;
         try {
@@ -524,6 +543,14 @@ class Hub {
     }
     conn.authDeadline?.cancel();
     conn.user = ticket;
+    // Optional features (ADR-048); a malformed list just enables none.
+    var features = const <String>{};
+    try {
+      features = AuthPayload.fromJson(msg.payload).features;
+    } on ProtocolException {
+      // None enabled.
+    }
+    conn.stateDeltas = features.contains(ProtocolFeature.stateDelta);
     final previous = _online[ticket.userId];
     _online[ticket.userId] = conn;
     if (previous != null && previous != conn) {
@@ -535,7 +562,10 @@ class Hub {
         type: MessageType.hello,
         id: msg.id,
         ts: _now(),
-        payload: {'userId': ticket.userId},
+        payload: {
+          'userId': ticket.userId,
+          if (conn.stateDeltas) 'features': [ProtocolFeature.stateDelta],
+        },
       ),
     );
     final seat = _seats[ticket.userId];
@@ -926,6 +956,11 @@ class Hub {
       timeControl: request.timeControl,
       tournamentId: tournamentId,
       now: _now,
+      // Bots read the room directly; humans per their socket (ADR-048).
+      deltas: (side) {
+        final player = room.player(side);
+        return player.bot || (_online[player.userId]?.stateDeltas ?? false);
+      },
       send: (side, msg) {
         final player = room.player(side);
         if (player.bot) {

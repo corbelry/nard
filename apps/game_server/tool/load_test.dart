@@ -36,7 +36,8 @@ class Config {
         a['workers'] ?? '${min(8, Platform.numberOfProcessors)}',
       ),
       accounts = a['accounts'] ?? '.dart_tool/load_test_accounts.json',
-      json = a['json'];
+      json = a['json'],
+      deltas = a['deltas'] != 'false';
 
   final Uri api;
   final String ws;
@@ -48,6 +49,10 @@ class Config {
   final int workers;
   final String accounts;
   final String? json;
+
+  /// Announce `stateDelta` (ADR-048); `--deltas false` plays as an old
+  /// client that gets full states.
+  final bool deltas;
 }
 
 Future<void> main(List<String> args) async {
@@ -67,7 +72,8 @@ Future<void> main(List<String> args) async {
   stdout.writeln(
     'load test: ${cfg.matches} concurrent matches ($players clients), '
     '${cfg.duration.inSeconds}s, think ${cfg.think.inMilliseconds}ms, '
-    '${cfg.workers} workers',
+    '${cfg.workers} workers, '
+    '${cfg.deltas ? 'state deltas' : 'full states only'}',
   );
   final tokens = await _accounts(cfg, players);
   final before = await _scrape(cfg.metrics);
@@ -92,6 +98,7 @@ Future<void> main(List<String> args) async {
           cfg.duration.inMilliseconds,
           cfg.think.inMilliseconds,
           cfg.ramp.inMilliseconds,
+          cfg.deltas,
         ),
       ),
   ]);
@@ -173,7 +180,8 @@ Future<Map<String, Object>> Function() _job(
   int durationMs,
   int thinkMs,
   int rampMs,
-) => () => _worker(index, tokens, api, ws, durationMs, thinkMs, rampMs);
+  bool deltas,
+) => () => _worker(index, tokens, api, ws, durationMs, thinkMs, rampMs, deltas);
 
 /// Plays with [tokens] until the duration is over and returns raw stats.
 Future<Map<String, Object>> _worker(
@@ -184,6 +192,7 @@ Future<Map<String, Object>> _worker(
   int durationMs,
   int thinkMs,
   int rampMs,
+  bool deltas,
 ) async {
   final stats = Stats();
   final deadline = DateTime.now().millisecondsSinceEpoch + durationMs;
@@ -199,6 +208,7 @@ Future<Map<String, Object>> _worker(
       deadline,
       Duration(milliseconds: thinkMs),
       Random(index * 100000 + i),
+      deltas: deltas,
     );
     clients.add(c);
     // Spread connections over the ramp-up.
@@ -238,6 +248,12 @@ Future<String?> _ticket(Uri api, String token, Stats stats) async {
 class Stats {
   final moveMs = <int>[];
   final pingMs = <int>[];
+
+  /// Size (characters of the JSON frame) of every `game.state` received.
+  final stateBytes = <int>[];
+
+  /// `game.state` frames that were deltas (ADR-048).
+  int stateDeltas = 0;
   final matchMs = <int>[];
   final errors = <String, int>{};
   int connected = 0;
@@ -254,6 +270,8 @@ class Stats {
   Map<String, Object> toJson() => {
     'moveMs': moveMs,
     'pingMs': pingMs,
+    'stateBytes': stateBytes,
+    'stateDeltas': stateDeltas,
     'matchMs': matchMs,
     'errors': errors,
     'connected': connected,
@@ -276,8 +294,9 @@ class SimClient {
     this.stats,
     this.deadline,
     this.think,
-    this.random,
-  ) : bot = HeuristicBot(BotLevel.easy, random: random);
+    this.random, {
+    this.deltas = true,
+  }) : bot = HeuristicBot(BotLevel.easy, random: random);
 
   final String name;
   final String ticket;
@@ -286,7 +305,9 @@ class SimClient {
   final int deadline;
   final Duration think;
   final Random random;
+  final bool deltas;
   final HeuristicBot bot;
+  final _sync = GameStateSync();
   final finished = Completer<void>();
   late final IOWebSocketChannel _socket;
   int _id = 0;
@@ -326,7 +347,13 @@ class SimClient {
       },
       onDone: _finish,
     );
-    _send(MessageType.auth, {'ticket': ticket});
+    _send(
+      MessageType.auth,
+      AuthPayload(
+        ticket,
+        features: {if (deltas) ProtocolFeature.stateDelta},
+      ).toJson(),
+    );
     // Clients still waiting in the queue at the deadline stop.
     Timer(Duration(milliseconds: max(0, deadline - _now)), () {
       if (_side == null) _close();
@@ -383,13 +410,25 @@ class SimClient {
         _side = found.you;
         _seq = -1;
         _actedSeq = -1;
+        _sync.reset();
         _matchStarted = now;
         stats.matchesFound++;
         if (found.white.bot || found.black.bot) stats.botMatches++;
         _send(MessageType.gameSeed, SeedPayload('$name-$now').toJson());
         _armWatchdog();
       case MessageType.gameState:
-        _onState(GameStatePayload.fromJson(msg.payload), now);
+        stats.stateBytes.add(frame.length);
+        final f = GameStateFrame.fromJson(msg.payload);
+        if (f is GameStateDelta) stats.stateDeltas++;
+        final s = _sync.accept(
+          f,
+          onGap: () {
+            // Never expected on one socket: counted, then resynced.
+            stats.error('state_gap');
+            _send(MessageType.gameSync, {'matchId': f.matchId});
+          },
+        );
+        if (s != null) _onState(s, now);
       case MessageType.error:
         stats.error('${msg.payload['code']}');
     }
@@ -534,6 +573,7 @@ void _report(
   final move = all('moveMs');
   final ping = all('pingMs');
   final match = all('matchMs');
+  final stateBytes = all('stateBytes');
   num peak(String k) => samples.fold<num>(0, (a, s) => max(a, s[k] ?? 0));
   num delta(String prefix) {
     num total(Map<String, num> m) => m.entries
@@ -572,6 +612,18 @@ void _report(
     'matchDurationS': {
       'p50': _pct(match, .5) / 1000,
       'p95': _pct(match, .95) / 1000,
+    },
+    'gameStateBytes': {
+      'n': stateBytes.length,
+      'avg':
+          stateBytes.isEmpty
+              ? 0
+              : (stateBytes.fold<int>(0, (a, b) => a + b) / stateBytes.length)
+                  .round(),
+      'p50': _pct(stateBytes, .5),
+      'p95': _pct(stateBytes, .95),
+      'max': stateBytes.isEmpty ? 0 : stateBytes.last,
+      'deltas': sum('stateDeltas'),
     },
     'clientFramesInPerS': (sum('framesIn') / secs).round(),
     'clientFramesOutPerS': (sum('framesOut') / secs).round(),

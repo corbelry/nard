@@ -44,19 +44,24 @@ class Client {
     throw StateError('Stream closed');
   }
 
-  void auth(String user, {bool muted = false, int? queueCooldownUntil}) =>
-      send(MessageType.auth, {
-        'ticket': Ticket.sign(
-          Ticket(
-            userId: user,
-            name: user,
-            expiresAt: DateTime.now().millisecondsSinceEpoch ~/ 1000 + 60,
-            muted: muted,
-            queueCooldownUntil: queueCooldownUntil,
-          ),
-          secret,
-        ),
-      });
+  void auth(
+    String user, {
+    bool muted = false,
+    int? queueCooldownUntil,
+    Set<String> features = const {},
+  }) => send(MessageType.auth, {
+    if (features.isNotEmpty) 'features': features.toList(),
+    'ticket': Ticket.sign(
+      Ticket(
+        userId: user,
+        name: user,
+        expiresAt: DateTime.now().millisecondsSinceEpoch ~/ 1000 + 60,
+        muted: muted,
+        queueCooldownUntil: queueCooldownUntil,
+      ),
+      secret,
+    ),
+  });
 }
 
 void main() {
@@ -333,6 +338,106 @@ void main() {
     for (final x in [a, b]) {
       await x.ws.sink.close();
     }
+  });
+
+  group('game.state deltas (ADR-048)', () {
+    /// The next `game.state` payload of [c].
+    Future<Map<String, Object?>> nextState(Client c) async =>
+        (await c.next(MessageType.gameState)).payload;
+
+    test('announced clients get deltas; old clients and resyncs get full '
+        'states', () async {
+      const deltas = {ProtocolFeature.stateDelta};
+      final a = Client(server.port)..auth('alice', features: deltas);
+      final b = Client(server.port)..auth('bob'); // an old client
+      final c = Client(server.port)..auth('carol', features: deltas);
+      final hello = await a.next(MessageType.hello);
+      expect(hello.payload['features'], [ProtocolFeature.stateDelta]);
+      expect(
+        (await b.next(MessageType.hello)).payload.containsKey('features'),
+        isFalse,
+      );
+      await c.next(MessageType.hello);
+      a.send(
+        MessageType.roomCreate,
+        const RoomCreatePayload(
+          variant: Variant.shortNard,
+          matchLength: 1,
+        ).toJson(),
+      );
+      final code =
+          RoomCodePayload.fromJson(
+            (await a.next(MessageType.roomCreated)).payload,
+          ).code;
+      b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+      final found = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      await b.next(MessageType.matchFound);
+      final syncA = GameStateSync();
+      final syncC = GameStateSync();
+      // The first state of a game is full for everyone.
+      final firstA = await nextState(a);
+      expect(firstA.containsKey('record'), isTrue);
+      syncA.accept(GameStateFrame.fromJson(firstA));
+      c.send(MessageType.spectateJoin, {'matchId': found.matchId});
+      final joined = await nextState(c);
+      expect(joined.containsKey('record'), isTrue, reason: 'spectator join');
+      syncC.accept(GameStateFrame.fromJson(joined));
+
+      a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+      b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+      GameStatePayload? s;
+      final fromB = <Map<String, Object?>>[];
+      var last = <String, Object?>{};
+      while (s == null || s.state.phase == GamePhase.opening) {
+        // Seats connecting at the start each get the (empty) full state.
+        last = await nextState(a);
+        s = syncA.accept(GameStateFrame.fromJson(last)) ?? s;
+      }
+      // The opening roll came as a delta.
+      expect(last.containsKey('delta'), isTrue);
+      expect(last.containsKey('record'), isFalse);
+      // Every frame the old client got is full, and they agree.
+      while (fromB.isEmpty ||
+          GameStatePayload.fromJson(fromB.last).seq < s.seq) {
+        fromB.add(await nextState(b));
+      }
+      expect(fromB.every((f) => f.containsKey('record')), isTrue);
+      expect(
+        GameStatePayload.fromJson(fromB.last).record.toJson(),
+        s.record.toJson(),
+      );
+      // The spectator follows by deltas too.
+      GameStatePayload? watched = syncC.current;
+      while (watched!.seq < s.seq) {
+        final frame = await nextState(c);
+        expect(frame.containsKey('delta'), isTrue);
+        watched = syncC.accept(GameStateFrame.fromJson(frame)) ?? watched;
+      }
+      expect(watched.record.toJson(), s.record.toJson());
+
+      // game.sync: a full state again, for the player and the spectator.
+      a.send(MessageType.gameSync, {'matchId': found.matchId});
+      final resent = await nextState(a);
+      expect(resent.containsKey('record'), isTrue);
+      expect(GameStatePayload.fromJson(resent).seq, s.seq);
+      c.send(MessageType.gameSync, {'matchId': found.matchId});
+      expect((await nextState(c)).containsKey('record'), isTrue);
+      c.send(MessageType.gameSync, {'matchId': 'other'});
+      expect(
+        (await c.next(MessageType.error)).payload['code'],
+        ErrorCode.notInMatch,
+      );
+
+      // Reconnect: the new socket starts from a full state.
+      final again = Client(server.port)..auth('alice', features: deltas);
+      await again.next(MessageType.hello);
+      expect((await nextState(again)).containsKey('record'), isTrue);
+      for (final x in [a, b, c, again]) {
+        await x.ws.sink.close();
+      }
+    });
   });
 
   group('time controls (ADR-044)', () {
