@@ -40,11 +40,13 @@ return [
         'per_minute' => 10,
     ],
 
-    // Weekly shared chest (5.4): coin donations, Monday–Sunday UTC. Member
-    // rewards for a full chest are an open question: none are paid yet.
+    // Weekly shared chest (5.4): coin donations, Monday–Sunday UTC. When it
+    // fills, every member who donated that week gets a fixed reward (owner
+    // decision, QUESTIONS #31).
     'chest' => [
         'weekly_target' => 10000,
         'min_donation' => 10,
+        'member_reward' => 300,
     ],
 
     // Clan XP sources.

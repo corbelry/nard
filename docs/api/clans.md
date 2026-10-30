@@ -29,7 +29,7 @@ Membership
 
 Chat, chest, war
 - `GET /clans/{id}/messages?after=` → `{messages}` (latest 50 after id, oldest first); `POST /clans/{id}/messages {text}` → 201 `{message}` (≤300, 10/min); `DELETE /clans/{id}/messages/{mid}`
-- `POST /clans/{id}/donate {coins, idempotencyKey}` → `{donated, chest, clan{level,xp,xpNext}, wallet}`; errors `chest_full, insufficient_funds`
+- `POST /clans/{id}/donate {coins, idempotencyKey}` → `{donated, chest, clan{level,xp,xpNext}, wallet}`; errors `chest_full, insufficient_funds`; when the chest fills, every member who donated that week gets 300 coins (reason `clan_chest`)
 - `GET /clans/{id}/war` → `{war: null | {id, week, status:live|finished, startsAt, endsAt, clan, opponent|null, score{mine,theirs}, matchesCounted, maxMatches, pointsPerWin, result, matches:[{matchId, winner, loser, score, won, createdAt}]}}`
 
 Elsewhere: `publicCard.clan = {id, tag, emblem}|null`; `/me` `user.clan = {id, tag, emblem, name, role}|null`.

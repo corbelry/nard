@@ -639,10 +639,25 @@ class ClanService
             $this->system($clan->id, 'donated', ['userId' => (string) $user->id, 'name' => $user->name, 'amount' => $amount]);
             if ($full) {
                 $this->system($clan->id, 'chest_full', ['target' => $target]);
+                $this->payChest($clan, $week);
             }
 
             return $amount;
         });
+    }
+
+    /** A full chest pays every member who donated this week, once. */
+    private function payChest(Clan $clan, string $week): void
+    {
+        $reward = (int) config('clans.chest.member_reward');
+        if ($reward <= 0) {
+            return;
+        }
+        $donors = ClanMember::query()->where('clan_id', $clan->id)
+            ->where('donated_week', $week)->where('donated_coins', '>', 0)->pluck('user_id');
+        foreach (User::query()->whereIn('id', $donors)->get() as $donor) {
+            $this->wallet->credit($donor, 'coins', $reward, 'clan_chest', "clan_chest:{$clan->id}:$week:{$donor->id}", "clan:{$clan->id}");
+        }
     }
 
     /** Call inside a transaction with [clan] locked or freshly read. */

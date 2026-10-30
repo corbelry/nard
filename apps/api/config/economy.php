@@ -8,7 +8,7 @@ return [
     // season-end rewards; `season_premium` = the paid premium track, never
     // allowed for coins (ADR-039).
     'credit_reasons' => [
-        'coins' => ['match_reward', 'mission', 'achievement', 'streak', 'level_up', 'tournament', 'season', 'refund', 'admin'],
+        'coins' => ['match_reward', 'mission', 'achievement', 'streak', 'level_up', 'tournament', 'season', 'clan_chest', 'refund', 'admin'],
         'gems' => ['iap', 'season', 'season_premium', 'refund', 'admin'],
     ],
 

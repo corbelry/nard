@@ -36,7 +36,7 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 28 | 5 | 6.4 spectator view shows free-text chat; spec §8.5 forbids free text in ranked games. | a) Spectators: emotes only (no chat) · b) Spectator-only chat, never shown to players | a | assumed |
 | 29 | 5 | Clan war scoring: the design gives +3 per won match (25 matches to 5 points); spec says "total points win". | a) +3 per won war match, most points wins · b) Sum of match points | a | assumed |
 | 30 | 5 | Clan roles: who may accept requests, kick and promote (design is inconsistent, e.g. an Ağsaqqal kicking an Ağsaqqal). | a) Leader all; co-leader below co-leader; elder: requests, invites, kick members, moderate chat · b) Other | a | assumed |
-| 31 | 5 | Weekly clan chest (target 10 000 coins): what do members get when it is reached? Donation limits? | a) Clan XP only for now; decide rewards later · b) Coins back to donors · c) An exclusive item | a | open |
+| 31 | 5 | Weekly clan chest (target 10 000 coins): what do members get when it is reached? Donation limits? | a) Clan XP only for now; decide rewards later · b) Coins back to donors · c) An exclusive item | a | answered 2026-11-01: fixed reward — 300 coins to each donor of the week + clan XP (implemented) |
 | 32 | 5 | Clan creation 3 000 coins, rename 1 000, member cap 50, tag 3–5 letters (design numbers). | a) Keep · b) Change | a | assumed |
 | 33 | 6 | Do public tournament matches change rating? | a) No — tournaments pay prizes; rating only from ranked queue · b) Yes | a | assumed |
 | 34 | 6 | Private tournaments with coin entry fees let friends stake coins against each other. | a) Private tournaments are free entry only · b) Allow coin entry | a | assumed |

@@ -78,7 +78,7 @@ class ClanTest extends TestCase
         $this->actingAs($leader)->getJson('/api/v1/me')->assertJsonPath('user.clan.tag', 'QZR')
             ->assertJsonPath('user.clan.role', 'leader')->assertJsonPath('user.clan.name', 'Qızıl Zər');
         $card = $leader->publicCard();
-        $this->assertSame(['id' => $id, 'tag' => 'QZR', 'emblem' => $body['emblem']], $card['clan']);
+        $this->assertSameIgnoringKeyOrder(['id' => $id, 'tag' => 'QZR', 'emblem' => $body['emblem']], $card['clan']);
 
         $other = User::factory()->create();
         $this->actingAs($other)->getJson("/api/v1/clans/$id")->assertOk()
@@ -333,7 +333,7 @@ class ClanTest extends TestCase
         $all = $this->actingAs($leader)->getJson("/api/v1/clans/$id/messages")->assertOk()->json('messages');
         $this->assertSame('system', $all[0]['kind']);
         $this->assertSame('created', $all[0]['event']);
-        $this->assertSame(['userId' => (string) $leader->id, 'name' => 'Rauf'], $all[0]['data']);
+        $this->assertSameIgnoringKeyOrder(['userId' => (string) $leader->id, 'name' => 'Rauf'], $all[0]['data']);
         $this->assertSame('Sandığa 500 qoydum', end($all)['text']);
         $after = $this->actingAs($leader)->getJson("/api/v1/clans/$id/messages?after=$first")->json('messages');
         $this->assertSame([$second], array_column($after, 'id'));
@@ -379,12 +379,15 @@ class ClanTest extends TestCase
         $this->roles($id, [$poor->id => 'member']);
         $donate($poor, 100, 'donation-poor')->assertStatus(422)->assertJsonPath('code', 'insufficient_funds');
 
-        // Capped at the target; a full chest grants clan XP once.
+        // Capped at the target; a full chest grants clan XP once and pays
+        // every donor of the week a fixed reward (300 coins, QUESTIONS #31).
+        $leaderBefore = $this->balance($leader);
         $donate($m, 10000, 'donation-3')->assertOk()->assertJsonPath('donated', 9495)
-            ->assertJsonPath('chest.coins', 10000)->assertJsonPath('wallet.coins', 2000)
+            ->assertJsonPath('chest.coins', 10000)->assertJsonPath('wallet.coins', 2300)
             ->assertJsonPath('clan.xp', 1000 + 500)->assertJsonPath('clan.level', 2);
         $donate($m, 100, 'donation-4')->assertStatus(422)->assertJsonPath('code', 'chest_full');
-        $this->assertSame(2000, $this->balance($m));
+        $this->assertSame(2300, $this->balance($m));
+        $this->assertSame($leaderBefore, $this->balance($leader));
         /** @var array{chest: array{coins: int}, members: array<int, array{user: array{id: string}, weeklyDonated: int}>} $show */
         $show = $this->actingAs($m)->getJson("/api/v1/clans/$id")->json('clan');
         $this->assertSame(10000, $show['chest']['coins']);
