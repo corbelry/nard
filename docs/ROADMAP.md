@@ -89,7 +89,7 @@ No design requests are open.
   `apps/client/assets/sounds/` (owner's choice); custom sounds later
   (ADR-030).
 - `.mat` match-file import/export: not planned (ADR-021).
-- CI workflow has not yet run on GitHub (verified locally only).
+- CI runs on GitHub since PR #1 (2026-10-30, all jobs green).
 - App/bundle ID: use placeholder `com.nardarena.app` in Phase 2; the final
   ID must be fixed before the app is first registered in App Store Connect /
   Play Console (it cannot change after that).

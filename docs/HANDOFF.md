@@ -80,7 +80,9 @@ game_server, rebuild their compose containers before emulator tests.
 
 ## Where things stand
 
-- Branch `feat/foundation-and-rules-engine` (not pushed; `main` is behind).
+- Branch `feat/foundation-and-rules-engine` pushed 2026-10-30 (owner approved); PR #1 to `main`
+  (https://github.com/corbelry/nard/pull/1), not merged. CI green on GitHub (all 7 jobs). Do not
+  merge without asking.
 - Phase 0 and Phase 1 are done (see `docs/CHANGELOG.md`): Dart workspace, CI
   workflow (never run on GitHub yet), docker-compose stack, Laravel 13 API
   skeleton, `nard_core` rules engine (108 tests, 98.6% coverage, verified
