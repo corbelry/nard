@@ -136,9 +136,55 @@ abstract final class Schemas {
     },
   };
 
+  /// API → game server: inbox rows for players' open sockets (ADR-049).
+  static const notify = {
+    r'$schema': 'https://json-schema.org/draft/2020-12/schema',
+    r'$id': 'https://nardarena.app/schema/notify.json',
+    'title': 'Notify',
+    'type': 'object',
+    'required': ['notifications'],
+    'properties': {
+      'notifications': {
+        'type': 'array',
+        'maxItems': 500,
+        'items': {
+          'type': 'object',
+          'required': ['userId', 'notification'],
+          'properties': {
+            'userId': _id,
+            // The API's Notification object (docs/api/notifications.md).
+            'notification': {
+              'type': 'object',
+              'required': ['id', 'type'],
+              'properties': {
+                'id': {'type': 'integer'},
+                'type': {'type': 'string', 'minLength': 1, 'maxLength': 64},
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+  /// API → game server: a tournament changed; tell its connected entrants.
+  static const tournamentUpdated = {
+    r'$schema': 'https://json-schema.org/draft/2020-12/schema',
+    r'$id': 'https://nardarena.app/schema/tournament_updated.json',
+    'title': 'TournamentUpdated',
+    'type': 'object',
+    'required': ['tournamentId', 'userIds'],
+    'properties': {
+      'tournamentId': _id,
+      'userIds': {'type': 'array', 'maxItems': 1000, 'items': _id},
+    },
+  };
+
   static const all = {
     'match_result.schema.json': matchResult,
     'moderation.schema.json': moderation,
+    'notify.schema.json': notify,
+    'tournament_updated.schema.json': tournamentUpdated,
     'tournament_match.schema.json': tournamentMatch,
     'tournament_no_show.schema.json': tournamentNoShow,
   };

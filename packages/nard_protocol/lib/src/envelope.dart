@@ -35,6 +35,13 @@ abstract final class MessageType {
   static const tournamentReady = 'tournament.ready';
   static const tournamentReadyState = 'tournament.readyState';
   static const tournamentWalkover = 'tournament.walkover';
+
+  /// Server → client: an inbox row just written for this player (the API's
+  /// Notification object, docs/api/notifications.md; ADR-049).
+  static const notification = 'notification';
+
+  /// Server → client `{tournamentId}`: refetch that tournament (ADR-049).
+  static const tournamentUpdated = 'tournament.updated';
   static const ping = 'ping';
   static const pong = 'pong';
   static const error = 'error';
@@ -69,6 +76,8 @@ abstract final class MessageType {
     tournamentReady,
     tournamentReadyState,
     tournamentWalkover,
+    notification,
+    tournamentUpdated,
     ping,
     pong,
     error,

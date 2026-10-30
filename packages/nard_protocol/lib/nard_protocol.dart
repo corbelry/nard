@@ -2,6 +2,7 @@
 library;
 
 export 'src/envelope.dart';
+export 'src/live.dart';
 export 'src/messages.dart';
 export 'src/moderation.dart';
 export 'src/schema.dart';
