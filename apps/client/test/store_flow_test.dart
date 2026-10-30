@@ -85,12 +85,12 @@ void main() {
       const products = GemProducts(
         products: [
           GemProduct(id: 'yaqut_500', gems: 500),
-          GemProduct(id: 'yaqut_2000', gems: 2000),
+          GemProduct(id: 'yaqut_2600', gems: 2600),
           GemProduct(id: 'yaqut_1200', gems: 1200),
         ],
       );
       // Smallest pack covering the shortfall (1 480 → 2 000).
-      expect(products.packFor(poor.shortfall)!.id, 'yaqut_2000');
+      expect(products.packFor(poor.shortfall)!.id, 'yaqut_2600');
       expect(products.packFor(100)!.id, 'yaqut_500');
       final carpet = testCatalog.item('board.carpet_heritage')!;
       final rich = PurchaseQuote.of(carpet, const Wallet(coins: 12450))!;

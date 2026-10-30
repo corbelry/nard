@@ -436,7 +436,7 @@ class FakeApi extends ApiClient {
     products: [
       GemProduct(id: 'yaqut_500', gems: 500),
       GemProduct(id: 'yaqut_1200', gems: 1200),
-      GemProduct(id: 'yaqut_2000', gems: 2000),
+      GemProduct(id: 'yaqut_2600', gems: 2600),
     ],
   );
 

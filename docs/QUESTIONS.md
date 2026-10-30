@@ -30,7 +30,7 @@ assumption currently implemented. Answer them and the code is adjusted.
 | 22 | 3 | Store rules: Apple requires Sign in with Apple when Google sign-in is offered on iOS (guideline 4.8); show Apple on Android too? | a) Apple on iOS only, Google on both · b) Both everywhere | a | answered 2026-11-01: a — Apple on iOS only (implemented) |
 | 23 | 4 | Economy numbers (ADR-034, store.md §10): match rewards, XP curve, level-up coins, streak, missions, prices, Yaqut packs. Confirm or change. | a) Keep the design's numbers · b) Give your own | a | answered 2026-11-01: a (keep the design numbers) |
 | 24 | 4 | "Sandıq" (day-7 streak, daily missions bonus) — the design shows a chest; random contents would be a loot box. | a) Fixed, visible rewards (coins) · b) Fixed item list shown before opening | a | assumed |
-| 25 | 4 | The 2 000 Yaqut pack (19,99 ₼) gives less per ₼ than the 1 200 pack (9,99 ₼). | a) 2 000 → 2 600 Yaqut · b) Keep | — (prices are set in the stores) | open |
+| 25 | 4 | The 2 000 Yaqut pack (19,99 ₼) gives less per ₼ than the 1 200 pack (9,99 ₼). | a) 2 000 → 2 600 Yaqut · b) Keep | — (prices are set in the stores) | answered 2026-11-01: a — 2 600 Yaqut (implemented) |
 | 26 | 4 | Caspian appears as season level 30, premium track level 19 and (earlier) buyable. | a) Season pass only · b) Also buyable | a | assumed |
 | 27 | 4 | Should bot and offline games give coins/XP? | a) Online bot games: reduced rewards; offline: none (no farming) · b) Offline too | a | assumed |
 | 28 | 5 | 6.4 spectator view shows free-text chat; spec §8.5 forbids free text in ranked games. | a) Spectators: emotes only (no chat) · b) Spectator-only chat, never shown to players | a | assumed |
