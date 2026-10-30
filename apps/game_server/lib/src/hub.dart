@@ -88,7 +88,7 @@ class Hub {
   final _watching = <_Connection, MatchRoom>{};
 
   /// How long a private room waits for the second player.
-  static const roomTtl = Duration(minutes: 10);
+  static const roomTtl = Duration(minutes: 15);
   int _matches = 0;
 
   int get activeMatches => _seats.values.map((s) => s.room).toSet().length;

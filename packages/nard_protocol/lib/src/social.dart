@@ -77,7 +77,7 @@ class RoomCreatePayload {
 class RoomCodePayload {
   const RoomCodePayload(this.code, {this.expiresAt});
 
-  /// Six characters, shared with a friend (6.3).
+  /// Six characters, shared with a friend (6.3); valid 15 minutes.
   final String code;
 
   /// Ms since epoch (room.created only).
