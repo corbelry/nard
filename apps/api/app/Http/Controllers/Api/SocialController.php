@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\Notifier;
 use App\Services\SocialService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -85,7 +86,7 @@ class SocialController extends Controller
     }
 
     /** Offers a private-room code to a friend (friends only). */
-    public function challenge(Request $request): JsonResponse
+    public function challenge(Request $request, Notifier $notifier): JsonResponse
     {
         $data = $request->validate([
             'userId' => ['required', 'string', 'max:20'],
@@ -99,16 +100,25 @@ class SocialController extends Controller
             return response()->json(['code' => 'not_friends'], 422);
         }
         DB::table('challenges')->where(['from_user_id' => $user->id, 'to_user_id' => (int) $data['userId']])->delete();
+        $expires = now()->addMinutes(10);
         $id = DB::table('challenges')->insertGetId([
             'from_user_id' => $user->id,
             'to_user_id' => (int) $data['userId'],
             'code' => $data['code'],
             'variant' => $data['variant'],
             'match_length' => $data['matchLength'],
-            'expires_at' => now()->addMinutes(10),
+            'expires_at' => $expires,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        // One inbox row per room code: re-sending the same room is not spam.
+        $notifier->notify((int) $data['userId'], 'challenge', [
+            'challengeId' => $id,
+            'code' => $data['code'],
+            'variant' => $data['variant'],
+            'matchLength' => (int) $data['matchLength'],
+            'expiresAt' => $expires->toIso8601String(),
+        ], "challenge:{$user->id}:{$data['code']}", $user->id);
 
         return response()->json(['id' => $id], 201);
     }

@@ -27,6 +27,7 @@ class TournamentService
         private WalletService $wallet,
         private GameServerClient $gameServer,
         private StoreService $store,
+        private Notifier $notifier,
     ) {}
 
     // ---- registration ------------------------------------------------------
@@ -298,6 +299,8 @@ class TournamentService
             $t->started_at = now();
             $t->expires_at = null;
             $t->save();
+            $this->notifier->notifyMany($entries->pluck('user_id')->map(fn ($id) => (int) $id), 'tournament_started',
+                $this->about($t), "tournament_started:{$t->id}");
             $this->createRound($t, 1);
 
             return true;
@@ -392,7 +395,32 @@ class TournamentService
                 $entry->save();
             }
         }
+        if ($n > 1) {
+            $this->notifyRound($t, $n);
+        }
         $this->advance($t);
+    }
+
+    /** @return array<string, mixed> the tournament part of notification data */
+    private function about(Tournament $t): array
+    {
+        return ['tournamentId' => (string) $t->id, 'tournament' => $t->name];
+    }
+
+    /** "Raund hazırdır" for both players of each real pairing of round [n]. */
+    private function notifyRound(Tournament $t, int $n): void
+    {
+        $pairings = $t->pairings()->where('round', $n)->where('bye', false)
+            ->whereNotNull('white_user_id')->whereNotNull('black_user_id')->get();
+        $names = User::query()->whereIn('id', $pairings->flatMap(fn (TournamentPairing $p) => [$p->white_user_id, $p->black_user_id]))
+            ->pluck('name', 'id');
+        foreach ($pairings as $p) {
+            foreach ([[$p->white_user_id, $p->black_user_id], [$p->black_user_id, $p->white_user_id]] as [$me, $them]) {
+                $this->notifier->notify((int) $me, 'tournament_round', [
+                    ...$this->about($t), 'round' => $n, 'matchId' => $p->match_id, 'opponent' => (string) ($names[$them] ?? ''),
+                ], "tournament_round:{$t->id}:$n");
+            }
+        }
     }
 
     /** @return list<int> user ids by seed */
@@ -486,6 +514,14 @@ class TournamentService
         $t->status = 'finished';
         $t->finished_at = now();
         $t->save();
+        foreach ($entries as $entry) {
+            if ($entry->place === 1) {
+                $this->notifier->notify($entry->user_id, 'tournament_won', $this->about($t), "tournament_won:{$t->id}");
+            } elseif ($t->format !== 'knockout' && $entry->place !== null) {
+                $this->notifier->notify($entry->user_id, 'tournament_finished', [...$this->about($t), 'place' => $entry->place],
+                    "tournament_finished:{$t->id}");
+            }
+        }
         foreach ($entries as $entry) {
             $prize = $entry->place === null ? null : PairingEngine::prizeFor($t->prizes, $entry->place);
             if ($prize === null) {
@@ -589,6 +625,8 @@ class TournamentService
                 $entry->losses += 1;
                 if ($t->format === 'knockout') {
                     $entry->eliminated_round = $p->round;
+                    $this->notifier->notify($userId, 'tournament_eliminated', [...$this->about($t), 'round' => $p->round],
+                        "tournament_eliminated:{$t->id}");
                 }
             }
             $entry->save();
@@ -682,7 +720,27 @@ class TournamentService
             $cancelled++;
         }
 
+        $this->remind($now);
+
         return ['started' => $started, 'cancelled' => $cancelled, 'pushed' => $this->pushPending()];
+    }
+
+    /** "Turnir başlayır": once per entrant, config('push.tournament_reminder_minutes') before the start. */
+    public function remind(Carbon $now): int
+    {
+        $lead = (int) config('push.tournament_reminder_minutes');
+        $soon = Tournament::query()->with('entries')->where('status', 'registering')->where('kind', '!=', 'sit_and_go')
+            ->whereNotNull('starts_at')->where('starts_at', '>', $now)->where('starts_at', '<=', $now->copy()->addMinutes($lead))
+            ->orderBy('id')->get();
+        $sent = 0;
+        foreach ($soon as $t) {
+            $minutes = max(1, (int) ceil(abs($now->diffInSeconds($t->starts_at)) / 60));
+            $sent += $this->notifier->notifyMany($t->entries->pluck('user_id')->map(fn ($id) => (int) $id), 'tournament_reminder',
+                [...$this->about($t), 'minutes' => $minutes, 'startsAt' => $t->starts_at?->toIso8601String()],
+                "tournament_reminder:{$t->id}");
+        }
+
+        return $sent;
     }
 
     /** Creates the next scheduled championships (idempotent by schedule key). */

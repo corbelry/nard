@@ -6752,6 +6752,402 @@ abstract class AppLocalizations {
   /// In az, this message translates to:
   /// **'{n} tapmaca həll et'**
   String missionPuzzle(int n);
+
+  /// No description provided for @notifTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Bildirişlər'**
+  String get notifTitle;
+
+  /// No description provided for @notifReadAll.
+  ///
+  /// In az, this message translates to:
+  /// **'Hamısını oxu'**
+  String get notifReadAll;
+
+  /// No description provided for @notifTabAll.
+  ///
+  /// In az, this message translates to:
+  /// **'Hamısı'**
+  String get notifTabAll;
+
+  /// No description provided for @notifTabGame.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyun'**
+  String get notifTabGame;
+
+  /// No description provided for @notifTabSocial.
+  ///
+  /// In az, this message translates to:
+  /// **'Sosial'**
+  String get notifTabSocial;
+
+  /// No description provided for @notifTabTournament.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir'**
+  String get notifTabTournament;
+
+  /// No description provided for @notifToday.
+  ///
+  /// In az, this message translates to:
+  /// **'BU GÜN'**
+  String get notifToday;
+
+  /// No description provided for @notifYesterday.
+  ///
+  /// In az, this message translates to:
+  /// **'DÜNƏN'**
+  String get notifYesterday;
+
+  /// No description provided for @notifEarlier.
+  ///
+  /// In az, this message translates to:
+  /// **'ƏVVƏL'**
+  String get notifEarlier;
+
+  /// No description provided for @notifNow.
+  ///
+  /// In az, this message translates to:
+  /// **'indi'**
+  String get notifNow;
+
+  /// No description provided for @notifMinutesAgo.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} dəq'**
+  String notifMinutesAgo(int n);
+
+  /// No description provided for @notifHoursAgo.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} saat'**
+  String notifHoursAgo(int n);
+
+  /// No description provided for @notifYesterdayAt.
+  ///
+  /// In az, this message translates to:
+  /// **'Dünən {time}'**
+  String notifYesterdayAt(String time);
+
+  /// No description provided for @notifEmptyTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Bildiriş yoxdur'**
+  String get notifEmptyTitle;
+
+  /// No description provided for @notifEmptyBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostluq sorğuları, oyun dəvətləri və turnir xəbərləri burada görünəcək.'**
+  String get notifEmptyBody;
+
+  /// No description provided for @notifDelete.
+  ///
+  /// In az, this message translates to:
+  /// **'Sil'**
+  String get notifDelete;
+
+  /// No description provided for @notifBellLabel.
+  ///
+  /// In az, this message translates to:
+  /// **'Bildirişlər, {n} oxunmamış'**
+  String notifBellLabel(int n);
+
+  /// No description provided for @notifGone.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu dəvət artıq keçərli deyil'**
+  String get notifGone;
+
+  /// No description provided for @notifFriendRequest.
+  ///
+  /// In az, this message translates to:
+  /// **'dostluq sorğusu göndərdi'**
+  String get notifFriendRequest;
+
+  /// No description provided for @notifFriendAccepted.
+  ///
+  /// In az, this message translates to:
+  /// **'dostluq sorğunu qəbul etdi'**
+  String get notifFriendAccepted;
+
+  /// No description provided for @notifChallenge.
+  ///
+  /// In az, this message translates to:
+  /// **'səni oyuna çağırır · {variant}, {points} xal'**
+  String notifChallenge(String variant, int points);
+
+  /// No description provided for @notifClanInvite.
+  ///
+  /// In az, this message translates to:
+  /// **'səni {clan} [{tag}] klanına dəvət edir'**
+  String notifClanInvite(String clan, String tag);
+
+  /// No description provided for @notifClanJoined.
+  ///
+  /// In az, this message translates to:
+  /// **'klanına qəbul olundun'**
+  String get notifClanJoined;
+
+  /// No description provided for @notifClanWarWho.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan döyüşü:'**
+  String get notifClanWarWho;
+
+  /// No description provided for @notifClanWar.
+  ///
+  /// In az, this message translates to:
+  /// **'rəqib {opponent} [{tag}]. Hər qələbə klana xal gətirir'**
+  String notifClanWar(String opponent, String tag);
+
+  /// No description provided for @notifTournamentReminder.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} dəqiqəyə başlayır'**
+  String notifTournamentReminder(int n);
+
+  /// No description provided for @notifTournamentStarted.
+  ///
+  /// In az, this message translates to:
+  /// **'başladı. İlk oyunun hazırdır'**
+  String get notifTournamentStarted;
+
+  /// No description provided for @notifTournamentRound.
+  ///
+  /// In az, this message translates to:
+  /// **'· Raund {round} hazırdır. Rəqib: {opponent}'**
+  String notifTournamentRound(int round, String opponent);
+
+  /// No description provided for @notifTournamentEliminated.
+  ///
+  /// In az, this message translates to:
+  /// **'· Raund {round}: mübarizə bitdi'**
+  String notifTournamentEliminated(int round);
+
+  /// No description provided for @notifTournamentWon.
+  ///
+  /// In az, this message translates to:
+  /// **'· Çempionsan! Mükafat hesabındadır'**
+  String get notifTournamentWon;
+
+  /// No description provided for @notifTournamentFinished.
+  ///
+  /// In az, this message translates to:
+  /// **'bitdi · Yerin: {place}'**
+  String notifTournamentFinished(int place);
+
+  /// No description provided for @notifSeasonEndWho.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon {n}'**
+  String notifSeasonEndWho(int n);
+
+  /// No description provided for @notifSeasonEnd.
+  ///
+  /// In az, this message translates to:
+  /// **'bitdi · Dərəcən: {tier}. Nəticələrə bax'**
+  String notifSeasonEnd(String tier);
+
+  /// No description provided for @notifLevelUpWho.
+  ///
+  /// In az, this message translates to:
+  /// **'Səviyyə {level}!'**
+  String notifLevelUpWho(int level);
+
+  /// No description provided for @notifLevelUp.
+  ///
+  /// In az, this message translates to:
+  /// **'+{coins} sikkə qazandın'**
+  String notifLevelUp(int coins);
+
+  /// No description provided for @notifUnknown.
+  ///
+  /// In az, this message translates to:
+  /// **'Yeni bildiriş'**
+  String get notifUnknown;
+
+  /// No description provided for @notifGroupGame.
+  ///
+  /// In az, this message translates to:
+  /// **'OYUN'**
+  String get notifGroupGame;
+
+  /// No description provided for @notifGroupTournament.
+  ///
+  /// In az, this message translates to:
+  /// **'TURNİR'**
+  String get notifGroupTournament;
+
+  /// No description provided for @notifGroupSocial.
+  ///
+  /// In az, this message translates to:
+  /// **'SOSİAL'**
+  String get notifGroupSocial;
+
+  /// No description provided for @notifGroupRewards.
+  ///
+  /// In az, this message translates to:
+  /// **'MÜKAFATLAR'**
+  String get notifGroupRewards;
+
+  /// No description provided for @notifPush.
+  ///
+  /// In az, this message translates to:
+  /// **'Push bildirişləri'**
+  String get notifPush;
+
+  /// No description provided for @notifPushUnavailable.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu versiyada push hələ işləmir; hamısı qutuda görünür'**
+  String get notifPushUnavailable;
+
+  /// No description provided for @notifQuietHours.
+  ///
+  /// In az, this message translates to:
+  /// **'Sakit saatlar'**
+  String get notifQuietHours;
+
+  /// No description provided for @notifQuietRange.
+  ///
+  /// In az, this message translates to:
+  /// **'{start} – {end}'**
+  String notifQuietRange(String start, String end);
+
+  /// No description provided for @notifQuietOff.
+  ///
+  /// In az, this message translates to:
+  /// **'Söndürülüb'**
+  String get notifQuietOff;
+
+  /// No description provided for @notifQuietBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Bu saatlarda push gəlmir, bildirişlər qutuda qalır.'**
+  String get notifQuietBody;
+
+  /// No description provided for @notifQuietFrom.
+  ///
+  /// In az, this message translates to:
+  /// **'Başlanğıc'**
+  String get notifQuietFrom;
+
+  /// No description provided for @notifQuietTo.
+  ///
+  /// In az, this message translates to:
+  /// **'Son'**
+  String get notifQuietTo;
+
+  /// No description provided for @notifQuietSave.
+  ///
+  /// In az, this message translates to:
+  /// **'Yadda saxla'**
+  String get notifQuietSave;
+
+  /// No description provided for @notifEarlierHour.
+  ///
+  /// In az, this message translates to:
+  /// **'Bir saat əvvəl'**
+  String get notifEarlierHour;
+
+  /// No description provided for @notifLaterHour.
+  ///
+  /// In az, this message translates to:
+  /// **'Bir saat sonra'**
+  String get notifLaterHour;
+
+  /// No description provided for @notifGameInvites.
+  ///
+  /// In az, this message translates to:
+  /// **'Oyun dəvətləri'**
+  String get notifGameInvites;
+
+  /// No description provided for @notifTournamentStart.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir başlayır'**
+  String get notifTournamentStart;
+
+  /// No description provided for @notifTournamentStartSub.
+  ///
+  /// In az, this message translates to:
+  /// **'{n} dəqiqə əvvəl'**
+  String notifTournamentStartSub(int n);
+
+  /// No description provided for @notifRoundReady.
+  ///
+  /// In az, this message translates to:
+  /// **'Raund hazırdır'**
+  String get notifRoundReady;
+
+  /// No description provided for @notifRoundReadySub.
+  ///
+  /// In az, this message translates to:
+  /// **'Və turnir nəticələri'**
+  String get notifRoundReadySub;
+
+  /// No description provided for @notifFriendRequests.
+  ///
+  /// In az, this message translates to:
+  /// **'Dostluq sorğuları'**
+  String get notifFriendRequests;
+
+  /// No description provided for @notifClanInvites.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan dəvətləri'**
+  String get notifClanInvites;
+
+  /// No description provided for @notifClanWars.
+  ///
+  /// In az, this message translates to:
+  /// **'Klan müharibəsi'**
+  String get notifClanWars;
+
+  /// No description provided for @notifSeasonResults.
+  ///
+  /// In az, this message translates to:
+  /// **'Sezon nəticələri'**
+  String get notifSeasonResults;
+
+  /// No description provided for @notifPromptTitle.
+  ///
+  /// In az, this message translates to:
+  /// **'Növbəni qaçırma'**
+  String get notifPromptTitle;
+
+  /// No description provided for @notifPromptBody.
+  ///
+  /// In az, this message translates to:
+  /// **'Turnir başlayanda, raundun hazır olanda və dost dəvət göndərəndə xəbər verək. Hər kateqoriyanı ayarlardan söndürə bilərsən.'**
+  String get notifPromptBody;
+
+  /// No description provided for @notifPromptSample1.
+  ///
+  /// In az, this message translates to:
+  /// **'Nigar səni oyuna çağırır · Qısa nərd, 5 xal'**
+  String get notifPromptSample1;
+
+  /// No description provided for @notifPromptSample2.
+  ///
+  /// In az, this message translates to:
+  /// **'Bakı Cümə Kuboku 15 dəqiqəyə başlayır.'**
+  String get notifPromptSample2;
+
+  /// No description provided for @notifPromptAllow.
+  ///
+  /// In az, this message translates to:
+  /// **'Bildirişləri aç'**
+  String get notifPromptAllow;
+
+  /// No description provided for @notifPromptLater.
+  ///
+  /// In az, this message translates to:
+  /// **'İndi yox'**
+  String get notifPromptLater;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

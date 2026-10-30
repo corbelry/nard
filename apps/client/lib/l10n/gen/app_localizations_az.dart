@@ -3842,4 +3842,236 @@ class AppLocalizationsAz extends AppLocalizations {
   String missionPuzzle(int n) {
     return '$n tapmaca həll et';
   }
+
+  @override
+  String get notifTitle => 'Bildirişlər';
+
+  @override
+  String get notifReadAll => 'Hamısını oxu';
+
+  @override
+  String get notifTabAll => 'Hamısı';
+
+  @override
+  String get notifTabGame => 'Oyun';
+
+  @override
+  String get notifTabSocial => 'Sosial';
+
+  @override
+  String get notifTabTournament => 'Turnir';
+
+  @override
+  String get notifToday => 'BU GÜN';
+
+  @override
+  String get notifYesterday => 'DÜNƏN';
+
+  @override
+  String get notifEarlier => 'ƏVVƏL';
+
+  @override
+  String get notifNow => 'indi';
+
+  @override
+  String notifMinutesAgo(int n) {
+    return '$n dəq';
+  }
+
+  @override
+  String notifHoursAgo(int n) {
+    return '$n saat';
+  }
+
+  @override
+  String notifYesterdayAt(String time) {
+    return 'Dünən $time';
+  }
+
+  @override
+  String get notifEmptyTitle => 'Bildiriş yoxdur';
+
+  @override
+  String get notifEmptyBody => 'Dostluq sorğuları, oyun dəvətləri və turnir xəbərləri burada görünəcək.';
+
+  @override
+  String get notifDelete => 'Sil';
+
+  @override
+  String notifBellLabel(int n) {
+    return 'Bildirişlər, $n oxunmamış';
+  }
+
+  @override
+  String get notifGone => 'Bu dəvət artıq keçərli deyil';
+
+  @override
+  String get notifFriendRequest => 'dostluq sorğusu göndərdi';
+
+  @override
+  String get notifFriendAccepted => 'dostluq sorğunu qəbul etdi';
+
+  @override
+  String notifChallenge(String variant, int points) {
+    return 'səni oyuna çağırır · $variant, $points xal';
+  }
+
+  @override
+  String notifClanInvite(String clan, String tag) {
+    return 'səni $clan [$tag] klanına dəvət edir';
+  }
+
+  @override
+  String get notifClanJoined => 'klanına qəbul olundun';
+
+  @override
+  String get notifClanWarWho => 'Klan döyüşü:';
+
+  @override
+  String notifClanWar(String opponent, String tag) {
+    return 'rəqib $opponent [$tag]. Hər qələbə klana xal gətirir';
+  }
+
+  @override
+  String notifTournamentReminder(int n) {
+    return '$n dəqiqəyə başlayır';
+  }
+
+  @override
+  String get notifTournamentStarted => 'başladı. İlk oyunun hazırdır';
+
+  @override
+  String notifTournamentRound(int round, String opponent) {
+    return '· Raund $round hazırdır. Rəqib: $opponent';
+  }
+
+  @override
+  String notifTournamentEliminated(int round) {
+    return '· Raund $round: mübarizə bitdi';
+  }
+
+  @override
+  String get notifTournamentWon => '· Çempionsan! Mükafat hesabındadır';
+
+  @override
+  String notifTournamentFinished(int place) {
+    return 'bitdi · Yerin: $place';
+  }
+
+  @override
+  String notifSeasonEndWho(int n) {
+    return 'Sezon $n';
+  }
+
+  @override
+  String notifSeasonEnd(String tier) {
+    return 'bitdi · Dərəcən: $tier. Nəticələrə bax';
+  }
+
+  @override
+  String notifLevelUpWho(int level) {
+    return 'Səviyyə $level!';
+  }
+
+  @override
+  String notifLevelUp(int coins) {
+    return '+$coins sikkə qazandın';
+  }
+
+  @override
+  String get notifUnknown => 'Yeni bildiriş';
+
+  @override
+  String get notifGroupGame => 'OYUN';
+
+  @override
+  String get notifGroupTournament => 'TURNİR';
+
+  @override
+  String get notifGroupSocial => 'SOSİAL';
+
+  @override
+  String get notifGroupRewards => 'MÜKAFATLAR';
+
+  @override
+  String get notifPush => 'Push bildirişləri';
+
+  @override
+  String get notifPushUnavailable => 'Bu versiyada push hələ işləmir; hamısı qutuda görünür';
+
+  @override
+  String get notifQuietHours => 'Sakit saatlar';
+
+  @override
+  String notifQuietRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get notifQuietOff => 'Söndürülüb';
+
+  @override
+  String get notifQuietBody => 'Bu saatlarda push gəlmir, bildirişlər qutuda qalır.';
+
+  @override
+  String get notifQuietFrom => 'Başlanğıc';
+
+  @override
+  String get notifQuietTo => 'Son';
+
+  @override
+  String get notifQuietSave => 'Yadda saxla';
+
+  @override
+  String get notifEarlierHour => 'Bir saat əvvəl';
+
+  @override
+  String get notifLaterHour => 'Bir saat sonra';
+
+  @override
+  String get notifGameInvites => 'Oyun dəvətləri';
+
+  @override
+  String get notifTournamentStart => 'Turnir başlayır';
+
+  @override
+  String notifTournamentStartSub(int n) {
+    return '$n dəqiqə əvvəl';
+  }
+
+  @override
+  String get notifRoundReady => 'Raund hazırdır';
+
+  @override
+  String get notifRoundReadySub => 'Və turnir nəticələri';
+
+  @override
+  String get notifFriendRequests => 'Dostluq sorğuları';
+
+  @override
+  String get notifClanInvites => 'Klan dəvətləri';
+
+  @override
+  String get notifClanWars => 'Klan müharibəsi';
+
+  @override
+  String get notifSeasonResults => 'Sezon nəticələri';
+
+  @override
+  String get notifPromptTitle => 'Növbəni qaçırma';
+
+  @override
+  String get notifPromptBody => 'Turnir başlayanda, raundun hazır olanda və dost dəvət göndərəndə xəbər verək. Hər kateqoriyanı ayarlardan söndürə bilərsən.';
+
+  @override
+  String get notifPromptSample1 => 'Nigar səni oyuna çağırır · Qısa nərd, 5 xal';
+
+  @override
+  String get notifPromptSample2 => 'Bakı Cümə Kuboku 15 dəqiqəyə başlayır.';
+
+  @override
+  String get notifPromptAllow => 'Bildirişləri aç';
+
+  @override
+  String get notifPromptLater => 'İndi yox';
 }

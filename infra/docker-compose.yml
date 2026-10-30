@@ -75,6 +75,19 @@ services:
     depends_on:
       api: { condition: service_started }
 
+  # Database queue worker: push notifications (ADR-041). Push sending is
+  # disabled until FCM_PROJECT_ID / FCM_CREDENTIALS are set.
+  queue:
+    build: ../apps/api
+    environment: *api-env
+    command: >
+      sh -c "cp -n .env.example .env &&
+             php artisan key:generate --force -q &&
+             sleep 30 &&
+             php artisan queue:work --tries=1 --sleep=3"
+    depends_on:
+      api: { condition: service_started }
+
   game_server:
     build:
       context: ..

@@ -6,6 +6,7 @@ import 'package:nard_core/nard_core.dart' show Variant;
 
 import '../clans/clan_models.dart';
 import '../cosmetics/catalog.dart';
+import '../notifications/notification_models.dart';
 import '../progression/progress_models.dart';
 import '../puzzles/puzzle_models.dart';
 import '../seasons/season_models.dart';
@@ -733,4 +734,56 @@ class ApiClient {
 
   Future<AttemptResult> revealPuzzle(String id) async =>
       AttemptResult.fromJson(await _call('POST', '/puzzles/$id/reveal'));
+
+  // ---- Phase 7: notifications (docs/api/notifications.md) --------------
+
+  /// The newest 50 rows, or only those after [after] (polling).
+  Future<InboxPage> notifications({int? after}) async => InboxPage.fromJson(
+    await _call('GET', '/notifications${after == null ? '' : '?after=$after'}'),
+  );
+
+  /// Marks [ids] (or everything with [all]) read; returns the unread count.
+  Future<int> markNotificationsRead({List<int>? ids, bool all = false}) async =>
+      ((await _call('POST', '/notifications/read', {
+                if (all) 'all': true else 'ids': ids ?? const <int>[],
+              }))['unread']
+              as num?)
+          ?.toInt() ??
+      0;
+
+  Future<int> deleteNotification(int id) async =>
+      ((await _call('DELETE', '/notifications/$id'))['unread'] as num?)
+          ?.toInt() ??
+      0;
+
+  Future<NotificationSettings> notificationSettings() async =>
+      NotificationSettings.fromJson(
+        (await _call('GET', '/me/notification-settings'))['settings']!
+            as Map<String, Object?>,
+      );
+
+  /// Partial update: `push`, `quietHours{enabled,start,end}`,
+  /// `categories{key: bool}`, `utcOffset` (minutes).
+  Future<NotificationSettings> updateNotificationSettings(
+    Map<String, Object?> fields,
+  ) async => NotificationSettings.fromJson(
+    (await _call('PUT', '/me/notification-settings', fields))['settings']!
+        as Map<String, Object?>,
+  );
+
+  /// Registers an FCM token for this account (`android` | `ios`).
+  Future<void> registerDevice(
+    String platform,
+    String token, {
+    String? locale,
+    int? utcOffset,
+  }) => _call('POST', '/me/devices', {
+    'platform': platform,
+    'token': token,
+    if (locale != null) 'locale': locale,
+    if (utcOffset != null) 'utcOffset': utcOffset,
+  });
+
+  Future<void> unregisterDevice(String token) =>
+      _call('DELETE', '/me/devices', {'token': token});
 }

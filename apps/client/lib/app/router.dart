@@ -14,6 +14,9 @@ import '../clans/create_clan_screen.dart';
 import '../clans/emblem_builder_screen.dart';
 import '../cosmetics/locker_screen.dart';
 import '../game/game_screen.dart';
+import '../notifications/inbox_screen.dart';
+import '../notifications/notification_settings_screen.dart';
+import '../notifications/push_prompt_screen.dart';
 import '../progression/achievements_screen.dart';
 import '../progression/level_up_screen.dart';
 import '../progression/missions_screen.dart';
@@ -158,6 +161,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
+      // Notifications (16.x, notifications.md §6).
+      GoRoute(
+        path: '/settings/notifications',
+        builder: (_, _) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(path: '/notifications', builder: (_, _) => const InboxScreen()),
+      GoRoute(
+        path: '/push-prompt',
+        pageBuilder: (_, s) => _fade(s, const PushPromptScreen()),
+      ),
       GoRoute(path: '/setup', builder: (_, _) => const SetupScreen()),
       GoRoute(
         path: '/online/setup',

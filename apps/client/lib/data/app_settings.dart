@@ -22,6 +22,7 @@ class AppSettings {
     this.largePips = false,
     this.reduceMotion = false,
     this.showOpponentCosmetics = true,
+    this.pushPromptShown = false,
   });
 
   /// Chosen app language; null until picked on first launch (9.2).
@@ -53,6 +54,9 @@ class AppSettings {
   /// Draw the online opponent's equipped set (3.1, spec §8.6).
   final bool showOpponentCosmetics;
 
+  /// The 16.3 pre-prompt was shown (it is shown once, ADR-041).
+  final bool pushPromptShown;
+
   static const supportedLanguages = ['az', 'en', 'ru', 'tr'];
 
   static AppSettings fromMap(Map<String, String> map) {
@@ -77,6 +81,7 @@ class AppSettings {
       largePips: flag('largePips', false),
       reduceMotion: flag('reduceMotion', false),
       showOpponentCosmetics: flag('showOpponentCosmetics', true),
+      pushPromptShown: flag('pushPromptShown', false),
     );
   }
 
@@ -96,6 +101,7 @@ class AppSettings {
     'largePips': '$largePips',
     'reduceMotion': '$reduceMotion',
     'showOpponentCosmetics': '$showOpponentCosmetics',
+    'pushPromptShown': '$pushPromptShown',
   };
 
   AppSettings copyWith({
@@ -114,6 +120,7 @@ class AppSettings {
     bool? largePips,
     bool? reduceMotion,
     bool? showOpponentCosmetics,
+    bool? pushPromptShown,
   }) => AppSettings(
     locale: locale ?? this.locale,
     preferredVariant: preferredVariant ?? this.preferredVariant,
@@ -130,5 +137,6 @@ class AppSettings {
     largePips: largePips ?? this.largePips,
     reduceMotion: reduceMotion ?? this.reduceMotion,
     showOpponentCosmetics: showOpponentCosmetics ?? this.showOpponentCosmetics,
+    pushPromptShown: pushPromptShown ?? this.pushPromptShown,
   );
 }

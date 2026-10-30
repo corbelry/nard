@@ -36,7 +36,13 @@ next — without waiting for approval (start only after they say "başla").
 
 ## Phase 7 progress (update after every step)
 
-- [ ] 1. Plan + design spec for 16.x notifications — next.
+- [x] 1. Notifications (16.1–16.3, ADR-041): design spec
+  `docs/design-notes/notifications.md`, API (inbox, settings, devices,
+  `Notifier` wired into social/clan/tournament/season/progression, FCM
+  sender disabled until `FCM_PROJECT_ID`/`FCM_CREDENTIALS`, queue worker in
+  compose), client (bell + 60 s polling, 16.2 inbox, 16.1 settings, 16.3
+  pre-prompt, no-op `PushRegistrar`), `docs/api/notifications.md`.
+  Not committed yet. Next: Filament admin (plan item 1).
 
 Phase 6 is done (CHANGELOG, ADR-038…040). After changing api or
 game_server, rebuild their compose containers before emulator tests.

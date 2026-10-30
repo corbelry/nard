@@ -219,6 +219,15 @@ class SettingsScreen extends ConsumerWidget {
               }
             },
           ),
+          row(
+            l.notifTitle,
+            value(''),
+            onTap: () async {
+              if (await ensureSignedIn(context, ref) && context.mounted) {
+                await context.push('/settings/notifications');
+              }
+            },
+          ),
           toggle(l.settingsSound, s.sound, (v) => s.copyWith(sound: v)),
           toggle(l.settingsHaptics, s.haptics, (v) => s.copyWith(haptics: v)),
           row(

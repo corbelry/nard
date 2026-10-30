@@ -3958,4 +3958,236 @@ class AppLocalizationsEn extends AppLocalizations {
   String missionPuzzle(int n) {
     return 'Solve $n puzzles';
   }
+
+  @override
+  String get notifTitle => 'Notifications';
+
+  @override
+  String get notifReadAll => 'Mark all read';
+
+  @override
+  String get notifTabAll => 'All';
+
+  @override
+  String get notifTabGame => 'Game';
+
+  @override
+  String get notifTabSocial => 'Social';
+
+  @override
+  String get notifTabTournament => 'Tournament';
+
+  @override
+  String get notifToday => 'TODAY';
+
+  @override
+  String get notifYesterday => 'YESTERDAY';
+
+  @override
+  String get notifEarlier => 'EARLIER';
+
+  @override
+  String get notifNow => 'now';
+
+  @override
+  String notifMinutesAgo(int n) {
+    return '$n min';
+  }
+
+  @override
+  String notifHoursAgo(int n) {
+    return '$n h';
+  }
+
+  @override
+  String notifYesterdayAt(String time) {
+    return 'Yesterday $time';
+  }
+
+  @override
+  String get notifEmptyTitle => 'No notifications';
+
+  @override
+  String get notifEmptyBody => 'Friend requests, game invites and tournament news will show up here.';
+
+  @override
+  String get notifDelete => 'Delete';
+
+  @override
+  String notifBellLabel(int n) {
+    return 'Notifications, $n unread';
+  }
+
+  @override
+  String get notifGone => 'This invite is no longer valid';
+
+  @override
+  String get notifFriendRequest => 'sent you a friend request';
+
+  @override
+  String get notifFriendAccepted => 'accepted your friend request';
+
+  @override
+  String notifChallenge(String variant, int points) {
+    return 'invites you to play · $variant, $points points';
+  }
+
+  @override
+  String notifClanInvite(String clan, String tag) {
+    return 'invites you to the clan $clan [$tag]';
+  }
+
+  @override
+  String get notifClanJoined => 'accepted you as a member';
+
+  @override
+  String get notifClanWarWho => 'Clan war:';
+
+  @override
+  String notifClanWar(String opponent, String tag) {
+    return 'opponent $opponent [$tag]. Every win scores for your clan';
+  }
+
+  @override
+  String notifTournamentReminder(int n) {
+    return 'starts in $n minutes';
+  }
+
+  @override
+  String get notifTournamentStarted => 'has started. Your first match is ready';
+
+  @override
+  String notifTournamentRound(int round, String opponent) {
+    return '· Round $round is ready. Opponent: $opponent';
+  }
+
+  @override
+  String notifTournamentEliminated(int round) {
+    return '· Round $round: your run is over';
+  }
+
+  @override
+  String get notifTournamentWon => '· You are the champion! The prize is in your account';
+
+  @override
+  String notifTournamentFinished(int place) {
+    return 'is over · Your place: $place';
+  }
+
+  @override
+  String notifSeasonEndWho(int n) {
+    return 'Season $n';
+  }
+
+  @override
+  String notifSeasonEnd(String tier) {
+    return 'is over · Your tier: $tier. See your results';
+  }
+
+  @override
+  String notifLevelUpWho(int level) {
+    return 'Level $level!';
+  }
+
+  @override
+  String notifLevelUp(int coins) {
+    return 'You earned $coins coins';
+  }
+
+  @override
+  String get notifUnknown => 'New notification';
+
+  @override
+  String get notifGroupGame => 'GAME';
+
+  @override
+  String get notifGroupTournament => 'TOURNAMENTS';
+
+  @override
+  String get notifGroupSocial => 'SOCIAL';
+
+  @override
+  String get notifGroupRewards => 'REWARDS';
+
+  @override
+  String get notifPush => 'Push notifications';
+
+  @override
+  String get notifPushUnavailable => 'Push is not live in this version yet; everything shows in the inbox';
+
+  @override
+  String get notifQuietHours => 'Quiet hours';
+
+  @override
+  String notifQuietRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get notifQuietOff => 'Off';
+
+  @override
+  String get notifQuietBody => 'No pushes during these hours; notifications stay in the inbox.';
+
+  @override
+  String get notifQuietFrom => 'From';
+
+  @override
+  String get notifQuietTo => 'To';
+
+  @override
+  String get notifQuietSave => 'Save';
+
+  @override
+  String get notifEarlierHour => 'One hour earlier';
+
+  @override
+  String get notifLaterHour => 'One hour later';
+
+  @override
+  String get notifGameInvites => 'Game invites';
+
+  @override
+  String get notifTournamentStart => 'Tournament starting';
+
+  @override
+  String notifTournamentStartSub(int n) {
+    return '$n minutes before';
+  }
+
+  @override
+  String get notifRoundReady => 'Round ready';
+
+  @override
+  String get notifRoundReadySub => 'And tournament results';
+
+  @override
+  String get notifFriendRequests => 'Friend requests';
+
+  @override
+  String get notifClanInvites => 'Clan invites';
+
+  @override
+  String get notifClanWars => 'Clan war';
+
+  @override
+  String get notifSeasonResults => 'Season results';
+
+  @override
+  String get notifPromptTitle => 'Never miss your turn';
+
+  @override
+  String get notifPromptBody => 'We will let you know when a tournament starts, your round is ready or a friend invites you. You can turn off each category in settings.';
+
+  @override
+  String get notifPromptSample1 => 'Nigar invites you to play · Short Nard, 5 points';
+
+  @override
+  String get notifPromptSample2 => 'Baku Friday Cup starts in 15 minutes.';
+
+  @override
+  String get notifPromptAllow => 'Turn on notifications';
+
+  @override
+  String get notifPromptLater => 'Not now';
 }

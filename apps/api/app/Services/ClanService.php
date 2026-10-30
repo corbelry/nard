@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
  */
 class ClanService
 {
-    public function __construct(private WalletService $wallet, private SocialService $social) {}
+    public function __construct(private WalletService $wallet, private SocialService $social, private Notifier $notifier) {}
 
     public function memberOf(User $user): ?ClanMember
     {
@@ -274,6 +274,8 @@ class ClanService
                 throw new ClanException('already_in_clan');
             }
             $this->addMember($clan, $target);
+            $this->notifier->notify($target, 'clan_joined', ['clanId' => (string) $clan->id, 'clan' => $clan->name, 'tag' => $clan->tag],
+                "clan_joined:{$clan->id}:{$requestId}");
         });
     }
 
@@ -305,15 +307,22 @@ class ClanService
             throw new ClanException('clan_full');
         }
         DB::table('clan_invites')->where(['clan_id' => $clan->id, 'user_id' => $target->id])->delete();
-
-        return DB::table('clan_invites')->insertGetId([
+        $expires = now()->addDays((int) config('clans.invite_ttl_days'));
+        $id = DB::table('clan_invites')->insertGetId([
             'clan_id' => $clan->id,
             'user_id' => $target->id,
             'invited_by' => $user->id,
-            'expires_at' => now()->addDays((int) config('clans.invite_ttl_days')),
+            'expires_at' => $expires,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        // Re-invites by the same clan stack at most once a day.
+        $this->notifier->notify($target, 'clan_invite', [
+            'inviteId' => $id, 'clanId' => (string) $clan->id, 'clan' => $clan->name, 'tag' => $clan->tag,
+            'expiresAt' => $expires->toIso8601String(),
+        ], "clan_invite:{$clan->id}:{$expires->format('Y-m-d')}", $user->id);
+
+        return $id;
     }
 
     /** @return array<int, array<string, mixed>> */
@@ -714,7 +723,7 @@ class ClanService
                 continue;
             }
             DB::transaction(function () use ($a, $b, $week, $now): void {
-                ClanWar::query()->create([
+                $war = ClanWar::query()->create([
                     'week' => $week,
                     'clan_a_id' => $a->id,
                     'clan_b_id' => $b->id,
@@ -724,6 +733,14 @@ class ClanService
                 ]);
                 $this->system($a->id, 'war_started', ['clanId' => (string) $b->id, 'name' => $b->name, 'tag' => $b->tag]);
                 $this->system($b->id, 'war_started', ['clanId' => (string) $a->id, 'name' => $a->name, 'tag' => $a->tag]);
+                foreach ([[$a, $b], [$b, $a]] as [$mine, $theirs]) {
+                    $this->notifier->notifyMany(
+                        ClanMember::query()->where('clan_id', $mine->id)->pluck('user_id')->map(fn ($id) => (int) $id),
+                        'clan_war',
+                        ['clanId' => (string) $mine->id, 'warId' => $war->id, 'opponentId' => (string) $theirs->id, 'opponent' => $theirs->name, 'tag' => $theirs->tag],
+                        "clan_war:{$war->id}",
+                    );
+                }
             });
             $paired++;
             $i += 2;

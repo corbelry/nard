@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ClanController;
 use App\Http\Controllers\Api\IapController;
 use App\Http\Controllers\Api\MatchResultController;
 use App\Http\Controllers\Api\MeController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\PuzzleController;
 use App\Http\Controllers\Api\SeasonController;
@@ -106,6 +107,15 @@ Route::prefix('v1')->group(function (): void {
         Route::post('/puzzles/{id}/attempt', [PuzzleController::class, 'attempt'])
             ->where('id', '[a-z0-9-]{1,16}')->middleware('throttle:60,1');
         Route::post('/puzzles/{id}/reveal', [PuzzleController::class, 'reveal'])->where('id', '[a-z0-9-]{1,16}');
+
+        // Notifications (16.x, docs/api/notifications.md).
+        Route::get('/notifications', [NotificationController::class, 'index'])->middleware('throttle:120,1');
+        Route::post('/notifications/read', [NotificationController::class, 'read']);
+        Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->whereNumber('id');
+        Route::get('/me/notification-settings', [NotificationController::class, 'settings']);
+        Route::put('/me/notification-settings', [NotificationController::class, 'updateSettings']);
+        Route::post('/me/devices', [NotificationController::class, 'registerDevice'])->middleware('throttle:20,1');
+        Route::delete('/me/devices', [NotificationController::class, 'unregisterDevice']);
 
         Route::get('/me/progress', [ProgressController::class, 'show']);
         Route::post('/me/checkin', [ProgressController::class, 'checkIn']);

@@ -413,6 +413,27 @@ extension NardExtras on NardColors {
   /// Blunder row fill (10.1).
   Color get blunderFill => dangerText.withValues(alpha: .14);
 
+  // ---- Notifications (notifications.md §0) ------------------------------
+
+  /// Push pre-prompt (16.3) background: radial 80% 45% at 50% 30%.
+  Gradient get pushPromptBg => const RadialGradient(
+    center: Alignment(0, -.4),
+    radius: .85,
+    colors: [Color(0xFF4A2430), Color(0xFF24161B), Color(0xFF120C0E)],
+    stops: [0, .6, 1],
+  );
+
+  /// App icon tile in the 16.3 push previews.
+  Gradient get appIconFill => const RadialGradient(
+    center: Alignment(-.4, -.6),
+    radius: .9,
+    colors: [Color(0xFF4A321F), Color(0xFF2B1D14), Color(0xFF160E09)],
+    stops: [0, .6, 1],
+  );
+
+  /// Unread inbox row (16.2).
+  Color get unreadRow => accent.withValues(alpha: .07);
+
   /// Puzzle result panel shadow (13.2 / 13.3).
   List<BoxShadow> get panelShadow => const [
     BoxShadow(color: Color(0x66000000), offset: Offset(0, -10), blurRadius: 30),

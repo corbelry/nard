@@ -8,6 +8,7 @@ import 'package:nard_client/cosmetics/cosmetics_cache.dart';
 import 'package:nard_client/cosmetics/cosmetics_providers.dart';
 import 'package:nard_client/data/app_settings.dart';
 import 'package:nard_client/l10n/gen/app_localizations.dart';
+import 'package:nard_client/notifications/notification_models.dart';
 import 'package:nard_client/online/account.dart';
 import 'package:nard_client/online/api_client.dart';
 import 'package:nard_client/progression/progress_models.dart';
@@ -347,6 +348,18 @@ class FakeApi extends ApiClient {
 
   @override
   Future<Catalog> catalog() async => testCatalog;
+
+  /// The inbox the Home bell polls (empty unless a test fills it).
+  InboxPage inbox = const InboxPage(items: [], unread: 0);
+
+  @override
+  Future<InboxPage> notifications({int? after}) async => InboxPage(
+    items: [
+      for (final n in inbox.items)
+        if (after == null || n.id > after) n,
+    ],
+    unread: inbox.unread,
+  );
 
   @override
   Future<Inventory> inventory() async =>

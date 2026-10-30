@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
  */
 class ProgressionService
 {
-    public function __construct(private WalletService $wallet, private SeasonPassService $pass) {}
+    public function __construct(private WalletService $wallet, private SeasonPassService $pass, private Notifier $notifier) {}
 
     public static function xpForLevel(int $level): int
     {
@@ -118,6 +118,7 @@ class ProgressionService
             $spent += self::xpForLevel($level);
             $level++;
             $this->wallet->credit($user, 'coins', (int) config('progression.level_up_coins'), 'level_up', "level:{$user->id}:$level");
+            $this->notifier->notify($user, 'level_up', ['level' => $level, 'coins' => (int) config('progression.level_up_coins')], "level_up:$level");
         }
         $user->level = $level;
         $user->save();

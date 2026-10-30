@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
  */
 class SeasonService
 {
-    public function __construct(private WalletService $wallet) {}
+    public function __construct(private WalletService $wallet, private Notifier $notifier) {}
 
     /** The running season; season 1 is created when there is none. */
     public function current(?Carbon $now = null): Season
@@ -161,6 +161,9 @@ class SeasonService
             if ($new === 0) {
                 continue;
             }
+            $this->notifier->notify($user, 'season_end', [
+                'season' => $season->number, 'tier' => $tier, 'coins' => $reward['coins'], 'itemId' => $item,
+            ], "season_end:{$season->id}");
             if ($reward['coins'] > 0) {
                 $this->wallet->credit($user, 'coins', $reward['coins'], 'season', "season-end:{$season->id}:{$user->id}", "season:{$season->number}");
             }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../notifications/push_registrar.dart';
 import 'api_client.dart';
 import 'online_config.dart';
 
@@ -85,6 +86,13 @@ class AccountNotifier extends AsyncNotifier<Account?> {
       state = AsyncData(await _api.updateMe({'name': name}));
 
   Future<void> signOut() async {
+    try {
+      // This phone stops receiving the account's pushes (ADR-041).
+      final token = await ref.read(pushRegistrarProvider).token();
+      if (token != null) await _api.unregisterDevice(token);
+    } on Object {
+      // Best effort: a stale token is dropped when FCM rejects it.
+    }
     try {
       await _api.logout();
     } on ApiException {

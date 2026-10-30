@@ -3197,5 +3197,205 @@
         "type": "int"
       }
     }
-  }
+  },
+  "notifTitle": "Bildirişlər",
+  "notifReadAll": "Hamısını oxu",
+  "notifTabAll": "Hamısı",
+  "notifTabGame": "Oyun",
+  "notifTabSocial": "Sosial",
+  "notifTabTournament": "Turnir",
+  "notifToday": "BU GÜN",
+  "notifYesterday": "DÜNƏN",
+  "notifEarlier": "ƏVVƏL",
+  "notifNow": "indi",
+  "notifMinutesAgo": "{n} dəq",
+  "@notifMinutesAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "notifHoursAgo": "{n} saat",
+  "@notifHoursAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "notifYesterdayAt": "Dünən {time}",
+  "@notifYesterdayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifEmptyTitle": "Bildiriş yoxdur",
+  "notifEmptyBody": "Dostluq sorğuları, oyun dəvətləri və turnir xəbərləri burada görünəcək.",
+  "notifDelete": "Sil",
+  "notifBellLabel": "Bildirişlər, {n} oxunmamış",
+  "@notifBellLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "notifGone": "Bu dəvət artıq keçərli deyil",
+  "notifFriendRequest": "dostluq sorğusu göndərdi",
+  "notifFriendAccepted": "dostluq sorğunu qəbul etdi",
+  "notifChallenge": "səni oyuna çağırır · {variant}, {points} xal",
+  "@notifChallenge": {
+    "placeholders": {
+      "variant": {
+        "type": "String"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "notifClanInvite": "səni {clan} [{tag}] klanına dəvət edir",
+  "@notifClanInvite": {
+    "placeholders": {
+      "clan": {
+        "type": "String"
+      },
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "notifClanJoined": "klanına qəbul olundun",
+  "notifClanWarWho": "Klan döyüşü:",
+  "notifClanWar": "rəqib {opponent} [{tag}]. Hər qələbə klana xal gətirir",
+  "@notifClanWar": {
+    "placeholders": {
+      "opponent": {
+        "type": "String"
+      },
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "notifTournamentReminder": "{n} dəqiqəyə başlayır",
+  "@notifTournamentReminder": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "notifTournamentStarted": "başladı. İlk oyunun hazırdır",
+  "notifTournamentRound": "· Raund {round} hazırdır. Rəqib: {opponent}",
+  "@notifTournamentRound": {
+    "placeholders": {
+      "round": {
+        "type": "int"
+      },
+      "opponent": {
+        "type": "String"
+      }
+    }
+  },
+  "notifTournamentEliminated": "· Raund {round}: mübarizə bitdi",
+  "@notifTournamentEliminated": {
+    "placeholders": {
+      "round": {
+        "type": "int"
+      }
+    }
+  },
+  "notifTournamentWon": "· Çempionsan! Mükafat hesabındadır",
+  "notifTournamentFinished": "bitdi · Yerin: {place}",
+  "@notifTournamentFinished": {
+    "placeholders": {
+      "place": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSeasonEndWho": "Sezon {n}",
+  "@notifSeasonEndWho": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSeasonEnd": "bitdi · Dərəcən: {tier}. Nəticələrə bax",
+  "@notifSeasonEnd": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "notifLevelUpWho": "Səviyyə {level}!",
+  "@notifLevelUpWho": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "notifLevelUp": "+{coins} sikkə qazandın",
+  "@notifLevelUp": {
+    "placeholders": {
+      "coins": {
+        "type": "int"
+      }
+    }
+  },
+  "notifUnknown": "Yeni bildiriş",
+  "notifGroupGame": "OYUN",
+  "notifGroupTournament": "TURNİR",
+  "notifGroupSocial": "SOSİAL",
+  "notifGroupRewards": "MÜKAFATLAR",
+  "notifPush": "Push bildirişləri",
+  "notifPushUnavailable": "Bu versiyada push hələ işləmir; hamısı qutuda görünür",
+  "notifQuietHours": "Sakit saatlar",
+  "notifQuietRange": "{start} – {end}",
+  "@notifQuietRange": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "notifQuietOff": "Söndürülüb",
+  "notifQuietBody": "Bu saatlarda push gəlmir, bildirişlər qutuda qalır.",
+  "notifQuietFrom": "Başlanğıc",
+  "notifQuietTo": "Son",
+  "notifQuietSave": "Yadda saxla",
+  "notifEarlierHour": "Bir saat əvvəl",
+  "notifLaterHour": "Bir saat sonra",
+  "notifGameInvites": "Oyun dəvətləri",
+  "notifTournamentStart": "Turnir başlayır",
+  "notifTournamentStartSub": "{n} dəqiqə əvvəl",
+  "@notifTournamentStartSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "notifRoundReady": "Raund hazırdır",
+  "notifRoundReadySub": "Və turnir nəticələri",
+  "notifFriendRequests": "Dostluq sorğuları",
+  "notifClanInvites": "Klan dəvətləri",
+  "notifClanWars": "Klan müharibəsi",
+  "notifSeasonResults": "Sezon nəticələri",
+  "notifPromptTitle": "Növbəni qaçırma",
+  "notifPromptBody": "Turnir başlayanda, raundun hazır olanda və dost dəvət göndərəndə xəbər verək. Hər kateqoriyanı ayarlardan söndürə bilərsən.",
+  "notifPromptSample1": "Nigar səni oyuna çağırır · Qısa nərd, 5 xal",
+  "notifPromptSample2": "Bakı Cümə Kuboku 15 dəqiqəyə başlayır.",
+  "notifPromptAllow": "Bildirişləri aç",
+  "notifPromptLater": "İndi yox"
 }

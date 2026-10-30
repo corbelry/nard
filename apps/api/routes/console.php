@@ -20,3 +20,6 @@ Schedule::command('tournaments:schedule')->hourly()->withoutOverlapping();
 // Seasons end at midnight UTC (ADR-039): final ranks, season-end rewards,
 // soft rating reset, next season.
 Schedule::command('seasons:roll')->dailyAt('00:05')->timezone('UTC')->withoutOverlapping();
+
+// Notifications (ADR-041): drop inbox rows after config('push.retention_days').
+Schedule::command('notifications:prune')->dailyAt('03:30')->timezone('UTC')->withoutOverlapping();

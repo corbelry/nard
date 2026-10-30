@@ -10,6 +10,7 @@ import 'package:nard_protocol/nard_protocol.dart';
 import '../app/setup_draft.dart';
 import '../game/game_controller.dart';
 import '../l10n/gen/app_localizations.dart';
+import '../notifications/inbox_bell.dart';
 import '../online/account.dart';
 import '../online/online_draft.dart';
 import '../online/online_text.dart';
@@ -97,52 +98,63 @@ class HomeScreen extends ConsumerWidget {
           OfflineBanner(text: l.offlineBanner, visible: offline),
           if (account != null)
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: Pressable(
-                onTap: () => context.go('/profile'),
-                semanticLabel: account.name,
-                child: Row(
-                  children: [
-                    Avatar(name: account.name, size: 48),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.fromLTRB(16, 0, 8, 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Pressable(
+                      onTap: () => context.go('/profile'),
+                      semanticLabel: account.name,
+                      child: Row(
                         children: [
-                          Text(
-                            account.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: NardType.labelM.copyWith(
-                              fontSize: 16,
-                              color: c.text,
-                            ),
-                          ),
-                          if (rating != null) ...[
-                            const SizedBox(height: 5),
-                            Row(
+                          Avatar(name: account.name, size: 48),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RankBadge(
-                                  tier: tierNamed(rating.tier, rating.rating),
-                                ),
-                                const SizedBox(width: 8),
                                 Text(
-                                  l.rankMeta(rating.rating),
-                                  style: NardType.caption.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: c.textDim,
-                                    fontFeatures: tabular,
+                                  account.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: NardType.labelM.copyWith(
+                                    fontSize: 16,
+                                    color: c.text,
                                   ),
                                 ),
+                                if (rating != null) ...[
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      RankBadge(
+                                        tier: tierNamed(
+                                          rating.tier,
+                                          rating.rating,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        l.rankMeta(rating.rating),
+                                        style: NardType.caption.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: c.textDim,
+                                          fontFeatures: tabular,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                                const HomeLevelLine(),
                               ],
                             ),
-                          ],
-                          const HomeLevelLine(),
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  // Inbox (16.2): bell + unread badge; polls while shown.
+                  const InboxBell(),
+                ],
               ),
             ),
           if (account != null) const HomeCurrencyRow(),

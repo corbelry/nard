@@ -425,3 +425,46 @@ marks at 0.04 / 0.10; "Təhlil" replaces "Replay" on result screens.
 Puzzles are online only; hints run on the device. Sharing copies text
 (no share plugin). Not built: trophy showcase, private tournament editing,
 tournament push messages, error-rate stats, season mars/streak stats.
+
+## ADR-041 — Notifications: inbox first, push disabled until keys (2026-11-05)
+Every event is stored in a `notifications` inbox row (typed, JSON `data`,
+deduplicated per player and event) and shown in 16.2; the client polls it
+(`?after=` newest id) every 60 s while the Home bell is visible and on app
+resume. Events: friend request / accepted (SocialService), challenge
+(SocialController), clan invite / join request accepted / war started
+(ClanService), tournament reminder 15 min before / started / round ready /
+eliminated / won / finished (TournamentService, reminders from
+`tournaments:tick`), season end (SeasonService), level up (inbox only,
+earned with the app open). Senders blocked either way are dropped and
+hidden. 16.1 switches (`notification_settings`: master push, quiet hours
+23:00–08:00 by default in the device's UTC offset, muted categories)
+govern **pushes only**; the inbox keeps everything. Pushes go through a
+`PushSender` interface on the database queue (`SendPushNotification`,
+after commit; compose runs a `queue` worker): `FcmPushSender` (FCM HTTP v1,
+service-account JWT → OAuth token, iOS via APNs-through-FCM, unregistered
+tokens deleted) is bound only when `FCM_PROJECT_ID` and `FCM_CREDENTIALS`
+(service-account JSON path) are set; otherwise `NullPushSender` and the
+notifier log "push disabled" and queue nothing — the same "built, disabled
+by config" pattern as Apple/Google sign-in (ADR-030). Design gaps: the bell
+sits on the Home profile row (not drawn); 16.1 shows only categories with
+an event ("Sənin növbən", "Rəqib tapıldı", "Klan söhbəti", "Seriya
+xatırlatması", "Mağaza təklifləri" wait for their events; "Klan dəvətləri"
+and "Sezon nəticələri" added); the 16.3 copy no longer promises your-turn
+pushes; 16.3 shows once per install, before the OS dialog, only when the
+OS was never asked. Rows are pruned after 60 days.
+
+**Client push seam.** No new dependencies: `PushRegistrar`
+(`apps/client/lib/notifications/push_registrar.dart`) with
+`NoopPushRegistrar` (status `unsupported`, no token) behind
+`pushRegistrarProvider`. To enable push: create the Firebase project, add
+`google-services.json` / `GoogleService-Info.plist` and the APNs key in
+Firebase, add `firebase_core` + `firebase_messaging`, implement
+`PushRegistrar` with them (`status` ← `getNotificationSettings`,
+`requestPermission`, `token` ← `getToken`, `tokenRefresh` ←
+`onTokenRefresh`, `opened` ← `onMessageOpenedApp` + `getInitialMessage`
+mapping `data{id,type,data}` to `PushOpen`), override
+`pushRegistrarProvider` in `main.dart`, and set `FCM_PROJECT_ID` /
+`FCM_CREDENTIALS` on the API. The bell then registers the token
+(`POST /me/devices`), sign-out unregisters it, and 16.3 starts appearing.
+Contract: `docs/api/notifications.md`; screens:
+`docs/design-notes/notifications.md`.

@@ -9,6 +9,8 @@ use InvalidArgumentException;
 /** Friends and blocks (spec §8.5). */
 class SocialService
 {
+    public function __construct(private Notifier $notifier) {}
+
     public function isBlockedEitherWay(int $a, int $b): bool
     {
         return DB::table('blocks')
@@ -55,22 +57,29 @@ class SocialService
         if ($this->friendCount($from) >= (int) config('social.max_friends')) {
             throw new InvalidArgumentException('too_many_friends');
         }
-        DB::table('friendships')->insert([
+        $id = DB::table('friendships')->insertGetId([
             'requester_id' => $from->id,
             'addressee_id' => $to->id,
             'status' => 'pending',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        $this->notifier->notify($to, 'friend_request', ['requestId' => $id], "friend_request:$id", $from->id);
 
         return 'requested';
     }
 
     public function accept(User $user, int $requestId): bool
     {
-        return DB::table('friendships')
-            ->where(['id' => $requestId, 'addressee_id' => $user->id, 'status' => 'pending'])
+        $row = DB::table('friendships')
+            ->where(['id' => $requestId, 'addressee_id' => $user->id, 'status' => 'pending'])->first();
+        $accepted = $row !== null && DB::table('friendships')->where(['id' => $requestId, 'status' => 'pending'])
             ->update(['status' => 'accepted', 'accepted_at' => now(), 'updated_at' => now()]) > 0;
+        if ($accepted) {
+            $this->notifier->notify((int) $row->requester_id, 'friend_accepted', [], "friend_accepted:$requestId", $user->id);
+        }
+
+        return $accepted;
     }
 
     /** Declines an incoming or cancels an outgoing request. */

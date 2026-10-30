@@ -4006,4 +4006,236 @@ class AppLocalizationsRu extends AppLocalizations {
   String missionPuzzle(int n) {
     return 'Реши задач: $n';
   }
+
+  @override
+  String get notifTitle => 'Уведомления';
+
+  @override
+  String get notifReadAll => 'Прочитать все';
+
+  @override
+  String get notifTabAll => 'Все';
+
+  @override
+  String get notifTabGame => 'Игра';
+
+  @override
+  String get notifTabSocial => 'Друзья';
+
+  @override
+  String get notifTabTournament => 'Турниры';
+
+  @override
+  String get notifToday => 'СЕГОДНЯ';
+
+  @override
+  String get notifYesterday => 'ВЧЕРА';
+
+  @override
+  String get notifEarlier => 'РАНЕЕ';
+
+  @override
+  String get notifNow => 'сейчас';
+
+  @override
+  String notifMinutesAgo(int n) {
+    return '$n мин';
+  }
+
+  @override
+  String notifHoursAgo(int n) {
+    return '$n ч';
+  }
+
+  @override
+  String notifYesterdayAt(String time) {
+    return 'Вчера $time';
+  }
+
+  @override
+  String get notifEmptyTitle => 'Уведомлений нет';
+
+  @override
+  String get notifEmptyBody => 'Здесь появятся заявки в друзья, приглашения в игру и новости турниров.';
+
+  @override
+  String get notifDelete => 'Удалить';
+
+  @override
+  String notifBellLabel(int n) {
+    return 'Уведомления, непрочитанных: $n';
+  }
+
+  @override
+  String get notifGone => 'Это приглашение уже недействительно';
+
+  @override
+  String get notifFriendRequest => 'отправил(а) вам заявку в друзья';
+
+  @override
+  String get notifFriendAccepted => 'принял(а) вашу заявку в друзья';
+
+  @override
+  String notifChallenge(String variant, int points) {
+    return 'зовёт вас сыграть · $variant, до $points очков';
+  }
+
+  @override
+  String notifClanInvite(String clan, String tag) {
+    return 'приглашает вас в клан $clan [$tag]';
+  }
+
+  @override
+  String get notifClanJoined => 'принял вас в клан';
+
+  @override
+  String get notifClanWarWho => 'Война кланов:';
+
+  @override
+  String notifClanWar(String opponent, String tag) {
+    return 'соперник $opponent [$tag]. Каждая победа приносит очки клану';
+  }
+
+  @override
+  String notifTournamentReminder(int n) {
+    return 'начнётся через $n мин.';
+  }
+
+  @override
+  String get notifTournamentStarted => 'начался. Ваш первый матч готов';
+
+  @override
+  String notifTournamentRound(int round, String opponent) {
+    return '· Раунд $round готов. Соперник: $opponent';
+  }
+
+  @override
+  String notifTournamentEliminated(int round) {
+    return '· Раунд $round: вы выбыли';
+  }
+
+  @override
+  String get notifTournamentWon => '· Вы чемпион! Приз уже на счёте';
+
+  @override
+  String notifTournamentFinished(int place) {
+    return 'завершён · Ваше место: $place';
+  }
+
+  @override
+  String notifSeasonEndWho(int n) {
+    return 'Сезон $n';
+  }
+
+  @override
+  String notifSeasonEnd(String tier) {
+    return 'завершён · Ваша лига: $tier. Посмотрите итоги';
+  }
+
+  @override
+  String notifLevelUpWho(int level) {
+    return 'Уровень $level!';
+  }
+
+  @override
+  String notifLevelUp(int coins) {
+    return 'Вы получили $coins монет';
+  }
+
+  @override
+  String get notifUnknown => 'Новое уведомление';
+
+  @override
+  String get notifGroupGame => 'ИГРА';
+
+  @override
+  String get notifGroupTournament => 'ТУРНИРЫ';
+
+  @override
+  String get notifGroupSocial => 'ДРУЗЬЯ И КЛАН';
+
+  @override
+  String get notifGroupRewards => 'НАГРАДЫ';
+
+  @override
+  String get notifPush => 'Push-уведомления';
+
+  @override
+  String get notifPushUnavailable => 'В этой версии push пока не работает; всё видно во входящих';
+
+  @override
+  String get notifQuietHours => 'Тихие часы';
+
+  @override
+  String notifQuietRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String get notifQuietOff => 'Выкл.';
+
+  @override
+  String get notifQuietBody => 'В эти часы push не приходят, уведомления остаются во входящих.';
+
+  @override
+  String get notifQuietFrom => 'С';
+
+  @override
+  String get notifQuietTo => 'До';
+
+  @override
+  String get notifQuietSave => 'Сохранить';
+
+  @override
+  String get notifEarlierHour => 'На час раньше';
+
+  @override
+  String get notifLaterHour => 'На час позже';
+
+  @override
+  String get notifGameInvites => 'Приглашения в игру';
+
+  @override
+  String get notifTournamentStart => 'Начало турнира';
+
+  @override
+  String notifTournamentStartSub(int n) {
+    return 'За $n минут';
+  }
+
+  @override
+  String get notifRoundReady => 'Раунд готов';
+
+  @override
+  String get notifRoundReadySub => 'И итоги турнира';
+
+  @override
+  String get notifFriendRequests => 'Заявки в друзья';
+
+  @override
+  String get notifClanInvites => 'Приглашения в клан';
+
+  @override
+  String get notifClanWars => 'Война кланов';
+
+  @override
+  String get notifSeasonResults => 'Итоги сезона';
+
+  @override
+  String get notifPromptTitle => 'Не пропустите свой ход';
+
+  @override
+  String get notifPromptBody => 'Мы сообщим, когда начнётся турнир, будет готов ваш раунд или друг пригласит вас в игру. Каждую категорию можно отключить в настройках.';
+
+  @override
+  String get notifPromptSample1 => 'Нигяр зовёт вас сыграть · Короткие нарды, до 5 очков';
+
+  @override
+  String get notifPromptSample2 => 'Бакинский кубок пятницы начнётся через 15 мин.';
+
+  @override
+  String get notifPromptAllow => 'Включить уведомления';
+
+  @override
+  String get notifPromptLater => 'Не сейчас';
 }
