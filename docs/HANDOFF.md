@@ -47,9 +47,10 @@ drafts, and every owner answer in `docs/QUESTIONS.md` (all answered
 
 ## Post-Phase-7 backlog (ask the owner for the order)
 
-1. Emulator smoke of the newest client flows (2.2 time tiles, 15.2 export,
-   banned screen) against a rebuilt compose stack; local admin now needs
-   an authenticator app on first `/admin` sign-in.
+1. DONE 2026-11-08: emulator smoke on the rebuilt stack — 2.2 tiles, Blits
+   search chip "1+8s", bot fallback game on the 1-min clock, 15.2 guest
+   sheet ("E-poçt bağla"); fixed the misleading match count (ce9f760).
+   Local admin now needs an authenticator app on first `/admin` sign-in.
 2. Production API image: php-fpm or Octane, non-root, read-only root
    (ADR-043/046).
 3. Time choice in the 6.3 private room and friend challenges (ADR-044).
