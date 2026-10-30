@@ -89,7 +89,7 @@ void main() {
           GemProduct(id: 'yaqut_1200', gems: 1200),
         ],
       );
-      // Smallest pack covering the shortfall (1 480 → 2 000).
+      // Smallest pack covering the shortfall (1 480 → 2 600).
       expect(products.packFor(poor.shortfall)!.id, 'yaqut_2600');
       expect(products.packFor(100)!.id, 'yaqut_500');
       final carpet = testCatalog.item('board.carpet_heritage')!;
@@ -146,8 +146,8 @@ void main() {
       expect(find.text('Kral Mərməri'), findsOneWidget);
       expect(find.text('1 800 yaqut'), findsOneWidget);
       expect(find.text('−1 480 çatmır'), findsOneWidget);
-      expect(find.textContaining('2 000 yaqut paketini'), findsOneWidget);
-      expect(find.text('2 000 yaqut al'), findsOneWidget);
+      expect(find.textContaining('2 600 yaqut paketini'), findsOneWidget);
+      expect(find.text('2 600 yaqut al'), findsOneWidget);
       expect(api.calls, isEmpty);
       await closeScreen(tester);
     });
@@ -278,7 +278,7 @@ void main() {
       expect(find.textContaining('Yenilənir'), findsOneWidget);
       expect(find.text('Xalça İrsi'), findsOneWidget);
       expect(find.text('YAQUT'), findsOneWidget);
-      expect(find.text('2 000'), findsOneWidget);
+      expect(find.text('2 600'), findsOneWidget);
       expect(find.text('12 450'), findsOneWidget);
       await closeScreen(tester);
     });
