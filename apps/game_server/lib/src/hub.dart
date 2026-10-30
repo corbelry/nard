@@ -97,7 +97,6 @@ class Hub {
   Hub({
     required this.ticketSecret,
     required this.results,
-    this.clock = ClockConfig.standard,
     this.botAfter = const Duration(seconds: 30),
     this.botLevel = BotLevel.medium,
     Random? random,
@@ -120,7 +119,6 @@ class Hub {
 
   final String ticketSecret;
   final ResultSink results;
-  final ClockConfig clock;
   final Duration botAfter;
   final BotLevel botLevel;
   final Random _random;
@@ -643,6 +641,7 @@ class Hub {
       variant: req.variant,
       matchLength: req.matchLength,
       mode: QueueMode.casual,
+      timeControl: req.timeControl,
     );
     final finalCode = code;
     _privateRooms[code] = _PrivateRoom(
@@ -748,7 +747,8 @@ class Hub {
       mode: request.mode,
       white: white,
       black: black,
-      clock: clock,
+      clock: request.timeControl.clock,
+      timeControl: request.timeControl,
       tournamentId: tournamentId,
       now: _now,
       send: (side, msg) {
@@ -820,7 +820,7 @@ class Hub {
                   you: side,
                   white: white,
                   black: black,
-                  clock: clock,
+                  clock: request.timeControl.clock,
                   tournamentId: tournamentId,
                   round: round,
                 ).toJson(),
@@ -835,6 +835,7 @@ class Hub {
       'mode': request.mode.name,
       'variant': request.variant.name,
       'matchLength': request.matchLength,
+      'timeControl': request.timeControl.name,
       'white': white.userId,
       'black': black.userId,
       if (tournamentId != null) 'tournamentId': tournamentId,

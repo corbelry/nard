@@ -25,6 +25,7 @@ class MatchRoom {
     this.passDelay = const Duration(seconds: 2),
     this.nextGameDelay = const Duration(seconds: 4),
     this.tournamentId,
+    this.timeControl,
     int Function()? now,
   }) : _now = now ?? (() => DateTime.now().millisecondsSinceEpoch),
        _match = MatchState.start(length: matchLength),
@@ -49,6 +50,10 @@ class MatchRoom {
 
   /// Set for tournament matches; carried into the [MatchResult].
   final String? tournamentId;
+
+  /// The control [clock] came from (ADR-044); carried into the
+  /// [MatchResult].
+  final TimeControl? timeControl;
   final int Function() _now;
 
   MatchState _match;
@@ -405,6 +410,7 @@ class MatchRoom {
         startedAt: _startedAt,
         endedAt: _now(),
         tournamentId: tournamentId,
+        timeControl: timeControl,
       ),
     );
   }

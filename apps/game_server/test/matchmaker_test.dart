@@ -74,6 +74,42 @@ void main() {
       mm.dispose();
     });
   });
+
+  test('players only meet others of the same time control (ADR-044)', () {
+    fakeAsync((async) {
+      final pairs = <(String, String)>[];
+      final bots = <QueueEntry>[];
+      final mm = Matchmaker(
+        onMatch: (a, b) => pairs.add((a.ticket.userId, b.ticket.userId)),
+        onBot: bots.add,
+        now: () => async.elapsed.inMilliseconds,
+      )..start();
+      mm.join(t('a', 1500), casual.copyWith(timeControl: TimeControl.blitz));
+      mm.join(t('b', 1500), casual);
+      mm.join(t('c', 1500), casual.copyWith(timeControl: TimeControl.classic));
+      mm.join(t('d', 1500), ranked.copyWith(timeControl: TimeControl.blitz));
+      mm.join(t('e', 1500), ranked);
+      expect(pairs, isEmpty);
+      expect(mm.queueSizes(), {
+        'shortNard/3/casual/blitz': 1,
+        'shortNard/3/casual/rapid': 1,
+        'shortNard/3/casual/classic': 1,
+        'shortNard/3/ranked/blitz': 1,
+        'shortNard/3/ranked/rapid': 1,
+      });
+      mm.join(t('f', 1500), ranked.copyWith(timeControl: TimeControl.blitz));
+      expect(pairs, [('d', 'f')]);
+      mm.join(t('g', 1500), casual.copyWith(timeControl: TimeControl.classic));
+      expect(pairs.last, ('c', 'g'));
+      // The bot fallback keeps the player's control.
+      async.elapse(const Duration(seconds: 31));
+      expect(
+        {for (final e in bots) e.ticket.userId: e.request.timeControl},
+        {'a': TimeControl.blitz, 'b': TimeControl.rapid},
+      );
+      mm.dispose();
+    });
+  });
 }
 
 extension on QueueJoinPayload {

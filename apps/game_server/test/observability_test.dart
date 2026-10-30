@@ -256,7 +256,7 @@ void main() {
       expect(samples(text, 'nard_ws_connections'), {'': 2});
       expect(samples(text, 'nard_ws_authenticated_users'), {'': 2});
       expect(samples(text, 'nard_queue_size'), {
-        '{queue="longNard/3/ranked"}': 1,
+        '{queue="longNard/3/ranked/rapid"}': 1,
       });
       expect(samples(text, 'nard_ws_auth_failures_total'), {'': 1});
       expect(samples(text, 'nard_ws_errors_sent_total'), {

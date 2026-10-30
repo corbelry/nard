@@ -16,12 +16,14 @@ class QueueEntry {
   final int joinedAt;
 
   String get key =>
-      '${request.variant.name}/${request.matchLength}/${request.mode.name}';
+      '${request.variant.name}/${request.matchLength}/${request.mode.name}/'
+      '${request.timeControl.name}';
 
   int get rating => ticket.rating(request.variant);
 }
 
-/// Pairs queued players (spec §7.4): one queue per (variant, length, mode);
+/// Pairs queued players (spec §7.4): one queue per (variant, length, mode,
+/// time control — ADR-044);
 /// ranked pairs must be within a rating band that widens from ±50 to ±400
 /// while waiting; casual players get a labelled bot after [botAfter]
 /// (ADR-024). In-memory, single pod; the Redis-backed queue implements the
@@ -48,7 +50,8 @@ class Matchmaker {
 
   bool isQueued(String userId) => _entries.containsKey(userId);
 
-  /// Waiting players per queue key (`variant/length/mode`), for metrics.
+  /// Waiting players per queue key (`variant/length/mode/timeControl`), for
+  /// metrics.
   Map<String, int> queueSizes() {
     final sizes = <String, int>{};
     for (final e in _entries.values) {

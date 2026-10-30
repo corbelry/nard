@@ -334,4 +334,130 @@ void main() {
       await x.ws.sink.close();
     }
   });
+
+  group('time controls (ADR-044)', () {
+    Future<(MatchFoundPayload, GameStatePayload)> start(
+      Client a,
+      Client b,
+    ) async {
+      final found = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      await b.next(MessageType.matchFound);
+      a.send(MessageType.gameSeed, const SeedPayload('sa').toJson());
+      b.send(MessageType.gameSeed, const SeedPayload('sb').toJson());
+      final state = GameStatePayload.fromJson(
+        (await a.next(MessageType.gameState)).payload,
+      );
+      return (found, state);
+    }
+
+    test('the queue sets the room clock; controls never mix', () async {
+      final a = Client(server.port)..auth('alice');
+      final b = Client(server.port)..auth('bob');
+      final c = Client(server.port)..auth('carol');
+      for (final x in [a, b, c]) {
+        await x.next(MessageType.hello);
+      }
+      const join = QueueJoinPayload(
+        variant: Variant.shortNard,
+        matchLength: 1,
+        mode: QueueMode.casual,
+      );
+      a.send(
+        MessageType.queueJoin,
+        join.copyWith(timeControl: TimeControl.blitz).toJson(),
+      );
+      c.send(MessageType.queueJoin, join.toJson());
+      b.send(
+        MessageType.queueJoin,
+        join.copyWith(timeControl: TimeControl.blitz).toJson(),
+      );
+      final (found, state) = await start(a, b);
+      expect(found.clock.reserveMs, 60000);
+      expect(found.clock.delayMs, 8000);
+      expect(state.clock.whiteMs, 60000);
+      expect(state.clock.blackMs, 60000);
+      expect(hub.matchmaker.isQueued('carol'), isTrue);
+      var s = state;
+      while (s.state.phase == GamePhase.opening) {
+        s = GameStatePayload.fromJson(
+          (await a.next(MessageType.gameState)).payload,
+        );
+      }
+      a.send(MessageType.gameResign, {'kind': 'single'});
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+      expect(results.results.single.timeControl, TimeControl.blitz);
+      // Unknown controls are refused.
+      a.send(MessageType.queueJoin, {...join.toJson(), 'timeControl': 'daily'});
+      expect(
+        (await a.next(MessageType.error)).payload['code'],
+        ErrorCode.badRequest,
+      );
+      for (final x in [a, b, c]) {
+        await x.ws.sink.close();
+      }
+    });
+
+    test('a private room plays the clock it was created with', () async {
+      final a = Client(server.port)..auth('alice');
+      final b = Client(server.port)..auth('bob');
+      for (final x in [a, b]) {
+        await x.next(MessageType.hello);
+      }
+      a.send(
+        MessageType.roomCreate,
+        const RoomCreatePayload(
+          variant: Variant.shortNard,
+          matchLength: 1,
+          timeControl: TimeControl.classic,
+        ).toJson(),
+      );
+      final code =
+          RoomCodePayload.fromJson(
+            (await a.next(MessageType.roomCreated)).payload,
+          ).code;
+      b.send(MessageType.roomJoin, RoomCodePayload(code).toJson());
+      final (found, state) = await start(a, b);
+      expect(found.clock.reserveMs, 300000);
+      expect(found.clock.delayMs, 15000);
+      expect(state.clock.whiteMs, 300000);
+      for (final x in [a, b]) {
+        await x.ws.sink.close();
+      }
+    });
+
+    test('the bot fallback keeps the chosen control', () async {
+      final quick = Hub(
+        ticketSecret: secret,
+        results: results,
+        botAfter: Duration.zero,
+      );
+      final s = await io.serve(
+        buildHandler(quick),
+        InternetAddress.loopbackIPv4,
+        0,
+      );
+      final a = Client(s.port)..auth('alice');
+      await a.next(MessageType.hello);
+      a.send(
+        MessageType.queueJoin,
+        const QueueJoinPayload(
+          variant: Variant.shortNard,
+          matchLength: 1,
+          mode: QueueMode.casual,
+          timeControl: TimeControl.classic,
+        ).toJson(),
+      );
+      final found = MatchFoundPayload.fromJson(
+        (await a.next(MessageType.matchFound)).payload,
+      );
+      expect(found.white.bot || found.black.bot, isTrue);
+      expect(found.clock.reserveMs, TimeControl.classic.clock.reserveMs);
+      expect(found.clock.delayMs, TimeControl.classic.clock.delayMs);
+      await a.ws.sink.close();
+      quick.dispose();
+      await s.close(force: true);
+    });
+  });
 }
