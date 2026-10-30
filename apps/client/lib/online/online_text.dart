@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:nard_core/nard_core.dart';
+import 'package:nard_protocol/nard_protocol.dart';
 
 import '../l10n/gen/app_localizations.dart';
 import 'api_client.dart';
@@ -31,6 +32,21 @@ extension OnlineText on AppLocalizations {
 
   String formatName(int matchLength) =>
       matchLength <= 1 ? formatOneGame : formatPoints(matchLength);
+
+  /// "Blits" / "Sürətli" / "Klassik" (ADR-044).
+  String timeControlName(TimeControl t) => switch (t) {
+    TimeControl.blitz => timeBlitz,
+    TimeControl.rapid => timeRapid,
+    TimeControl.classic => timeClassic,
+  };
+
+  /// "1 dəq + 8s".
+  String clockValue(ClockConfig clock) =>
+      timeValue(clock.reserveMs ~/ 60000, clock.delayMs ~/ 1000);
+
+  /// "1+8s" (chips and overlines).
+  String clockShort(ClockConfig clock) =>
+      timeControlShort(clock.reserveMs ~/ 60000, clock.delayMs ~/ 1000);
 
   String variantAbbr(Variant v) =>
       v == Variant.shortNard ? variantShortAbbr : variantLongAbbr;

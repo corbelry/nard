@@ -1373,7 +1373,16 @@ class AppLocalizationsAz extends AppLocalizations {
   String get setupTimeLabel => 'VAXT NƏZARƏTİ';
 
   @override
+  String get timeBlitz => 'Blits';
+
+  @override
   String get timeRapid => 'Sürətli';
+
+  @override
+  String get timeClassic => 'Klassik';
+
+  @override
+  String get timeDaily => 'Gündəlik';
 
   @override
   String timeValue(int minutes, int delay) {

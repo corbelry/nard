@@ -1373,7 +1373,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get setupTimeLabel => 'SÜRE KONTROLÜ';
 
   @override
+  String get timeBlitz => 'Yıldırım';
+
+  @override
   String get timeRapid => 'Hızlı';
+
+  @override
+  String get timeClassic => 'Klasik';
+
+  @override
+  String get timeDaily => 'Günlük';
 
   @override
   String timeValue(int minutes, int delay) {

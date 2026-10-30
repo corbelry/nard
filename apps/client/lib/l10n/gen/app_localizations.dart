@@ -2487,11 +2487,29 @@ abstract class AppLocalizations {
   /// **'VAXT NƏZARƏTİ'**
   String get setupTimeLabel;
 
+  /// No description provided for @timeBlitz.
+  ///
+  /// In az, this message translates to:
+  /// **'Blits'**
+  String get timeBlitz;
+
   /// No description provided for @timeRapid.
   ///
   /// In az, this message translates to:
   /// **'Sürətli'**
   String get timeRapid;
+
+  /// No description provided for @timeClassic.
+  ///
+  /// In az, this message translates to:
+  /// **'Klassik'**
+  String get timeClassic;
+
+  /// No description provided for @timeDaily.
+  ///
+  /// In az, this message translates to:
+  /// **'Gündəlik'**
+  String get timeDaily;
 
   /// No description provided for @timeValue.
   ///

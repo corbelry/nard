@@ -16,8 +16,9 @@ import '../../ui/controls.dart';
 import '../../ui/layout.dart';
 import '../setup_screen.dart';
 
-/// 2.2 Game setup, online mode (online.md §7.2): variant, format, the
-/// server's single time control and the Reytinqli toggle.
+/// 2.2 Game setup, online mode (online.md §7.2): variant, format, time
+/// control (Blits / Sürətli / Klassik; Gündəlik later, ADR-044) and the
+/// Reytinqli toggle.
 class OnlineSetupScreen extends ConsumerWidget {
   const OnlineSetupScreen({super.key});
 
@@ -30,13 +31,24 @@ class OnlineSetupScreen extends ConsumerWidget {
     final offline = ref.watch(offlineProvider);
     final account = ref.watch(accountProvider).value;
     final rating = ratingFor(account, draft.variant)?.rating;
-    const clock = ClockConfig.standard;
-    void edit({Variant? variant, int? length, QueueMode? mode}) => notifier.set(
-      QueueJoinPayload(
-        variant: variant ?? draft.variant,
-        matchLength: length ?? draft.matchLength,
-        mode: mode ?? draft.mode,
+    void edit({
+      Variant? variant,
+      int? length,
+      QueueMode? mode,
+      TimeControl? time,
+    }) => notifier.set(
+      draft.copyWith(
+        variant: variant,
+        matchLength: length,
+        mode: mode,
+        timeControl: time,
       ),
+    );
+    Widget timeTile(TimeControl t) => TimeTile(
+      name: l.timeControlName(t),
+      value: l.clockValue(t.clock),
+      selected: draft.timeControl == t,
+      onTap: () => edit(time: t),
     );
     final ranked = draft.mode == QueueMode.ranked;
     return Scaffold(
@@ -80,17 +92,28 @@ class OnlineSetupScreen extends ConsumerWidget {
                     const SizedBox(height: 22),
                     Overline(l.setupTimeLabel),
                     const SizedBox(height: 10),
-                    // The server runs one time control for now (§12.11).
-                    OptionTile(
-                      label: [
-                        l.timeRapid,
-                        l.timeValue(
-                          clock.reserveMs ~/ 60000,
-                          clock.delayMs ~/ 1000,
+                    Row(
+                      children: [
+                        Expanded(child: timeTile(TimeControl.blitz)),
+                        const SizedBox(width: 8),
+                        Expanded(child: timeTile(TimeControl.rapid)),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(child: timeTile(TimeControl.classic)),
+                        const SizedBox(width: 8),
+                        // Correspondence is a later product (QUESTIONS #20).
+                        Expanded(
+                          child: TimeTile(
+                            name: l.timeDaily,
+                            value: l.comingSoon,
+                            selected: false,
+                            onTap: null,
+                          ),
                         ),
-                      ].join(' · '),
-                      selected: true,
-                      onTap: () {},
+                      ],
                     ),
                     const SizedBox(height: 22),
                     Container(

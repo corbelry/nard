@@ -1140,7 +1140,10 @@
   "deleteConfirmWord": "SİL",
   "setupOnlineTitle": "Onlayn oyun",
   "setupTimeLabel": "VAXT NƏZARƏTİ",
+  "timeBlitz": "Blits",
   "timeRapid": "Sürətli",
+  "timeClassic": "Klassik",
+  "timeDaily": "Gündəlik",
   "timeValue": "{minutes} dəq + {delay}s",
   "@timeValue": {
     "placeholders": {

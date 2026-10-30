@@ -1487,7 +1487,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setupTimeLabel => 'TIME CONTROL';
 
   @override
+  String get timeBlitz => 'Blitz';
+
+  @override
   String get timeRapid => 'Rapid';
+
+  @override
+  String get timeClassic => 'Classic';
+
+  @override
+  String get timeDaily => 'Daily';
 
   @override
   String timeValue(int minutes, int delay) {

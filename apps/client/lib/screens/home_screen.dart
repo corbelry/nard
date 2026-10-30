@@ -64,15 +64,7 @@ class HomeScreen extends ConsumerWidget {
     Future<void> online(QueueMode mode) async {
       if (!await ensureSignedIn(context, ref) || !context.mounted) return;
       final draft = ref.read(onlineDraftProvider);
-      ref
-          .read(onlineDraftProvider.notifier)
-          .set(
-            QueueJoinPayload(
-              variant: draft.variant,
-              matchLength: draft.matchLength,
-              mode: mode,
-            ),
-          );
+      ref.read(onlineDraftProvider.notifier).set(draft.copyWith(mode: mode));
       await context.push('/online/setup');
     }
 

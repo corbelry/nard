@@ -189,7 +189,7 @@ class _RoomScreenState extends ConsumerState<RoomScreen>
     final draft = ref.read(onlineDraftProvider);
     ref
         .read(onlineDraftProvider.notifier)
-        .set(QueueJoinPayload(variant: v, matchLength: len, mode: draft.mode));
+        .set(draft.copyWith(variant: v, matchLength: len));
     ref
         .read(socialSocketProvider.notifier)
         .createRoom(v, len, invite: room.invited);

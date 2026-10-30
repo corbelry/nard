@@ -1531,7 +1531,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get setupTimeLabel => 'КОНТРОЛЬ ВРЕМЕНИ';
 
   @override
+  String get timeBlitz => 'Блиц';
+
+  @override
   String get timeRapid => 'Рапид';
+
+  @override
+  String get timeClassic => 'Классика';
+
+  @override
+  String get timeDaily => 'Заочная';
 
   @override
   String timeValue(int minutes, int delay) {

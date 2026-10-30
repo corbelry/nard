@@ -227,6 +227,65 @@ class OptionTile extends StatelessWidget {
   }
 }
 
+/// Time-control tile (2.2, `screens.md` "Time tile"): name over value,
+/// height 72. Without [onTap] it is shown disabled (not offered yet).
+class TimeTile extends StatelessWidget {
+  const TimeTile({
+    super.key,
+    required this.name,
+    required this.value,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String name;
+  final String value;
+  final bool selected;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.nard;
+    return SizedBox(
+      height: 72,
+      child: SelectableCard(
+        selected: selected,
+        enabled: onTap != null,
+        onTap: onTap,
+        radius: c.cardRadius,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: NardSpace.s3,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: NardType.labelM.copyWith(
+                fontSize: 14,
+                color: selected ? c.accentHi : c.text,
+              ),
+            ),
+            Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: NardType.bodyS.copyWith(
+                color: c.textDim,
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Card that can be selected (language rows, variant cards, AI levels).
 class SelectableCard extends StatelessWidget {
   const SelectableCard({

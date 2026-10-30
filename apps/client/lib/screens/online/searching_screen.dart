@@ -104,11 +104,10 @@ class _SearchingScreenState extends ConsumerState<SearchingScreen>
     final ranked = request.mode == QueueMode.ranked;
     final rating = ratingFor(account, request.variant)?.rating;
     final band = ratingBand(waited);
-    const clock = ClockConfig.standard;
     final chips = [
       request.variant == Variant.shortNard ? l.variantShort : l.variantLong,
       l.formatName(request.matchLength),
-      l.timeControlShort(clock.reserveMs ~/ 60000, clock.delayMs ~/ 1000),
+      l.clockShort(request.timeControl.clock),
       if (ranked && rating != null) l.ratingRange(rating - band, rating + band),
     ];
     final tip =
