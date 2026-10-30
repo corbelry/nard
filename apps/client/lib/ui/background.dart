@@ -68,6 +68,9 @@ class LatticePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The diagonals start outside the box; without the clip Impeller draws
+    // the overhang past a ShaderMask's fade (hero card on Android).
+    canvas.clipRect(Offset.zero & size);
     final paint =
         Paint()
           ..color = color
