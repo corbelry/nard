@@ -1,5 +1,26 @@
 # Changelog
 
+## Phase 7 — Polish & launch (2026-11-08)
+- Notifications: inbox, settings (quiet hours, categories), push pre-prompt;
+  FCM sender disabled until keys (ADR-041).
+- Filament 5 admin: players (ban/mute/warn/grant), reports, matches,
+  fair-play flags, tournaments, seasons, clans, items, puzzles, ledger,
+  audit log; authenticator-app MFA required (ADR-042, ADR-046).
+- Fair play: engine-agreement, abandonment cooldown, report and
+  multi-account signals (`anticheat:scan`); bans, mutes and cooldowns reach
+  live WebSocket sessions (ADR-042, ADR-045).
+- Observability: Prometheus `/metrics`, `/readyz`, JSON logs, Sentry by DSN
+  in API and game server; Dart load test (200 matches, p95 18 ms) and Helm
+  chart with NetworkPolicy and hardened pods; MySQL + Helm CI jobs
+  (ADR-043, ADR-046).
+- Owner decisions: Blits/Sürətli/Klassik time controls (ADR-044), 3 min
+  tournament no-show, 2 600 Yaqut pack, clan chest rewards, anonymised
+  deleted players, 30-day deletion grace with a web deletion page,
+  e-mailed data export ZIP, Apple sign-in on iOS only.
+- Security review: per-route and per-address limits, purpose-bound login
+  codes, WebSocket frame/rate/connection limits, PII-redacted Sentry
+  (ADR-045, ADR-046). Store listing drafts in `docs/store/`.
+
 ## Phase 6 — Tournaments & seasons (2026-11-01)
 - Tournaments: knockout, Swiss (Buchholz), round-robin, sit-and-go,
   scheduled cups/league, private free knockouts; fees/refunds/prizes via the

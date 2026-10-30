@@ -18,6 +18,13 @@ Decisions: ADR-042. Spec: §8.13 (admin), §8.14 (anti-cheat). Config:
     php artisan admin:create you@example.com --password='at-least-12-chars'
   ```
 
+- An authenticator app (TOTP, with recovery codes) is required (ADR-046):
+  on first sign-in the panel shows the set-up page with a QR code; there is
+  no way past it without MFA. Lost device → use a recovery code, or another
+  admin clears `app_authentication_secret` from the console.
+- Production: set `ingress.adminAllowlist` (Helm) to the office / VPN CIDRs
+  so `/admin` and `/livewire` are reachable only from there; session
+  cookies are HTTPS-only (`SESSION_SECURE_COOKIE=true` in the chart).
 - Every write is audited in `admin_actions` (System → Audit log).
 
 | Section | Resource | What admins can do |

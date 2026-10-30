@@ -692,3 +692,54 @@ reaches it.
 `nard_ws_rejected_total{reason="ip_limit"}`. The client does not yet treat
 `banned` / close 4008 specially: it reconnects and the API refuses the
 ticket with 403 `banned`; a dedicated banned screen is open work.
+
+## ADR-046 — Security review of Phase 7: limits, codes, admin and cluster (2026-11-08)
+
+**Context.** A read-only review of the Phase 7 surface (admin, observability,
+deletion page, export, rate limits, Helm, moderation) found 12 issues.
+Findings 3–4 (live moderation, WebSocket abuse) are ADR-045; the rest are
+here.
+
+**Decision.**
+- **Limiters are per route.** An un-named `throttle:N,M` keys by user/IP
+  only, so every route shared one counter and the first route set the
+  window (browsing clans blocked `POST /game/ticket`). Every legacy throttle
+  now has a prefix (`throttle:30,1,post-game-ticket`); sign-in uses named
+  limiters in `AppServiceProvider`: `auth` and `email-verify` 20/min,
+  `email-start` 5 per 10 min per IP **and** `nard.login_code_hourly_issues`
+  (5) per hour per address. IPv6 clients are keyed by their /64.
+- **Login codes are capped per address.** `LoginCodes::check` counts wrong
+  guesses per e-mail; after `nard.login_code_daily_failures` (10) in 24 h
+  every code for that address answers `code_expired`. Worst case for an
+  attacker: 10 guesses a day against 10^6 codes. Trade-off accepted: someone
+  can lock an address out of e-mail sign-in for a day.
+- **Codes have a purpose** (`login_codes.purpose`: `sign_in` | `deletion`):
+  a deletion-page code never signs in, and issuing one leaves a pending
+  sign-in code alone.
+- **The deletion page queues its code** (`SendDeletionCode`) for every
+  address, so known and unknown addresses answer equally fast.
+- **Export hides internals:** `reports.action/handled_by/handled_at` and
+  admin ids in `wallet_transactions.reference` (`admin:<id>` → `admin`).
+- **Sentry (API) redacts** e-mails and IPv4/IPv6 addresses in messages,
+  exception text, traces and context, and sends at most 30 events a minute
+  per process. `/readyz` is throttled (60/min per IP) because the API
+  ingress serves `/`.
+- **Admin:** Filament requires an authenticator app with recovery codes
+  (`AppAuthentication::make()->recoverable()`, secrets in encrypted
+  columns); Helm sets `SESSION_SECURE_COOKIE=true` and offers
+  `ingress.adminAllowlist` (a second Ingress for `/admin` and `/livewire`
+  with `whitelist-source-range`).
+- **Cluster:** `podSecurityContext.seccompProfile: RuntimeDefault`; every
+  container drops all capabilities and disallows privilege escalation; the
+  game server (`FROM scratch`) runs as uid 65532 on a read-only root. A
+  NetworkPolicy lets only the ingress namespace, the monitoring namespace
+  and NardArena's own pods reach the API (8000) and game server (8080);
+  scheduler, queue and migrate pods accept nothing. That is what makes
+  `TRUSTED_PROXIES="*"` safe; without the policy, pin it to the ingress CIDR.
+
+**Not done (ROADMAP):** the interim API image still runs as root (Laravel
+writes `storage/`); the production php-fpm/Octane image should run as
+non-root on a read-only root with an emptyDir for `storage/framework`.
+Per-IP WebSocket caps may be low for carrier NAT — watch
+`nard_ws_rejected_total{reason="ip_limit"}`.
+

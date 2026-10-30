@@ -12,7 +12,7 @@ end of every phase (together with `CHANGELOG.md`).
 | 4 – Customization & store | Items, inventory, loadouts, remote asset packs, coins/gems ledger, IAP validation; progression: level/XP, missions, achievements, titles, login streak (ADR-017) | ✅ Done (2026-10-31) — data-driven sets (ADR-034); texture packs + store receipt APIs pending |
 | 5 – Social & clans | Friends, private rooms, spectating, emotes, clans, clan chat, clan wars | ✅ Done (2026-11-01) — ADR-036/037 |
 | 6 – Tournaments & seasons | All tournament types, brackets, seasons/pass, leaderboards; neural AI + analysis mode | ✅ Done (2026-11-01) — heuristic analysis; neural AI later (ADR-038–040) |
-| 7 – Polish & launch | Admin completeness, anti-cheat, notifications, observability, load tests, store listings | ⏭ Next |
+| 7 – Polish & launch | Admin completeness, anti-cheat, notifications, observability, load tests, store listings | ✅ Done (2026-11-08) — ADR-041–046; launch needs the owner's accounts/keys (docs/store/listing.md §8) |
 
 ## Design coverage (nardarena-design skill)
 
@@ -130,8 +130,9 @@ No design requests are open.
 - Social: QR friend codes, last-seen times, spectator count, room
   "guest joined" message, clan rename/settings UI, deep links (ADR-037).
 
-- Infra (ADR-043): production API image (php-fpm or Octane; the chart
-  still runs PHP's built-in server with workers), multi-pod game server
+- Infra (ADR-043, ADR-046): production API image (php-fpm or Octane,
+  non-root, read-only root with an emptyDir for `storage/framework`; the
+  chart still runs PHP's built-in server with workers as root), multi-pod game server
   (Redis queues, matchId registry, sticky routing, per-turn snapshots —
   the chart refuses replicas > 1), Grafana dashboards / alert rules,
   OpenTelemetry traces, Sentry SDKs for the Flutter client. `game.state`
