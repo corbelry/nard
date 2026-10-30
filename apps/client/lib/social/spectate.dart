@@ -31,7 +31,8 @@ class SpectatorState {
 /// (always White's view). Every [GameActions] intent is ignored.
 class SpectatorController extends Notifier<SpectatorState>
     implements GameActions {
-  int _lastSeq = -1;
+  /// Full states rebuilt from frames and deltas (ADR-048).
+  final _sync = GameStateSync();
 
   @override
   SpectatorState build() => const SpectatorState();
@@ -43,7 +44,7 @@ class SpectatorController extends Notifier<SpectatorState>
     required String whiteName,
     required String blackName,
   }) {
-    _lastSeq = -1;
+    _sync.reset();
     state = SpectatorState(
       matchId: matchId,
       whiteName: whiteName,
@@ -61,9 +62,21 @@ class SpectatorController extends Notifier<SpectatorState>
         blackName: state.blackName,
       );
 
+  /// A `game.state` frame of the watched match; a delta that does not fit
+  /// asks the server for the full state (`game.sync`, ADR-048).
+  void onFrame(GameStateFrame frame) {
+    if (frame.matchId != state.matchId) return;
+    final full = _sync.accept(
+      frame,
+      onGap:
+          () => ref.read(socialSocketProvider.notifier).resync(frame.matchId),
+    );
+    if (full != null) onState(full);
+  }
+
+  /// Shows the full state [p] of the watched match.
   void onState(GameStatePayload p) {
-    if (p.matchId != state.matchId || p.seq <= _lastSeq) return;
-    _lastSeq = p.seq;
+    if (p.matchId != state.matchId) return;
     final setup = MatchSetup(
       variant: p.record.variant,
       opponent: OpponentKind.passAndPlay,

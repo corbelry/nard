@@ -9,8 +9,9 @@ enum SocketStatus { connecting, online, offline }
 
 /// WebSocket to the game server with ticket auth, keep-alive pings and
 /// automatic reconnects (a fresh ticket per attempt). Messages are
-/// re-delivered through [messages]; the server resends `game.state` after
-/// every reconnect, so nothing is replayed client-side.
+/// re-delivered through [messages]; the server resends the full
+/// `game.state` after every reconnect, so nothing is replayed client-side.
+/// `auth` announces [features]: `game.state` deltas (ADR-048).
 class GameSocket {
   GameSocket({
     required this.url,
@@ -35,6 +36,13 @@ class GameSocket {
   int _ids = 0;
   bool _closed = false;
   SocketStatus _current = SocketStatus.offline;
+
+  /// Protocol features this client understands (ADR-048).
+  static const features = {ProtocolFeature.stateDelta};
+
+  /// The `auth` payload for [ticket].
+  static AuthPayload authFor(String ticket) =>
+      AuthPayload(ticket, features: features);
 
   Stream<Envelope> get messages => _messages.stream;
   Stream<SocketStatus> get status => _status.stream;
@@ -69,7 +77,7 @@ class GameSocket {
         onDone: _lost,
         onError: (Object _) => _lost(),
       );
-      send(MessageType.auth, AuthPayload(t).toJson());
+      send(MessageType.auth, authFor(t).toJson());
       _pingTimer?.cancel();
       _pingTimer = Timer.periodic(ping, (_) => send(MessageType.ping));
     } on Object {

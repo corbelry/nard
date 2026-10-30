@@ -184,7 +184,7 @@ class SocialSocket extends Notifier<RoomState> {
         try {
           ref
               .read(spectatorProvider.notifier)
-              .onState(GameStatePayload.fromJson(msg.payload));
+              .onFrame(GameStateFrame.fromJson(msg.payload));
         } on ProtocolException {
           // Ignore a malformed state; the next one replaces it.
         }
@@ -319,6 +319,14 @@ class SocialSocket extends Notifier<RoomState> {
       (s) =>
           _spectateId = s.send(MessageType.spectateJoin, {'matchId': matchId}),
     );
+  }
+
+  /// Asks for the full state of the watched match after a delta gap.
+  void resync(String matchId) {
+    final s = _bound;
+    if (_watching == matchId && s != null && s.current == SocketStatus.online) {
+      s.send(MessageType.gameSync, {'matchId': matchId});
+    }
   }
 
   void stopSpectating() {

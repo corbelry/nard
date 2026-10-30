@@ -75,7 +75,9 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
   StreamSubscription<Envelope>? _sub;
   StreamSubscription<SocketStatus>? _statusSub;
   Timer? _rollTimer;
-  int _lastSeq = -1;
+
+  /// Full states rebuilt from `game.state` frames and deltas (ADR-048).
+  final _sync = GameStateSync();
   MatchSetup? _setup;
 
   /// Index of the last game we sent a client seed for (FD-02: one per game).
@@ -107,7 +109,7 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
   /// cooldown is known the lobby shows it instead of searching.
   Future<void> search(QueueJoinPayload request) async {
     state = null;
-    _lastSeq = -1;
+    _sync.reset();
     _setup = null;
     final cooldown = _queueCooldownUntil;
     if (cooldown != null && cooldown.isAfter(DateTime.now())) {
@@ -141,7 +143,7 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
   /// following `match.found` starts a fresh game without a queue request.
   void resetForRoom() {
     state = null;
-    _lastSeq = -1;
+    _sync.reset();
     _setup = null;
     _lobby = const Lobby();
   }
@@ -180,8 +182,12 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
     return socket;
   }
 
+  /// The socket intents go to once it exists (tests substitute one).
+  @visibleForTesting
+  GameSocket? get activeSocket => _socket;
+
   void _send(String type, [Map<String, Object?> payload = const {}]) =>
-      _socket?.send(type, payload);
+      activeSocket?.send(type, payload);
 
   void cancelSearch() {
     _send(MessageType.queueLeave);
@@ -224,12 +230,22 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
             clock: found.clock,
           ),
         );
-        _lastSeq = -1;
+        _sync.reset();
         _seededGame = 0;
         _lobby = _lobby.copyWith(phase: LobbyPhase.found, match: () => found);
         _send(MessageType.gameSeed, SeedPayload(_seed()).toJson());
       case MessageType.gameState:
-        _onState(GameStatePayload.fromJson(msg.payload));
+        final frame = GameStateFrame.fromJson(msg.payload);
+        if (_setup == null || frame.matchId != _setup?.online?.matchId) {
+          return;
+        }
+        // A delta that does not fit (lost frame): ask for the full state
+        // rather than guess (ADR-048).
+        final full = _sync.accept(
+          frame,
+          onGap: () => _send(MessageType.gameSync, {'matchId': frame.matchId}),
+        );
+        if (full != null) _onState(full);
       case MessageType.error:
         final err = ErrorPayload.fromJson(msg.payload);
         if (err.code == ErrorCode.queueCooldown) {
@@ -271,11 +287,10 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
     return '${ref.read(accountProvider).value?.id ?? 'p'}-$now';
   }
 
+  /// A new full state of the current match (stale ones are already
+  /// dropped by [_sync]).
   void _onState(GameStatePayload p) {
-    final setup = _setup;
-    if (setup == null || p.matchId != setup.online?.matchId) return;
-    if (p.seq <= _lastSeq) return;
-    _lastSeq = p.seq;
+    final setup = _setup!;
     // Every game of a match needs fresh client seeds before its opening
     // roll; the first one went out with `match.found`.
     if (p.record.actions.isEmpty &&
