@@ -22,6 +22,29 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * assertSame that ignores the key order of associative arrays at every
+     * level (MySQL normalizes the key order of JSON columns; lists keep
+     * their order).
+     */
+    protected function assertSameIgnoringKeyOrder(mixed $expected, mixed $actual, string $message = ''): void
+    {
+        $this->assertSame(self::sortKeys($expected), self::sortKeys($actual), $message);
+    }
+
+    private static function sortKeys(mixed $value): mixed
+    {
+        if (! is_array($value)) {
+            return $value;
+        }
+        $value = array_map(self::sortKeys(...), $value);
+        if (! array_is_list($value)) {
+            ksort($value);
+        }
+
+        return $value;
+    }
+
+    /**
      * The model re-read from the database (it must still exist).
      *
      * @template T of Model

@@ -145,7 +145,7 @@ class ModerationTest extends TestCase
         $this->assertSame(750, app(WalletService::class)->balances($user)['coins']);
         $audit = AdminAction::query()->where('action', 'grant')->sole();
         $this->assertSame('Lost match compensation', $audit->note);
-        $this->assertSame(['currency' => 'coins', 'amount' => 750], array_intersect_key((array) $audit->data, ['currency' => 0, 'amount' => 0]));
+        $this->assertSameIgnoringKeyOrder(['currency' => 'coins', 'amount' => 750], array_intersect_key((array) $audit->data, ['currency' => 0, 'amount' => 0]));
 
         foreach ([['coins', 10, '  '], ['coins', 0, 'x'], ['coins', 100_001, 'x'], ['gold', 10, 'x']] as [$currency, $amount, $note]) {
             try {

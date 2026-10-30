@@ -98,7 +98,7 @@ class AntiCheatTest extends TestCase
         $this->runCommand('anticheat:export', ['path' => $path])->expectsOutputToContain('Exported 1 match(es)')->assertSuccessful();
         $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
         $this->assertCount(1, $lines);
-        $this->assertSame([
+        $this->assertSameIgnoringKeyOrder([
             'matchId' => $ranked->id, 'variant' => 'shortNard',
             'white' => ['userId' => (string) $a->id], 'black' => ['userId' => (string) $b->id], 'games' => $games,
         ], json_decode($lines[0], true));
@@ -125,7 +125,7 @@ class AntiCheatTest extends TestCase
         $flags = CheatFlag::query()->where('kind', 'multi_account')->orderBy('user_id')->get();
         $this->assertSame([$a->id, $b->id], $flags->pluck('user_id')->all());
         [$flagA, $flagB] = $flags->all();
-        $this->assertSame([['userId' => $b->id, 'shared' => ['ip'], 'rankedMatches' => 2, 'wins' => 2]], $flagA->details['partners']);
+        $this->assertSameIgnoringKeyOrder([['userId' => $b->id, 'shared' => ['ip'], 'rankedMatches' => 2, 'wins' => 2]], $flagA->details['partners']);
         $this->assertSame(0, $flagB->details['partners'][0]['wins']);
         $this->assertSame(2.0, $flagA->score);
         $this->runCommand('anticheat:scan', ['--skip-engine' => true])->expectsOutputToContain('multi_account: 0 new flag(s)');
@@ -158,7 +158,7 @@ class AntiCheatTest extends TestCase
         $this->runCommand('anticheat:scan', ['--skip-engine' => true])->expectsOutputToContain('abandonment: 1 new flag(s)')->assertSuccessful();
         $flag = CheatFlag::query()->where('kind', 'abandonment')->sole();
         $this->assertSame($quitter->id, $flag->user_id);
-        $this->assertSame(['matches' => 10, 'quits' => 4, 'rate' => 0.4], array_intersect_key($flag->details, ['matches' => 0, 'quits' => 0, 'rate' => 0]));
+        $this->assertSameIgnoringKeyOrder(['matches' => 10, 'quits' => 4, 'rate' => 0.4], array_intersect_key($flag->details, ['matches' => 0, 'quits' => 0, 'rate' => 0]));
         $until = $this->reload($quitter)->queue_cooldown_until;
         $this->assertNotNull($until);
         $this->assertEqualsWithDelta(now()->addHours(24)->getTimestamp(), $until->getTimestamp(), 5);

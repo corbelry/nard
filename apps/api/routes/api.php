@@ -12,9 +12,11 @@ use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\SocialController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\TournamentController;
+use App\Http\Controllers\MetricsController;
 use App\Http\Middleware\EnsureNotBanned;
 use App\Http\Middleware\TouchLastSeen;
 use App\Http\Middleware\VerifyGameServerSignature;
+use App\Http\Middleware\VerifyMetricsToken;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function (): void {
@@ -141,4 +143,8 @@ Route::prefix('v1')->group(function (): void {
         ->middleware(VerifyGameServerSignature::class);
     Route::post('/internal/tournament-no-shows', [MatchResultController::class, 'noShow'])
         ->middleware(VerifyGameServerSignature::class);
+
+    // Prometheus scrape (ADR-043): bearer METRICS_TOKEN, 404 when unset.
+    Route::get('/internal/metrics', MetricsController::class)
+        ->middleware([VerifyMetricsToken::class, 'throttle:60,1']);
 });

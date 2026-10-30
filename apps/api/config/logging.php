@@ -1,5 +1,7 @@
 <?php
 
+use App\Logging\JsonLineFormatter;
+use App\Logging\SentryHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -111,6 +113,31 @@ return [
             ],
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'processors' => [PsrLogMessageProcessor::class],
+        ],
+
+        // Containers (ADR-043): one JSON object per line on stderr, same
+        // shape as the game server's logs. LOG_CHANNEL=stack, LOG_STACK=json,sentry.
+        'json' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'info'),
+            'handler' => StreamHandler::class,
+            'handler_with' => [
+                'stream' => 'php://stderr',
+            ],
+            'formatter' => JsonLineFormatter::class,
+            'processors' => [PsrLogMessageProcessor::class],
+        ],
+
+        // Errors to Sentry when SENTRY_DSN is set; a no-op otherwise.
+        'sentry' => [
+            'driver' => 'monolog',
+            'level' => 'error',
+            'handler' => SentryHandler::class,
+            'handler_with' => [
+                'dsn' => env('SENTRY_DSN'),
+                'environment' => env('SENTRY_ENVIRONMENT') ?: env('APP_ENV', 'production'),
+                'release' => env('SENTRY_RELEASE', 'api'),
+            ],
         ],
 
         'syslog' => [

@@ -109,7 +109,7 @@ class ClanWarTest extends TestCase
         // Online wins over humans from other clans: a 3 (w1, w2, w6), b 1 (w5).
         $this->assertSame(2600 + 30, $a->refresh()->xp);
         $this->assertSame(1200 + 10, $b->refresh()->xp);
-        $this->assertSame(['userId' => (string) $a1->id, 'name' => $a1->name, 'points' => 3],
+        $this->assertSameIgnoringKeyOrder(['userId' => (string) $a1->id, 'name' => $a1->name, 'points' => 3],
             ClanMessage::query()->where(['clan_id' => $a->id, 'event' => 'war_win'])->orderBy('id')->firstOrFail()->data);
 
         // Next Monday: last week's war closes, the winner gets clan XP.
@@ -122,7 +122,7 @@ class ClanWarTest extends TestCase
         $this->assertSame(['finished', $a->id], [$war->status, $war->winner_clan_id]);
         $this->assertSame(2630 + 1000, $a->refresh()->xp);
         $this->assertSame(1210, $b->refresh()->xp);
-        $this->assertSame(['result' => 'lost', 'mine' => 3, 'theirs' => 6],
+        $this->assertSameIgnoringKeyOrder(['result' => 'lost', 'mine' => 3, 'theirs' => 6],
             ClanMessage::query()->where(['clan_id' => $b->id, 'event' => 'war_ended'])->firstOrFail()->data);
         // A finished war keeps scoring nothing.
         $this->report($a1, $b1, 'w7')->assertCreated();

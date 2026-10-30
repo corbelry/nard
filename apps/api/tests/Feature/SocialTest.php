@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -80,7 +81,7 @@ class SocialTest extends TestCase
         $a = User::factory()->create();
         $b = User::factory()->create();
         $this->actingAs($a)->postJson('/api/v1/reports', ['userId' => (string) $b->id, 'reason' => 'abuse', 'matchId' => 'm1'])
-            ->assertCreated()->assertJsonPath('reference', 'R-000001');
+            ->assertCreated()->assertJsonPath('reference', sprintf('R-%06d', Report::query()->sole()->id));
         $this->actingAs($a)->postJson('/api/v1/reports', ['userId' => (string) $b->id, 'reason' => 'spam'])->assertUnprocessable();
         $this->actingAs($a)->postJson('/api/v1/reports', ['userId' => (string) $b->id, 'reason' => 'name'])->assertCreated();
         $this->actingAs($a)->postJson('/api/v1/reports', ['userId' => (string) $b->id, 'reason' => 'other'])->assertStatus(429);
