@@ -979,3 +979,19 @@ opening), 250–550 ms minimum think.
 
 **Consequences.** Without confirmation a finished turn cannot be taken
 back; players who want that turn confirmation on.
+
+## ADR-051 — Noto Serif text cut for the display family (2026-10-30)
+
+**Context.** On the owner's phone (720p) titles such as "Hesabına daxil ol"
+looked thin and spindly: Noto Serif Display is a high-contrast cut meant
+for large print sizes.
+
+**Decision.** Owner's choice: keep the serif look but use the Noto Serif
+text cut (static SemiBold 600 and Medium Italic 500, wdth 100, same OFL
+source). `lib/theme/` stays byte-identical to the design skill, so the
+pubspec family `NotoSerifDisplay` (the theme's `NardFonts.display`) now
+points at the Noto Serif files; the Display files are removed.
+
+**Consequences.** Titles are a little wider than in the Claude Design
+mocks; the overflow tests at 390×844 still pass. If the design skill is
+re-exported with a new display font, update the pubspec mapping.

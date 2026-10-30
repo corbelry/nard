@@ -43,12 +43,14 @@ flutter:
     - assets/sounds/
   # Fonts: OFL (see assets/fonts/OFL-*.txt). Static instances of the Google
   # Fonts variable files; IBMPlexSansCondensed has no Cyrillic (komur only).
+  # The theme's display family is served by Noto Serif (the text cut): the
+  # Display cut's hairlines look thin on phone screens (ADR-051).
   fonts:
     - family: NotoSerifDisplay
       fonts:
-        - asset: assets/fonts/NotoSerifDisplay-SemiBold.ttf
+        - asset: assets/fonts/NotoSerif-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/NotoSerifDisplay-MediumItalic.ttf
+        - asset: assets/fonts/NotoSerif-MediumItalic.ttf
           weight: 500
           style: italic
     - family: IBMPlexSans
