@@ -1,1 +1,1 @@
-{{ __('nard.code_body', ['code' => $code, 'minutes' => $minutes]) }}
+{{ __($purpose === 'deletion' ? 'deletion.code_body' : 'nard.code_body', ['code' => $code, 'minutes' => $minutes]) }}

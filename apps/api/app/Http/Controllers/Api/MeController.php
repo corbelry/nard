@@ -41,13 +41,8 @@ class MeController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         $user = $this->user($request);
-        $user->forceFill(['deletion_requested_at' => now()])->save();
-        $user->tokens()->delete();
 
-        return response()->json([
-            'ok' => true,
-            'deletesAt' => now()->addDays((int) config('nard.deletion_grace_days'))->toIso8601String(),
-        ]);
+        return response()->json(['ok' => true, 'deletesAt' => $user->requestDeletion()->toIso8601String()]);
     }
 
     /** 15.2: everything stored about the player. */

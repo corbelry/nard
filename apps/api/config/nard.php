@@ -8,6 +8,10 @@ return [
     // 15.3: an account is deleted this many days after the request.
     'deletion_grace_days' => 30,
 
+    // Shown on the banned screen and the web deletion page (QUESTIONS #41;
+    // the owner confirms the mailbox before release).
+    'support_email' => env('SUPPORT_EMAIL', 'support@nardarena.app'),
+
     // Where the API pushes tournament pairings (signed with the same secret).
     'game_server_url' => env('GAME_SERVER_URL', ''),
 

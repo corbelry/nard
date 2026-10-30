@@ -464,11 +464,17 @@ privacy policy or ask for an API change to anonymise names on deletion.
 - [ ] **Privacy policy URL** (public, all four languages if possible) that
       covers the table in §7, including IP / device sightings (QUESTIONS
       #42) and the deleted-account name note.
-- [ ] **Account deletion web page URL** (required by Google Play in
-      addition to in-app deletion).
-- [ ] **Support e-mail** for the stores and the banned screen
-      (`kSupportEmail` in `apps/client/lib/moderation/moderation.dart`,
-      QUESTIONS #41), and optionally a support / marketing website.
+- [x] **Account deletion web page** (required by Google Play in
+      addition to in-app deletion): built into the API at
+      `https://<api-host>/delete-account` (QUESTIONS #45; e-mail code →
+      same 30-day grace, never creates an account; `?lang=az|en|ru|tr`).
+      Guests delete in the app. Owner: give Play the URL once the API host
+      is live.
+- [ ] **Support e-mail** for the stores, the banned screen and the
+      deletion page (`kSupportEmail` in
+      `apps/client/lib/moderation/moderation.dart` and `SUPPORT_EMAIL` /
+      `nard.support_email` in the API; both default to
+      `support@nardarena.app`, QUESTIONS #41), and optionally a support / marketing website.
 - [ ] **App icon** (1024×1024, no transparency for iOS; adaptive icon
       foreground + background for Android), **feature graphic**
       (1024×500), optional promo video.

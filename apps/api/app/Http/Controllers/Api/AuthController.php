@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Mail\LoginCodeMail;
-use App\Models\LoginCode;
 use App\Models\User;
 use App\Services\AntiCheatService;
+use App\Services\LoginCodes;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
 /** Sign-in (ADR-020): guest device accounts, e-mail codes, Apple/Google. */
 class AuthController extends Controller
@@ -40,32 +36,19 @@ class AuthController extends Controller
         return $this->signedIn($user, 'guest', $request);
     }
 
-    public function emailStart(Request $request): JsonResponse
+    public function emailStart(Request $request, LoginCodes $codes): JsonResponse
     {
         $data = $request->validate([
             'email' => ['required', 'email:rfc', 'max:255'],
             'locale' => ['nullable', 'string', self::LOCALES],
         ]);
-        $email = mb_strtolower($data['email']);
-        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        $ttl = (int) config('nard.login_code_ttl');
-        DB::transaction(function () use ($email, $code, $ttl): void {
-            LoginCode::query()->where('email', $email)->delete();
-            LoginCode::query()->create([
-                'email' => $email,
-                'code_hash' => Hash::make($code),
-                'expires_at' => now()->addSeconds($ttl),
-            ]);
-        });
-        Mail::to($email)
-            ->locale($data['locale'] ?? 'az')
-            ->send(new LoginCodeMail($code, intdiv($ttl, 60)));
+        $codes->issue(mb_strtolower($data['email']), $data['locale'] ?? 'az');
 
         // Same answer whether or not an account exists.
         return response()->json(['sent' => true], 202);
     }
 
-    public function emailVerify(Request $request): JsonResponse
+    public function emailVerify(Request $request, LoginCodes $codes): JsonResponse
     {
         $data = $request->validate([
             'email' => ['required', 'email:rfc', 'max:255'],
@@ -73,17 +56,10 @@ class AuthController extends Controller
             'deviceId' => ['nullable', 'string', 'min:8', 'max:64'],
         ]);
         $email = mb_strtolower($data['email']);
-        $login = LoginCode::query()->where('email', $email)->latest('id')->first();
-        if ($login === null || $login->expires_at->isPast()
-            || $login->attempts >= (int) config('nard.login_code_attempts')) {
-            return response()->json(['code' => 'code_expired'], 422);
+        $error = $codes->check($email, $data['code']);
+        if ($error !== null) {
+            return response()->json(['code' => $error], 422);
         }
-        if (! Hash::check($data['code'], $login->code_hash)) {
-            $login->increment('attempts');
-
-            return response()->json(['code' => 'code_invalid'], 422);
-        }
-        $login->delete();
 
         $existing = User::query()->firstWhere('email', $email);
         /** @var User|null $current */

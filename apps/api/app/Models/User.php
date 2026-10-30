@@ -127,6 +127,18 @@ class User extends Authenticatable implements FilamentUser
         return $this->is_admin && ! $this->isBanned();
     }
 
+    /**
+     * Starts the deletion grace (QUESTIONS #18) and signs out every device;
+     * returns when `accounts:purge` deletes the account.
+     */
+    public function requestDeletion(): Carbon
+    {
+        $this->forceFill(['deletion_requested_at' => now()])->save();
+        $this->tokens()->delete();
+
+        return now()->addDays((int) config('nard.deletion_grace_days'));
+    }
+
     /** Banned while banned_at is set and the ban is permanent or not over. */
     public function isBanned(): bool
     {
