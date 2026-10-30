@@ -85,12 +85,9 @@ No design requests are open.
 
 ## Carried over / not yet done
 
-- Sound effects: Kenney "Casino Audio" (CC0) placeholders in
-  `apps/client/assets/sounds/`; custom sounds in Phase 7 (ADR-030).
-- `nard_protocol`: envelope only; payload models, `seq`, JSON-schema export
-  for PHP are Phase 3.
-- `game_server`: `/healthz` + WS ping/pong only; game loop is Phase 3.
-- Filament admin: Phase 7 (pick a Laravel 13 compatible version, ADR-002).
+- Sound effects: Kenney "Casino Audio" (CC0) in
+  `apps/client/assets/sounds/` (owner's choice); custom sounds later
+  (ADR-030).
 - `.mat` match-file import/export: not planned (ADR-021).
 - CI workflow has not yet run on GitHub (verified locally only).
 - App/bundle ID: use placeholder `com.nardarena.app` in Phase 2; the final
@@ -100,11 +97,14 @@ No design requests are open.
 - Lesson (9.5): steps 1 and 3–7 were written by us (Short Nard only);
   the owner wants to **revisit the lesson content later** (ADR-030) —
   consider a Long Nard lesson and designed coach art.
-- Board direction setting ("Taxta istiqaməti") not built (QUESTIONS #4).
-- iOS build not verified (no Mac; QUESTIONS #12).
+- Board direction setting ("Taxta istiqaməti"): later, once both
+  directions are designed (QUESTIONS #4).
+- iOS build not verified: build on a Mac when available (QUESTIONS #12).
+- Native-speaker review of en/ru/tr before launch (QUESTIONS #10).
 
 - Multi-pod game server (Redis queues, match registry, per-turn snapshots,
-  Redis Streams for results): Phase 7 (ADR-032).
+  Redis Streams for results): after launch, when traffic needs it
+  (ADR-032, QUESTIONS #15; one pod measured in docs/LOAD_TEST.md).
 - IAP receipt verification (Google Play / App Store APIs): when the
   owner has store accounts (endpoints exist, disabled by config).
 - Apple / Google token verification: when the owner provides keys
@@ -120,15 +120,15 @@ No design requests are open.
 - Tournaments (ADR-038): WS pushes for bracket updates / elimination /
   champion / cancellation (clients poll), Swiss top-8 playoff, longer
   finals, per-tournament clocks, private-tournament editing, trophy
-  showcase, clan championships, admin creation (Filament, Phase 7).
+  showcase, clan championships (admin creation is in Filament, ADR-042).
 
 - Seasons (ADR-039): per-season mars / longest-streak stats for 7.2, more
   seasonal cosmetics for empty premium-pass levels, admin editing of season
-  reward tables (Phase 7), season-end push notification.
+  reward tables (Filament only lists seasons and ends them),
+  season-end push notification.
 
 - Social: QR friend codes, last-seen times, spectator count, room
-  "guest joined" message, clan rename/settings UI, deep links (ADR-037);
-  clan chest member rewards (QUESTIONS #31).
+  "guest joined" message, clan rename/settings UI, deep links (ADR-037).
 
 - Infra (ADR-043): production API image (php-fpm or Octane; the chart
   still runs PHP's built-in server with workers), multi-pod game server
