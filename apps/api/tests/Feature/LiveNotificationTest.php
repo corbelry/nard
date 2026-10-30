@@ -152,7 +152,8 @@ class LiveNotificationTest extends TestCase
         /** @return array<string, mixed>|null */
         $data = fn (User $u, string $type): ?array => json_decode((string) DB::table('notifications')
             ->where(['user_id' => $u->id, 'type' => $type])->value('data'), true);
-        $this->assertSame(['season' => 1, 'tier' => 'diamond', 'coins' => 2000, 'itemId' => 'avatar_frame.season_diamond',
+        // MySQL JSON columns do not keep key order.
+        $this->assertSameIgnoringKeyOrder(['season' => 1, 'tier' => 'diamond', 'coins' => 2000, 'itemId' => 'avatar_frame.season_diamond',
             'rank' => 1, 'variant' => 'shortNard'], $data($a, 'season_end'));
         // b's best tier came from Long Nard, where b ranks first.
         $this->assertSame([1, 'longNard'], [$data($b, 'season_end')['rank'] ?? null, $data($b, 'season_end')['variant'] ?? null]);
