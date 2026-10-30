@@ -521,3 +521,70 @@ reporters in 7 days. One flag per player and kind within the rule's window:
 open flags are refreshed, reviewed ones are not raised again. Thresholds
 are first guesses (QUESTIONS #40). Tournament collusion detection is not
 built yet.
+
+## ADR-043 — Observability, load test, Helm chart and MySQL CI (2026-11-07)
+**Game server.** No new dependencies: a small Prometheus registry
+(`lib/src/metrics.dart`, text format 0.0.4) served at `GET /metrics` —
+connections, authenticated users, active rooms, bots, spectators, private
+rooms, pending tournament matches, queue size per `variant/length/mode`,
+matches started (by mode) / finished (by mode, reason), results reported /
+failed (rejected, lost) / retried, WebSocket frames in/out, error messages
+by code, auth failures, internal errors, a room-handle latency histogram
+per intent type (unknown types share `other`, so clients cannot create
+series) and process memory. `GET /readyz` is 200 once the server listens
+and 503 after SIGTERM (then it closes after `SHUTDOWN_GRACE_SECONDS`);
+`/healthz` stays the liveness probe. Logs are JSON lines (`level`, `ts`,
+`msg`, then fields; `LOG_LEVEL`), and the shelf `logRequests` middleware
+became a JSON request logger that also turns handler errors into 500 +
+error report. Errors go to a pluggable `ErrorReporter`: no-op by default,
+`SentryReporter` when `SENTRY_DSN` is set — it posts to the DSN's `store`
+endpoint with the existing `http` client (no SDK), capped at 30 events/min.
+`/metrics` is not authenticated: the Ingress exposes only `/ws`.
+
+**API.** `json` log channel (stderr, `App\Logging\JsonLineFormatter`, same
+shape as the game server; PSR level names) and a `sentry` channel
+(`SentryHandler`, error level, no-op without `SENTRY_DSN`); containers use
+`LOG_CHANNEL=stack LOG_STACK=json,sentry`. `GET /api/v1/internal/metrics`
+(Prometheus text, bearer `METRICS_TOKEN`, 404 when unset): users by kind,
+matches ended in the last 24 h by mode (new index on
+`game_matches.ended_at`), database queue depth by queue, failed jobs, open
+reports, open cheat flags by kind. Request rates and latencies are left to
+the ingress controller's metrics. `GET /readyz` (outside the web
+middleware, since sessions use the database) checks the database and
+Redis (`READINESS_CHECKS`); `/up` stays liveness. **Bug fixed:** the API
+trusted no proxies, so behind the ingress every player would share the
+ingress IP for the per-IP limits (guest sign-up 20/min, e-mail codes) —
+`TRUSTED_PROXIES` (`*` = the immediate peer, or CIDRs) now feeds
+`TrustProxies`; the chart sets `*`.
+
+**Load test.** `apps/game_server/tool/load_test.dart` (Dart, not k6: it
+reuses the protocol models and the heuristic bot, and the latency that
+matters is intent → authoritative `game.state`). Results and method in
+`docs/LOAD_TEST.md`; spec §11's `tools/load/` path is replaced by this tool.
+Locally, 200 concurrent matches (400 clients, 500 ms think time) gave a
+move round-trip p95 of 18 ms (target < 150 ms), zero errors and 53 MB RSS.
+One pod (one isolate, one core) saturates at about 900 intents per second,
+so the multi-pod work of spec §7.5 stays the path to 50k CCU.
+
+**Kubernetes.** Helm chart `infra/helm/nardarena`: API Deployment + Service
++ HPA (CPU 70 %, 2–10) + PDB, scheduler (1, Recreate), queue workers,
+game server (replicas 1, Recreate; the chart refuses > 1 until the Redis
+queue / matchId registry / sticky routing of spec §7.5 exist, ADR-032),
+ConfigMap for non-secret API settings, one existing Secret referenced by
+name (no values in the repo), Ingresses for the API host and the WS host
+(`/ws` only, long proxy timeouts), probes on `/readyz`, Prometheus
+annotations on the game server and an optional ServiceMonitor (the API
+endpoint needs the bearer token), migrations as a `pre-install,pre-upgrade`
+hook Job with its settings inline (the ConfigMap does not exist yet on a
+first install). MySQL and Redis are external values. The API container
+still runs PHP's built-in server (`PHP_CLI_SERVER_WORKERS`) until a
+production image (php-fpm or Octane) is built.
+
+**CI.** New `api-mysql` job runs the API suite against a `mysql:8.4`
+service; `helm` job lints, renders and schema-checks the chart
+(kubeconform); the e2e job also checks `/readyz` + metrics and runs a
+2-match load-test smoke. The MySQL failures were test assumptions, not
+product bugs: MySQL normalizes the key order of JSON columns (new
+`assertSameIgnoringKeyOrder` helper) and does not reset auto-increment ids
+between transactional tests (the report reference is computed from the
+stored id).

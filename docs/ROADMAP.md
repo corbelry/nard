@@ -130,10 +130,14 @@ No design requests are open.
   "guest joined" message, clan rename/settings UI, deep links (ADR-037);
   clan chest member rewards (QUESTIONS #31).
 
-- API test suite passes on SQLite (CI); on MySQL some tests fail in a full
-  run (auto-increment ids / JSON key order assumed by tests, state leaking
-  between tests). Production paths are covered by the compose e2e on MySQL.
-  Add a MySQL test job and make those tests id/order-independent.
+- Infra (ADR-043): production API image (php-fpm or Octane; the chart
+  still runs PHP's built-in server with workers), multi-pod game server
+  (Redis queues, matchId registry, sticky routing, per-turn snapshots —
+  the chart refuses replicas > 1), Grafana dashboards / alert rules,
+  OpenTelemetry traces, Sentry SDKs for the Flutter client. `game.state`
+  carries the full game record on every message (≈5 KB per frame on
+  average in the load test, growing with the game): send deltas or only the
+  last turn (docs/LOAD_TEST.md).
 
 - Neural AI (spec §6 v2) — training pipeline, on-device model, unlocks
   Usta/Qrossmeyster, real equity in analysis (QUESTIONS #39).
