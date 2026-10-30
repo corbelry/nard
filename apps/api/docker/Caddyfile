@@ -1,0 +1,17 @@
+# FrankenPHP for the production API image (ADR-047): plain HTTP on :8000
+# behind the ingress (TLS ends there), classic mode — one PHP request per
+# thread, no Octane worker.
+{
+	admin off
+	auto_https off
+	persist_config off
+	frankenphp {
+		num_threads {$FRANKENPHP_NUM_THREADS:8}
+	}
+}
+
+:8000 {
+	root * /app/public
+	encode zstd gzip
+	php_server
+}
