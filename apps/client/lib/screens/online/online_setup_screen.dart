@@ -14,6 +14,7 @@ import '../../ui/background.dart';
 import '../../ui/buttons.dart';
 import '../../ui/controls.dart';
 import '../../ui/layout.dart';
+import '../../ui/time_control_tiles.dart';
 import '../setup_screen.dart';
 
 /// 2.2 Game setup, online mode (online.md §7.2): variant, format, time
@@ -43,12 +44,6 @@ class OnlineSetupScreen extends ConsumerWidget {
         mode: mode,
         timeControl: time,
       ),
-    );
-    Widget timeTile(TimeControl t) => TimeTile(
-      name: l.timeControlName(t),
-      value: l.clockValue(t.clock),
-      selected: draft.timeControl == t,
-      onTap: () => edit(time: t),
     );
     final ranked = draft.mode == QueueMode.ranked;
     return Scaffold(
@@ -92,28 +87,9 @@ class OnlineSetupScreen extends ConsumerWidget {
                     const SizedBox(height: 22),
                     Overline(l.setupTimeLabel),
                     const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(child: timeTile(TimeControl.blitz)),
-                        const SizedBox(width: 8),
-                        Expanded(child: timeTile(TimeControl.rapid)),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(child: timeTile(TimeControl.classic)),
-                        const SizedBox(width: 8),
-                        // Correspondence is a later product (QUESTIONS #20).
-                        Expanded(
-                          child: TimeTile(
-                            name: l.timeDaily,
-                            value: l.comingSoon,
-                            selected: false,
-                            onTap: null,
-                          ),
-                        ),
-                      ],
+                    TimeControlTiles(
+                      selected: draft.timeControl,
+                      onSelect: (t) => edit(time: t),
                     ),
                     const SizedBox(height: 22),
                     Container(
