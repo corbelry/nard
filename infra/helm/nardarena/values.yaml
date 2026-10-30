@@ -109,6 +109,9 @@ gameServer:
   shutdownGraceSeconds: 5
   terminationGracePeriodSeconds: 20
   sentryEnvironment: production
+  # Behind the ingress the TCP peer is the controller: the per-address
+  # WebSocket cap (ADR-045) reads the last X-Forwarded-For hop instead.
+  trustProxy: true
   resources:
     requests: { cpu: 500m, memory: 256Mi }
     limits: { memory: 1Gi }
@@ -133,6 +136,12 @@ ingress:
   wsAnnotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # Per client IP (ADR-045): concurrent WebSockets and new upgrade
+    # requests per second (a WebSocket is one request; frames are limited
+    # by the game server). Mobile carriers NAT many players behind one
+    # address: raise these before lowering them.
+    nginx.ingress.kubernetes.io/limit-connections: "20"
+    nginx.ingress.kubernetes.io/limit-rps: "5"
   apiAnnotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 2m
   # Filament admin (/admin): comma-separated CIDRs allowed to reach it, e.g.

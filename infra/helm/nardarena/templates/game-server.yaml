@@ -51,6 +51,8 @@ spec:
               value: {{ .Values.gameServer.shutdownGraceSeconds | quote }}
             - name: SENTRY_ENVIRONMENT
               value: {{ .Values.gameServer.sentryEnvironment | quote }}
+            - name: TRUST_PROXY
+              value: {{ .Values.gameServer.trustProxy | quote }}
             - name: GAME_TICKET_SECRET
               valueFrom:
                 secretKeyRef:
