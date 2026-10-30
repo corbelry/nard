@@ -1,6 +1,6 @@
 # Session handoff — start here
 
-Last updated: 2026-10-30. Next step: **Phase 4 – Customization & store**.
+Last updated: 2026-10-31. Next step: **Phase 5 – Social & clans**.
 
 ## Working with the product owner
 
@@ -34,37 +34,12 @@ next — without waiting for approval (start only after they say "başla").
   sleep) — resume from this file on "davam et". iOS can't be built on this
   Linux machine; verify with tests + Android.
 
-## Phase 4 progress (update after every step)
+## Phase 5 progress (update after every step)
 
-- [x] 1. API economy: `items` (seeded: design's 6 boards + default
-  checkers/dice/cube, placeholder prices), `user_items`, `loadouts`,
-  `wallets` + append-only `wallet_transactions` with idempotency keys;
-  `WalletService` (coins earn-only enforced, ADR-022), `StoreService`;
-  endpoints catalog / inventory / purchase / loadouts. Compose seeds on
-  start. Theme files restored byte-for-byte + guard test.
-- [x] 2. API progression: coins + XP per online match (casual / ranked /
-  bot, mars bonus; game server now reports per-game winner/kind), levels
-  (100 + 50·(n−1) XP, coins on level-up), daily/weekly missions with claim,
-  login streak check-in (7-day cycle), achievements unlocking title items;
-  `config/progression.php` numbers are placeholders (QUESTIONS).
-- [x] 3. IAP: `/store/products`, `/store/iap/{google|apple}` — disabled
-  until store accounts (503), verification 501 when enabled; local fake
-  receipts `test-…` credit Yaqut once (compose `IAP_FAKE=true`).
-- [x] Economy aligned with the design (ADR-034): 8 board sets with full
-  look data, offers endpoint (featured + 3 daily picks), mission events read
-  from game records (doubles, cube take & win, Long Nard), daily bonus,
-  Yaqut packs 500/1200/2000. API 27 tests.
-- [x] 4/5. Client: data-driven `BoardLook` (lib/cosmetics), catalog cache
-  for offline, Locker 3.1, item sheet 3.2, Store 7.3–7.5 (+ debug fake Yaqut),
-  missions 12.1, streak modal 12.2, level-up 12.3, achievements/titles 8.2,
-  Home level/XP + currency pills, 2.6 rewards; Mağaza tab. Verified on the
-  emulator (streak → buy Yaqut → buy Marble Royale → equip → it renders in
-  game). ADR-035.
-- [ ] 6. Close Phase 4 (docs) — next; then Phase 5 plan.
+- [ ] 1. Social API (friends, blocks, reports, presence) — next.
 
-Phase 3 is done (CHANGELOG, ADR-031…033). Leftovers: Apple/Google token
-verification (needs keys), multi-pod Redis (Phase 7), iOS build, lesson
-content revisit.
+Phase 4 is done (CHANGELOG, ADR-034/035). Leftovers: texture packs, store
+receipt APIs, Apple/Google keys, iOS build, lesson content, Redis scaling.
 
 ## Where things stand
 
@@ -94,33 +69,29 @@ content revisit.
 - gnu.org rate-limits fetches; the gnubg source mirror on GitHub
   (`mormegil-cz/gnubg`) worked.
 
-## Phase 4 plan (spec §8.6–8.8, ADR-017/022/023/025)
+## Phase 5 plan (spec §8.4–8.5, design 2.7, 5.x, 6.1–6.4, 14.x, 19.x)
 
-Done when: a player earns coins and XP by playing, completes missions and a
-login streak, levels up, buys cosmetics with coins (or Yaqut via a stubbed
-IAP), equips them in loadouts, sees them live on the board (and the
-opponent's, if enabled), and new items can ship without an app update;
-tests green; docs updated.
+Done when: players add friends (search / invite code), see presence,
+challenge a friend or play in a private room with a code, spectate,
+send emotes and quick phrases in games (no free text in ranked), block and
+report; create/join clans (name, tag, emblem, join policy, roles), chat in
+the clan, see the clan leaderboard and play a clan war; tests green; docs.
 
-1. **API catalog & economy**: `items` (category, rarity, price in coins and/or
-   Yaqut, data JSON for colors, asset pack URL + version, availability),
-   `user_items`, `loadouts`, wallet ledger (`wallet_transactions`, balances
-   derived; coins earn-only ADR-022, Yaqut = `gems` ADR-023); endpoints:
-   catalog, inventory, purchase, loadouts, equip. Seed the design's 6 board
-   themes and default checker/dice sets.
-2. **Rewards & progression (API)**: coins + XP per finished match (from the
-   match-result ingest; casual/ranked/bot amounts in config), levels, daily
-   and weekly missions, login streak, achievements + titles (ADR-017).
-3. **IAP**: server-side receipt validation endpoints for Google Play / App
-   Store, disabled until the owner has store accounts (stub like ADR-030);
-   Yaqut packs + premium pass products defined in config (no subscription,
-   ADR-025).
-4. **Client cosmetics**: data-driven `BoardTheme`/checker/dice sets from the
-   catalog (the design's `BoardTheme.all` as built-ins), remote asset packs
-   downloaded + cached, "show opponent's cosmetics" setting, opponent loadout
-   in `match.found` (PlayerInfo gets cosmetics), live preview.
-5. **Client screens**: Locker 3.1, item detail 3.2, store 7.3, confirm 7.4,
-   success 7.5, missions 12.1, streak 12.2, level up 12.3, achievements +
-   titles 8.2, level/XP on Home, rewards on 2.6. Get a design spec first
-   (`docs/design-notes/store.md`, subagent).
-6. Tests, docs, CHANGELOG; ask the owner about prices/rewards (QUESTIONS).
+1. **API social**: friends + friend requests, blocks, reports (14.x),
+   presence via game-server heartbeat (Redis-free: last-seen in DB/cache).
+2. **Private rooms & challenges**: game server rooms created by code
+   (`room.create` / `room.join`), friend challenge = private room invite.
+3. **Spectating**: read-only subscribers on `MatchRoom` (`spectate.join`),
+   delayed clocks hidden info none (backgammon has no hidden state).
+4. **Emotes & quick phrases** (2.7): `chat.emote` relayed by the room with
+   rate limit; default emote pack item; mute opponent.
+5. **Clans API**: clans (name, tag, emblem JSON from the 5.3 builder,
+   language, min rating, join policy open/request/invite, coin cost from
+   the wallet), members + roles, join requests, clan chat (HTTP + polling or
+   WS relay, moderation/report), clan XP and leaderboard, clan war
+   (pairings, assigned matches, scoring).
+6. **Client screens**: 6.1 friends, 6.2 add friend, 6.3 private room, 6.4
+   spectator, 2.7 emote wheel, 14.1–14.4 player menu/report/block, 5.1–5.7
+   clans, 19.1–19.2 create clan. Design spec first
+   (`docs/design-notes/social.md`, subagent), then implementation subagent.
+7. Tests (API features, room relay, e2e extension), docs, CHANGELOG.

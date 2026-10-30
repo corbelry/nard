@@ -1,5 +1,20 @@
 # Changelog
 
+## Phase 4 — Customization & store (2026-10-31)
+- API: cosmetics catalog (8 design board sets with full look data),
+  inventory, loadouts, append-only idempotent wallet ledger (coins
+  earn-only, ADR-022), purchases, offers (featured + daily picks), Yaqut
+  products with receipt endpoints disabled until store accounts (fake
+  receipts locally); progression — match coins/XP scaled by length,
+  levels, daily/weekly missions read from game records, daily bonus, login
+  streak, achievements and titles (ADR-034).
+- Game server reports per-game winner/kind; equipped cosmetics travel in
+  tickets and `match.found`.
+- Client: data-driven board renderer (`BoardLook`), offline catalog cache,
+  Locker, item detail, Store, purchase confirm/success, missions, streak
+  modal, level-up, achievements/titles, Home level/XP and currencies, match
+  rewards; Mağaza tab (ADR-035).
+
 ## Phase 3 — Accounts & online core (2026-10-30)
 - `nard_core`: provably fair dice `FairDice` (HMAC-SHA256, no modulo bias,
   `docs/FAIRNESS.md`).
