@@ -1541,6 +1541,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get timeDaily => 'Заочная';
 
   @override
+  String timeControlWithClock(String name, String clock) {
+    return '$name $clock';
+  }
+
+  @override
   String timeValue(int minutes, int delay) {
     return '$minutes мин + $delay с';
   }
@@ -2162,8 +2167,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get friendCancelRequest => 'Отменить запрос';
 
   @override
-  String challengeMeta(String variant, String format) {
-    return '$variant · $format';
+  String challengeMeta(String variant, String format, String time) {
+    return '$variant · $format · $time';
   }
 
   @override
@@ -4083,8 +4088,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notifFriendAccepted => 'принял(а) вашу заявку в друзья';
 
   @override
-  String notifChallenge(String variant, int points) {
-    return 'зовёт вас сыграть · $variant, до $points очков';
+  String notifChallenge(String variant, int points, String time) {
+    return 'зовёт вас сыграть · $variant, до $points очков, $time';
   }
 
   @override

@@ -135,6 +135,7 @@ class _PlayerMenu extends ConsumerWidget {
                   draft.variant,
                   max(1, draft.matchLength),
                   invite: player.user,
+                  timeControl: draft.timeControl,
                 );
             unawaited(host.push('/room'));
           },

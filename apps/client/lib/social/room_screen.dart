@@ -26,6 +26,7 @@ import '../ui/extra_tokens.dart';
 import '../ui/layout.dart';
 import '../ui/pressable.dart';
 import '../ui/social.dart';
+import '../ui/time_control_tiles.dart';
 import 'social_models.dart';
 import 'social_providers.dart';
 import 'social_socket.dart';
@@ -63,7 +64,11 @@ Future<void> showRoomChooser(BuildContext context, WidgetRef ref) async {
     final draft = ref.read(onlineDraftProvider);
     ref
         .read(socialSocketProvider.notifier)
-        .createRoom(draft.variant, max(1, draft.matchLength));
+        .createRoom(
+          draft.variant,
+          max(1, draft.matchLength),
+          timeControl: draft.timeControl,
+        );
     unawaited(context.push('/room'));
   } else {
     unawaited(context.push('/room/join'));
@@ -182,17 +187,20 @@ class _RoomScreenState extends ConsumerState<RoomScreen>
     if (mounted) context.canPop() ? context.pop() : context.go('/home');
   }
 
-  void _recreate({Variant? variant, int? matchLength}) {
+  /// A new room (new code) with the changed setting; the choice also
+  /// becomes the 2.2 draft, as the room starts from it.
+  void _recreate({Variant? variant, int? matchLength, TimeControl? time}) {
     final room = ref.read(socialSocketProvider);
+    final draft = ref.read(onlineDraftProvider);
     final v = variant ?? room.variant;
     final len = matchLength ?? room.matchLength;
-    final draft = ref.read(onlineDraftProvider);
+    final t = time ?? room.timeControl ?? draft.timeControl;
     ref
         .read(onlineDraftProvider.notifier)
-        .set(draft.copyWith(variant: v, matchLength: len));
+        .set(draft.copyWith(variant: v, matchLength: len, timeControl: t));
     ref
         .read(socialSocketProvider.notifier)
-        .createRoom(v, len, invite: room.invited);
+        .createRoom(v, len, invite: room.invited, timeControl: t);
   }
 
   Future<void> _pickVariant(RoomState room) async {
@@ -252,6 +260,29 @@ class _RoomScreenState extends ConsumerState<RoomScreen>
     if (n != null && n != room.matchLength) _recreate(matchLength: n);
   }
 
+  /// "Vaxt": the 2.2 time tiles in a sheet (social.md §3 proposal).
+  Future<void> _pickTime(RoomState room) async {
+    final l = AppLocalizations.of(context);
+    final current = room.timeControl ?? TimeControl.rapid;
+    final t = await showNardSheet<TimeControl>(
+      context,
+      builder:
+          (ctx) => Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SheetTitle(l.roomSettingTime),
+              const SizedBox(height: 14),
+              TimeControlTiles(
+                selected: current,
+                onSelect: (t) => Navigator.of(ctx).pop(t),
+              ),
+            ],
+          ),
+    );
+    if (t != null && t != current) _recreate(time: t);
+  }
+
   Future<void> _inviteFriend(RoomState room) async {
     final l = AppLocalizations.of(context);
     final code = room.code;
@@ -264,7 +295,13 @@ class _RoomScreenState extends ConsumerState<RoomScreen>
     try {
       await ref
           .read(apiClientProvider)
-          .challenge(friend.id, code, room.variant, room.matchLength);
+          .challenge(
+            friend.id,
+            code,
+            room.variant,
+            room.matchLength,
+            timeControl: room.timeControl ?? TimeControl.rapid,
+          );
       if (mounted) showNote(context, l.friendInviteSent(friend.name));
     } on Object catch (e) {
       if (mounted) showNote(context, friendErrorText(l, e));
@@ -499,7 +536,7 @@ class _RoomScreenState extends ConsumerState<RoomScreen>
           : Pressable(onTap: onTap, semanticLabel: label, child: kv);
     }
 
-    final clock = ClockConfig.standard;
+    final time = r.timeControl ?? TimeControl.rapid;
     return Container(
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: c.accent.withValues(alpha: .14))),
@@ -516,11 +553,7 @@ class _RoomScreenState extends ConsumerState<RoomScreen>
             l.formatName(r.matchLength),
             () => _pickFormat(r),
           ),
-          row(
-            l.roomSettingTime,
-            l.timeValue(clock.reserveMs ~/ 60000, clock.delayMs ~/ 1000),
-            null,
-          ),
+          row(l.roomSettingTime, l.clockValue(time.clock), () => _pickTime(r)),
           row(l.roomSettingRating, l.roomUnrated, null),
         ],
       ),
@@ -678,6 +711,12 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen>
     final room = ref.watch(socialSocketProvider);
     final joining = room.phase == RoomPhase.joining;
     final notFound = room.phase == RoomPhase.notFound;
+    // Known when joining from a friend challenge; the host's room decides.
+    final time = room.timeControl;
+    final summary =
+        joining && time != null
+            ? l.roomSummary(room.variant, room.matchLength, time)
+            : null;
     return Scaffold(
       body: DecoratedBox(
         decoration: BoxDecoration(gradient: c.roomBg),
@@ -735,6 +774,17 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen>
                                 : c.text.withValues(alpha: .7),
                       ),
                     ),
+                    if (summary != null) ...[
+                      const SizedBox(height: NardSpace.s2),
+                      Text(
+                        summary,
+                        textAlign: TextAlign.center,
+                        style: NardType.caption.copyWith(
+                          color: c.accentHi,
+                          fontFeatures: tabular,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

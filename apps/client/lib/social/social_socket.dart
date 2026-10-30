@@ -21,6 +21,7 @@ class RoomState {
     this.expiresAt,
     this.variant = Variant.shortNard,
     this.matchLength = 3,
+    this.timeControl,
     this.invited,
   });
 
@@ -29,6 +30,10 @@ class RoomState {
   final DateTime? expiresAt;
   final Variant variant;
   final int matchLength;
+
+  /// The room's clock (ADR-044): always set when hosting; when joining,
+  /// known only from a friend challenge (null for a typed code).
+  final TimeControl? timeControl;
 
   /// The friend challenged into this room.
   final PublicUser? invited;
@@ -46,6 +51,7 @@ class RoomState {
     expiresAt: expiresAt ?? this.expiresAt,
     variant: variant,
     matchLength: matchLength,
+    timeControl: timeControl,
     invited: invited ?? this.invited,
   );
 }
@@ -200,20 +206,33 @@ class SocialSocket extends Notifier<RoomState> {
     try {
       await ref
           .read(apiClientProvider)
-          .challenge(friend.id, code, state.variant, state.matchLength);
+          .challenge(
+            friend.id,
+            code,
+            state.variant,
+            state.matchLength,
+            timeControl: state.timeControl ?? TimeControl.rapid,
+          );
     } on Object {
       // The code can still be shared by hand.
     }
   }
 
-  /// Hosts a room; with [invite], challenges that friend once the code
-  /// arrives (6.1 "Çağır", 14.1 "Oyuna çağır").
-  void createRoom(Variant variant, int matchLength, {PublicUser? invite}) {
+  /// Hosts a room with [timeControl] as its clock; with [invite],
+  /// challenges that friend once the code arrives (6.1 "Çağır", 14.1
+  /// "Oyuna çağır").
+  void createRoom(
+    Variant variant,
+    int matchLength, {
+    PublicUser? invite,
+    TimeControl timeControl = TimeControl.rapid,
+  }) {
     ref.read(onlineGameProvider.notifier).resetForRoom();
     state = RoomState(
       phase: RoomPhase.creating,
       variant: variant,
       matchLength: matchLength,
+      timeControl: timeControl,
       invited: invite,
     );
     _run(
@@ -223,19 +242,27 @@ class SocialSocket extends Notifier<RoomState> {
             RoomCreatePayload(
               variant: variant,
               matchLength: matchLength,
+              timeControl: timeControl,
             ).toJson(),
           ),
     );
   }
 
-  /// Joins a friend's room by its 6-character code.
-  void joinRoom(String code, {Variant? variant, int? matchLength}) {
+  /// Joins a friend's room by its 6-character code. The settings, when
+  /// known from a challenge, are only shown: the host's room decides.
+  void joinRoom(
+    String code, {
+    Variant? variant,
+    int? matchLength,
+    TimeControl? timeControl,
+  }) {
     ref.read(onlineGameProvider.notifier).resetForRoom();
     state = RoomState(
       phase: RoomPhase.joining,
       code: code,
       variant: variant ?? Variant.shortNard,
       matchLength: matchLength ?? 3,
+      timeControl: timeControl,
     );
     _run(
       (s) =>

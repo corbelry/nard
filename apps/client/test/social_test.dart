@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ import 'package:nard_client/cosmetics/cosmetics_providers.dart';
 import 'package:nard_client/l10n/gen/app_localizations.dart';
 import 'package:nard_client/online/account.dart';
 import 'package:nard_client/online/api_client.dart';
+import 'package:nard_client/online/game_socket.dart';
+import 'package:nard_client/online/online_game_controller.dart';
 import 'package:nard_client/social/add_friend_screen.dart';
 import 'package:nard_client/social/emotes.dart';
 import 'package:nard_client/social/friends_screen.dart';
@@ -77,10 +80,20 @@ class SocialFakeApi extends FakeApi {
         code: 'NRD482',
         variant: Variant.longNard,
         matchLength: 5,
+        timeControl: TimeControl.classic,
       ),
     ],
   );
   final requests = <String>[];
+
+  @override
+  Future<void> challenge(
+    String userId,
+    String code,
+    Variant variant,
+    int matchLength, {
+    required TimeControl timeControl,
+  }) async => calls.add('challenge:$userId:$code:${timeControl.name}');
 
   @override
   Future<FriendsOverview> friends() async => overview;
@@ -281,12 +294,26 @@ class FakeSocialSocket extends SocialSocket {
   void queryPresence(List<String> userIds) => sent.add('presence');
 
   @override
-  void joinRoom(String code, {Variant? variant, int? matchLength}) =>
-      sent.add('join:$code');
+  void joinRoom(
+    String code, {
+    Variant? variant,
+    int? matchLength,
+    TimeControl? timeControl,
+  }) {
+    sent.add('join:$code');
+    joinControls.add(timeControl);
+  }
+
+  /// The time control of every [joinRoom] (null = unknown).
+  final joinControls = <TimeControl?>[];
 
   @override
-  void createRoom(Variant variant, int matchLength, {PublicUser? invite}) =>
-      sent.add('create:${invite?.id}');
+  void createRoom(
+    Variant variant,
+    int matchLength, {
+    PublicUser? invite,
+    TimeControl timeControl = TimeControl.rapid,
+  }) => sent.add('create:${invite?.id}:${timeControl.name}');
 
   @override
   bool sendEmote(String id) {
@@ -294,6 +321,35 @@ class FakeSocialSocket extends SocialSocket {
     sent.add(id);
     return true;
   }
+}
+
+/// An online socket that records what it sends.
+class _RecordingSocket extends GameSocket {
+  _RecordingSocket() : super(url: 'ws://test', ticket: () async => '');
+
+  final sent = <(String, Map<String, Object?>)>[];
+  final incoming = StreamController<Envelope>.broadcast();
+
+  @override
+  SocketStatus get current => SocketStatus.online;
+
+  @override
+  Stream<Envelope> get messages => incoming.stream;
+
+  @override
+  String send(String type, [Map<String, Object?> payload = const {}]) {
+    sent.add((type, payload));
+    return 'c${sent.length}';
+  }
+}
+
+class _SocketController extends OnlineGameController {
+  _SocketController(this.s);
+
+  final GameSocket s;
+
+  @override
+  GameSocket socket() => s;
 }
 
 class _ClanMember extends AccountNotifier {
@@ -356,6 +412,8 @@ void main() {
       expect(find.text('SORĞULAR'), findsOneWidget);
       expect(find.text('ÇAĞIRIŞLAR'), findsOneWidget);
       expect(find.text('Kerem_TR'), findsOneWidget);
+      // The challenge row names the room's clock (ADR-044).
+      expect(find.text('Uzun nərd · 5 xal · Klassik 5+15s'), findsOneWidget);
       // Online first: Nigar (online) is above Rauf (offline).
       final nigar = tester.getTopLeft(find.text('Nigar_88').last).dy;
       final rauf = tester.getTopLeft(find.text('Rauf')).dy;
@@ -375,6 +433,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       expect(socket.sent, contains('join:NRD482'));
+      expect(socket.joinControls, [TimeControl.classic]);
       expect(find.text('route:/room/join?code=NRD482'), findsOneWidget);
       await closeScreen(tester);
     });
@@ -407,6 +466,70 @@ void main() {
       expect(api.requests.last, 'AAAAAAAA');
       expect(find.text('Oyunçu tapılmadı'), findsWidgets);
       await closeScreen(tester);
+    });
+
+    test('room.create sends the control; the challenge carries it', () async {
+      final socket = _RecordingSocket();
+      final api = SocialFakeApi();
+      final container = ProviderContainer(
+        overrides: [
+          apiClientProvider.overrideWithValue(api),
+          onlineGameProvider.overrideWith(() => _SocketController(socket)),
+        ],
+      );
+      addTearDown(container.dispose);
+      final room = container.read(socialSocketProvider.notifier);
+      room.createRoom(
+        Variant.longNard,
+        5,
+        invite: _user('2', 'Nigar_88'),
+        timeControl: TimeControl.classic,
+      );
+      expect(socket.sent.single.$1, MessageType.roomCreate);
+      expect(socket.sent.single.$2, {
+        'variant': 'longNard',
+        'matchLength': 5,
+        'timeControl': 'classic',
+      });
+      expect(
+        container.read(socialSocketProvider).timeControl,
+        TimeControl.classic,
+      );
+      socket.incoming.add(
+        const Envelope(
+          type: MessageType.roomCreated,
+          id: 'c1',
+          ts: 0,
+          payload: {'code': 'NRD482'},
+        ),
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(api.calls, contains('challenge:2:NRD482:classic'));
+
+      // Joining from a challenge keeps its clock for the join screen.
+      room.joinRoom('ABC234', timeControl: TimeControl.blitz);
+      expect(
+        container.read(socialSocketProvider).timeControl,
+        TimeControl.blitz,
+      );
+      room.joinRoom('ABC234');
+      expect(container.read(socialSocketProvider).timeControl, isNull);
+      await socket.incoming.close();
+    });
+
+    test('challenges read the room clock; rapid when missing', () {
+      Challenge read(Object? control) => Challenge.fromJson({
+        'id': 1,
+        'from': {'id': '2', 'name': 'Nigar_88'},
+        'code': 'NRD482',
+        'variant': 'longNard',
+        'matchLength': 5,
+        if (control != null) 'timeControl': control,
+      });
+      expect(read('blitz').timeControl, TimeControl.blitz);
+      expect(read('classic').timeControl, TimeControl.classic);
+      expect(read(null).timeControl, TimeControl.rapid);
+      expect(read('daily').timeControl, TimeControl.rapid);
     });
 
     test('presence: in game beats online; offline last', () {
@@ -758,6 +881,75 @@ void main() {
       await tester.tap(find.text('Qoşul'));
       await tester.pump();
       expect(socket.sent, ['join:NRD482']);
+      await closeScreen(tester);
+    });
+
+    testWidgets('6.3 room: the time row opens the 2.2 tiles (ADR-044)', (
+      tester,
+    ) async {
+      final api = SocialFakeApi();
+      final socket = await _pump(
+        tester,
+        const RoomScreen(),
+        api,
+        room: RoomState(
+          phase: RoomPhase.waiting,
+          code: 'NRD482',
+          expiresAt: DateTime.now().add(const Duration(minutes: 14)),
+          variant: Variant.longNard,
+          matchLength: 5,
+          timeControl: TimeControl.blitz,
+          invited: _user('2', 'Nigar_88'),
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      expect(find.text('Vaxt'), findsOneWidget);
+      expect(find.text('1 dəq + 8s'), findsOneWidget);
+
+      // Inviting a friend tells them the clock.
+      await tester.tap(find.text('Dostu çağır'));
+      for (var i = 0; i < 4; i++) {
+        await tester.pump(const Duration(milliseconds: 300));
+      }
+      await tester.tap(
+        find.textContaining('Nigar_88', findRichText: true).last,
+      );
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(api.calls, contains('challenge:2:NRD482:blitz'));
+      await tester.pump(const Duration(seconds: 4));
+
+      await tester.tap(find.text('Vaxt'));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(tester.takeException(), isNull);
+      for (final t in ['Blits', 'Sürətli', 'Klassik', 'Gündəlik', 'Tezliklə']) {
+        expect(find.text(t), findsOneWidget, reason: t);
+      }
+      // Gündəlik is not offered yet.
+      await tester.tap(find.text('Gündəlik'), warnIfMissed: false);
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(socket.sent.where((s) => s.startsWith('create:')), isEmpty);
+      await tester.tap(find.text('Klassik'));
+      await tester.pump(const Duration(milliseconds: 400));
+      // A new room with the same invitee and the new clock.
+      expect(socket.sent, contains('create:2:classic'));
+      await closeScreen(tester);
+    });
+
+    testWidgets('join screen shows the challenge clock', (tester) async {
+      await _pump(
+        tester,
+        const JoinRoomScreen(code: 'NRD482'),
+        SocialFakeApi(),
+        room: const RoomState(
+          phase: RoomPhase.joining,
+          code: 'NRD482',
+          variant: Variant.shortNard,
+          matchLength: 1,
+          timeControl: TimeControl.blitz,
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      expect(find.text('Qısa nərd · 1 oyun · Blits 1+8s'), findsOneWidget);
       await closeScreen(tester);
     });
 

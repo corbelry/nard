@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:nard_core/nard_core.dart' show Variant;
+import 'package:nard_protocol/nard_protocol.dart' show TimeControl;
 
 import '../clans/clan_models.dart';
 import '../cosmetics/catalog.dart';
@@ -440,17 +441,20 @@ class ApiClient {
           as String? ??
       '';
 
-  /// Invites a friend into my private room [code] (shown on their 6.1).
+  /// Invites a friend into my private room [code] (shown on their 6.1),
+  /// with the room's clock (ADR-044).
   Future<void> challenge(
     String userId,
     String code,
     Variant variant,
-    int matchLength,
-  ) => _call('POST', '/challenges', {
+    int matchLength, {
+    required TimeControl timeControl,
+  }) => _call('POST', '/challenges', {
     'userId': userId,
     'code': code,
     'variant': variant.name,
     'matchLength': matchLength,
+    'timeControl': timeControl.name,
   });
 
   // ---- Phase 5: clans (docs/api/clans.md) ------------------------------

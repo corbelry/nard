@@ -1146,6 +1146,18 @@
   "timeRapid": "Sürətli",
   "timeClassic": "Klassik",
   "timeDaily": "Gündəlik",
+  "timeControlWithClock": "{name} {clock}",
+  "@timeControlWithClock": {
+    "description": "Time control with its clock, e.g. \"Blits 1+8s\" (challenge rows, join screen).",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "clock": {
+        "type": "String"
+      }
+    }
+  },
   "timeValue": "{minutes} dəq + {delay}s",
   "@timeValue": {
     "placeholders": {
@@ -1596,13 +1608,17 @@
   "friendAccept": "Qəbul et",
   "friendDismiss": "Rədd et",
   "friendCancelRequest": "Sorğunu ləğv et",
-  "challengeMeta": "{variant} · {format}",
+  "challengeMeta": "{variant} · {format} · {time}",
   "@challengeMeta": {
+    "description": "Friend challenge / private room summary, e.g. \"Uzun nərd · 5 xal · Klassik 5+15s\"; time = timeControlWithClock.",
     "placeholders": {
       "variant": {
         "type": "String"
       },
       "format": {
+        "type": "String"
+      },
+      "time": {
         "type": "String"
       }
     }
@@ -3251,7 +3267,7 @@
   "notifGone": "Bu dəvət artıq keçərli deyil",
   "notifFriendRequest": "dostluq sorğusu göndərdi",
   "notifFriendAccepted": "dostluq sorğunu qəbul etdi",
-  "notifChallenge": "səni oyuna çağırır · {variant}, {points} xal",
+  "notifChallenge": "səni oyuna çağırır · {variant}, {points} xal, {time}",
   "@notifChallenge": {
     "placeholders": {
       "variant": {
@@ -3259,6 +3275,9 @@
       },
       "points": {
         "type": "int"
+      },
+      "time": {
+        "type": "String"
       }
     }
   },

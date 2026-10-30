@@ -48,6 +48,18 @@ extension OnlineText on AppLocalizations {
   String clockShort(ClockConfig clock) =>
       timeControlShort(clock.reserveMs ~/ 60000, clock.delayMs ~/ 1000);
 
+  /// "Blits 1+8s" (challenge rows, the join screen).
+  String controlWithClock(TimeControl t) =>
+      timeControlWithClock(timeControlName(t), clockShort(t.clock));
+
+  /// "Uzun nərd · 5 xal · Klassik 5+15s": a private room's settings.
+  String roomSummary(Variant variant, int matchLength, TimeControl t) =>
+      challengeMeta(
+        variant == Variant.shortNard ? variantShort : variantLong,
+        formatName(matchLength),
+        controlWithClock(t),
+      );
+
   String variantAbbr(Variant v) =>
       v == Variant.shortNard ? variantShortAbbr : variantLongAbbr;
 

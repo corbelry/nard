@@ -1205,11 +1205,24 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           if (widget.online) _captureRewards();
         });
         // A private-room match (no queue request) rematches in a new room.
-        if (widget.online && ref.read(lobbyProvider).request == null) {
+        // It keeps the room's clock (ADR-044).
+        final lobby = ref.read(lobbyProvider);
+        if (widget.online && lobby.request == null) {
+          final clock = lobby.match?.clock;
+          final time = TimeControl.values.firstWhere(
+            (t) =>
+                t.clock.reserveMs == clock?.reserveMs &&
+                t.clock.delayMs == clock?.delayMs,
+            orElse: () => TimeControl.rapid,
+          );
           _ctrl.leave();
           ref
               .read(socialSocketProvider.notifier)
-              .createRoom(p.setup.variant, p.setup.matchLength);
+              .createRoom(
+                p.setup.variant,
+                p.setup.matchLength,
+                timeControl: time,
+              );
           context.go('/room');
           return;
         }

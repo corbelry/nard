@@ -6,6 +6,7 @@ import '../online/online_text.dart';
 import '../online/rank.dart';
 import '../theme/nard_colors.dart';
 import 'notification_models.dart';
+import 'notification_providers.dart' show challengeControl;
 
 /// A 16.2 row: [who] in bold, then [text] (notifications.md §3).
 typedef NotificationLine = ({String who, String text});
@@ -28,6 +29,7 @@ NotificationLine notificationLine(
       text: l.notifChallenge(
         n.text('variant') == 'longNard' ? l.variantLong : l.variantShort,
         n.number('matchLength'),
+        l.controlWithClock(challengeControl(n)),
       ),
     ),
     NotificationType.clanInvite => (

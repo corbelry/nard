@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:nard_core/nard_core.dart';
 
 import '../l10n/gen/app_localizations.dart';
 import '../online/online_draft.dart';
@@ -51,7 +50,12 @@ void inviteFriend(BuildContext context, WidgetRef ref, PublicUser friend) {
   final draft = ref.read(onlineDraftProvider);
   ref
       .read(socialSocketProvider.notifier)
-      .createRoom(draft.variant, max(1, draft.matchLength), invite: friend);
+      .createRoom(
+        draft.variant,
+        max(1, draft.matchLength),
+        invite: friend,
+        timeControl: draft.timeControl,
+      );
   unawaited(context.push('/room'));
 }
 
@@ -191,12 +195,7 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
           for (final ch in d.challenges)
             _UserRow(
               user: ch.from,
-              status: l.challengeMeta(
-                ch.variant == Variant.shortNard
-                    ? l.variantShort
-                    : l.variantLong,
-                l.formatName(ch.matchLength),
-              ),
+              status: l.roomSummary(ch.variant, ch.matchLength, ch.timeControl),
               statusColor: c.accentHi,
               action: SmallActionButton(
                 label: l.roomJoin,
@@ -211,6 +210,7 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
                                 ch.code,
                                 variant: ch.variant,
                                 matchLength: ch.matchLength,
+                                timeControl: ch.timeControl,
                               );
                           context.push('/room/join?code=${ch.code}');
                         },

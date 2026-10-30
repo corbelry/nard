@@ -1391,6 +1391,11 @@ class AppLocalizationsAz extends AppLocalizations {
   String get timeDaily => 'Gündəlik';
 
   @override
+  String timeControlWithClock(String name, String clock) {
+    return '$name $clock';
+  }
+
+  @override
   String timeValue(int minutes, int delay) {
     return '$minutes dəq + ${delay}s';
   }
@@ -2006,8 +2011,8 @@ class AppLocalizationsAz extends AppLocalizations {
   String get friendCancelRequest => 'Sorğunu ləğv et';
 
   @override
-  String challengeMeta(String variant, String format) {
-    return '$variant · $format';
+  String challengeMeta(String variant, String format, String time) {
+    return '$variant · $format · $time';
   }
 
   @override
@@ -3927,8 +3932,8 @@ class AppLocalizationsAz extends AppLocalizations {
   String get notifFriendAccepted => 'dostluq sorğunu qəbul etdi';
 
   @override
-  String notifChallenge(String variant, int points) {
-    return 'səni oyuna çağırır · $variant, $points xal';
+  String notifChallenge(String variant, int points, String time) {
+    return 'səni oyuna çağırır · $variant, $points xal, $time';
   }
 
   @override

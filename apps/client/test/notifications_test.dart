@@ -23,6 +23,7 @@ import 'package:nard_client/theme/nard_colors.dart';
 import 'package:nard_client/theme/nard_theme.dart';
 import 'package:nard_client/tournaments/tournament_models.dart' show UserLite;
 import 'package:nard_core/nard_core.dart' show Variant;
+import 'package:nard_protocol/nard_protocol.dart' show TimeControl;
 
 import 'store_fakes.dart';
 
@@ -57,6 +58,7 @@ class NotifyFakeApi extends FakeApi {
             'code': 'NRD482',
             'variant': 'shortNard',
             'matchLength': 5,
+            'timeControl': 'blitz',
             'expiresAt':
                 DateTime.now()
                     .add(const Duration(minutes: 5))
@@ -197,8 +199,13 @@ class _Socket extends SocialSocket {
   RoomState build() => const RoomState();
 
   @override
-  void joinRoom(String code, {Variant? variant, int? matchLength}) =>
-      sent.add('join:$code:${variant?.name}:$matchLength');
+  void joinRoom(
+    String code, {
+    Variant? variant,
+    int? matchLength,
+    TimeControl? timeControl,
+  }) =>
+      sent.add('join:$code:${variant?.name}:$matchLength:${timeControl?.name}');
 }
 
 class _Settings extends SettingsNotifier {
@@ -353,7 +360,9 @@ void main() {
       expect(find.text('DÜNƏN'), findsOneWidget);
       expect(find.textContaining('15 dəqiqəyə başlayır'), findsOneWidget);
       expect(
-        find.textContaining('səni oyuna çağırır · Qısa nərd, 5 xal'),
+        find.textContaining(
+          'səni oyuna çağırır · Qısa nərd, 5 xal, Blits 1+8s',
+        ),
         findsOneWidget,
       );
       expect(find.textContaining('Dərəcən: Almaz'), findsOneWidget);
@@ -386,7 +395,7 @@ void main() {
       // Accepting the invite joins the room.
       await tester.tap(find.text('Qəbul et'));
       await _settle(tester);
-      expect(socket.sent, ['join:NRD482:shortNard:5']);
+      expect(socket.sent, ['join:NRD482:shortNard:5:blitz']);
       expect(find.text('route:/room/join?code=NRD482'), findsOneWidget);
       await closeScreen(tester);
     });

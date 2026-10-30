@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nard_core/nard_core.dart' show Variant;
+import 'package:nard_protocol/nard_protocol.dart' show TimeControl;
 
 import '../cosmetics/cosmetics_providers.dart' show noRetry;
 import '../online/account.dart';
 import '../online/api_client.dart';
+import '../social/social_models.dart' show timeControlNamed;
 import '../social/social_socket.dart';
 import 'notification_models.dart';
 import 'push_registrar.dart';
@@ -210,6 +212,10 @@ bool challengeOpen(AppNotification n, DateTime now) {
   return expires == null || expires.isAfter(now);
 }
 
+/// The challenged room's clock; rows from before ADR-044 were rapid.
+TimeControl challengeControl(AppNotification n) =>
+    timeControlNamed(n.data['timeControl']) ?? TimeControl.rapid;
+
 /// Joins the challenger's room (as 6.1 "Qoşul" does) before opening it.
 void joinChallenge(WidgetRef ref, AppNotification n) {
   ref
@@ -222,5 +228,6 @@ void joinChallenge(WidgetRef ref, AppNotification n) {
                 : Variant.shortNard,
         matchLength:
             n.number('matchLength') > 0 ? n.number('matchLength') : null,
+        timeControl: challengeControl(n),
       );
 }

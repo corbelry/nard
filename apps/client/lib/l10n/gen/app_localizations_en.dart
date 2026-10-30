@@ -1499,6 +1499,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get timeDaily => 'Daily';
 
   @override
+  String timeControlWithClock(String name, String clock) {
+    return '$name $clock';
+  }
+
+  @override
   String timeValue(int minutes, int delay) {
     return '$minutes min + ${delay}s';
   }
@@ -2116,8 +2121,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get friendCancelRequest => 'Cancel request';
 
   @override
-  String challengeMeta(String variant, String format) {
-    return '$variant · $format';
+  String challengeMeta(String variant, String format, String time) {
+    return '$variant · $format · $time';
   }
 
   @override
@@ -4037,8 +4042,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifFriendAccepted => 'accepted your friend request';
 
   @override
-  String notifChallenge(String variant, int points) {
-    return 'invites you to play · $variant, $points points';
+  String notifChallenge(String variant, int points, String time) {
+    return 'invites you to play · $variant, $points points, $time';
   }
 
   @override

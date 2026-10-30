@@ -2523,6 +2523,12 @@ abstract class AppLocalizations {
   /// **'Gündəlik'**
   String get timeDaily;
 
+  /// Time control with its clock, e.g. "Blits 1+8s" (challenge rows, join screen).
+  ///
+  /// In az, this message translates to:
+  /// **'{name} {clock}'**
+  String timeControlWithClock(String name, String clock);
+
   /// No description provided for @timeValue.
   ///
   /// In az, this message translates to:
@@ -3585,11 +3591,11 @@ abstract class AppLocalizations {
   /// **'Sorğunu ləğv et'**
   String get friendCancelRequest;
 
-  /// No description provided for @challengeMeta.
+  /// Friend challenge / private room summary, e.g. "Uzun nərd · 5 xal · Klassik 5+15s"; time = timeControlWithClock.
   ///
   /// In az, this message translates to:
-  /// **'{variant} · {format}'**
-  String challengeMeta(String variant, String format);
+  /// **'{variant} · {format} · {time}'**
+  String challengeMeta(String variant, String format, String time);
 
   /// No description provided for @friendsEmptyTitle.
   ///
@@ -6906,8 +6912,8 @@ abstract class AppLocalizations {
   /// No description provided for @notifChallenge.
   ///
   /// In az, this message translates to:
-  /// **'səni oyuna çağırır · {variant}, {points} xal'**
-  String notifChallenge(String variant, int points);
+  /// **'səni oyuna çağırır · {variant}, {points} xal, {time}'**
+  String notifChallenge(String variant, int points, String time);
 
   /// No description provided for @notifClanInvite.
   ///

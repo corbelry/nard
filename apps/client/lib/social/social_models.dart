@@ -1,4 +1,5 @@
 import 'package:nard_core/nard_core.dart';
+import 'package:nard_protocol/nard_protocol.dart' show TimeControl;
 
 import '../clans/clan_models.dart';
 
@@ -76,6 +77,10 @@ class FriendEntry {
   );
 }
 
+/// The control named [name] (`blitz|rapid|classic`), null when unknown.
+TimeControl? timeControlNamed(Object? name) =>
+    name is String ? TimeControl.values.asNameMap()[name] : null;
+
 /// An incoming friend challenge: a private room waiting for me.
 class Challenge {
   const Challenge({
@@ -84,6 +89,7 @@ class Challenge {
     required this.code,
     required this.variant,
     required this.matchLength,
+    this.timeControl = TimeControl.rapid,
     this.expiresAt,
   });
 
@@ -92,6 +98,9 @@ class Challenge {
   final String code;
   final Variant variant;
   final int matchLength;
+
+  /// The room's clock (ADR-044); rapid for challenges from older clients.
+  final TimeControl timeControl;
   final DateTime? expiresAt;
 
   static Challenge fromJson(Map<String, Object?> j) => Challenge(
@@ -103,6 +112,7 @@ class Challenge {
             ? Variant.longNard
             : Variant.shortNard,
     matchLength: _int(j['matchLength'], 1),
+    timeControl: timeControlNamed(j['timeControl']) ?? TimeControl.rapid,
     expiresAt: _date(j['expiresAt']),
   );
 }

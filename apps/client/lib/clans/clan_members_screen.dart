@@ -271,6 +271,7 @@ class _ClanMembersScreenState extends ConsumerState<ClanMembersScreen> {
               draft.variant,
               max(1, draft.matchLength),
               invite: m.user,
+              timeControl: draft.timeControl,
             );
         unawaited(context.push('/room'));
       case 'leader':
