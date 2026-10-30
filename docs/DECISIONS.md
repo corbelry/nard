@@ -959,3 +959,23 @@ follow the 16.1 switches and quiet hours; live socket delivery ignores
 them (the app is open). Not built: a subscribe-to-tournament intent for
 non-entrants, live friend/clan screen refreshes (their rows do arrive
 live).
+
+## ADR-050 — Smoother offline play after the first device test (2026-10-30)
+
+**Context.** The owner's first game on a phone felt slow and tiring: a tap
+for every roll and a confirm for every turn, the opening throw vanished
+before it could be read, the dice only flickered in place, and every
+refused tap opened a large error card that stayed.
+
+**Decision.** Auto-roll is on and move confirmation off by default (both
+stay in Settings; stored values win). A checker with exactly one legal
+target moves on a single tap (offline and online). The opening throw stays
+on the board with "{name} starts" until the first real roll. Dice are
+thrown from the roller's edge: slide, three dying hops, tumble, settle on
+the real face (`diceRollTime`, reduce motion skips it). The rule toast is
+compact and fades after 2.6 s; a tap on a point without own checkers only
+clears the selection. Bot pacing: 300 ms before its roll (1.2 s after the
+opening), 250–550 ms minimum think.
+
+**Consequences.** Without confirmation a finished turn cannot be taken
+back; players who want that turn confirmation on.
