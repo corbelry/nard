@@ -91,12 +91,18 @@ extension NardExtras on NardColors {
     stops: const [0, .48, 1],
   );
 
-  /// Profile (8.1) background glow.
+  /// Profile (8.1) glow over the screen background: CSS
+  /// `radial-gradient(90% 35% at 50% 14%)`, an ellipse, not a circle.
   Gradient get profileBg => RadialGradient(
     center: const Alignment(0, -.72),
-    radius: .9,
-    colors: [accent.withValues(alpha: .22), const Color(0xFF1B120C)],
+    radius: 1,
+    colors: [accent.withValues(alpha: .22), accent.withValues(alpha: 0)],
     stops: const [0, .7],
+    transform: const _EllipseTransform(
+      center: Alignment(0, -.72),
+      rx: .9,
+      ry: .35,
+    ),
   );
 
   /// Brass avatar ring (conic from 210°).
@@ -450,3 +456,27 @@ Color rarityColor(String rarity) => switch (rarity) {
   'tournament' => NardPalette.brass300,
   _ => NardPalette.rarityCommon,
 };
+
+/// Stretches a radial gradient of radius 1 (the shortest side) into an
+/// ellipse with radii [rx] × width and [ry] × height around [center].
+class _EllipseTransform extends GradientTransform {
+  const _EllipseTransform({
+    required this.center,
+    required this.rx,
+    required this.ry,
+  });
+
+  final Alignment center;
+  final double rx;
+  final double ry;
+
+  @override
+  Matrix4 transform(Rect bounds, {TextDirection? textDirection}) {
+    final c = center.withinRect(bounds);
+    final r = bounds.shortestSide;
+    return Matrix4.identity()
+      ..translate(c.dx, c.dy)
+      ..scale(rx * bounds.width / r, ry * bounds.height / r)
+      ..translate(-c.dx, -c.dy);
+  }
+}

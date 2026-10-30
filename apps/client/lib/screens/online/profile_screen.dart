@@ -103,8 +103,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       );
     }
+    // The glow belongs to the signed-in profile; otherwise the shared
+    // tab background shows, as on the other tabs.
     return DecoratedBox(
-      decoration: BoxDecoration(gradient: c.profileBg),
+      decoration: BoxDecoration(gradient: account != null ? c.profileBg : null),
       child: SafeArea(
         bottom: false,
         child: Column(
