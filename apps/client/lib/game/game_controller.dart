@@ -12,7 +12,7 @@ import 'package:nard_protocol/nard_protocol.dart';
 import '../app/providers.dart';
 import '../data/app_settings.dart';
 import '../data/database.dart';
-import '../theme/nard_tokens.dart';
+import 'dice_time.dart';
 import 'game_actions.dart';
 import 'match_setup.dart';
 import 'session.dart';
@@ -131,15 +131,7 @@ class GameController extends Notifier<GameView?> implements GameActions {
 
   AppSettings get _settings => ref.read(currentSettingsProvider);
 
-  Duration get _diceTime {
-    final s = _settings;
-    if (s.reduceMotion) return Duration.zero;
-    return switch (s.animationSpeed) {
-      AnimationSpeed.fast => NardMotion.diceFast,
-      AnimationSpeed.normal => NardMotion.dice,
-      AnimationSpeed.slow => const Duration(milliseconds: 1100),
-    };
-  }
+  Duration get _diceTime => diceRollTime(_settings);
 
   void start(MatchSetup setup) {
     _timer?.cancel();
@@ -178,7 +170,9 @@ class GameController extends Notifier<GameView?> implements GameActions {
         _after(const Duration(milliseconds: 700), _openingRoll);
       case GamePhase.awaitingRoll:
         if (s.remoteToAct) {
-          _after(const Duration(milliseconds: 600), _botRollOrDouble);
+          // Leave the opening dice on the board for a moment.
+          final pause = s.openingDice != null ? 1200 : 300;
+          _after(Duration(milliseconds: pause), _botRollOrDouble);
         } else if (_settings.autoRoll && !s.canDouble) {
           _after(const Duration(milliseconds: 400), roll);
         }
@@ -211,7 +205,7 @@ class GameController extends Notifier<GameView?> implements GameActions {
       rolling: _diceTime > Duration.zero,
       handoff: false,
     );
-    _after(_diceTime + const Duration(milliseconds: 500), () {
+    _after(_diceTime, () {
       final v = state;
       if (v == null) return;
       // The first pass & play player gets the hand-over screen.
@@ -260,7 +254,13 @@ class GameController extends Notifier<GameView?> implements GameActions {
       // A target, or an illegal destination the rules should explain.
       _applyMove(view, s.move(selected, slot));
     } else {
-      state = view.copyWith(session: s.select(slot));
+      final targets = s.movableFrom.contains(slot) ? s.targetsFrom(slot) : null;
+      if (targets != null && targets.length == 1) {
+        // Only one place to go: move straight away.
+        _applyMove(view, s.move(slot, targets.single));
+      } else {
+        state = view.copyWith(session: s.select(slot));
+      }
     }
   }
 
@@ -443,7 +443,7 @@ class GameController extends Notifier<GameView?> implements GameActions {
     final turn = await Isolate.run(
       () => HeuristicBot(level).chooseTurn(rules, board, dice),
     );
-    final minThink = Duration(milliseconds: 500 + _random.nextInt(500));
+    final minThink = Duration(milliseconds: 250 + _random.nextInt(300));
     final elapsed = DateTime.now().difference(started);
     if (elapsed < minThink) await Future<void>.delayed(minThink - elapsed);
     final current = state;

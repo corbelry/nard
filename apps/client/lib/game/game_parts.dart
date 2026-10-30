@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -424,71 +425,99 @@ class NoMovesCard extends StatelessWidget {
   }
 }
 
-/// Illegal-move toast over the lower board edge (23.2 / 23.3).
-class RuleToast extends StatelessWidget {
+/// Illegal-move toast over the lower board edge (23.2 / 23.3): a compact
+/// note that fades out by itself. Give each refusal its own key so a new
+/// one shows again.
+class RuleToast extends StatefulWidget {
   const RuleToast({super.key, required this.title, this.body});
 
   final String title;
   final String? body;
 
+  /// How long the toast stays before fading.
+  static const visible = Duration(milliseconds: 2600);
+
+  @override
+  State<RuleToast> createState() => _RuleToastState();
+}
+
+class _RuleToastState extends State<RuleToast> {
+  Timer? _timer;
+  bool _shown = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(RuleToast.visible, () {
+      if (mounted) setState(() => _shown = false);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final c = context.nard;
-    return Semantics(
-      liveRegion: true,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
-        decoration: BoxDecoration(
-          color: c.surfaceRaised,
-          borderRadius: BorderRadius.circular(c.cardRadius),
-          border: Border.all(color: c.dangerText, width: 1.5),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x8C000000),
-              offset: Offset(0, 12),
-              blurRadius: 30,
+    final body = widget.body;
+    return IgnorePointer(
+      child: AnimatedOpacity(
+        opacity: _shown ? 1 : 0,
+        duration: NardMotion.sheetOut,
+        child: Semantics(
+          liveRegion: true,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            decoration: BoxDecoration(
+              color: c.surfaceRaised,
+              borderRadius: BorderRadius.circular(NardRadius.m),
+              border: Border.all(color: c.dangerText),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x66000000),
+                  offset: Offset(0, 6),
+                  blurRadius: 16,
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 26,
-              height: 26,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: c.danger,
-              ),
-              child: Icon(LucideIcons.x, size: 14, color: c.text),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: NardType.labelM.copyWith(
-                      fontSize: 14,
-                      color: c.errorTitle,
-                    ),
-                  ),
-                  if (body != null) ...[
-                    const SizedBox(height: 3),
-                    Text(
-                      body!,
-                      style: NardType.caption.copyWith(
-                        height: 17 / 12,
-                        color: c.text.withValues(alpha: .75),
+            child: Row(
+              children: [
+                Icon(LucideIcons.xCircle, size: 16, color: c.dangerText),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        widget.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: NardType.labelM.copyWith(
+                          fontSize: 13,
+                          color: c.errorTitle,
+                        ),
                       ),
-                    ),
-                  ],
-                ],
-              ),
+                      if (body != null)
+                        Text(
+                          body,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: NardType.caption.copyWith(
+                            fontSize: 11,
+                            height: 14 / 11,
+                            color: c.text.withValues(alpha: .7),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

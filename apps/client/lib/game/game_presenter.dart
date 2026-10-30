@@ -89,8 +89,9 @@ class GamePresenter {
   bool get crawford => s.match.isCrawfordGame;
 
   List<int> get _diceFaces {
+    // The opening throw stays on the board until the first real roll.
     if (s.phase == GamePhase.opening ||
-        (s.openingDice != null && view.rolling)) {
+        (s.openingDice != null && (view.rolling || s.dice == null))) {
       final o = s.openingDice;
       return o == null ? const [] : [o.$1, o.$2];
     }
@@ -98,6 +99,9 @@ class GamePresenter {
     if (d == null) return const [];
     return d.isDouble ? [d.die1, d.die1, d.die1, d.die1] : [d.die1, d.die2];
   }
+
+  bool get _openingShown =>
+      s.phase == GamePhase.opening || (s.openingDice != null && s.dice == null);
 
   List<bool> get _diceUsed {
     final d = s.dice;
@@ -127,7 +131,7 @@ class GamePresenter {
       board: s.board,
       dice: _diceFaces,
       diceUsed: _diceUsed,
-      diceOwner: s.phase == GamePhase.opening ? null : s.turn,
+      diceOwner: _openingShown ? null : s.turn,
       rolling: view.rolling,
       cubeValue: s.game.cube.value,
       cubeOwner: s.game.cube.owner,
@@ -174,6 +178,14 @@ class GamePresenter {
     if (view.rolling) {
       return (title: l.bannerRolling, sub: null, tone: BannerTone.brass);
     }
+    final o = s.openingDice;
+    if (o != null && s.dice == null && s.phase == GamePhase.awaitingRoll) {
+      return (
+        title: l.bannerOpeningWinner(name(s.turn)),
+        sub: l.bannerDice(o.$1, o.$2),
+        tone: BannerTone.brass,
+      );
+    }
     if (view.noMoves) {
       return (title: l.bannerNoMoves, sub: noMovesReason, tone: BannerTone.dim);
     }
@@ -192,7 +204,9 @@ class GamePresenter {
         tone: BannerTone.dim,
       );
     }
-    if (s.rejection != null && s.phase == GamePhase.awaitingMove) {
+    if (s.rejection != null &&
+        s.rejection != MoveRejection.noChecker &&
+        s.phase == GamePhase.awaitingMove) {
       return (
         title: l.bannerIllegalMove,
         sub: _diceText(),
@@ -346,7 +360,8 @@ class GamePresenter {
         title: l.ruleNoDieTitle,
         body: l.ruleNoDieBody,
       ),
-      MoveRejection.noChecker => (title: l.ruleNoCheckerTitle, body: null),
+      // A tap on an empty point just clears the selection.
+      MoveRejection.noChecker => null,
       MoveRejection.turnComplete => (
         title: l.ruleTurnCompleteTitle,
         body: l.ruleTurnCompleteBody,

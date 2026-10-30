@@ -39,6 +39,7 @@ import '../ui/extra_tokens.dart';
 import '../ui/identity.dart';
 import '../ui/layout.dart';
 import '../ui/social.dart';
+import 'dice_time.dart';
 import 'game_actions.dart';
 import 'game_clock.dart';
 import 'game_controller.dart';
@@ -184,7 +185,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     _shownRevision = view.revision;
     _shownLook = look;
     _shownSides = sides;
-    board.reduceMotion = settings.reduceMotion;
+    board
+      ..reduceMotion = settings.reduceMotion
+      ..rollTime = diceRollTime(settings);
     board.show(
       GamePresenter(view, settings, l).scene().withLook(look, sideLooks: sides),
       // A set change alone redraws without replaying the last moves.
@@ -518,10 +521,15 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             _gameOver(p, l),
           if (rule != null)
             Positioned(
-              left: 24,
-              right: 24,
-              bottom: -14,
-              child: RuleToast(title: rule.title, body: rule.body),
+              left: 40,
+              right: 40,
+              bottom: -10,
+              child: RuleToast(
+                // Each refusal is a new session: show the toast again.
+                key: ObjectKey(s),
+                title: rule.title,
+                body: rule.body,
+              ),
             ),
         ],
       ),

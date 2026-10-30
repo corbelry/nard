@@ -42,6 +42,9 @@ class NardBoardGame extends FlameGame {
 
   bool reduceMotion;
 
+  /// Length of a dice throw (set from the animation speed).
+  Duration rollTime = const Duration(milliseconds: 800);
+
   BoardScene? _scene;
   BoardLayout? _layout;
   final _sprites = <Side, Map<int, List<_CheckerSprite>>>{};
@@ -388,18 +391,42 @@ class _CheckerSprite extends PositionComponent
 /// Dice and cube, above the checkers.
 class _TopLayer extends Component with HasGameReference<NardBoardGame> {
   final _random = Random();
-  double _rollClock = 0;
-  List<int> _faces = const [];
+  _DiceThrow? _throw;
+  bool _wasRolling = false;
+  List<int> _thrownFaces = const [];
 
   @override
   void update(double dt) {
     final scene = game.scene;
-    if (scene == null || !scene.rolling) return;
-    _rollClock += dt;
-    if (_rollClock > .08 || _faces.length != scene.dice.length) {
-      _rollClock = 0;
-      _faces = [for (final _ in scene.dice) _random.nextInt(6) + 1];
+    if (scene == null) return;
+    final seconds = game.rollTime.inMilliseconds / 1000;
+    final newThrow =
+        scene.rolling &&
+        (!_wasRolling || !_sameFaces(scene.dice, _thrownFaces));
+    _wasRolling = scene.rolling;
+    if (newThrow && scene.dice.isNotEmpty) {
+      _thrownFaces = scene.dice;
+      _throw =
+          game.reduceMotion || seconds <= 0
+              ? null
+              : _DiceThrow(
+                _random,
+                seconds: seconds,
+                count: min(2, scene.dice.length),
+                fromViewer:
+                    scene.diceOwner == null || scene.diceOwner == scene.viewer,
+              );
     }
+    final t = _throw;
+    if (t != null && t.advance(dt)) _throw = null;
+  }
+
+  static bool _sameFaces(List<int> a, List<int> b) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
   }
 
   @override
@@ -426,32 +453,164 @@ class _TopLayer extends Component with HasGameReference<NardBoardGame> {
     final n = scene.dice.length;
     if (n == 0) return;
     final mine = scene.diceOwner == null || scene.diceOwner == scene.viewer;
+    final size = n > 2 ? 40.0 : BoardGeometry.die;
+    final flying = _throw;
+    if (flying != null) {
+      // Two dice are thrown; doubles show all four once they land. The
+      // middle two of four sit where two dice would.
+      for (var k = 0; k < flying.count; k++) {
+        final j = n > 2 ? k + 1 : k;
+        final rest = l.diceCenter(j, n, viewerSide: mine);
+        flying.paint(
+          canvas,
+          k,
+          rest: rest,
+          boardHeight: l.height,
+          finalFace: scene.dice[j],
+          finalAngle: _restAngle(j),
+          paintDie:
+              (c, face, angle, scale) => _paintDie(
+                canvas,
+                scene,
+                c,
+                face,
+                angle: angle,
+                size: size * scale,
+              ),
+        );
+      }
+      return;
+    }
     for (var j = 0; j < n; j++) {
-      final c = l.diceCenter(j, n, viewerSide: mine);
-      final rolling = scene.rolling && !game.reduceMotion;
-      final face = rolling && _faces.length == n ? _faces[j] : scene.dice[j];
-      final tilt =
-          rolling
-              ? (_random.nextDouble() - .5) * .8
-              : (j.isEven ? -3 : 4) * pi / 180;
-      final jitter =
-          rolling
-              ? Offset(
-                (_random.nextDouble() - .5) * 16,
-                (_random.nextDouble() - .5) * 16,
-              )
-              : Offset.zero;
-      BoardPainter.paintDie(
+      _paintDie(
         canvas,
-        c + jitter,
-        face,
-        size: n > 2 ? 40 : BoardGeometry.die,
-        angle: tilt,
+        scene,
+        l.diceCenter(j, n, viewerSide: mine),
+        scene.dice[j],
+        angle: _restAngle(j),
+        size: size,
         used: j < scene.diceUsed.length && scene.diceUsed[j],
-        largePips: scene.largePips,
-        dice: scene.diceLook,
       );
     }
+  }
+
+  static double _restAngle(int j) => (j.isEven ? -3 : 4) * pi / 180;
+
+  void _paintDie(
+    Canvas canvas,
+    BoardScene scene,
+    Offset c,
+    int face, {
+    required double angle,
+    required double size,
+    bool used = false,
+  }) {
+    BoardPainter.paintDie(
+      canvas,
+      c,
+      face,
+      size: size,
+      angle: angle,
+      used: used,
+      largePips: scene.largePips,
+      dice: scene.diceLook,
+    );
+  }
+}
+
+/// One throw of the dice across the board: each die slides in from the
+/// thrower's edge, hops a few times while tumbling, then settles on its
+/// resting spot showing the real face.
+class _DiceThrow {
+  _DiceThrow(
+    Random random, {
+    required this.seconds,
+    required this.count,
+    required this.fromViewer,
+  }) : _dice = [
+         for (var k = 0; k < count; k++)
+           (
+             dx: 70 + random.nextDouble() * 70 + k * 18,
+             curve: (random.nextDouble() - .5) * 50,
+             spin:
+                 (random.nextBool() ? 1 : -1) *
+                 (2.5 + random.nextDouble() * 1.5) *
+                 pi,
+             faces: [for (var i = 0; i < 12; i++) random.nextInt(6) + 1],
+             delay: k * .06,
+           ),
+       ];
+
+  final double seconds;
+  final int count;
+
+  /// Thrown from the bottom edge (the viewer) or from the top.
+  final bool fromViewer;
+
+  final List<
+    ({double dx, double curve, double spin, List<int> faces, double delay})
+  >
+  _dice;
+  double _elapsed = 0;
+
+  /// Share of the throw after which the dice lie still.
+  static const _settle = .78;
+
+  /// Advances the throw; true once it is over.
+  bool advance(double dt) {
+    _elapsed += dt;
+    return _elapsed >= seconds;
+  }
+
+  /// Height above the board (0..1): three hops that die away.
+  static double _hop(double t) {
+    const hops = [(0.0, .34, 1.0), (.34, .58, .42), (.58, _settle, .16)];
+    for (final (a, b, amp) in hops) {
+      if (t < b) return amp * sin(pi * (t - a) / (b - a)).abs();
+    }
+    return 0;
+  }
+
+  void paint(
+    Canvas canvas,
+    int k, {
+    required Offset rest,
+    required double boardHeight,
+    required int finalFace,
+    required double finalAngle,
+    required void Function(Offset c, int face, double angle, double scale)
+    paintDie,
+  }) {
+    final d = _dice[k];
+    final raw = ((_elapsed / seconds) - d.delay) / (1 - d.delay);
+    final t = raw.clamp(0.0, 1.0);
+    final glide = (t / _settle).clamp(0.0, 1.0);
+    // Fast at first, slowing down as the die rolls out.
+    final e = 1 - pow(1 - glide, 3).toDouble();
+    final start =
+        fromViewer
+            ? Offset(rest.dx + d.dx, boardHeight - 30)
+            : Offset(rest.dx - d.dx, 30);
+    final along = Offset.lerp(start, rest, e)!;
+    final dir = rest - start;
+    final normal = Offset(-dir.dy, dir.dx) / dir.distance;
+    final ground = along + normal * (d.curve * sin(pi * e));
+    final h = _hop(t);
+    final spinLeft = 1 - pow(1 - glide, 2.4).toDouble();
+    final angle = finalAngle + d.spin * (1 - spinLeft);
+    // A new face each quarter turn while the die still tumbles.
+    final turned = (d.spin * spinLeft).abs() / (pi / 2);
+    final face =
+        t >= _settle ? finalFace : d.faces[turned.floor() % d.faces.length];
+    // Shadow on the board under a lifted die.
+    canvas.drawCircle(
+      ground + Offset(4 + h * 8, 6 + h * 10),
+      BoardGeometry.die * (.42 - h * .08),
+      Paint()
+        ..color = Color.fromRGBO(0, 0, 0, .28 * h)
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4 + h * 6),
+    );
+    paintDie(ground - Offset(0, h * 16), face, angle, 1 + h * .22);
   }
 }
 

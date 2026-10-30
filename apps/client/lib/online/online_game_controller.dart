@@ -7,11 +7,11 @@ import 'package:nard_protocol/nard_protocol.dart';
 
 import '../app/providers.dart';
 import '../data/app_settings.dart';
+import '../game/dice_time.dart';
 import '../game/game_actions.dart';
 import '../game/game_controller.dart';
 import '../game/match_setup.dart';
 import '../game/session.dart';
-import '../theme/nard_tokens.dart';
 import 'account.dart';
 import 'game_socket.dart';
 import 'online_config.dart';
@@ -311,12 +311,7 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
         previous?.session.dice != session.dice &&
         p.record.actions.isNotEmpty &&
         p.record.actions.last is RollDice;
-    final diceTime =
-        _settings.reduceMotion
-            ? Duration.zero
-            : (_settings.animationSpeed == AnimationSpeed.fast
-                ? NardMotion.diceFast
-                : NardMotion.dice);
+    final diceTime = diceRollTime(_settings);
     // Animate the opponent's checkers through each move of their turn.
     final steps = <BoardState>[];
     final last = p.record.actions.isEmpty ? null : p.record.actions.last;
@@ -405,7 +400,13 @@ class OnlineGameController extends Notifier<GameView?> implements GameActions {
             !s.movableFrom.contains(slot))) {
       _move(v, selected, slot);
     } else {
-      state = v.copyWith(session: s.select(slot));
+      final targets = s.movableFrom.contains(slot) ? s.targetsFrom(slot) : null;
+      if (targets != null && targets.length == 1) {
+        // Only one place to go: move straight away.
+        _move(v, slot, targets.single);
+      } else {
+        state = v.copyWith(session: s.select(slot));
+      }
     }
   }
 
